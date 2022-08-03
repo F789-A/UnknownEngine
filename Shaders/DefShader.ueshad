@@ -1,0 +1,2 @@
+shader_path_vert = testShader.vert
+shader_path_frag = testShader.frag

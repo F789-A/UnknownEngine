@@ -1,0 +1,2 @@
+shader_path_vert = Skybox.vert
+shader_path_frag = Skybox.frag
