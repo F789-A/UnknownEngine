@@ -1,130 +1,57 @@
 #pragma once
 
-#include "ComponentConteiner.h"
+#include "EntityManagerBase.h"
 #include "Entity.h"
+
 #include <vector>
 #include <map>
 #include <memory>
 
-class EntityManager
+
+class EntityManager: public EntityManagerBase
 {
 public:
-	static const int MaxComponentCount = 128;
 
-	EntityManager()
-	{
-		ComponentConteiners = std::vector<std::unique_ptr<BaseComponentConteiner>>(MaxComponentCount);
-	}
+	EntityManager() {}
 
-	static EntityManager& Manager()
-	{
-		static EntityManager manager;
-		return manager;
-	}
+	//TODO удалить копирование
 
-	//index with type - is universal identifier
-	template<typename T>
-	void AddComponent(Entity entity) 
-	{
-		if (ComponentConteiners[T::Type] == nullptr)
-		{
-			ComponentConteiners[T::Type] = std::make_unique<ComponentConteiner<T>>();
-		}
-		std::vector<T*>& conteiner = GetConteiner<T>();
-		T* newComp = new T();
-		newComp->LinkedEntity = entity;
-		conteiner.push_back(newComp);
-		int index = conteiner.size()-1;
-		EntityToComponent[entity].push_back({T::Type, index});
-		ComponentToEntity[{T::Type, index}] = entity;
-	}
-
-	//TODO it works only with single component of all type
-	template<typename T>
-	void RemoveComponent(Entity entity)
-	{
-		/*int index = 0;
-		bool finded = false;
-		for (int i = 0; i < EntityToComponent[entity].size(); i++)
-		{
-			if (EntityToComponent[entity].first == T.Type)
-			{
-				index = EntityToComponent[entity].second;
-				EntityToComponent[entity].erase(i);
-				finded = true;
-				break;
-			}
-		}
-		if (!finded)
-		{
-			throw "---";
-		}
-		ComponentToEntity.erase({ T.Type, index });
-		GetConteiner(T.Type).errase(index);*/
-	}
-
-	template<typename T>
-	T& GetComponent(Entity entity)
-	{
-		bool finded = false;
-		int index = 0;
-		for (int i = 0; i < EntityToComponent[entity].size(); i++)
-		{
-			if (EntityToComponent[entity][i].first == T::Type)
-			{
-				index = EntityToComponent[entity][i].second;
-				finded = true;
-				break;
-			}
-		}
-		if (!finded)
-		{
-			throw "потом код придумаю";
-		}
-		std::vector<T*>& a = GetConteiner<T>();
-		return *(GetConteiner<T>()[index]);
-	}
-
-	Entity CreateEntity()
+	Entity& AddEntity()
 	{
 		if (FreeEntity.size() == 0)
 		{
-			EntityToComponent.push_back(std::vector<std::pair<int, int>>());
-			return EntityToComponent.size() - 1;
+			int count = Entities.size();
+			Entities.push_back(Entity(*this, count));
+			return Entities.back();
 		}
 		else
 		{
-			int res = FreeEntity.front();
+			int res = FreeEntity.back();
 			FreeEntity.pop_back();
-			return res;
+			Entities[res] = Entity(*this, res);
+			return Entities[res];
 		}
 	}
 
-	void RemoveEntity(Entity entity)
+	void RemoveEntity(int entity)
 	{
-		/*for (auto l : EntityToComponent[entity])
-		{
-			GetConteiner(l->first).errase(l->second);
-		}
-		EntityToComponent[entity].clear();
-		ComponentToEntity.erase({ T.Type, index });*/
+		FreeEntity.push_back(entity);
+		Entities[entity] = Entity(*this, entity);
 	}
 
-	template<typename T>
-	int GetEntity(T& component)
+	Entity& GetEntity(int entity)
 	{
-		return component.LinkedEntity;
+		return Entities[entity];
 	}
 
-	template<typename T>
-	std::vector<T*>& GetConteiner()
+	int EntityCount()
 	{
-		return (static_cast<ComponentConteiner<T>*>(ComponentConteiners[T::Type].get()))->Components;
+		return Entities.size();
 	}
+
+	~EntityManager() {}
 
 private:
-	std::vector<std::unique_ptr<BaseComponentConteiner>> ComponentConteiners;
-	std::vector<Entity> FreeEntity; // заменить на двусвязный список
-	std::vector<std::vector<std::pair<int, int>>> EntityToComponent;
-	std::map<std::pair<int, int>, Entity> ComponentToEntity;
+	std::vector<Entity> Entities;
+	std::vector<int> FreeEntity; // заменить на двусвязный список
 };

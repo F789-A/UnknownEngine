@@ -173,6 +173,7 @@
     <ClCompile Include="GLTexture.cpp" />
     <ClCompile Include="Graphics\GraphicCore.cpp" />
     <ClCompile Include="ICamera.cpp" />
+    <ClCompile Include="IComponent.cpp" />
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="LegacyCamera.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -206,6 +207,8 @@
     <ClInclude Include="GLTexture.h" />
     <ClInclude Include="Graphics\GraphicCore.h" />
     <ClInclude Include="ICamera.h" />
+    <ClInclude Include="IComponent.h" />
+    <ClInclude Include="EntityManagerBase.h" />
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="LegacyCamera.h" />
     <ClInclude Include="Mesh.h" />

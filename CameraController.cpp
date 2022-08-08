@@ -3,8 +3,8 @@
 
 void CameraController::Update()
 {
-    Transform& transf = EntityManager::Manager().GetComponent<Transform>(LinkedEntity);
-	Camera& camera = EntityManager::Manager().GetComponent<Camera>(LinkedEntity);
+    Transform& transf = GetLinkedEntity().GetComponent<Transform>();
+	Camera& camera = GetLinkedEntity().GetComponent<Camera>();
     if (Input::GetInstance().GetButton("Front", GLFW_PRESS) == true)
     {
         transf.Position += transf.Front() * Speed;

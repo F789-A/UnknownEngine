@@ -11,14 +11,13 @@
 #include "EntityManager.h"
 #include "ICamera.h"
 
-class Camera: public Component<Camera>, public ICamera
+class Camera: public Component, public ICamera
 {
 public:
 
     GLfloat Zoom;
     GLfloat NearClip;
     GLfloat FarClip;
-    Transform& transf;
 
     Camera(GLfloat NearClip = 0.1f, GLfloat FarClip = 100.0f);
     glm::mat4 GetViewMatrix();

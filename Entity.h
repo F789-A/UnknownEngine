@@ -1,3 +1,54 @@
 #pragma once
 
-using Entity = uint32_t;
+#include "IComponent.h"
+#include "EntityManagerBase.h"
+
+#include <vector>
+#include <memory>
+
+class Entity
+{
+private:
+	EntityManagerBase* LinkedEntityManager;
+
+	std::vector<std::unique_ptr<IComponent>> Components;
+public:
+	int Id;
+
+	//добавить шаблонный конструктор с перечислением типов компонентов
+	Entity() = delete;
+
+	Entity(EntityManagerBase& manager, int id): LinkedEntityManager(&manager), Id(id)
+	{}
+
+	template<typename T>
+	T& GetComponent()
+	{
+		for (int i = 0; i < Components.size(); i++)
+		{
+			if (typeid(T) == typeid(*Components[i]))
+			{
+				return *static_cast<T*>(Components[i].get());
+			}
+		}
+		throw "ѕотом";
+
+	}
+
+	template<typename T>
+	T& AddComponent()
+	{
+		Components.push_back(std::make_unique<T>());
+		Components.back()->SetLinkedEntity(LinkedEntityManager, Id);
+		return *static_cast<T*>(Components.back().get());
+	}
+
+	template<typename T>
+	void RemoveComponent()
+	{
+		for (int i = 0; i < Components.size(); i++)
+		{
+			Components.erase();
+		}
+	}
+};

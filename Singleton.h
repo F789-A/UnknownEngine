@@ -49,3 +49,6 @@ void SingletonFill(Singleton<T>& a)
 
 template<>
 void SingletonFill<SharedGraphicsResources>(Singleton<SharedGraphicsResources>& a);
+
+template<>
+void SingletonFill<EntityManager>(Singleton<EntityManager>& a);

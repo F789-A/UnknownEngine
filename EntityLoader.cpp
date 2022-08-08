@@ -28,10 +28,10 @@ void EntityLoader::Load()
 	SimpleTextProcerssor textTool;
 	auto current_end = std::sregex_iterator();
 
-	Entity currentEntity = -1;
+	Entity* currentEntity = nullptr;
 
 	Singleton<SharedGraphicsResources> SinglRes;
-
+	Singleton<EntityManager> singlEntityManager;
 	std::ifstream file(Path.c_str());
 
 	if (!file)
@@ -45,7 +45,8 @@ void EntityLoader::Load()
 	{
 		if (std::regex_match(str, rgxAddEntity))
 		{
-			currentEntity = EntityManager::Manager().CreateEntity();
+			currentEntity = &(singlEntityManager->AddEntity());
+			
 		}
 		else if (std::regex_search(str, rgxAddComp))
 		{
@@ -56,8 +57,7 @@ void EntityLoader::Load()
 
 			if (componentName == "Transform")
 			{
-				EntityManager::Manager().AddComponent<Transform>(currentEntity);
-				Transform& transf = EntityManager::Manager().GetComponent<Transform>(currentEntity);
+				Transform& transf = currentEntity->AddComponent<Transform>();
 
 				std::string paramRow = textTool.GetArea(str, "()");
 				std::vector<std::string> param = textTool.SplitAndDelSpace(paramRow, ',');
@@ -65,12 +65,11 @@ void EntityLoader::Load()
 			}
 			if (componentName == "ComponentThatAlwaysSayHello")
 			{
-				EntityManager::Manager().AddComponent<ComponentThatAlwaysSayHello>(currentEntity);
+				currentEntity->AddComponent<ComponentThatAlwaysSayHello>();
 			}
 			if (componentName == "RenderMesh")
 			{
-				EntityManager::Manager().AddComponent<RenderMesh>(currentEntity);
-				RenderMesh& renMesh = EntityManager::Manager().GetComponent<RenderMesh>(currentEntity);
+				RenderMesh& renMesh = currentEntity->AddComponent<RenderMesh>();
 
 				std::string paramRow = textTool.GetArea(str, "()");
 				std::vector<std::string> param = textTool.SplitAndDelSpace(paramRow, ',');
@@ -80,14 +79,12 @@ void EntityLoader::Load()
 			}
 			else if (componentName == "Camera")
 			{
-				EntityManager::Manager().AddComponent<Camera>(currentEntity);
-				Camera* camer = &EntityManager::Manager().GetComponent<Camera>(currentEntity);
-				ICamera::MainCamera = camer;
-
+				Camera& camer = currentEntity->AddComponent<Camera>();
+				ICamera::MainCamera = &camer;
 			}
 			else if (componentName == "CameraController")
 			{
-				EntityManager::Manager().AddComponent<CameraController>(currentEntity);
+				currentEntity->AddComponent<CameraController>();
 			}
 		}
 		else

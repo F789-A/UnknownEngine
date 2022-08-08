@@ -3,7 +3,7 @@
 #include "ILoopUpdate.h"
 #include <iostream>
 
-class ComponentThatAlwaysSayHello : public Component<ComponentThatAlwaysSayHello>, public ILoopUpdate<EGameLoop>
+class ComponentThatAlwaysSayHello : public Component, public ILoopUpdate<EGameLoop>
 {
 public:
 	ComponentThatAlwaysSayHello() = default;

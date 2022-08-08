@@ -2,13 +2,14 @@
 
 #include "ILoopUpdate.h"
 #include "Component.h"
+#include "Singleton.h"
 
 #include "GLMesh.h"
 #include "GLMaterial.h"
 #include "Transform.h"
 #include "EntityManager.h"
 
-class RenderMesh: public Component<RenderMesh>, public ILoopUpdate<EGraphicLoop>
+class RenderMesh: public Component, public ILoopUpdate<EGraphicLoop>
 {
 private:
 

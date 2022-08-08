@@ -9,6 +9,6 @@ RenderMesh::RenderMesh(GLMesh renderedMesh, GLMaterial renderMaterial): Rendered
 
 void RenderMesh::Update()
 {
-	Transform& transf = EntityManager::Manager().GetComponent<Transform>(LinkedEntity);
+	Transform& transf = GetLinkedEntity().GetComponent<Transform>();
 	RenderedMesh.Draw(*(RenderMaterial.Shader), transf.Position, transf.EulerAngle(), transf.Scale);
 }
