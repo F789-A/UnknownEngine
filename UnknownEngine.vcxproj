@@ -160,7 +160,6 @@
     <ClCompile Include="AppInitializer.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraController.cpp" />
-    <ClCompile Include="Component.cpp" />
     <ClCompile Include="EngineCore\glad.c" />
     <ClCompile Include="EngineCore\GlAssert.cpp" />
     <ClCompile Include="EngineCore\Main.cpp" />
@@ -173,7 +172,6 @@
     <ClCompile Include="GLTexture.cpp" />
     <ClCompile Include="Graphics\GraphicCore.cpp" />
     <ClCompile Include="ICamera.cpp" />
-    <ClCompile Include="IComponent.cpp" />
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="LegacyCamera.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -197,7 +195,6 @@
     <ClInclude Include="EngineCore\WindowApp.h" />
     <ClInclude Include="EngineCore\GlAssert.h" />
     <ClInclude Include="GLMesh.h" />
-    <ClInclude Include="ComponentConteiner.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityLoader.h" />
     <ClInclude Include="EntityManager.h" />
