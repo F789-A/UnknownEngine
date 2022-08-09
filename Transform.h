@@ -10,6 +10,8 @@ public:
 	glm::quat Rotation;
 	glm::vec3 Scale;
 
+	~Transform() override = default;
+
 	Transform()
 	{
 		Position = glm::vec3(0, 0, 0);

@@ -15,6 +15,8 @@ class Camera: public Component, public ICamera
 {
 public:
 
+    ~Camera() override = default;
+
     GLfloat Zoom;
     GLfloat NearClip;
     GLfloat FarClip;

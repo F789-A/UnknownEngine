@@ -20,7 +20,7 @@ public:
 
 	RenderMesh(const RenderMesh&) = delete;
 	RenderMesh operator=(const RenderMesh&) = delete;
-	~RenderMesh() = default;
+	~RenderMesh() override = default;
 
 	RenderMesh(GLMesh renderedMesh, GLMaterial renderMaterial);
 

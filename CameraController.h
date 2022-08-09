@@ -11,8 +11,13 @@
 
 class CameraController : public Component, public ILoopUpdate<EGameLoop>
 {
+
+
 	float MouseSensitivity = 0.01;
 	float Speed = 0.01;
 
 	void Update() override;
+
+public:
+	~CameraController() override = default;
 };

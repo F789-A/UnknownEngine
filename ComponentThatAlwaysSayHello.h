@@ -18,5 +18,5 @@ public:
 		std::cout << "Hello" << std::endl;
 	}
 
-	~ComponentThatAlwaysSayHello() = default;
+	~ComponentThatAlwaysSayHello() override = default;
 };

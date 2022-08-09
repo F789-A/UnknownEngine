@@ -7,7 +7,6 @@
 #include <map>
 #include <memory>
 
-
 class EntityManager: public EntityManagerBase
 {
 public:
@@ -49,7 +48,7 @@ public:
 		return Entities.size();
 	}
 
-	~EntityManager() {}
+	~EntityManager() = default;
 
 private:
 	std::vector<Entity> Entities;

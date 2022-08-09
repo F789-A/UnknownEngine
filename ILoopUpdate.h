@@ -46,7 +46,16 @@ protected:
 
 	~ILoopUpdate()
 	{
-		UpdateVector.erase(UpdateVector.begin() + Index);
+		int a = TypeLoop;
+		for (int i = 0; i < UpdateVector.size(); i++)
+		{
+			if (UpdateVector[i]->Index = Index)
+			{
+				UpdateVector.erase(UpdateVector.begin() + i);
+				break;
+			}
+		}
+		//UpdateVector.erase(UpdateVector.begin() + Index);
 	}
 };
 
