@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include "Singleton.h"
 
 
 namespace ec
@@ -58,3 +59,6 @@ namespace ec
 		std::vector<int> FreeEntity; // заменить на двусвязный список
 	};
 }
+
+template<>
+void SingletonFill<ec::EntityManager>(Singleton<ec::EntityManager>& a);

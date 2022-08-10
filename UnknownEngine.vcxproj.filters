@@ -120,14 +120,14 @@
     <ClCompile Include="SharedGraphicsResources.cpp">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Singleton.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>Source Files\ComponentSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

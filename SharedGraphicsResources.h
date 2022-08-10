@@ -10,6 +10,7 @@
 #include "GLTexture.h"
 #include "Texture.h"
 #include "ModelImporter.h"
+#include "Singleton.h"
 
 //хранит модели
 class ModelConteiner
@@ -82,3 +83,5 @@ public:
 	}
 };
 
+template<>
+void SingletonFill<SharedGraphicsResources>(Singleton<SharedGraphicsResources>& a);

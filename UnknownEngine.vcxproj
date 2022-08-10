@@ -165,6 +165,7 @@
     <ClCompile Include="EngineCore\Main.cpp" />
     <ClCompile Include="EngineCore\WindowApp.cpp" />
     <ClCompile Include="EntityLoader.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="GlMaterial.cpp" />
     <ClCompile Include="GLMesh.cpp" />
     <ClCompile Include="GameLoop.cpp" />
@@ -182,7 +183,6 @@
     <ClCompile Include="PolygonGeometry.cpp" />
     <ClCompile Include="RenderMesh.cpp" />
     <ClCompile Include="SharedGraphicsResources.cpp" />
-    <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>

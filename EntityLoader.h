@@ -19,6 +19,7 @@
 #include "Singleton.h"
 #include "SimpleTextProcessor.h"
 #include "Logger.h"
+#include "SharedGraphicsResources.h"
 
 class EntityLoader
 {

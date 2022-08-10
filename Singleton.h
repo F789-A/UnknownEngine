@@ -1,6 +1,7 @@
 #pragma once
-#include "SharedGraphicsResources.h"
-#include "EntityManager.h"
+
+#include  <stdexcept>
+#include <string>
 
 template<typename T>
 class Singleton
@@ -47,8 +48,3 @@ void SingletonFill(Singleton<T>& a)
     throw std::runtime_error(std::string("Cannot find implementation for interface: ") + typeid(T).name());
 }
 
-template<>
-void SingletonFill<SharedGraphicsResources>(Singleton<SharedGraphicsResources>& a);
-
-template<>
-void SingletonFill<ec::EntityManager>(Singleton<ec::EntityManager>& a);

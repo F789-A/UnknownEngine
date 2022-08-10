@@ -10,6 +10,7 @@
 #include "ICamera.h"
 #include "Singleton.h"
 #include "Skybox.h"
+#include "SharedGraphicsResources.h"
 
 class GraphicCore
 {

@@ -121,3 +121,10 @@ Texture& TextureConteiner::GetTextureRef(std::string path)
 	}
 	return Textures.at(path);
 }
+
+template<>
+void SingletonFill<SharedGraphicsResources>(Singleton<SharedGraphicsResources>& a)
+{
+	static SharedGraphicsResources x;
+	a.SetData(&x);
+}
