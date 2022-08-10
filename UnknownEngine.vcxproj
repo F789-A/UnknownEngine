@@ -174,6 +174,7 @@
     <ClCompile Include="ICamera.cpp" />
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="LegacyCamera.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelImporter.cpp" />
@@ -183,7 +184,6 @@
     <ClCompile Include="SharedGraphicsResources.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="Skybox.cpp" />
-    <ClCompile Include="StbImpl.h" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +208,7 @@
     <ClInclude Include="EntityManagerBase.h" />
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="LegacyCamera.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelImporter.h" />

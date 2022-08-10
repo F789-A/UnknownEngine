@@ -69,6 +69,8 @@ void EntityLoader::Load()
 			}
 			if (componentName == "RenderMesh")
 			{
+				Singleton<Logger> logger;
+				logger->Log("RenderMesh", 2);
 				RenderMesh& renMesh = currentEntity->AddComponent<RenderMesh>();
 
 				std::string paramRow = textTool.GetArea(str, "()");

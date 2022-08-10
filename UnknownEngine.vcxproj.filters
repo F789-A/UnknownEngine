@@ -117,9 +117,6 @@
     <ClCompile Include="GLTexture.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="StbImpl.h">
-      <Filter>Source Files\Alien</Filter>
-    </ClCompile>
     <ClCompile Include="SharedGraphicsResources.cpp">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClCompile>
@@ -128,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="EntityManagerBase.h">
       <Filter>Source Files\ComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
