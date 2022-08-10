@@ -11,7 +11,7 @@
 #include "EntityManager.h"
 #include "ICamera.h"
 
-class Camera: public Component, public ICamera
+class Camera: public ec::Component, public ICamera
 {
 public:
 

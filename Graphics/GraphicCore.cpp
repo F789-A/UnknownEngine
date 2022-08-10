@@ -64,9 +64,9 @@ void GraphicCore::UpdateGraphic()
 	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	
-	for (int i = 0; i < ILoopUpdate<EGraphicLoop>::UpdateVector.size(); i++)
+	for (int i = 0; i < ILoopUpdate<UpdateType::GraphicLoop>::UpdateVector.size(); i++)
 	{
-		ILoopUpdate<EGraphicLoop>::UpdateVector[i]->Update();
+		ILoopUpdate<UpdateType::GraphicLoop>::UpdateVector[i]->Update();
 	}
 
 	SkyboxThat.Draw(view, projection);

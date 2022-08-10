@@ -9,7 +9,7 @@
 #include "Input/Input.h"
 #include <glm/gtx/vector_angle.hpp>
 
-class CameraController : public Component, public ILoopUpdate<EGameLoop>
+class CameraController : public ec::Component, public ILoopUpdate<UpdateType::GameLoop>
 {
 
 

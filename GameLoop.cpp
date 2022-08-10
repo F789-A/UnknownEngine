@@ -25,9 +25,9 @@ void GameLoop::Loop()
 
 		Input::GetInstance().UpdateInput();
 
-		for (int i = 0; i < ILoopUpdate<EGameLoop>::UpdateVector.size(); i++)
+		for (int i = 0; i < ILoopUpdate<UpdateType::GameLoop>::UpdateVector.size(); i++)
 		{
-			ILoopUpdate<EGameLoop>::UpdateVector[i]->Update();
+			ILoopUpdate<UpdateType::GameLoop>::UpdateVector[i]->Update();
 		}
 		GraphicCore::GetInstance().UpdateGraphic();
 	}

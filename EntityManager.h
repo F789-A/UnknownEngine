@@ -7,50 +7,54 @@
 #include <map>
 #include <memory>
 
-class EntityManager: public EntityManagerBase
+
+namespace ec
 {
-public:
-
-	EntityManager() {}
-
-	//TODO удалить копирование
-
-	Entity& AddEntity()
+	class EntityManager : public EntityManagerBase
 	{
-		if (FreeEntity.size() == 0)
+	public:
+
+		EntityManager() {}
+
+		//TODO удалить копирование
+
+		Entity& AddEntity()
 		{
-			int count = Entities.size();
-			Entities.push_back(Entity(*this, count));
-			return Entities.back();
+			if (FreeEntity.size() == 0)
+			{
+				int count = Entities.size();
+				Entities.push_back(Entity(*this, count));
+				return Entities.back();
+			}
+			else
+			{
+				int res = FreeEntity.back();
+				FreeEntity.pop_back();
+				Entities[res] = Entity(*this, res);
+				return Entities[res];
+			}
 		}
-		else
+
+		void RemoveEntity(int entity)
 		{
-			int res = FreeEntity.back();
-			FreeEntity.pop_back();
-			Entities[res] = Entity(*this, res);
-			return Entities[res];
+			FreeEntity.push_back(entity);
+			Entities[entity] = Entity(*this, entity);
 		}
-	}
 
-	void RemoveEntity(int entity)
-	{
-		FreeEntity.push_back(entity);
-		Entities[entity] = Entity(*this, entity);
-	}
+		Entity& GetEntity(int entity)
+		{
+			return Entities[entity];
+		}
 
-	Entity& GetEntity(int entity)
-	{
-		return Entities[entity];
-	}
+		int EntityCount()
+		{
+			return Entities.size();
+		}
 
-	int EntityCount()
-	{
-		return Entities.size();
-	}
+		~EntityManager() = default;
 
-	~EntityManager() = default;
-
-private:
-	std::vector<Entity> Entities;
-	std::vector<int> FreeEntity; // заменить на двусвязный список
-};
+	private:
+		std::vector<Entity> Entities;
+		std::vector<int> FreeEntity; // заменить на двусвязный список
+	};
+}

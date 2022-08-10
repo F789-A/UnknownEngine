@@ -9,7 +9,7 @@
 #include "Transform.h"
 #include "EntityManager.h"
 
-class RenderMesh: public Component, public ILoopUpdate<EGraphicLoop>
+class RenderMesh: public ec::Component, public ILoopUpdate<UpdateType::GraphicLoop>
 {
 private:
 

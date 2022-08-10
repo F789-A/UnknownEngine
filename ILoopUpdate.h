@@ -1,13 +1,13 @@
 #pragma once
 #include <vector>
 
-enum
+enum class UpdateType
 {
-	EGameLoop,
-	EGraphicLoop
+	GameLoop,
+	GraphicLoop
 };
 
-template<int TypeLoop>
+template<UpdateType TypeLoop>
 class ILoopUpdate
 {
 private:
@@ -46,7 +46,6 @@ protected:
 
 	~ILoopUpdate()
 	{
-		int a = TypeLoop;
 		for (int i = 0; i < UpdateVector.size(); i++)
 		{
 			if (UpdateVector[i]->Index = Index)
@@ -59,5 +58,5 @@ protected:
 	}
 };
 
-template<int TypeLoop>
+template<UpdateType TypeLoop>
 std::vector<ILoopUpdate<TypeLoop>*> ILoopUpdate<TypeLoop>::UpdateVector = std::vector<ILoopUpdate<TypeLoop>*>();

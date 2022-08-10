@@ -28,10 +28,10 @@ void EntityLoader::Load()
 	SimpleTextProcerssor textTool;
 	auto current_end = std::sregex_iterator();
 
-	Entity* currentEntity = nullptr;
+	ec::Entity* currentEntity = nullptr;
 
 	Singleton<SharedGraphicsResources> SinglRes;
-	Singleton<EntityManager> singlEntityManager;
+	Singleton<ec::EntityManager> singlEntityManager;
 	std::ifstream file(Path.c_str());
 
 	if (!file)

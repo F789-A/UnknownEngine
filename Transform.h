@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-class Transform : public Component
+class Transform : public ec::Component
 {
 public:
 	glm::vec3 Position;

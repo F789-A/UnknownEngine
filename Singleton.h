@@ -51,4 +51,4 @@ template<>
 void SingletonFill<SharedGraphicsResources>(Singleton<SharedGraphicsResources>& a);
 
 template<>
-void SingletonFill<EntityManager>(Singleton<EntityManager>& a);
+void SingletonFill<ec::EntityManager>(Singleton<ec::EntityManager>& a);

@@ -8,8 +8,8 @@ void SingletonFill<SharedGraphicsResources>(Singleton<SharedGraphicsResources>& 
 }
 
 template<>
-void SingletonFill<EntityManager>(Singleton<EntityManager>& a)
+void SingletonFill<ec::EntityManager>(Singleton<ec::EntityManager>& a)
 {
-    static EntityManager x;
+    static ec::EntityManager x;
     a.SetData(&x);
 }

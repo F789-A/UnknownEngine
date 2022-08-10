@@ -2,10 +2,13 @@
 
 #include "EntityManagerBase.h"
 
-class IComponent
+namespace ec
 {
-public:
-	virtual void SetLinkedEntity(EntityManagerBase* manager, int entity) = 0;
+	class IComponent
+	{
+	public:
+		virtual void SetLinkedEntity(EntityManagerBase* manager, int entity) = 0;
 
-	virtual ~IComponent() {};
-};
+		virtual ~IComponent() {};
+	};
+}
