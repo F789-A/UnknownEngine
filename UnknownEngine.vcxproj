@@ -187,6 +187,7 @@
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AllComponents.h" />
     <ClInclude Include="AppInitializer.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraController.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="ComponentThatAlwaysSayHello.h" />
     <ClInclude Include="EngineCore\WindowApp.h" />
     <ClInclude Include="EngineCore\GlAssert.h" />
+    <ClInclude Include="EscapeHandler.h" />
     <ClInclude Include="GLMesh.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityLoader.h" />
@@ -221,6 +223,7 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="StringToGLFWKey.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="ILoopUpdate.h" />
@@ -231,6 +234,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Entites\entityList.txt" />
+    <Text Include="Key.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

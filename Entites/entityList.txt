@@ -9,3 +9,5 @@ AddEntity
 AddEntity
 	AddComponent<Transform>(40, 0, 0)
 	AddComponent<RenderMesh>(box.obj, C:\Workflow\Cpp\UnknownEngine\Materials\testMaterial.uemat)
+AddEntity
+	AddComponent<EscapeHandler>()

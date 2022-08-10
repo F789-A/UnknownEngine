@@ -34,15 +34,6 @@ GLShader& GraphicCore::GetSkyboxShader()
 	return SinglRes->GetShaderRef("Shaders/Skybox.ueshad");
 }
 
-void processInput(GLFWwindow* window)
-{
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
-	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-}
 
 GraphicCore& GraphicCore::GetInstance()
 {
@@ -53,9 +44,6 @@ GraphicCore& GraphicCore::GetInstance()
 void GraphicCore::UpdateGraphic()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	processInput(WindowApp::GetInstance().GetWindow());
-
-
 
 	glm::mat4 view = ICamera::MainCamera->GetViewMatrix();
 	glm::mat4 projection = glm::perspective(ICamera::MainCamera->GetFOV(), (float)WindowApp::GetInstance().Width() / WindowApp::GetInstance().Height(), 0.1f, 100.0f);

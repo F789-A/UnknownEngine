@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\EngineCore">
-      <UniqueIdentifier>{3ff080ac-12eb-4a3c-a246-118050593a98}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{8d3b398f-4f56-444c-b986-1aa468adc165}</UniqueIdentifier>
     </Filter>
@@ -45,12 +42,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EngineCore\glad.c">
-      <Filter>Source Files\EngineCore</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineCore\GlAssert.cpp">
-      <Filter>Source Files\EngineCore</Filter>
-    </ClCompile>
     <ClCompile Include="RenderMesh.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
@@ -71,9 +62,6 @@
     </ClCompile>
     <ClCompile Include="Input\Input.cpp">
       <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="GLMesh.cpp">
-      <Filter>Source Files\Assets</Filter>
     </ClCompile>
     <ClCompile Include="ModelImporter.cpp">
       <Filter>Source Files\Assets</Filter>
@@ -129,11 +117,17 @@
     <ClCompile Include="EntityManager.cpp">
       <Filter>Source Files\ComponentSystem</Filter>
     </ClCompile>
+    <ClCompile Include="EngineCore\GlAssert.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineCore\glad.c">
+      <Filter>Source Files\Alien</Filter>
+    </ClCompile>
+    <ClCompile Include="GLMesh.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EngineCore\GlAssert.h">
-      <Filter>Source Files\EngineCore</Filter>
-    </ClInclude>
     <ClInclude Include="RenderMesh.h">
       <Filter>Source Files\Components</Filter>
     </ClInclude>
@@ -177,9 +171,6 @@
       <Filter>Source Files\Assets</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Source Files\Assets</Filter>
-    </ClInclude>
-    <ClInclude Include="GLMesh.h">
       <Filter>Source Files\Assets</Filter>
     </ClInclude>
     <ClInclude Include="ModelImporter.h">
@@ -242,6 +233,21 @@
     <ClInclude Include="Logger.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="EngineCore\GlAssert.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GLMesh.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="StringToGLFWKey.h">
+      <Filter>Source Files\SerializationSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EscapeHandler.h">
+      <Filter>Source Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AllComponents.h">
+      <Filter>Source Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="testShader.vert">
@@ -253,6 +259,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Entites\entityList.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Key.txt">
       <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>

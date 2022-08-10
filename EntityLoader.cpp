@@ -1,30 +1,9 @@
 #include "EntityLoader.h"
 
-std::vector<std::string> EntityLoader::Split(const std::string& str)
-{
-	std::vector<std::string> result;
-	std::regex rgxFindArg("[^,]+");
-
-	std::sregex_iterator _current(str.begin(), str.end(), rgxFindArg);
-	for (auto it = _current; it != std::sregex_iterator(); it++)
-	{
-		std::smatch match = *it;
-		std::string _str = match.str();
-		if (_str[0] == ' ')
-		{
-			_str.erase(0, 1);
-		}
-		result.push_back(_str);
-	}
-	return result;
-}
-
 void EntityLoader::Load()
 {
 	std::regex rgxAddComp("(AddComponent<)([^>]+)(?=>)"); // ретроспективной проверки нет(
 	std::regex rgxAddEntity("^AddEntity$");
-	std::regex rgxFindArg("\"([^\"]+)(?=\")");
-	std::regex rgxFindPar("([\(]([^\)]+))");
 	SimpleTextProcerssor textTool;
 	auto current_end = std::sregex_iterator();
 
@@ -55,6 +34,8 @@ void EntityLoader::Load()
 			std::string componentName = match.str();
 			componentName = componentName.substr(13, componentName.size() - 13);
 
+			Singleton<Logger> logger;
+
 			if (componentName == "Transform")
 			{
 				Transform& transf = currentEntity->AddComponent<Transform>();
@@ -69,8 +50,7 @@ void EntityLoader::Load()
 			}
 			if (componentName == "RenderMesh")
 			{
-				Singleton<Logger> logger;
-				logger->Log("RenderMesh", 2);
+
 				RenderMesh& renMesh = currentEntity->AddComponent<RenderMesh>();
 
 				std::string paramRow = textTool.GetArea(str, "()");
@@ -88,6 +68,10 @@ void EntityLoader::Load()
 			{
 				currentEntity->AddComponent<CameraController>();
 			}
+			else if (componentName == "EscapeHandler")
+			{
+				currentEntity->AddComponent<EscapeHandler>();
+			}
 		}
 		else
 		{
@@ -95,5 +79,17 @@ void EntityLoader::Load()
 			throw "Invalid data";
 		}
 		std::getline(file, str);
+	}
+}
+
+void EntityLoader::LoadKeyFromFile(std::filesystem::path path)
+{
+	std::fstream file = std::fstream(path, std::ios_base::in);
+	std::string inStr;
+	SimpleTextProcerssor textTool;
+	while (std::getline(file, inStr))
+	{
+		std::vector<std::string> param = textTool.SplitAndDelSpace(inStr, '=');
+		Input::GetInstance().BindKey(param[0], StringToGLFWKey.at(param[1]));
 	}
 }

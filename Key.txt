@@ -1,0 +1,7 @@
+Front = GLFW_KEY_W
+Right = GLFW_KEY_D
+Left = GLFW_KEY_A
+Backward = GLFW_KEY_S
+Escape = GLFW_KEY_ESCAPE
+UseQ = GLFW_KEY_Q
+UseR = GLFW_KEY_R

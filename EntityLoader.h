@@ -6,32 +6,28 @@
 #include <fstream>
 #include <regex>
 
+#include "AllComponents.h"
 #include "EntityManager.h"
-#include "Transform.h"
-#include "ComponentThatAlwaysSayHello.h"
-#include "RenderMesh.h"
 #include "ModelImporter.h"
-
-#include "GLMaterial.h"
-#include "Camera.h"
-#include "CameraController.h"
 
 #include "Singleton.h"
 #include "SimpleTextProcessor.h"
 #include "Logger.h"
+#include "GLMaterial.h"
 #include "SharedGraphicsResources.h"
+
+#include "Input/Input.h"
+#include "StringToGLFWKey.h"
 
 class EntityLoader
 {
+private:
 	std::string Path;
 
 public:
-
-	EntityLoader(std::string dataPath): Path(dataPath)
-	{}
-
-	std::vector<std::string> Split(const std::string& str);
+	EntityLoader(std::string dataPath): Path(dataPath) {}
 	
 	void Load();
+	void LoadKeyFromFile(std::filesystem::path path);
 	
 };

@@ -35,11 +35,8 @@ void GameLoop::Loop()
 
 void GameLoop::ConstructScene()
 {
-	Input::GetInstance().BindKey("Front", GLFW_KEY_W);
-	Input::GetInstance().BindKey("Right", GLFW_KEY_D);
-	Input::GetInstance().BindKey("Left", GLFW_KEY_A);
-	Input::GetInstance().BindKey("Backward", GLFW_KEY_S);
 	EntityLoader h("Entites\\entityList.txt");
+	h.LoadKeyFromFile("Key.txt");
 	h.Load();
 }
 
