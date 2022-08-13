@@ -1,0 +1,6 @@
+right = skybox/right.jpg
+left = skybox/left.jpg
+top = skybox/top.jpg
+bottom = skybox/bottom.jpg
+front = skybox/front.jpg
+back = skybox/back.jpg

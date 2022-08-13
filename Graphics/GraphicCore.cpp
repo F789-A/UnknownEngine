@@ -13,18 +13,12 @@ GraphicCore::GraphicCore(): SkyboxThat(GetSkyboxTexture(), GetSkyboxShader())
 	glfwSetInputMode(WindowApp::GetInstance().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-std::vector<Texture*> GraphicCore::GetSkyboxTexture()
-{
-	std::vector<Texture*> res(6);
+GLCubemapTexture& GraphicCore::GetSkyboxTexture()
+{ 
 
 	Singleton<SharedGraphicsResources> SinglRes;
 
-	res[0] = &SinglRes->GetTextureRef("skybox/right.jpg");
-	res[1] = &SinglRes->GetTextureRef("skybox/left.jpg");
-	res[2] = &SinglRes->GetTextureRef("skybox/top.jpg");
-	res[3] = &SinglRes->GetTextureRef("skybox/bottom.jpg");
-	res[4] = &SinglRes->GetTextureRef("skybox/front.jpg");
-	res[5] = &SinglRes->GetTextureRef("skybox/back.jpg");
+	GLCubemapTexture& res = SinglRes->GetGLCubemapRef("skybox/DefaultSkybox.ueskybox");
 	return res;
 }
 

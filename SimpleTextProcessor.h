@@ -4,7 +4,7 @@
 #include <vector>
 
 //использую взамен std::regex
-class SimpleTextProcerssor
+class SimpleTextProcessor
 {
 private:
 	

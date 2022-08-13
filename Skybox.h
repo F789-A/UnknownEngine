@@ -15,7 +15,7 @@ class Skybox
 public:
 	unsigned int VAO;
 	unsigned int VBO;
-	GLCubemapTexture CubemapTexture;
+	GLCubemapTexture& CubemapTexture;
 	GLShader* Shader;
 
 	float SkyboxVertices[108] = {
@@ -63,7 +63,7 @@ public:
 	};
 
 public:
-	Skybox(GLCubemapTexture map, GLShader& shader);
+	Skybox(GLCubemapTexture& map, GLShader& shader);
 
 	void Draw(glm::mat4 view, glm::mat4 projection);
 };

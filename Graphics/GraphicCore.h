@@ -25,7 +25,7 @@ class GraphicCore
 	~GraphicCore() = default;
 	unsigned int uniformCameraBlock;
 
-	std::vector<Texture*> GetSkyboxTexture();
+	GLCubemapTexture& GetSkyboxTexture();
 	GLShader& GetSkyboxShader();
 public:
 	static GraphicCore& GetInstance();

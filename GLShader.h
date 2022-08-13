@@ -10,6 +10,7 @@
 #include <sstream>
 
 #include "EngineCore/GlAssert.h"
+#include "GLTexture.h"
 
 class GLShader
 {
@@ -20,13 +21,14 @@ private:
 public:
     GLuint Program;
 
+    int FrontFaceMode = GL_CCW;
     bool DepthTest = true;
     bool CullFace = true;
     bool Blend = false;
     int CullMode = GL_BACK;
-    const int FrontFaceMode = GL_CCW;
     int BlendSourceFunc = GL_SRC_ALPHA;
     int BlendDestinationFunc = GL_ONE_MINUS_SRC_ALPHA;
+    int DepthFunc = GL_LEQUAL;
 
     GLShader(const GLchar* vertexPath, const GLchar* fragmentPath);
     GLShader(const GLchar* vertexPath, const GLchar* fragmentPath, const GLchar* geometryPath);
@@ -36,9 +38,10 @@ public:
 
     ~GLShader() = default;
 
-
     void Use();
     void SetVec3(std::string name, glm::vec3 vec);
     void SetVec3(std::string name, GLfloat a, GLfloat b, GLfloat c);
     void SetFloat(std::string name, GLfloat a);
+    void SetInt(std::string name, GLint a);
+    void SetTexture(std::string name, GLTexture* a, int type, int target);
 };

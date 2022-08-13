@@ -2,15 +2,14 @@
 
 void EntityLoader::Load()
 {
-	std::regex rgxAddComp("(AddComponent<)([^>]+)(?=>)"); // ретроспективной проверки нет(
-	std::regex rgxAddEntity("^AddEntity$");
-	SimpleTextProcerssor textTool;
-	auto current_end = std::sregex_iterator();
+	SimpleTextProcessor textTool;
 
 	ec::Entity* currentEntity = nullptr;
 
 	Singleton<SharedGraphicsResources> SinglRes;
 	Singleton<ec::EntityManager> singlEntityManager;
+
+	Singleton<Logger> logger;
 	std::ifstream file(Path.c_str());
 
 	if (!file)
@@ -22,19 +21,13 @@ void EntityLoader::Load()
 	std::getline(file, str);
 	while (file)
 	{
-		if (std::regex_match(str, rgxAddEntity))
+		if (str == "AddEntity")
 		{
 			currentEntity = &(singlEntityManager->AddEntity());
-			
 		}
-		else if (std::regex_search(str, rgxAddComp))
+		else if (str.find("AddComponent"))
 		{
-			std::sregex_iterator current(str.begin(), str.end(), rgxAddComp);
-			std::smatch match = *current;
-			std::string componentName = match.str();
-			componentName = componentName.substr(13, componentName.size() - 13);
-
-			Singleton<Logger> logger;
+			std::string componentName = textTool.GetArea(str, "<>");
 
 			if (componentName == "Transform")
 			{
@@ -86,7 +79,7 @@ void EntityLoader::LoadKeyFromFile(std::filesystem::path path)
 {
 	std::fstream file = std::fstream(path, std::ios_base::in);
 	std::string inStr;
-	SimpleTextProcerssor textTool;
+	SimpleTextProcessor textTool;
 	while (std::getline(file, inStr))
 	{
 		std::vector<std::string> param = textTool.SplitAndDelSpace(inStr, '=');

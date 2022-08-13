@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GLFW\glfw3.h>
+#include <glad/glad.h> 
 #include <map>
 #include <string>
 
@@ -127,4 +128,35 @@ const std::map<std::string, int> StringToGLFWKey =
 	{"GLFW_KEY_RIGHT_ALT", GLFW_KEY_RIGHT_ALT},
 	{"GLFW_KEY_RIGHT_SUPER", GLFW_KEY_RIGHT_SUPER},
 	{"GLFW_KEY_MENU", GLFW_KEY_MENU}
+};
+
+const std::map<std::string, int> StringToShaderConst =
+{
+	{"false", 0},
+	{"true", 1},
+	//обход
+	{"GL_CW", GL_CW},
+	{"GL_CCW", GL_CCW},
+	//
+	{"GL_FRONT", GL_FRONT},
+	{"GL_BACK", GL_BACK},
+	//
+	{"GL_ZERO", GL_ZERO},
+	{"GL_ONE", GL_ONE},
+	{"GL_SRC_COLOR", GL_SRC_COLOR},
+	{"GL_ONE_MINUS_SRC_COLOR", GL_ONE_MINUS_SRC_COLOR},
+	{"GL_SRC_ALPHA", GL_SRC_ALPHA},
+	{"GL_ONE_MINUS_SRC_ALPHA", GL_ONE_MINUS_SRC_ALPHA},
+	{"GL_DST_ALPHA", GL_DST_ALPHA},
+	{"GL_ONE_MINUS_DST_ALPHA", GL_ONE_MINUS_DST_ALPHA},
+	{"GL_DST_COLOR", GL_DST_COLOR},
+	{"GL_ONE_MINUS_DST_COLOR", GL_ONE_MINUS_DST_COLOR},
+	{"GL_SRC_ALPHA_SATURATE", GL_SRC_ALPHA_SATURATE},
+	//
+	{"GL_LESS", GL_LESS},
+	{"GL_EQUAL", GL_EQUAL},
+	{"GL_LEQUAL", GL_LEQUAL},
+	{"GL_GREATER", GL_GREATER},
+	{"GL_NOTEQUAL", GL_NOTEQUAL},
+	{"GL_GEQUAL", GL_GEQUAL},
 };

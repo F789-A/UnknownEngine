@@ -1,6 +1,5 @@
 #include "GLShader.h"
 
-
 GLShader::GLShader(const GLchar* vertexPath, const GLchar* fragmentPath)
 {
     Program = glCreateProgram();
@@ -67,7 +66,7 @@ void GLShader::CreateAndAttachShader(const GLchar* pathShader, const GLint typeS
     if (!success)
     {
         glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        std::string type = "VERTEX";
+        std::string type = "---";
         if (typeShader == GL_VERTEX_SHADER)
         {
             type = "VERTEX";
@@ -91,35 +90,14 @@ void GLShader::CreateAndAttachShader(const GLchar* pathShader, const GLint typeS
 
 void GLShader::Use()
 {
-    if (DepthTest)
-    {
-        glEnable(GL_DEPTH_TEST);
-    }
-    else
-    {
-        glDisable(GL_DEPTH_TEST);
-    }
-    glDepthFunc(GL_LEQUAL);
+    DepthTest ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
+    glDepthFunc(DepthFunc);
 
-    if (CullFace)
-    {
-        glEnable(GL_CULL_FACE);
-    }
-    else
-    {
-        glDisable(GL_CULL_FACE);
-    }
+    CullFace ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
     glCullFace(CullMode);
     glFrontFace(FrontFaceMode);
 
-    if (Blend)
-    {
-        glEnable(GL_BLEND);
-    }
-    else
-    {
-        glDisable(GL_BLEND);
-    }
+    Blend ? glEnable(GL_BLEND) : glDisable(GL_BLEND);
     glBlendFunc(BlendSourceFunc, BlendDestinationFunc);
 
     glUseProgram(this->Program);
@@ -140,4 +118,19 @@ void GLShader::SetFloat(std::string name, GLfloat a)
 {
     GLint objectParam = glGetUniformLocation(this->Program, name.c_str());
     glUniform1f(objectParam, a);
+}
+
+void GLShader::SetInt(std::string name, GLint a)
+{
+    GLint objectParam = glGetUniformLocation(this->Program, name.c_str());
+    glUniform1i(objectParam, a);
+}
+
+void GLShader::SetTexture(std::string name, GLTexture* a, int type, int target)
+{
+    glActiveTexture(GL_TEXTURE0 + target);
+    glUniform1i(glGetUniformLocation(Program, name.c_str()), target);
+    glBindTexture(GL_TEXTURE_2D, a->Id); // костыль
+
+    glActiveTexture(GL_TEXTURE0);
 }

@@ -1,8 +1,7 @@
 #include "GLTexture.h"
 
-#include <iostream>
-
-GLTexture::GLTexture(const Texture& texture)
+GLTexture::GLTexture(const Texture& texture, int wrapS, int wrapT, bool generateMipmap, int minFilter, int magFilter):
+	HaveGPUResources(true)
 {
 	glGenTextures(1, &Id);
 
@@ -23,15 +22,41 @@ GLTexture::GLTexture(const Texture& texture)
 	glBindTexture(GL_TEXTURE_2D, Id);
 	//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glTexImage2D(GL_TEXTURE_2D, 0, format, texture.Width, texture.Height, 0, format, GL_UNSIGNED_BYTE, &texture.Data[0]);
-	glGenerateMipmap(GL_TEXTURE_2D);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	if (generateMipmap)
+	{
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
 }
 
-GLCubemapTexture::GLCubemapTexture(const std::vector<Texture*>& textures)
+GLTexture::GLTexture(GLTexture&& other) noexcept : Id(other.Id), HaveGPUResources(true)
+{
+	other.HaveGPUResources = false;
+}
+
+GLTexture& GLTexture::operator=(GLTexture&& other) noexcept
+{
+	Id = other.Id;
+	HaveGPUResources = true;
+	other.HaveGPUResources = false;
+	return *this;
+}
+
+GLTexture::~GLTexture()
+{
+	if (HaveGPUResources)
+	{
+		glDeleteTextures(1, &Id);
+	}
+}
+
+GLCubemapTexture::GLCubemapTexture(const std::vector<Texture*>& textures,
+	int minFilter, int magFilter, int wrapS, int wrapT, int wrapR)
 {
 	glGenTextures(1, &Id);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, Id);
@@ -53,9 +78,18 @@ GLCubemapTexture::GLCubemapTexture(const std::vector<Texture*>& textures)
 		}
 		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, format, textures[i]->Width, textures[i]->Height, 0, format, GL_UNSIGNED_BYTE, &(textures[i]->Data[0]));
 	}
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, minFilter);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, magFilter);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, wrapS);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, wrapT);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, wrapR);
+}
+
+GLCubemapTexture::GLCubemapTexture(GLCubemapTexture&& other) noexcept :GLTexture(std::move(other)) {}
+GLCubemapTexture& GLCubemapTexture::operator=(GLCubemapTexture&& other) noexcept
+{
+	Id = other.Id;
+	HaveGPUResources = true;
+	other.HaveGPUResources = false;
+	return *this;
 }

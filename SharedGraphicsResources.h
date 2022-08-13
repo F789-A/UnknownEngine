@@ -11,8 +11,9 @@
 #include "Texture.h"
 #include "ModelImporter.h"
 #include "Singleton.h"
+#include "SimpleTextProcessor.h"
+#include "StringToGLFWKey.h"
 
-//хранит модели
 class ModelConteiner
 {
 private:
@@ -21,28 +22,6 @@ private:
 public:
 	void AddModel(std::string path);
 	Model& GetModelRef(std::string ind);
-};
-
-//хранит шейдеры
-class ShaderConteiner
-{
-private:
-	std::map<std::string, GLShader> Shaders;
-
-public:
-	GLShader& GetShaderRef(std::string name);
-	void AddShader(std::string path);
-};
-
-//хранит образцы материалов
-class MaterialConteiner
-{
-private:
-	std::map<std::string, GLMaterial> Materials;
-
-public:
-	void AddMaterial(std::string path, ShaderConteiner& shaderCont);
-	GLMaterial GetMaterial(std::string path, ShaderConteiner& shaderCont);
 };
 
 class TextureConteiner
@@ -55,17 +34,62 @@ public:
 	Texture& GetTextureRef(std::string path);
 };
 
+class GLTextureConteiner
+{
+private:
+	TextureConteiner& LinkedTexCont;
+	std::map <std::string, GLTexture> GLTextures;
+	std::map <std::string, GLCubemapTexture> GLCubemaps;
+
+public:
+	GLTextureConteiner(TextureConteiner& texCont) : LinkedTexCont(texCont) {};
+
+	void AddGLTexture(const std::string& path);
+	GLTexture& GetGLTextureRef(const std::string& ind);
+
+	void AddGLCubemap(const std::string& ind);
+	GLCubemapTexture& GetGLCubemapRef(const std::string& ind);
+};
+
+class ShaderConteiner
+{
+private:
+	std::map<std::string, GLShader> Shaders;
+
+public:
+	GLShader& GetShaderRef(std::string name);
+	void AddShader(const std::string& path);
+};
+
+//хранит образцы материалов
+class MaterialConteiner
+{
+private:
+	ShaderConteiner& LinkedShaderCont;
+	GLTextureConteiner& LinkedGLTexCont;
+
+	std::map<std::string, GLMaterial> Materials;
+
+public:
+	MaterialConteiner(ShaderConteiner& shaderCont, GLTextureConteiner& glTexCont) : LinkedShaderCont(shaderCont), LinkedGLTexCont(glTexCont){};
+
+	void AddMaterial(const std::string& path);
+	GLMaterial GetMaterial(const std::string& path);
+};
+
 class SharedGraphicsResources
 {
 public:
 	ModelConteiner ModelCont;
-	ShaderConteiner ShaderCont;
-	MaterialConteiner MaterialCont;
 	TextureConteiner TextureCont;
+	GLTextureConteiner GLTextureCont;
+	MaterialConteiner MaterialCont;
+	ShaderConteiner ShaderCont;
 
 public:
 
-	SharedGraphicsResources() : ModelCont(), ShaderCont(), MaterialCont(), TextureCont(){}
+	SharedGraphicsResources() : 
+		ModelCont(), TextureCont(), GLTextureCont(TextureCont), ShaderCont(), MaterialCont(ShaderCont, GLTextureCont){}
 
 	GLShader& GetShaderRef(std::string path)
 	{
@@ -74,12 +98,16 @@ public:
 
 	GLMaterial GetMaterial(std::string path)
 	{
-		return MaterialCont.GetMaterial(path, ShaderCont);
+		return MaterialCont.GetMaterial(path);
 	}
 
 	Texture& GetTextureRef(std::string path)
 	{
 		return TextureCont.GetTextureRef(path);
+	}
+	GLCubemapTexture& GetGLCubemapRef(std::string path)
+	{
+		return GLTextureCont.GetGLCubemapRef(path);
 	}
 };
 

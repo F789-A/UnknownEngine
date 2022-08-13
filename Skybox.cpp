@@ -2,9 +2,8 @@
 #include "Skybox.h"
 
 
-Skybox::Skybox(GLCubemapTexture map, GLShader& shader): Shader(&shader), CubemapTexture(map)
+Skybox::Skybox(GLCubemapTexture& map, GLShader& shader): Shader(&shader), CubemapTexture(map)
 {
-
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 
