@@ -1,8 +1,15 @@
 #include "RenderMesh.h"
 
-RenderMesh::RenderMesh()
+#include "SharedGraphicsResources.h"
+
+Singleton<SharedGraphicsResources> SinglRes()
 {
+	return Singleton<SharedGraphicsResources>();
 }
+
+RenderMesh::RenderMesh(): RenderMaterial(SinglRes()->GetShaderRef("Shaders\\DefShader.ueshad"))
+{}
+
 
 RenderMesh::RenderMesh(GLMesh renderedMesh, GLMaterial renderMaterial): RenderedMesh(std::move(renderedMesh)), RenderMaterial(renderMaterial)
 {}

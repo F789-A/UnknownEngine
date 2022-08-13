@@ -21,7 +21,7 @@ void GLMaterial::Use()
 	int i = 0;
 	for (auto l : Textures)
 	{
-		Shader->SetTexture(l.first, l.second, GL_TEXTURE_2D, i); // костыль
+		Shader->SetTexture(l.first, *(l.second), i);
 		i++;
 	}
 

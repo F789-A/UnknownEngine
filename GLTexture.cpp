@@ -1,7 +1,7 @@
 #include "GLTexture.h"
 
 GLTexture::GLTexture(const Texture& texture, int wrapS, int wrapT, bool generateMipmap, int minFilter, int magFilter):
-	HaveGPUResources(true)
+	HaveGPUResources(true), _Type(GL_TEXTURE_2D)
 {
 	glGenTextures(1, &Id);
 
@@ -34,7 +34,7 @@ GLTexture::GLTexture(const Texture& texture, int wrapS, int wrapT, bool generate
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
 }
 
-GLTexture::GLTexture(GLTexture&& other) noexcept : Id(other.Id), HaveGPUResources(true)
+GLTexture::GLTexture(GLTexture&& other) noexcept : Id(other.Id), HaveGPUResources(true), _Type(GL_TEXTURE_2D)
 {
 	other.HaveGPUResources = false;
 }
@@ -58,6 +58,7 @@ GLTexture::~GLTexture()
 GLCubemapTexture::GLCubemapTexture(const std::vector<Texture*>& textures,
 	int minFilter, int magFilter, int wrapS, int wrapT, int wrapR)
 {
+	_Type = GL_TEXTURE_CUBE_MAP;
 	glGenTextures(1, &Id);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, Id);
 
@@ -85,7 +86,10 @@ GLCubemapTexture::GLCubemapTexture(const std::vector<Texture*>& textures,
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, wrapR);
 }
 
-GLCubemapTexture::GLCubemapTexture(GLCubemapTexture&& other) noexcept :GLTexture(std::move(other)) {}
+GLCubemapTexture::GLCubemapTexture(GLCubemapTexture&& other) noexcept :GLTexture(std::move(other)) 
+{
+	_Type = GL_TEXTURE_CUBE_MAP;
+}
 GLCubemapTexture& GLCubemapTexture::operator=(GLCubemapTexture&& other) noexcept
 {
 	Id = other.Id;

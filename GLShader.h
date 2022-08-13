@@ -5,19 +5,20 @@
 #include <glm/glm.hpp>
 
 #include <string>
-#include <iostream>
+//#include <iostream>
 #include <fstream>
 #include <sstream>
 
 #include "EngineCore/GlAssert.h"
 #include "GLTexture.h"
+#include "Logger.h"
 
 class GLShader
 {
 private:
     void CreateAndAttachShader(const GLchar* path, const GLint typeShader);
     void Validate();
-
+    bool HaveResources = true;
 public:
     GLuint Program;
 
@@ -33,15 +34,17 @@ public:
     GLShader(const GLchar* vertexPath, const GLchar* fragmentPath);
     GLShader(const GLchar* vertexPath, const GLchar* fragmentPath, const GLchar* geometryPath);
 
-    GLShader operator=(const GLShader&) = delete;
+    GLShader& operator=(const GLShader&) = delete;
     GLShader(const GLShader&) = delete;
 
-    ~GLShader() = default;
+    GLShader& operator=(GLShader&&) noexcept;
+    GLShader(GLShader&&) noexcept;
+
+    ~GLShader();
 
     void Use();
-    void SetVec3(std::string name, glm::vec3 vec);
-    void SetVec3(std::string name, GLfloat a, GLfloat b, GLfloat c);
-    void SetFloat(std::string name, GLfloat a);
-    void SetInt(std::string name, GLint a);
-    void SetTexture(std::string name, GLTexture* a, int type, int target);
+    void SetVec3(const std::string& name, glm::vec3 vec);
+    void SetFloat(const std::string& name, GLfloat a);
+    void SetInt(const std::string& name, GLint a);
+    void SetTexture(const std::string& name, const GLTexture& a, int target);
 };

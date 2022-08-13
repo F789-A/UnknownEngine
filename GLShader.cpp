@@ -29,7 +29,9 @@ void GLShader::Validate()
     if (!success)
     {
         glGetProgramInfoLog(Program, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+        Singleton<Logger> logger;
+        logger->Log("ERROR::SHADER::PROGRAM::LINKING_FAILED\n", infoLog, "\n");
+        //std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
         GlAssert(false, "");
     }
 }
@@ -49,7 +51,9 @@ void GLShader::CreateAndAttachShader(const GLchar* pathShader, const GLint typeS
     }
     catch (std::ifstream::failure e)
     {
-        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+        Singleton<Logger> logger;
+        logger->Log("ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ\n", pathShader, "\n");
+        //std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
         GlAssert(false, "");
     }
     const GLchar* cShaderCode = shaderCode.c_str();
@@ -79,13 +83,47 @@ void GLShader::CreateAndAttachShader(const GLchar* pathShader, const GLint typeS
         {
             type = "FRAGMENT";
         }
-        std::cout << "ERROR::SHADER::" << type <<"::COMPILATION_FAILED\n" << infoLog << std::endl;
+        Singleton<Logger> logger;
+        logger->Log("ERROR::SHADER::", type, "::COMPILATION_FAILED\n", infoLog, "\n");
+        //std::cout << "ERROR::SHADER::" << type <<"::COMPILATION_FAILED\n" << infoLog << std::endl;
         GlAssert(false, "");
     };
 
     glAttachShader(Program, shader);
 
     glDeleteShader(shader);
+}
+
+GLShader& GLShader::operator=(GLShader&& other) noexcept
+{
+    Program = other.Program;
+
+    FrontFaceMode = other.FrontFaceMode;
+    DepthTest = other.DepthTest;
+    CullFace = other.CullFace;
+    Blend = other.Blend;
+    CullMode = other.CullMode;
+    BlendSourceFunc = other.BlendSourceFunc;
+    BlendDestinationFunc = other.BlendDestinationFunc;
+    DepthFunc = other.DepthFunc;
+
+    other.HaveResources = false;
+    return *this;
+}
+
+GLShader::GLShader(GLShader&& other) noexcept:Program ( other.Program), FrontFaceMode(other.FrontFaceMode),
+    DepthTest (other.DepthTest), CullFace (other.CullFace), Blend(other.Blend), CullMode(other.CullMode),
+    BlendSourceFunc(other.BlendSourceFunc), BlendDestinationFunc(other.BlendDestinationFunc), DepthFunc(other.DepthFunc)
+{
+    other.HaveResources = false;
+}
+
+GLShader::~GLShader()
+{
+    if (HaveResources)
+    {
+        glDeleteProgram(Program);
+    }
 }
 
 void GLShader::Use()
@@ -103,34 +141,29 @@ void GLShader::Use()
     glUseProgram(this->Program);
 }
 
-void GLShader::SetVec3(std::string name, glm::vec3 vec)
+void GLShader::SetVec3(const std::string& name, glm::vec3 vec)
 {
-    this->SetVec3(name, vec[0], vec[1], vec[2]);
+    GLint objectParam = glGetUniformLocation(Program, name.c_str());
+    glUniform3f(objectParam, vec[0], vec[1], vec[2]);
 }
 
-void GLShader::SetVec3(std::string name, GLfloat a, GLfloat b, GLfloat c)
+void GLShader::SetFloat(const std::string& name, GLfloat a)
 {
-    GLint objectParam = glGetUniformLocation(this->Program, name.c_str());
-    glUniform3f(objectParam, a, b, c);
-}
-
-void GLShader::SetFloat(std::string name, GLfloat a)
-{
-    GLint objectParam = glGetUniformLocation(this->Program, name.c_str());
+    GLint objectParam = glGetUniformLocation(Program, name.c_str());
     glUniform1f(objectParam, a);
 }
 
-void GLShader::SetInt(std::string name, GLint a)
+void GLShader::SetInt(const std::string& name, GLint a)
 {
-    GLint objectParam = glGetUniformLocation(this->Program, name.c_str());
+    GLint objectParam = glGetUniformLocation(Program, name.c_str());
     glUniform1i(objectParam, a);
 }
 
-void GLShader::SetTexture(std::string name, GLTexture* a, int type, int target)
+void GLShader::SetTexture(const std::string& name, const GLTexture& a, int target)
 {
     glActiveTexture(GL_TEXTURE0 + target);
     glUniform1i(glGetUniformLocation(Program, name.c_str()), target);
-    glBindTexture(GL_TEXTURE_2D, a->Id); // костыль
+    glBindTexture(a.Type(), a.Id); // костыль
 
     glActiveTexture(GL_TEXTURE0);
 }

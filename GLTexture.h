@@ -12,9 +12,15 @@ class GLTexture
 protected:
 	GLTexture() = default;
 	bool HaveGPUResources = true;
-
+	uint _Type;
 public:
+
 	uint Id;
+	
+	int Type() const
+	{
+		return _Type;
+	}
 
 	GLTexture(const Texture& texture, int wrapS = GL_REPEAT, int wrapT = GL_REPEAT, bool generateMipmap = true,
 		int minFilter = GL_LINEAR_MIPMAP_LINEAR, int magFilter = GL_LINEAR);
