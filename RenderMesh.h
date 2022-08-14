@@ -16,7 +16,6 @@ private:
 public:
 	GLMesh RenderedMesh;
 	GLMaterial RenderMaterial;
-	RenderMesh();
 
 	RenderMesh(const RenderMesh&) = delete;
 	RenderMesh operator=(const RenderMesh&) = delete;

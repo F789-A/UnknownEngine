@@ -11,3 +11,4 @@ AddEntity
 	AddComponent<RenderMesh>(box.obj, C:\Workflow\Cpp\UnknownEngine\Materials\testMaterial.uemat)
 AddEntity
 	AddComponent<EscapeHandler>()
+	AddComponent<ComponentThatAlwaysSayHello>()

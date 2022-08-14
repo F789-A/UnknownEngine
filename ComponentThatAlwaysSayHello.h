@@ -8,6 +8,11 @@ class ComponentThatAlwaysSayHello : public ec::Component, public ILoopUpdate<Upd
 public:
 	ComponentThatAlwaysSayHello() = default;
 
+	ComponentThatAlwaysSayHello(std::string message)
+	{
+		std::cout << message << std::endl;
+	}
+
 	ComponentThatAlwaysSayHello operator=(const ComponentThatAlwaysSayHello&) = delete;
 	ComponentThatAlwaysSayHello(const ComponentThatAlwaysSayHello&) = delete;
 	ComponentThatAlwaysSayHello& operator=(ComponentThatAlwaysSayHello&&) = delete;

@@ -38,10 +38,10 @@ namespace ec
 
 		}
 
-		template<typename T>
-		T& AddComponent()
+		template<typename T, typename... Args>
+		T& AddComponent(Args&&... args)
 		{
-			Components.push_back(std::make_unique<T>());
+			Components.push_back(std::make_unique<T>(std::forward<Args>(args)...));
 			Components.back()->SetLinkedEntity(LinkedEntityManager, Id);
 			return *static_cast<T*>(Components.back().get());
 		}

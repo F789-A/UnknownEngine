@@ -19,6 +19,13 @@ public:
 		Scale = glm::vec3(1, 1, 1);
 	}
 
+	Transform(glm::vec3 pos)
+	{
+		Position = pos;
+		Rotation = glm::quat(1, 0, 0, 0);
+		Scale = glm::vec3(1, 1, 1);
+	}
+
 	glm::vec3 Front()
 	{
 		return Rotation * glm::vec3(1, 0, 0);

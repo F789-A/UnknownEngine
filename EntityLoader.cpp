@@ -39,18 +39,17 @@ void EntityLoader::Load()
 			}
 			if (componentName == "ComponentThatAlwaysSayHello")
 			{
-				currentEntity->AddComponent<ComponentThatAlwaysSayHello>();
+				currentEntity->AddComponent<ComponentThatAlwaysSayHello>(std::string("I am fucking born!!!"));
 			}
 			if (componentName == "RenderMesh")
 			{
 
-				RenderMesh& renMesh = currentEntity->AddComponent<RenderMesh>();
-
 				std::string paramRow = textTool.GetArea(str, "()");
 				std::vector<std::string> param = textTool.SplitAndDelSpace(paramRow, ',');
 
-				renMesh.RenderedMesh = GLMesh((SinglRes->ModelCont.GetModelRef(param[0]).Meshes[0]));
-				renMesh.RenderMaterial = SinglRes->GetMaterial(param[1]);
+				currentEntity->AddComponent<RenderMesh>(GLMesh((SinglRes->ModelCont.GetModelRef(param[0]).Meshes[0])),
+					SinglRes->GetMaterial(param[1]));
+
 			}
 			else if (componentName == "Camera")
 			{
