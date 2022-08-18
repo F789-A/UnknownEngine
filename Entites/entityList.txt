@@ -1,7 +1,7 @@
 AddEntity
 AddEntity
 	AddComponent<Transform>(20, 0, 0)
-	AddComponent<RenderMesh>(box.obj, C:\Workflow\Cpp\UnknownEngine\Materials\testMaterial.uemat)
+	AddComponent<RenderMesh>(box.obj, C:\Workflow\Cpp\UnknownEngine\Materials\Diffuse_1.uemat)
 AddEntity
 	AddComponent<Transform>(0, 0, 0)
 	AddComponent<Camera>()
@@ -11,4 +11,3 @@ AddEntity
 	AddComponent<RenderMesh>(box.obj, C:\Workflow\Cpp\UnknownEngine\Materials\testMaterial.uemat)
 AddEntity
 	AddComponent<EscapeHandler>()
-	AddComponent<ComponentThatAlwaysSayHello>()

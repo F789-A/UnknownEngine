@@ -248,6 +248,9 @@
     <ClInclude Include="AllComponents.h">
       <Filter>Source Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="PostProcessing.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="testShader.vert">
@@ -256,12 +259,30 @@
     <None Include="testShader.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
+    <None Include="SimpleDiffuse.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="SimpleDiffuse.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="BasePostProcess.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="PPPixelization.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\Diffuse.ueshad">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Entites\entityList.txt">
       <Filter>Source Files</Filter>
     </Text>
     <Text Include="Key.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Log.txt">
       <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>

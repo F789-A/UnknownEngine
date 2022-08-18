@@ -2,6 +2,12 @@
 
 GraphicCore::GraphicCore(): SkyboxThat(GetSkyboxTexture(), GetSkyboxShader())
 {
+	Singleton<SharedGraphicsResources> SinglRes;
+	GLShader& shad = SinglRes->GetShaderRef("Shaders/Pixelization.ueshad");
+	PostProcess = std::make_unique<PostProcessing>(shad);
+	shad.SetInt("aspectX", WindowApp::GetInstance().Width());
+	shad.SetInt("aspectY", WindowApp::GetInstance().Height());
+	shad.SetInt("intencity", 100);
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 	glGenBuffers(1, &uniformCameraBlock);
@@ -28,7 +34,6 @@ GLShader& GraphicCore::GetSkyboxShader()
 	return SinglRes->GetShaderRef("Shaders/Skybox.ueshad");
 }
 
-
 GraphicCore& GraphicCore::GetInstance()
 {
 	static GraphicCore  instance;
@@ -37,8 +42,11 @@ GraphicCore& GraphicCore::GetInstance()
 
 void GraphicCore::UpdateGraphic()
 {
+	if (EnablePostProcessing)
+	{
+		PostProcess->Use();
+	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	glm::mat4 view = ICamera::MainCamera->GetViewMatrix();
 	glm::mat4 projection = glm::perspective(ICamera::MainCamera->GetFOV(), (float)WindowApp::GetInstance().Width() / WindowApp::GetInstance().Height(), 0.1f, 100.0f);
 	glBindBuffer(GL_UNIFORM_BUFFER, uniformCameraBlock);
@@ -52,5 +60,11 @@ void GraphicCore::UpdateGraphic()
 	}
 
 	SkyboxThat.Draw(view, projection);
+
+	if (EnablePostProcessing)
+	{
+		PostProcess->Render();
+	}
+
 	glfwSwapBuffers(WindowApp::GetInstance().GetWindow());
 }

@@ -57,6 +57,22 @@ GLMesh::~GLMesh()
     }
 }
 
+void GLMesh::Draw(const GLMaterial& material, const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scale)
+{
+    material.Use();
+
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::scale(model, scale);
+    model = glm::mat4_cast(rotation) * model;
+    model = glm::translate(model, position);
+
+    glUniformMatrix4fv(glGetUniformLocation(material.Shader->Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, IndicesSize, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+}
+
 void GLMesh::Draw(GLShader& shader, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
 {
     glUseProgram(shader.Program);

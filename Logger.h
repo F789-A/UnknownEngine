@@ -3,7 +3,6 @@
 #include <string>
 #include <filesystem>
 #include <fstream>
-//#include <AppTime.h>
 #include <Singleton.h>
 #include <iostream>
 
@@ -32,7 +31,7 @@ public:
 		{
 			throw std::exception("Log file doesnt open");
 		}
-		File << "--------------"; //<< AppTime::GetInstance().GetTime() << "--------------" << std::endl;
+		File << "---------------------------";
 	}
 
 	std::fstream& GetFile()
@@ -43,7 +42,7 @@ public:
 	template<typename T>
 	void Log(T const& arg)
 	{
-		File << arg;
+		File << arg << std::endl;
 	}
 
 	template<typename T, typename... Ts>

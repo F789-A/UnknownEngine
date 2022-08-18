@@ -11,16 +11,21 @@
 #include "Singleton.h"
 #include "Skybox.h"
 #include "SharedGraphicsResources.h"
+#include "PostProcessing.h"
 
 class GraphicCore
 {
+
+	Skybox SkyboxThat;
+	std::unique_ptr<PostProcessing> PostProcess;
+
 	GraphicCore();
 	GraphicCore operator=(const GraphicCore&) = delete;
 	GraphicCore(const GraphicCore&) = delete;
 	GraphicCore(GraphicCore&& other) = delete;
 	GraphicCore& operator=(GraphicCore&& other) = delete;
 
-	Skybox SkyboxThat;
+	
 
 	~GraphicCore() = default;
 	unsigned int uniformCameraBlock;
@@ -28,7 +33,8 @@ class GraphicCore
 	GLCubemapTexture& GetSkyboxTexture();
 	GLShader& GetSkyboxShader();
 public:
-	static GraphicCore& GetInstance();
+	bool EnablePostProcessing = false;
 
+	static GraphicCore& GetInstance();
 	void UpdateGraphic();
 };

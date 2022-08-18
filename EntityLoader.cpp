@@ -43,13 +43,11 @@ void EntityLoader::Load()
 			}
 			if (componentName == "RenderMesh")
 			{
-
 				std::string paramRow = textTool.GetArea(str, "()");
 				std::vector<std::string> param = textTool.SplitAndDelSpace(paramRow, ',');
 
 				currentEntity->AddComponent<RenderMesh>(GLMesh((SinglRes->ModelCont.GetModelRef(param[0]).Meshes[0])),
 					SinglRes->GetMaterial(param[1]));
-
 			}
 			else if (componentName == "Camera")
 			{

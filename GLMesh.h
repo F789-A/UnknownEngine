@@ -11,6 +11,8 @@
 
 #include "GLShader.h"
 
+#include "GLMaterial.h"
+
 using uint = unsigned int;
 
 class GLMesh
@@ -33,12 +35,14 @@ public:
     GLMesh(GLMesh&& other) noexcept;
     GLMesh& operator=(GLMesh&& other) noexcept;
 
-    //TODO деструктор освобождающий ресурсы видеокарты
     ~GLMesh();
 
     //void Draw(GLShader& shader, glm::mat3 modelMat, std::vector<Texture> textures);
 
     void Draw(GLShader& shader, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
+
+    void Draw(const GLMaterial& material, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale);
+    void Draw(const GLMaterial& material, const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scale);
     //void DrawInstance(Shader& shader);
 };
 

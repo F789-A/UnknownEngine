@@ -1,5 +1,17 @@
 #include "GLTexture.h"
 
+GLTexture::GLTexture(int x, int y): _Type(GL_TEXTURE_2D)
+{
+	glGenTextures(1, &Id);
+	glBindTexture(GL_TEXTURE_2D, Id);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 GLTexture::GLTexture(const Texture& texture, int wrapS, int wrapT, bool generateMipmap, int minFilter, int magFilter):
 	HaveGPUResources(true), _Type(GL_TEXTURE_2D)
 {

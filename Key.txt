@@ -5,3 +5,4 @@ Backward = GLFW_KEY_S
 Escape = GLFW_KEY_ESCAPE
 UseQ = GLFW_KEY_Q
 UseR = GLFW_KEY_R
+UseE = GLFW_KEY_E

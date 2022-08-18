@@ -18,11 +18,16 @@ namespace ec
 	public:
 		int Id;
 
-		//добавить шаблонный конструктор с перечислением типов компонентов
+		
 		Entity() = delete;
 
 		Entity(EntityManagerBase& manager, int id) : LinkedEntityManager(&manager), Id(id)
 		{}
+
+		Entity(EntityManagerBase& manager, int id, int count) : LinkedEntityManager(&manager), Id(id)
+		{
+			Components.reserve(count);
+		}
 
 		template<typename T>
 		T& GetComponent()

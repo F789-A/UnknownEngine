@@ -105,6 +105,11 @@ public:
 	{
 		return TextureCont.GetTextureRef(path);
 	}
+
+	GLTexture& GetGLTextureRef(std::string path)
+	{
+		return GLTextureCont.GetGLTextureRef(path);
+	}
 	GLCubemapTexture& GetGLCubemapRef(std::string path)
 	{
 		return GLTextureCont.GetGLCubemapRef(path);

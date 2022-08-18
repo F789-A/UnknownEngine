@@ -16,7 +16,9 @@ protected:
 public:
 
 	uint Id;
-	
+
+	GLTexture(int x, int y);
+
 	int Type() const
 	{
 		return _Type;
@@ -37,6 +39,8 @@ public:
 class GLCubemapTexture: public GLTexture
 {
 public:
+
+	
 
 	GLCubemapTexture(const std::vector<Texture*>& textures, int minFilter = GL_LINEAR, int magFilter = GL_LINEAR,
 		int wrapS = GL_CLAMP_TO_EDGE, int wrapT = GL_CLAMP_TO_EDGE, int wrapR = GL_CLAMP_TO_EDGE);

@@ -216,6 +216,7 @@
     <ClInclude Include="ModelImporter.h" />
     <ClInclude Include="ObjImporter.h" />
     <ClInclude Include="PolygonGeometry.h" />
+    <ClInclude Include="PostProcessing.h" />
     <ClInclude Include="RenderMesh.h" />
     <ClInclude Include="AppTime.h" />
     <ClInclude Include="SharedGraphicsResources.h" />
@@ -229,12 +230,18 @@
     <ClInclude Include="ILoopUpdate.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="BasePostProcess.vert" />
+    <None Include="PPPixelization.frag" />
+    <None Include="Shaders\Diffuse.ueshad" />
+    <None Include="SimpleDiffuse.frag" />
+    <None Include="SimpleDiffuse.vert" />
     <None Include="testShader.frag" />
     <None Include="testShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Entites\entityList.txt" />
     <Text Include="Key.txt" />
+    <Text Include="Log.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

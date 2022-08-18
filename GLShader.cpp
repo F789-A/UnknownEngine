@@ -31,6 +31,7 @@ void GLShader::Validate()
         glGetProgramInfoLog(Program, 512, NULL, infoLog);
         Singleton<Logger> logger;
         logger->Log("ERROR::SHADER::PROGRAM::LINKING_FAILED\n", infoLog, "\n");
+        throw std::exception("__");
         //std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
         GlAssert(false, "");
     }
@@ -53,6 +54,7 @@ void GLShader::CreateAndAttachShader(const GLchar* pathShader, const GLint typeS
     {
         Singleton<Logger> logger;
         logger->Log("ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ\n", pathShader, "\n");
+        throw std::exception("__");
         //std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
         GlAssert(false, "");
     }
@@ -85,6 +87,7 @@ void GLShader::CreateAndAttachShader(const GLchar* pathShader, const GLint typeS
         }
         Singleton<Logger> logger;
         logger->Log("ERROR::SHADER::", type, "::COMPILATION_FAILED\n", infoLog, "\n");
+        throw std::exception("__");
         //std::cout << "ERROR::SHADER::" << type <<"::COMPILATION_FAILED\n" << infoLog << std::endl;
         GlAssert(false, "");
     };
@@ -128,15 +131,34 @@ GLShader::~GLShader()
 
 void GLShader::Use()
 {
-    DepthTest ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
-    glDepthFunc(DepthFunc);
-
-    CullFace ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
-    glCullFace(CullMode);
-    glFrontFace(FrontFaceMode);
-
-    Blend ? glEnable(GL_BLEND) : glDisable(GL_BLEND);
-    glBlendFunc(BlendSourceFunc, BlendDestinationFunc);
+    if (DepthTest)
+    {
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(DepthFunc);
+    }
+    else
+    {
+        glDisable(GL_DEPTH_TEST);
+    }
+    if (CullFace)
+    {
+        glEnable(GL_CULL_FACE);
+        glCullFace(CullMode);
+        glFrontFace(FrontFaceMode);
+    }
+    else
+    {
+        glDisable(GL_CULL_FACE);
+    }
+    if (Blend)
+    {
+        glEnable(GL_BLEND);
+        glBlendFunc(BlendSourceFunc, BlendDestinationFunc);
+    }
+    else
+    {
+        glDisable(GL_BLEND);
+    }
 
     glUseProgram(this->Program);
 }
@@ -144,23 +166,27 @@ void GLShader::Use()
 void GLShader::SetVec3(const std::string& name, glm::vec3 vec)
 {
     GLint objectParam = glGetUniformLocation(Program, name.c_str());
+    glUseProgram(Program);
     glUniform3f(objectParam, vec[0], vec[1], vec[2]);
 }
 
 void GLShader::SetFloat(const std::string& name, GLfloat a)
 {
     GLint objectParam = glGetUniformLocation(Program, name.c_str());
+    glUseProgram(Program);
     glUniform1f(objectParam, a);
 }
 
 void GLShader::SetInt(const std::string& name, GLint a)
 {
     GLint objectParam = glGetUniformLocation(Program, name.c_str());
+    glUseProgram(Program);
     glUniform1i(objectParam, a);
 }
 
 void GLShader::SetTexture(const std::string& name, const GLTexture& a, int target)
 {
+    glUseProgram(Program);
     glActiveTexture(GL_TEXTURE0 + target);
     glUniform1i(glGetUniformLocation(Program, name.c_str()), target);
     glBindTexture(a.Type(), a.Id); // костыль

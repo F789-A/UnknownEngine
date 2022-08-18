@@ -1,0 +1,2 @@
+texture diffuse Textures/wood.jpg
+shader_path Shaders\Diffuse.ueshad

@@ -26,5 +26,5 @@ public:
 
 	GLMaterial(GLShader& shader);
 
-	void Use();
+	void Use() const;
 };

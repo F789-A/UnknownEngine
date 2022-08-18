@@ -12,16 +12,21 @@
 class RenderMesh: public ec::Component, public ILoopUpdate<UpdateType::GraphicLoop>
 {
 private:
+	//std::weak_ptr<Transform> Transf;
+
 
 public:
 	GLMesh RenderedMesh;
 	GLMaterial RenderMaterial;
 
+	RenderMesh(GLMesh renderedMesh, GLMaterial renderMaterial);
+
 	RenderMesh(const RenderMesh&) = delete;
 	RenderMesh operator=(const RenderMesh&) = delete;
+
 	~RenderMesh() override = default;
 
-	RenderMesh(GLMesh renderedMesh, GLMaterial renderMaterial);
+
 
 	void Update() override;
 };

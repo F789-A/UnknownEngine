@@ -3,7 +3,7 @@
 GLMaterial::GLMaterial(GLShader& shader): Shader(&shader)
 {}
 
-void GLMaterial::Use()
+void GLMaterial::Use() const 
 {
 	Shader->Use();
 	for (auto l : ParametersInt)
