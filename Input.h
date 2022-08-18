@@ -2,7 +2,7 @@
 #include <glad/glad.h> 
 #include <GLFW\glfw3.h>
 
-#include "EngineCore/WindowApp.h"
+#include "WindowApp.h"
 #include <map>
 #include <string>
 

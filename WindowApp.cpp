@@ -16,13 +16,21 @@ inline void WindowApp::SetupWindowApp(unsigned int width, unsigned int height, s
 
 	Window = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
 
-	GlAssert(Window != nullptr, "Failed to create GLFW window");
+	if (Window == nullptr)
+	{
+		std::cout << "Failed to create GLFW window";
+		assert(false);
+	}
 
 	glfwMakeContextCurrent(Window);
 
 	bool loadedGLL = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
-	GlAssert(loadedGLL, "Failed to initialize GLAD");
+	if (!loadedGLL)
+	{
+		std::cout << "Failed to initialize GLAD";
+		assert(false);
+	}
 
 	glfwGetFramebufferSize(Window, &WindowWidth, &WindowHeight);
 	glViewport(0, 0, WindowWidth, WindowHeight);

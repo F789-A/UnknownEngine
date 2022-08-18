@@ -16,7 +16,7 @@
 #include "GLMaterial.h"
 #include "SharedGraphicsResources.h"
 
-#include "Input/Input.h"
+#include "Input.h"
 #include "StringToGLFWKey.h"
 
 class EntityLoader

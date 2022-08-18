@@ -1,10 +1,10 @@
 #pragma once
 #include "ILoopUpdate.h"
 #include "Component.h"
-#include "Input\Input.h"
+#include "Input.h"
 #include "GLShader.h"
 #include "SharedGraphicsResources.h"
-#include "Graphics/GraphicCore.h"
+#include "GraphicCore.h"
 
 
 class EscapeHandler : public ec::Component, public ILoopUpdate<UpdateType::GameLoop>

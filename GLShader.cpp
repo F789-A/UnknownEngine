@@ -33,7 +33,7 @@ void GLShader::Validate()
         logger->Log("ERROR::SHADER::PROGRAM::LINKING_FAILED\n", infoLog, "\n");
         throw std::exception("__");
         //std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-        GlAssert(false, "");
+        //GlAssert(false, "");
     }
 }
 
@@ -56,7 +56,7 @@ void GLShader::CreateAndAttachShader(const GLchar* pathShader, const GLint typeS
         logger->Log("ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ\n", pathShader, "\n");
         throw std::exception("__");
         //std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-        GlAssert(false, "");
+        //assert(false, "");
     }
     const GLchar* cShaderCode = shaderCode.c_str();
 
@@ -89,7 +89,7 @@ void GLShader::CreateAndAttachShader(const GLchar* pathShader, const GLint typeS
         logger->Log("ERROR::SHADER::", type, "::COMPILATION_FAILED\n", infoLog, "\n");
         throw std::exception("__");
         //std::cout << "ERROR::SHADER::" << type <<"::COMPILATION_FAILED\n" << infoLog << std::endl;
-        GlAssert(false, "");
+        //assert(false);
     };
 
     glAttachShader(Program, shader);

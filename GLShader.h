@@ -9,7 +9,6 @@
 #include <fstream>
 #include <sstream>
 
-#include "EngineCore/GlAssert.h"
 #include "GLTexture.h"
 #include "Logger.h"
 

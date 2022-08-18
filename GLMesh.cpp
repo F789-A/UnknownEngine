@@ -1,5 +1,5 @@
 #include "GLMesh.h"
-#include "Graphics/GraphicCore.h"
+#include "GraphicCore.h"
 
 GLMesh::GLMesh(const Mesh& mesh)
 {

@@ -51,18 +51,6 @@
     <ClCompile Include="GameLoop.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="EngineCore\WindowApp.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineCore\Main.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\GraphicCore.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\Input.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="ModelImporter.cpp">
       <Filter>Source Files\Assets</Filter>
     </ClCompile>
@@ -117,14 +105,23 @@
     <ClCompile Include="EntityManager.cpp">
       <Filter>Source Files\ComponentSystem</Filter>
     </ClCompile>
-    <ClCompile Include="EngineCore\GlAssert.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineCore\glad.c">
-      <Filter>Source Files\Alien</Filter>
-    </ClCompile>
     <ClCompile Include="GLMesh.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCore.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowApp.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AlienHeadersLib\glad.c">
+      <Filter>Source Files\Alien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -141,15 +138,6 @@
       <Filter>Source Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="GameLoop.h">
-      <Filter>Source Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineCore\WindowApp.h">
-      <Filter>Source Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\GraphicCore.h">
-      <Filter>Source Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Input\Input.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="EntityManager.h">
@@ -212,9 +200,6 @@
     <ClInclude Include="Texture.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="stb_image.h">
-      <Filter>Source Files\Alien</Filter>
-    </ClInclude>
     <ClInclude Include="Singleton.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
@@ -233,9 +218,6 @@
     <ClInclude Include="Logger.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="EngineCore\GlAssert.h">
-      <Filter>Source Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="GLMesh.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
@@ -250,6 +232,18 @@
     </ClInclude>
     <ClInclude Include="PostProcessing.h">
       <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCore.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowApp.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AlienHeadersLib\stb_image.h">
+      <Filter>Source Files\Alien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

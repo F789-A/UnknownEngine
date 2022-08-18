@@ -1,8 +1,8 @@
 #pragma once
-#include "EngineCore/WindowApp.h"
+#include "WindowApp.h"
 
-#include "Graphics/GraphicCore.h"
-#include "Input/Input.h"
+#include "GraphicCore.h"
+#include "Input.h"
 
 #include <vector>
 

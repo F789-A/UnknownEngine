@@ -1,4 +1,4 @@
-#include "Input/Input.h"
+#include "Input.h"
 
 Input::Input() : NameToKey()
 {

@@ -6,7 +6,7 @@
 #include "Transform.h"
 #include "Camera.h"
 #include "EntityManager.h"
-#include "Input/Input.h"
+#include "Input.h"
 #include <glm/gtx/vector_angle.hpp>
 
 class CameraController : public ec::Component, public ILoopUpdate<UpdateType::GameLoop>

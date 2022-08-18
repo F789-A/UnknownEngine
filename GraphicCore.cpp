@@ -1,4 +1,4 @@
-#include "Graphics/GraphicCore.h"
+#include "GraphicCore.h"
 
 GraphicCore::GraphicCore(): SkyboxThat(GetSkyboxTexture(), GetSkyboxShader())
 {

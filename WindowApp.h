@@ -3,8 +3,7 @@
 #include <iostream>
 #include <glad/glad.h> 
 #include <GLFW\glfw3.h>
-
-#include "GlAssert.h"
+#include <cassert>
 
 class WindowApp
 {
