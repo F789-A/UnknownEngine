@@ -9,7 +9,6 @@ class SimpleTextProcessor
 private:
 	
 public:
-
 	std::vector<std::string> SplitAndDelSpace(const std::string& strIn, const char sep)
 	{
 		std::vector<std::string> res;

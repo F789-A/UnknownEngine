@@ -15,9 +15,9 @@
 
 class GraphicCore
 {
-
-	Skybox SkyboxThat;
+	std::unique_ptr<Skybox> CurrentSkybox;
 	std::unique_ptr<PostProcessing> PostProcess;
+	unsigned int uniformCameraBlock;
 
 	GraphicCore();
 	GraphicCore operator=(const GraphicCore&) = delete;
@@ -25,13 +25,8 @@ class GraphicCore
 	GraphicCore(GraphicCore&& other) = delete;
 	GraphicCore& operator=(GraphicCore&& other) = delete;
 
-	
-
 	~GraphicCore() = default;
-	unsigned int uniformCameraBlock;
 
-	GLCubemapTexture& GetSkyboxTexture();
-	GLShader& GetSkyboxShader();
 public:
 	bool EnablePostProcessing = false;
 

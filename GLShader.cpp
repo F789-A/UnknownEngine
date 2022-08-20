@@ -31,9 +31,7 @@ void GLShader::Validate()
         glGetProgramInfoLog(Program, 512, NULL, infoLog);
         Singleton<Logger> logger;
         logger->Log("ERROR::SHADER::PROGRAM::LINKING_FAILED\n", infoLog, "\n");
-        throw std::exception("__");
-        //std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-        //GlAssert(false, "");
+        throw std::exception("Error shader program linking failed");
     }
 }
 
@@ -54,9 +52,7 @@ void GLShader::CreateAndAttachShader(const GLchar* pathShader, const GLint typeS
     {
         Singleton<Logger> logger;
         logger->Log("ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ\n", pathShader, "\n");
-        throw std::exception("__");
-        //std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-        //assert(false, "");
+        throw std::exception("Error shader file not read");
     }
     const GLchar* cShaderCode = shaderCode.c_str();
 
@@ -72,24 +68,14 @@ void GLShader::CreateAndAttachShader(const GLchar* pathShader, const GLint typeS
     if (!success)
     {
         glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        std::string type = "---";
-        if (typeShader == GL_VERTEX_SHADER)
-        {
-            type = "VERTEX";
-        } 
-        else  if (typeShader == GL_GEOMETRY_SHADER)
-        {
-            type = "GEOMETRY";
-        }
-        else  if (typeShader == GL_FRAGMENT_SHADER)
-        {
-            type = "FRAGMENT";
-        }
+        std::map<int, std::string> shadType = {
+            {GL_VERTEX_SHADER, "VERTEX"},
+            {GL_GEOMETRY_SHADER, "GEOMETRY"},
+            {GL_FRAGMENT_SHADER, "FRAGMENT"}
+        };
         Singleton<Logger> logger;
-        logger->Log("ERROR::SHADER::", type, "::COMPILATION_FAILED\n", infoLog, "\n");
-        throw std::exception("__");
-        //std::cout << "ERROR::SHADER::" << type <<"::COMPILATION_FAILED\n" << infoLog << std::endl;
-        //assert(false);
+        logger->Log("ERROR::SHADER::", shadType.at(typeShader), "::COMPILATION_FAILED\n", infoLog, "\n");
+        throw std::exception("Shader compilation failed");
     };
 
     glAttachShader(Program, shader);
@@ -189,7 +175,7 @@ void GLShader::SetTexture(const std::string& name, const GLTexture& a, int targe
     glUseProgram(Program);
     glActiveTexture(GL_TEXTURE0 + target);
     glUniform1i(glGetUniformLocation(Program, name.c_str()), target);
-    glBindTexture(a.Type(), a.Id); // костыль
+    glBindTexture(a.Type(), a.Id); // TODO подумать над различием кубических карт с обычными
 
     glActiveTexture(GL_TEXTURE0);
 }

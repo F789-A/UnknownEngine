@@ -2,7 +2,6 @@
 
 glm::vec3 CalculateTangent(const std::array<glm::vec3, 3>& pos, const std::array<glm::vec2, 3>& uv)
 {
-
 	glm::vec3 edge1 = pos[1] - pos[0];
 	glm::vec3 edge2 = pos[2] - pos[0];
 	glm::vec2 deltaUV1 = uv[1] - uv[0];

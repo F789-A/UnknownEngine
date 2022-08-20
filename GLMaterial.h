@@ -1,13 +1,13 @@
 #pragma once
-#include "GLShader.h"
-#include "GLTexture.h"
+#include <glad/glad.h>  
+#include <GLFW\glfw3.h>
 
 #include <string>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <glad/glad.h>  
-#include <GLFW\glfw3.h>
+#include "GLShader.h"
+#include "GLTexture.h"
 
 #include <filesystem>
 #include <map>
@@ -22,9 +22,11 @@ public:
 	std::map<std::string, float> ParametersFloat;
 	std::map<std::string, glm::vec3> ParametersVec3;
 
-	~GLMaterial() = default;
+	GLMaterial() = delete;
 
 	GLMaterial(GLShader& shader);
+
+	~GLMaterial() = default;
 
 	void Use() const;
 };

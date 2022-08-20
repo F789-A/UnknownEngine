@@ -25,6 +25,11 @@ namespace ec
 			return LinkedEntityManager->GetEntity(LinkedEntity);
 		}
 
+		const Entity& GetLinkedEntity() const
+		{
+			return LinkedEntityManager->GetEntity(LinkedEntity);
+		}
+
 		virtual ~Component() = default;
 	};
 }

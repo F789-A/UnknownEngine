@@ -3,6 +3,7 @@
 #include "ILoopUpdate.h"
 #include <iostream>
 
+//Test class for ec, will be deleted
 class ComponentThatAlwaysSayHello : public ec::Component, public ILoopUpdate<UpdateType::GameLoop>
 {
 public:
@@ -12,11 +13,6 @@ public:
 	{
 		std::cout << message << std::endl;
 	}
-
-	ComponentThatAlwaysSayHello operator=(const ComponentThatAlwaysSayHello&) = delete;
-	ComponentThatAlwaysSayHello(const ComponentThatAlwaysSayHello&) = delete;
-	ComponentThatAlwaysSayHello& operator=(ComponentThatAlwaysSayHello&&) = delete;
-	ComponentThatAlwaysSayHello(ComponentThatAlwaysSayHello&&) = delete;
 
 	void Update() override
 	{

@@ -38,12 +38,15 @@ GLMesh::GLMesh(GLMesh&& other) noexcept : VAO(other.VAO), VBO(other.VBO), EBO(ot
 }
 GLMesh& GLMesh::operator=(GLMesh&& other) noexcept
 {
-    VAO = other.VAO;
-    VBO = other.VBO;
-    EBO = other.EBO;
-    IndicesSize = other.IndicesSize;
-    HaveGPUResources = true;
-    other.HaveGPUResources = false;
+    if (this != &other)
+    {
+        VAO = other.VAO;
+        VBO = other.VBO;
+        EBO = other.EBO;
+        IndicesSize = other.IndicesSize;
+        HaveGPUResources = true;
+        other.HaveGPUResources = false;
+    }
     return *this;
 }
 

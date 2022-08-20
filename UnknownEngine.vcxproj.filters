@@ -16,9 +16,6 @@
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{8d3b398f-4f56-444c-b986-1aa468adc165}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Input">
-      <UniqueIdentifier>{f2e66ba6-9864-42e4-a390-51a3a376ae00}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Assets">
       <UniqueIdentifier>{7d04285b-f8e0-4352-be64-f7e3fa399d13}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,9 @@
     </Filter>
     <Filter Include="Source Files\Alien">
       <UniqueIdentifier>{793cd6d0-5c1c-4e6f-8301-2b5e19b29c44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resources">
+      <UniqueIdentifier>{4d66d104-51f5-40a4-a464-fdc9fc1659f4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -78,9 +78,6 @@
     <ClCompile Include="EntityLoader.cpp">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClCompile>
-    <ClCompile Include="LegacyCamera.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="AppInitializer.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
@@ -98,9 +95,6 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Logger.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EntityManager.cpp">
       <Filter>Source Files\ComponentSystem</Filter>
@@ -122,6 +116,12 @@
     </ClCompile>
     <ClCompile Include="AlienHeadersLib\glad.c">
       <Filter>Source Files\Alien</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="AppTime.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -179,9 +179,6 @@
     <ClInclude Include="CameraController.h">
       <Filter>Source Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="LegacyCamera.h">
-      <Filter>Source Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="AppInitializer.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
@@ -215,9 +212,6 @@
     <ClInclude Include="EntityManagerBase.h">
       <Filter>Source Files\ComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Logger.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="GLMesh.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
@@ -245,6 +239,9 @@
     <ClInclude Include="AlienHeadersLib\stb_image.h">
       <Filter>Source Files\Alien</Filter>
     </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="testShader.vert">
@@ -266,18 +263,18 @@
       <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Shaders\Diffuse.ueshad">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Resources</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Log.txt">
+      <Filter>Source Files\Resources</Filter>
+    </Text>
     <Text Include="Entites\entityList.txt">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Resources</Filter>
     </Text>
     <Text Include="Key.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="Log.txt">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Resources</Filter>
     </Text>
   </ItemGroup>
 </Project>

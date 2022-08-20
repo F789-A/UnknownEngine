@@ -1,13 +1,20 @@
 #include "GraphicCore.h"
 
-GraphicCore::GraphicCore(): SkyboxThat(GetSkyboxTexture(), GetSkyboxShader())
+GraphicCore::GraphicCore()
 {
+	//init advice
 	Singleton<SharedGraphicsResources> SinglRes;
 	GLShader& shad = SinglRes->GetShaderRef("Shaders/Pixelization.ueshad");
 	PostProcess = std::make_unique<PostProcessing>(shad);
-	shad.SetInt("aspectX", WindowApp::GetInstance().Width());
+	shad.SetInt("aspectX", WindowApp::GetInstance().Width()); // TODO вариационный шаблон для установления параметров по умолчанию для PC
 	shad.SetInt("aspectY", WindowApp::GetInstance().Height());
 	shad.SetInt("intencity", 100);
+
+	GLCubemapTexture& skMap = SinglRes->GetGLCubemapRef("skybox/DefaultSkybox.ueskybox");
+	GLShader& skShad = SinglRes->GetShaderRef("Shaders/Skybox.ueshad");
+	CurrentSkybox = std::make_unique<Skybox>(skMap, skShad);
+
+	//init GL
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 	glGenBuffers(1, &uniformCameraBlock);
@@ -17,21 +24,6 @@ GraphicCore::GraphicCore(): SkyboxThat(GetSkyboxTexture(), GetSkyboxShader())
 	glBindBufferBase(GL_UNIFORM_BUFFER, 2, uniformCameraBlock);
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glfwSetInputMode(WindowApp::GetInstance().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-}
-
-GLCubemapTexture& GraphicCore::GetSkyboxTexture()
-{ 
-
-	Singleton<SharedGraphicsResources> SinglRes;
-
-	GLCubemapTexture& res = SinglRes->GetGLCubemapRef("skybox/DefaultSkybox.ueskybox");
-	return res;
-}
-
-GLShader& GraphicCore::GetSkyboxShader()
-{
-	Singleton<SharedGraphicsResources> SinglRes;
-	return SinglRes->GetShaderRef("Shaders/Skybox.ueshad");
 }
 
 GraphicCore& GraphicCore::GetInstance()
@@ -59,7 +51,10 @@ void GraphicCore::UpdateGraphic()
 		ILoopUpdate<UpdateType::GraphicLoop>::UpdateVector[i]->Update();
 	}
 
-	SkyboxThat.Draw(view, projection);
+	if (CurrentSkybox.get() != nullptr)
+	{
+		CurrentSkybox->Draw(view, projection);
+	}
 
 	if (EnablePostProcessing)
 	{

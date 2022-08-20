@@ -6,7 +6,6 @@
 class ICamera
 {
 public:
-
 	static ICamera* MainCamera;
 
 	void SetCamera()
@@ -14,7 +13,7 @@ public:
 		MainCamera = this;
 	}
 
-	virtual glm::mat4 GetViewMatrix() = 0;
-	virtual float GetFOV() = 0;
+	virtual glm::mat4 GetViewMatrix() const = 0;
+	virtual float GetFOV() const = 0;
 };
 

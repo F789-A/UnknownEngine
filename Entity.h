@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <memory>
+#include <exception>
 
 
 namespace ec
@@ -39,12 +40,24 @@ namespace ec
 					return *static_cast<T*>(Components[i].get());
 				}
 			}
-			throw "Потом";
+			throw std::exception("Component doesn't exists");
+		}
 
+		template<typename T>
+		const T& GetComponent() const
+		{
+			for (int i = 0; i < Components.size(); i++)
+			{
+				if (typeid(T) == typeid(*Components[i]))
+				{
+					return *static_cast<T*>(Components[i].get());
+				}
+			}
+			throw "Потом";
 		}
 
 		template<typename T, typename... Args>
-		T& AddComponent(Args&&... args)
+		T& AddComponent(Args&&... args) // для удобства
 		{
 			Components.push_back(std::make_unique<T>(std::forward<Args>(args)...));
 			Components.back()->SetLinkedEntity(LinkedEntityManager, Id);

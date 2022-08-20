@@ -11,7 +11,7 @@ Texture::Texture(std::string path)
 	Data = std::vector<ubyte>(data, data + Width * Height * NumberComponents);
 	if (!data)
 	{
-		//std::cout << "Texture failed to load at path: " << path << std::endl;
-		//stbi_image_free(data);
+		throw std::exception("Texture failed to load");
+		stbi_image_free(data);
 	}
 }

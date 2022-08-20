@@ -1,28 +1,26 @@
 #pragma once
-#include <vector>
 
 #include <glad/glad.h>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <vector>
+
 #include "Component.h"
-#include "ILoopUpdate.h"
 #include "Transform.h"
-#include "EntityManager.h"
 #include "ICamera.h"
 
 class Camera: public ec::Component, public ICamera
 {
 public:
-
+    Camera(GLfloat nearClip = 0.1f, GLfloat farClip = 100.0f, GLfloat zoom = glm::radians(45.0));
     ~Camera() override = default;
 
     GLfloat Zoom;
     GLfloat NearClip;
     GLfloat FarClip;
-
-    Camera(GLfloat NearClip = 0.1f, GLfloat FarClip = 100.0f);
-    glm::mat4 GetViewMatrix();
-    float GetFOV();
-
+   
+    glm::mat4 GetViewMatrix() const;
+    float GetFOV() const;
 };

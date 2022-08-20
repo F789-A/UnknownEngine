@@ -6,7 +6,7 @@
 #include <GLFW\glfw3.h>
 
 using uint = unsigned int;
-
+//TODO убрать насследование или общий абстрактный, иначе слегка неуместно
 class GLTexture
 {
 protected:
@@ -39,9 +39,6 @@ public:
 class GLCubemapTexture: public GLTexture
 {
 public:
-
-	
-
 	GLCubemapTexture(const std::vector<Texture*>& textures, int minFilter = GL_LINEAR, int magFilter = GL_LINEAR,
 		int wrapS = GL_CLAMP_TO_EDGE, int wrapT = GL_CLAMP_TO_EDGE, int wrapR = GL_CLAMP_TO_EDGE);
 

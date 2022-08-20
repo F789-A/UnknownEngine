@@ -30,32 +30,32 @@ void Input::BindKey(std::string name, int key)
 	NameToKey[name] = key;
 }
 
-bool Input::GetButton(std::string name, int mode)
+bool Input::GetButton(std::string name, int mode) const
 {
-	return GetKey(NameToKey[name], mode);
+	return GetKey(NameToKey.at(name) , mode);
 }
 
-bool Input::GetKey(int key, int mode)
+bool Input::GetKey(int key, int mode) const
 {
 	return glfwGetKey(WindowApp::GetInstance().GetWindow(), key) == mode;
 }
 
-float Input::MouseDeltaX()
+float Input::MouseDeltaX() const
 {
 	return MousePosX - PrevMousePosX;
 }
 
-float Input::MouseDeltaY()
+float Input::MouseDeltaY() const
 {
 	return MousePosY - PrevMousePosY;
 }
 
-float Input::GetMousePosX()
+float Input::GetMousePosX() const
 {
 	return MousePosX;
 }
 
-float Input::GetMousePosY()
+float Input::GetMousePosY() const
 {
 	return MousePosY;
 }

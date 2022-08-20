@@ -34,3 +34,9 @@ void Skybox::Draw(glm::mat4 view, glm::mat4 projection)
 	glDepthMask(GL_TRUE);
 	glDepthFunc(GL_LESS);
 }
+
+Skybox::~Skybox()
+{
+	glDeleteBuffers(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+}

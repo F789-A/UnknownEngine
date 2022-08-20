@@ -1,25 +1,36 @@
 #include "CameraController.h"
 
+CameraController::CameraController(float mouseSensitivity, float speed):
+    MouseSensitivity(mouseSensitivity),
+    Speed(speed)
+{}
 
 void CameraController::Update()
 {
     Transform& transf = GetLinkedEntity().GetComponent<Transform>();
 	Camera& camera = GetLinkedEntity().GetComponent<Camera>();
+    
+    glm::vec3 movement(0, 0, 0);
     if (Input::GetInstance().GetButton("Front", GLFW_PRESS) == true)
     {
-        transf.Position += transf.Front() * Speed;
+        movement += transf.Front();
     }
     if (Input::GetInstance().GetButton("Backward", GLFW_PRESS) == true)
     {
-        transf.Position -= transf.Front() * Speed;
+        movement -= transf.Front();
     }
     if (Input::GetInstance().GetButton("Left", GLFW_PRESS) == true)
     {
-        transf.Position -= transf.Right() * Speed;
+        movement -= transf.Right();
     }
     if (Input::GetInstance().GetButton("Right", GLFW_PRESS) == true)
     {
-        transf.Position += transf.Right() * Speed;
+        movement += transf.Right();
+    }
+    if (movement != glm::vec3(0, 0, 0))
+    {
+        float mult = AppTime::GetInstance().GetDeltaTime() * 1000;
+        transf.Position += glm::normalize(movement) * Speed * mult;
     }
 
     float xoffset = -Input::GetInstance().MouseDeltaX() * MouseSensitivity;
@@ -44,15 +55,3 @@ void CameraController::Update()
     transf.Rotate(glm::vec3(0, 1, 0), xoffset);
     transf.Rotate(transf.Right(), yoffset);
 }
-
-/*void CameraController::ProcessMouseScroll(GLfloat yoffset)
-{
-    if (this->Zoom >= 1.0f && this->Zoom <= 45.0f)
-    {
-        this->Zoom -= yoffset;
-    }
-    if (this->Zoom <= 1.0f)
-        this->Zoom = 1.0f;
-    if (this->Zoom >= 45.0f)
-        this->Zoom = 45.0f;
-}*/

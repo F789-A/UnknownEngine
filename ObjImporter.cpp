@@ -1,6 +1,9 @@
 #include "ObjImporter.h"
 
-namespace ObjFileIdentifier
+//Поддерживаются только основные тэги проверялось только на файлах от 3d max (толком не тестировалось)
+//Некоторые негеометрические алгоритмы неоптимальны. Требуется серьезная доработка
+
+namespace ObjFileIdentifier // можно ли изящнее?
 {
 	constexpr const char* MtlLib = "mtllib";
 	constexpr const char* Vert = "v";
@@ -12,46 +15,22 @@ namespace ObjFileIdentifier
 	//constexpr const char* NewMatMtl = "newmtl";
 }
 
-//заменить pushback
-
-std::vector<int> SplitToNum(std::string word)
-{
-	std::vector<int> result;
-	std::string str;
-	for (int i = 0; i < word.length(); i++)
-	{
-		if (word[i] == '/')
-		{
-			int res = std::stoi(str);
-			result.push_back(res);
-			str = "";
-		}
-		else
-		{
-			str += word[i];
-		}
-	}
-	int res = std::stoi(str);
-	result.push_back(res);
-	return result;
-}
-
 Model ImportObj(std::filesystem::path path)
 {
 	std::map<std::string, Mesh> meshes;
 	std::map<std::string, std::string> texture;
 	std::string name;
 	std::string mtlLibFile;
-	int test = 0;
+	int numOfInd = 0;
 	std::vector<glm::vec3> pos;
 	std::vector<glm::vec3> tex;
 	std::vector<glm::vec3> norm;
-
+	SimpleTextProcessor textTool;
 	std::ifstream objFile(path);
 
 	if (!objFile)
 	{
-		throw std::exception("Модель не найдена");
+		throw std::exception("Model file doesnt open");
 	}
 
 	std::string str;
@@ -114,29 +93,21 @@ Model ImportObj(std::filesystem::path path)
 			for (; ist >> word;)
 			{
 				Vertex vert;
-				std::vector<int> index = SplitToNum(word);
-				vert.position = pos[index[0] - 1]; // TODO норм split сделать
-				vert.texCoords = tex[index[1] - 1];
-				vert.normal = norm[index[2] - 1];
+				std::vector<std::string> index = textTool.SplitAndDelSpace(word, '/');
+				vert.position = pos[std::atoi(index[0].c_str()) - 1];
+				vert.texCoords = tex[std::atoi(index[1].c_str()) - 1];
+				vert.normal = norm[std::atoi(index[2].c_str()) - 1];
 				meshes[name].Vertices.push_back(vert);
 
-				//indecesOfPolygon.push_back(index[0] - 1);
-				indecesOfPolygon.push_back(test);
-				test++;
+				indecesOfPolygon.push_back(numOfInd);
+				numOfInd++;
 			}
 
-			//std::vector<unsigned int> triangulateIndeces = Triangulate(pos, indecesOfPolygon);
-
 			meshes[name].Indices.insert(meshes[name].Indices.end(), indecesOfPolygon.begin(), indecesOfPolygon.end());
-
-			//for (int i = 0; i < triangulateIndeces.size(); i++)
-			//{
-			//	meshes[name].Indices.push_back(triangulateIndeces[i]);
-			//}
 		}
 	}
 
-	//
+	//Calculate tangent
 	std::array<glm::vec3, 3> posT;
 	std::array<glm::vec2, 3> uvT;
 	for (int i = 0; i < meshes[name].Indices.size(); i += 3)
@@ -156,7 +127,7 @@ Model ImportObj(std::filesystem::path path)
 		meshes[name].Vertices[meshes[name].Indices[i + 2]].tangentVec = tangent;
 	}
 
-
+	//Обработка Mtl
 	/*mtllib = (std::filesystem::path(path).parent_path()).string() + "//" + mtllib;
 
 	std::ifstream mtlFile(mtllib);

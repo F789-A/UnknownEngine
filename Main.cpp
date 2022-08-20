@@ -1,6 +1,5 @@
 #include "AppInitializer.h"
 
-
 int main()
 {
 	RunApp();

@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <exception>
 
 enum class UpdateType
 {
@@ -24,12 +25,12 @@ private:
 		}
 		else
 		{
-			throw "уже подписан";
+			throw std::exception("Component already subscribed");
 		}
 	}
 
 public:
-	static std::vector<ILoopUpdate*> UpdateVector; // заменить на лист или шаблонный с размером
+	static std::vector<ILoopUpdate*> UpdateVector; // TODO: замерить производительность с другими контейнерами
 
 	virtual void Update() = 0;
 
@@ -44,7 +45,7 @@ protected:
 		Subscribe();
 	}
 
-	~ILoopUpdate()
+	~ILoopUpdate() //TODO: неэффективное удаление, подумать над решением
 	{
 		for (int i = 0; i < UpdateVector.size(); i++)
 		{
@@ -54,7 +55,6 @@ protected:
 				break;
 			}
 		}
-		//UpdateVector.erase(UpdateVector.begin() + Index);
 	}
 };
 

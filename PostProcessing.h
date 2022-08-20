@@ -13,7 +13,10 @@ class PostProcessing
 
 	GLShader* Shader;
 public:
-
+	PostProcessing(const PostProcessing&) = delete;
+	PostProcessing operator=(const PostProcessing&) = delete;
+	PostProcessing(PostProcessing&&) = delete;
+	PostProcessing& operator=(PostProcessing&&) = delete;
 
 	PostProcessing(GLShader& shader) : Shader(&shader), Texture(800, 600)
 	{
@@ -78,4 +81,13 @@ public:
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 	}
+
+	~PostProcessing()
+	{
+		glDeleteBuffers(1, &VBO);
+		glDeleteBuffers(1, &FBO);
+		glDeleteBuffers(1, &VAO);
+		glDeleteBuffers(1, &RBO);
+	}
 };
+

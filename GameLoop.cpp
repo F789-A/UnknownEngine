@@ -29,6 +29,7 @@ void GameLoop::Loop()
 		{
 			ILoopUpdate<UpdateType::GameLoop>::UpdateVector[i]->Update();
 		}
+
 		GraphicCore::GetInstance().UpdateGraphic();
 	}
 }
@@ -40,7 +41,7 @@ void GameLoop::ConstructScene()
 	h.Load();
 }
 
-float GameLoop::GetDeltaTime()
+float GameLoop::GetDeltaTime() const
 {
 	return DeltaTime;
 }

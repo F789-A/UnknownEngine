@@ -24,15 +24,15 @@ private:
 	GLdouble MousePosY;
 	
 public:
-	float MouseDeltaX();
-	float MouseDeltaY();
+	float MouseDeltaX() const;
+	float MouseDeltaY() const;
 
-	float GetMousePosX();
-	float GetMousePosY();
+	float GetMousePosX() const;
+	float GetMousePosY()const ;
 
 	void BindKey(std::string name, int key);
-	bool GetButton(std::string name, int mode);
-	bool GetKey(int key, int mode);
+	bool GetButton(std::string name, int mode) const;
+	bool GetKey(int key, int mode) const;
 
 	static Input& GetInstance();
 

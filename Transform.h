@@ -12,31 +12,24 @@ public:
 
 	~Transform() override = default;
 
-	Transform()
-	{
-		Position = glm::vec3(0, 0, 0);
-		Rotation = glm::quat(1, 0, 0, 0);
-		Scale = glm::vec3(1, 1, 1);
-	}
-
-	Transform(glm::vec3 pos)
+	Transform(glm::vec3 pos = glm::vec3(0, 0, 0), glm::quat rot = glm::quat(1, 0, 0, 0), glm::vec3 scale = glm::vec3(1, 1, 1))
 	{
 		Position = pos;
-		Rotation = glm::quat(1, 0, 0, 0);
-		Scale = glm::vec3(1, 1, 1);
+		Rotation = rot;
+		Scale = scale;
 	}
 
-	glm::vec3 Front()
+	glm::vec3 Front() const
 	{
 		return Rotation * glm::vec3(1, 0, 0);
 	}
 
-	glm::vec3 Right()
+	glm::vec3 Right() const
 	{
 		return Rotation * glm::vec3(0, 0, 1);
 	}
 
-	glm::vec3 EulerAngle()
+	glm::vec3 EulerAngle() const
 	{
 		return eulerAngles(Rotation);
 	}
@@ -49,7 +42,5 @@ public:
 		quat.y = axis.y * sin(angle / 2);
 		quat.z = axis.z * sin(angle / 2);
 		Rotation = quat * Rotation;
-
 	}
-
 };

@@ -64,6 +64,11 @@ public:
 
 public:
 	Skybox(GLCubemapTexture& map, GLShader& shader);
-
+	Skybox operator=(const Skybox&) = delete;
+	Skybox(const Skybox&) = delete;
+	Skybox(Skybox&&) = delete;
+	Skybox& operator=(Skybox&&) = delete;
 	void Draw(glm::mat4 view, glm::mat4 projection);
+
+	~Skybox();
 };

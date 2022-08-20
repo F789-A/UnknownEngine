@@ -12,9 +12,8 @@
 class RenderMesh: public ec::Component, public ILoopUpdate<UpdateType::GraphicLoop>
 {
 private:
-	//std::weak_ptr<Transform> Transf;
-
-
+//TODO: component caching
+	void Update() override;
 public:
 	GLMesh RenderedMesh;
 	GLMaterial RenderMaterial;
@@ -26,7 +25,4 @@ public:
 
 	~RenderMesh() override = default;
 
-
-
-	void Update() override;
 };

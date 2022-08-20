@@ -1,25 +1,15 @@
 #pragma once
 
-#include "EngineCore/WindowApp.h"
+#include "WindowApp.h"
 #include "GameLoop.h"
 
 class AppTime
 {
 public:
 
-	static AppTime& GetInstance()
-	{
-		static AppTime instance;
-		return instance;
-	}
+	static AppTime& GetInstance();
 
-	float GetTime()
-	{
-		return WindowApp::GetInstance().GetTime();
-	}
+	float GetTime();
 
-	float GetDeltaTime()
-	{
-		return GameLoop::GetInstance().GetDeltaTime();
-	}
+	float GetDeltaTime();
 };

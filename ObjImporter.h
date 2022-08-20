@@ -15,5 +15,6 @@
 
 #include <glm/glm.hpp>
 #include "Model.h"
+#include "SimpleTextProcessor.h"
 
 Model ImportObj(std::filesystem::path path);

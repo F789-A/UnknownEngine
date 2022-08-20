@@ -19,6 +19,9 @@ private:
 	WindowApp(unsigned int width = 800, unsigned int height = 600, std::string name = "Window");
 	WindowApp operator=(const WindowApp&) = delete;
 	WindowApp(const WindowApp&) = delete;
+	WindowApp(WindowApp&&) = delete;
+	WindowApp& operator=(WindowApp&&) = delete;
+
 	~WindowApp() = default;
 
 	void SetupWindowApp(unsigned int width, unsigned int height, std::string name);

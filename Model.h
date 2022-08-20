@@ -4,22 +4,14 @@
 
 #include <filesystem>
 
-/*struct Texture
-{
-    unsigned int id;
-    std::string name;
-    std::string path;
-};*/
-
 class Model
 {
 public:
     std::string Directory;
 
     std::vector<Mesh> Meshes;
-    //std::vector<Texture> Textures;
+    //std::vector<MaterialInfo> MatInfo;
 
-    //std::vector<Shader> Shaders
 public:
     Model() = default;
 

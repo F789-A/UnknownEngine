@@ -36,7 +36,7 @@ void GLTextureConteiner::AddGLCubemap(const std::string& path)
 	std::string str;
 	if (!file)
 	{
-		throw std::exception("Файл материала не открыт");
+		throw std::exception("File of cube,ap doesnt open");
 	}
 	SimpleTextProcessor textTool;
 	std::vector<Texture*> textures;
@@ -66,7 +66,7 @@ void MaterialConteiner::AddMaterial(const std::string& path)
 	
 	if (!file)
 	{
-		throw std::exception("Файл материала не открыт");
+		throw std::exception("File of material doesnt open");
 	}
 	std::vector<std::string> param;
 	SimpleTextProcessor textTool;
@@ -103,7 +103,7 @@ void MaterialConteiner::AddMaterial(const std::string& path)
 		
 		std::getline(file, str);
 	}
-	Materials.try_emplace(path, *shader);
+	Materials.try_emplace(path, *shader); // TODO конструктор и для параметров
 	Materials.at(path).ParametersInt = ParametersInt;
 	Materials.at(path).ParametersFloat = ParametersFloat;
 	Materials.at(path).ParametersVec3 = ParametersVec3;
@@ -152,7 +152,7 @@ void ShaderConteiner::AddShader(const std::string& path)
 
 	if (!file)
 	{
-		throw std::exception("Файл шейдера не открыт");
+		throw std::exception("File of shader doesnt open");
 	}
 
 	bool DepthTest = true;
@@ -223,7 +223,7 @@ void ShaderConteiner::AddShader(const std::string& path)
 	{
 		Shaders.try_emplace(path, pathVert.c_str(), pathFrag.c_str(), pathGeom.c_str());
 	}
-	GLShader& shader = Shaders.at(path);
+	GLShader& shader = Shaders.at(path); // Добавить конструктор для параметров
 	shader.DepthTest = DepthTest;
 	shader.CullFace = CullFace;
 	shader.Blend = Blend;

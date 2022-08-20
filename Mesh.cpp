@@ -5,7 +5,8 @@ Mesh::Mesh(const Mesh& other):
 	Vertices(other.Vertices),
 	Indices(other.Indices)
 {
-	std::cout << "Mesh " << Name << " was copy by contructor" << std::endl;
+	Singleton<Logger> logger; // TODO удалить при релизе
+	logger->Log("Mesh ", Name, " was copy by contructor");
 }
 
 Mesh Mesh::operator=(const Mesh& other)
@@ -16,7 +17,8 @@ Mesh Mesh::operator=(const Mesh& other)
 		Vertices = other.Vertices;
 		Indices = other.Indices;
 	}
-	std::cout << "Mesh " << Name << " was copy by operator \'=\'" << std::endl;
+	Singleton<Logger> logger; // TODO удалить при релизе
+	logger->Log("Mesh ", Name, " was copy by operator=");
 	return *this;
 }
 

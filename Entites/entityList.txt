@@ -3,6 +3,9 @@ AddEntity
 	AddComponent<Transform>(20, 0, 0)
 	AddComponent<RenderMesh>(box.obj, C:\Workflow\Cpp\UnknownEngine\Materials\Diffuse_1.uemat)
 AddEntity
+	AddComponent<Transform>(60, 0, 0)
+	AddComponent<RenderMesh>(box.obj, C:\Workflow\Cpp\UnknownEngine\Materials\Diffuse_1.uemat)
+AddEntity
 	AddComponent<Transform>(0, 0, 0)
 	AddComponent<Camera>()
 	AddComponent<CameraController>()

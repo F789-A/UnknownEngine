@@ -8,7 +8,6 @@
 #include <memory>
 #include "Singleton.h"
 
-
 namespace ec
 {
 	class EntityManager : public EntityManagerBase
@@ -17,7 +16,10 @@ namespace ec
 
 		EntityManager() {}
 
-		//TODO удалить копирование
+		EntityManager(const EntityManager&) = delete;
+		EntityManager& operator=(const EntityManager&) = delete;
+		EntityManager(EntityManager&& other) = delete;
+		EntityManager& operator=(EntityManager&& other) = delete;
 
 		Entity& AddEntity()
 		{
@@ -47,7 +49,12 @@ namespace ec
 			return Entities[entity];
 		}
 
-		int EntityCount()
+		const Entity& GetEntity(int entity) const
+		{
+			return Entities[entity];
+		}
+
+		int EntityCount() const
 		{
 			return Entities.size();
 		}

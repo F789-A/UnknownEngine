@@ -6,8 +6,8 @@
 #include "SharedGraphicsResources.h"
 #include "GraphicCore.h"
 
-
-class EscapeHandler : public ec::Component, public ILoopUpdate<UpdateType::GameLoop>
+//"In game component" test process input, not to be confused with system input 
+class InputHandler : public ec::Component, public ILoopUpdate<UpdateType::GameLoop>
 {
 	void Update()
 	{
@@ -20,19 +20,23 @@ class EscapeHandler : public ec::Component, public ILoopUpdate<UpdateType::GameL
 		}
 		if (Input::GetInstance().GetButton("UseQ", GLFW_PRESS))
 		{
-			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			a--;
-			
 		}
-
 		if (Input::GetInstance().GetButton("UseR", GLFW_PRESS))
 		{
-			//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			a++;
 		}
 		if (Input::GetInstance().GetButton("UseE", GLFW_PRESS))
 		{
 			GraphicCore::GetInstance().EnablePostProcessing = !GraphicCore::GetInstance().EnablePostProcessing;
+		}
+		if (Input::GetInstance().GetButton("UseN", GLFW_PRESS))
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		if (Input::GetInstance().GetButton("UseM", GLFW_PRESS))
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 		if (a < 1)
 		{

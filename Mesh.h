@@ -6,6 +6,7 @@
 
 #include <string>
 #include <vector>
+#include "Logger.h"
 
 using uint = unsigned int;
 
@@ -39,4 +40,4 @@ public:
     {}
 };
 
-//class PermanentMesh: public Mesh{}
+//TODO class PermanentMesh: public Mesh{}

@@ -3,23 +3,20 @@
 void EntityLoader::Load()
 {
 	SimpleTextProcessor textTool;
+	Singleton<SharedGraphicsResources> singlRes;
+	Singleton<ec::EntityManager> singlEntityManager;
+	Singleton<Logger> logger;
 
 	ec::Entity* currentEntity = nullptr;
 
-	Singleton<SharedGraphicsResources> SinglRes;
-	Singleton<ec::EntityManager> singlEntityManager;
-
-	Singleton<Logger> logger;
 	std::ifstream file(Path.c_str());
-
 	if (!file)
 	{
-		throw std::exception("Не получилось открыть файл сущностей");
+		throw std::exception("File of entity doesn't open");
 	}
 
 	std::string str;
-	std::getline(file, str);
-	while (file)
+	while (std::getline(file, str))
 	{
 		if (str == "AddEntity")
 		{
@@ -31,11 +28,10 @@ void EntityLoader::Load()
 
 			if (componentName == "Transform")
 			{
-				Transform& transf = currentEntity->AddComponent<Transform>();
-
 				std::string paramRow = textTool.GetArea(str, "()");
 				std::vector<std::string> param = textTool.SplitAndDelSpace(paramRow, ',');
-				transf.Position = glm::vec3(std::atoi(param[0].c_str()), std::atoi(param[1].c_str()), std::atoi(param[2].c_str()));
+				glm::vec3 pos(std::atoi(param[0].c_str()), std::atoi(param[1].c_str()), std::atoi(param[2].c_str()));
+				currentEntity->AddComponent<Transform>(pos);
 			}
 			if (componentName == "ComponentThatAlwaysSayHello")
 			{
@@ -46,8 +42,8 @@ void EntityLoader::Load()
 				std::string paramRow = textTool.GetArea(str, "()");
 				std::vector<std::string> param = textTool.SplitAndDelSpace(paramRow, ',');
 
-				currentEntity->AddComponent<RenderMesh>(GLMesh((SinglRes->ModelCont.GetModelRef(param[0]).Meshes[0])),
-					SinglRes->GetMaterial(param[1]));
+				currentEntity->AddComponent<RenderMesh>(GLMesh((singlRes->ModelCont.GetModelRef(param[0]).Meshes[0])),
+					singlRes->GetMaterial(param[1]));
 			}
 			else if (componentName == "Camera")
 			{
@@ -60,23 +56,27 @@ void EntityLoader::Load()
 			}
 			else if (componentName == "EscapeHandler")
 			{
-				currentEntity->AddComponent<EscapeHandler>();
+				currentEntity->AddComponent<InputHandler>();
 			}
 		}
 		else
 		{
-			std::cout << "Invalid data" << std::endl;
-			throw "Invalid data";
+			throw std::exception("Invalid data of entity");
 		}
-		std::getline(file, str);
 	}
 }
 
 void EntityLoader::LoadKeyFromFile(std::filesystem::path path)
 {
-	std::fstream file = std::fstream(path, std::ios_base::in);
-	std::string inStr;
 	SimpleTextProcessor textTool;
+
+	std::fstream file = std::fstream(path, std::ios_base::in);
+	if (!file)
+	{
+		throw std::exception("Key file doesn't open");
+	}
+
+	std::string inStr;
 	while (std::getline(file, inStr))
 	{
 		std::vector<std::string> param = textTool.SplitAndDelSpace(inStr, '=');

@@ -22,7 +22,6 @@ private:
 	void Loop();
 public:
 	
-
 	GameLoop() = default;
 	GameLoop(const GameLoop&) = delete;
 	GameLoop operator=(const GameLoop&) = delete;
@@ -30,7 +29,7 @@ public:
 
 	static GameLoop& GetInstance();
 
-	float GetDeltaTime();
+	float GetDeltaTime() const;
 
 	void RunLoop();
 };

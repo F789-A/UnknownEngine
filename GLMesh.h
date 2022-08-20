@@ -37,16 +37,15 @@ public:
 
     ~GLMesh();
 
-    //void Draw(GLShader& shader, glm::mat3 modelMat, std::vector<Texture> textures);
 
     void Draw(GLShader& shader, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
 
-    void Draw(const GLMaterial& material, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale);
     void Draw(const GLMaterial& material, const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scale);
-    //void DrawInstance(Shader& shader);
+
+    //TODO: void DrawInstance(Shader& shader);
 };
 
-/*class GLMeshEditable: public GLMesh
+/* TODO: class GLMeshEditable: public GLMesh
 * {
 * Mesh* LinkedMesh;
 * }
