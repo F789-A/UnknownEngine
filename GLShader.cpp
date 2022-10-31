@@ -170,12 +170,12 @@ void GLShader::SetInt(const std::string& name, GLint a)
     glUniform1i(objectParam, a);
 }
 
-void GLShader::SetTexture(const std::string& name, const GLTexture& a, int target)
+void GLShader::SetTexture(const std::string& name, const I_GLTexture& map, int target)
 {
     glUseProgram(Program);
     glActiveTexture(GL_TEXTURE0 + target);
     glUniform1i(glGetUniformLocation(Program, name.c_str()), target);
-    glBindTexture(a.Type(), a.Id); // TODO подумать над различием кубических карт с обычными
+    glBindTexture(map.Type(), map.Id());
 
     glActiveTexture(GL_TEXTURE0);
 }

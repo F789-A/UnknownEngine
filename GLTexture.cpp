@@ -1,9 +1,10 @@
 #include "GLTexture.h"
 
-GLTexture::GLTexture(int x, int y): _Type(GL_TEXTURE_2D)
+GLTexture::GLTexture(int x, int y): 
+	HaveGPUResources(true)
 {
-	glGenTextures(1, &Id);
-	glBindTexture(GL_TEXTURE_2D, Id);
+	glGenTextures(1, &TexId);
+	glBindTexture(GL_TEXTURE_2D, TexId);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
@@ -13,9 +14,9 @@ GLTexture::GLTexture(int x, int y): _Type(GL_TEXTURE_2D)
 }
 
 GLTexture::GLTexture(const Texture& texture, int wrapS, int wrapT, bool generateMipmap, int minFilter, int magFilter):
-	HaveGPUResources(true), _Type(GL_TEXTURE_2D)
+	HaveGPUResources(true)
 {
-	glGenTextures(1, &Id);
+	glGenTextures(1, &TexId);
 
 	GLenum format = GL_RED;
 	if (texture.NumberComponents == 1)
@@ -31,7 +32,7 @@ GLTexture::GLTexture(const Texture& texture, int wrapS, int wrapT, bool generate
 		format = GL_RGBA;
 	}
 
-	glBindTexture(GL_TEXTURE_2D, Id);
+	glBindTexture(GL_TEXTURE_2D, TexId);
 	//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glTexImage2D(GL_TEXTURE_2D, 0, format, texture.Width, texture.Height, 0, format, GL_UNSIGNED_BYTE, &texture.Data[0]);
 
@@ -46,14 +47,16 @@ GLTexture::GLTexture(const Texture& texture, int wrapS, int wrapT, bool generate
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
 }
 
-GLTexture::GLTexture(GLTexture&& other) noexcept : Id(other.Id), HaveGPUResources(true), _Type(GL_TEXTURE_2D)
+GLTexture::GLTexture(GLTexture&& other) noexcept :
+	TexId(other.TexId),
+	HaveGPUResources(true)
 {
 	other.HaveGPUResources = false;
 }
 
 GLTexture& GLTexture::operator=(GLTexture&& other) noexcept
 {
-	Id = other.Id;
+	TexId = other.TexId;
 	HaveGPUResources = true;
 	other.HaveGPUResources = false;
 	return *this;
@@ -63,16 +66,15 @@ GLTexture::~GLTexture()
 {
 	if (HaveGPUResources)
 	{
-		glDeleteTextures(1, &Id);
+		glDeleteTextures(1, &TexId);
 	}
 }
 
-GLCubemapTexture::GLCubemapTexture(const std::vector<Texture*>& textures,
+GLCubemapTexture::GLCubemapTexture(const std::vector<Texture*>& textures, 
 	int minFilter, int magFilter, int wrapS, int wrapT, int wrapR)
 {
-	_Type = GL_TEXTURE_CUBE_MAP;
-	glGenTextures(1, &Id);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, Id);
+	glGenTextures(1, &TexId);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, TexId);
 
 	for (uint i = 0; i < textures.size(); i++)
 	{
@@ -98,14 +100,24 @@ GLCubemapTexture::GLCubemapTexture(const std::vector<Texture*>& textures,
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, wrapR);
 }
 
-GLCubemapTexture::GLCubemapTexture(GLCubemapTexture&& other) noexcept :GLTexture(std::move(other)) 
+GLCubemapTexture::GLCubemapTexture(GLCubemapTexture&& other) noexcept :
+	TexId(other.TexId), 
+	HaveGPUResources(true)
 {
-	_Type = GL_TEXTURE_CUBE_MAP;
+	other.HaveGPUResources = false;
 }
 GLCubemapTexture& GLCubemapTexture::operator=(GLCubemapTexture&& other) noexcept
 {
-	Id = other.Id;
+	TexId = other.TexId;
 	HaveGPUResources = true;
 	other.HaveGPUResources = false;
 	return *this;
+}
+
+GLCubemapTexture::~GLCubemapTexture()
+{
+	if (HaveGPUResources)
+	{
+		glDeleteTextures(1, &TexId);
+	}
 }

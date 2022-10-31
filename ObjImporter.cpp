@@ -27,7 +27,6 @@ Model ImportObj(std::filesystem::path path)
 	std::vector<glm::vec3> norm;
 	SimpleTextProcessor textTool;
 	std::ifstream objFile(path);
-
 	if (!objFile)
 	{
 		throw std::exception("Model file doesnt open");

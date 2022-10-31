@@ -45,5 +45,5 @@ public:
     void SetVec3(const std::string& name, glm::vec3 vec);
     void SetFloat(const std::string& name, GLfloat a);
     void SetInt(const std::string& name, GLint a);
-    void SetTexture(const std::string& name, const GLTexture& a, int target);
+    void SetTexture(const std::string& name, const I_GLTexture& map, int target);
 };

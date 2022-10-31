@@ -10,8 +10,8 @@ class WindowApp
 private:
 	GLFWwindow* Window;
 
-	const unsigned int GlVersionMajor = 3;
-	const unsigned int GlVersionMinor = 3;
+	const unsigned int GlVersionMajor = 4;
+	const unsigned int GlVersionMinor = 4;
 
 	GLint WindowHeight;
 	GLint WindowWidth;

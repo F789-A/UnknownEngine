@@ -13,11 +13,18 @@
 #include "SharedGraphicsResources.h"
 #include "PostProcessing.h"
 
+using uint = unsigned int;
+
 class GraphicCore
 {
 	std::unique_ptr<Skybox> CurrentSkybox;
 	std::unique_ptr<PostProcessing> PostProcess;
-	unsigned int uniformCameraBlock;
+
+	std::vector<PostProcessing> _PostProcess;
+
+	uint uniformCameraBlock;
+
+	uint Uniform_Shaders_Parameters;
 
 	GraphicCore();
 	GraphicCore operator=(const GraphicCore&) = delete;

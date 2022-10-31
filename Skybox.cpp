@@ -29,7 +29,7 @@ void Skybox::Draw(glm::mat4 view, glm::mat4 projection)
 	glUniformMatrix4fv(glGetUniformLocation(Shader->Program, "view"), 1, GL_FALSE, glm::value_ptr(_view));
 	glUniformMatrix4fv(glGetUniformLocation(Shader->Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 	glBindVertexArray(VAO);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, CubemapTexture.Id);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, CubemapTexture.Id());
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glDepthMask(GL_TRUE);
 	glDepthFunc(GL_LESS);

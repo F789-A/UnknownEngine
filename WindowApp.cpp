@@ -34,7 +34,6 @@ inline void WindowApp::SetupWindowApp(unsigned int width, unsigned int height, s
 
 	glfwGetFramebufferSize(Window, &WindowWidth, &WindowHeight);
 	glViewport(0, 0, WindowWidth, WindowHeight);
-
 	glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 

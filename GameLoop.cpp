@@ -22,9 +22,7 @@ void GameLoop::Loop()
 		GLfloat currentFrame = glfwGetTime();
 		DeltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-
 		Input::GetInstance().UpdateInput();
-
 		for (int i = 0; i < ILoopUpdate<UpdateType::GameLoop>::UpdateVector.size(); i++)
 		{
 			ILoopUpdate<UpdateType::GameLoop>::UpdateVector[i]->Update();

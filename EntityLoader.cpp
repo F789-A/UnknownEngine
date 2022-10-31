@@ -12,9 +12,10 @@ void EntityLoader::Load()
 	std::ifstream file(Path.c_str());
 	if (!file)
 	{
+		//logger->Log("File of entity doesn't open");
 		throw std::exception("File of entity doesn't open");
 	}
-
+	
 	std::string str;
 	while (std::getline(file, str))
 	{
@@ -35,10 +36,11 @@ void EntityLoader::Load()
 			}
 			if (componentName == "ComponentThatAlwaysSayHello")
 			{
-				currentEntity->AddComponent<ComponentThatAlwaysSayHello>(std::string("I am fucking born!!!"));
+				currentEntity->AddComponent<ComponentThatAlwaysSayHello>(std::string("I am born!!!"));
 			}
 			if (componentName == "RenderMesh")
 			{
+				
 				std::string paramRow = textTool.GetArea(str, "()");
 				std::vector<std::string> param = textTool.SplitAndDelSpace(paramRow, ',');
 
