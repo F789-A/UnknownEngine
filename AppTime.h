@@ -1,15 +1,18 @@
 #pragma once
 
-#include "WindowApp.h"
-#include "GameLoop.h"
-
-class AppTime
+class _AppTime
 {
 public:
 
-	static AppTime& GetInstance();
-
+	static _AppTime& GetInstance();
 	float GetTime();
 
 	float GetDeltaTime();
 };
+
+namespace AppTime
+{
+	float GetTime();
+
+	float GetDeltaTime();
+}

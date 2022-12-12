@@ -1,14 +1,25 @@
 #include "AppTime.h"
+#include "GameLoop.h"
 
-AppTime& AppTime::GetInstance()
+_AppTime& _AppTime::GetInstance()
 {
-	static AppTime instance;
+	static _AppTime instance;
 	return instance;
+}
+
+float _AppTime::GetTime()
+{
+	return glfwGetTime();
+}
+
+float _AppTime::GetDeltaTime()
+{
+	return GameLoop::GetInstance().GetDeltaTime();
 }
 
 float AppTime::GetTime()
 {
-	return WindowApp::GetInstance().GetTime();
+	return glfwGetTime();
 }
 
 float AppTime::GetDeltaTime()

@@ -162,7 +162,10 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="AlienHeadersLib\glad.c" />
+    <ClCompile Include="ecs_EntityManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SimpleTextProcessor.cpp" />
+    <ClCompile Include="UIHandler.cpp" />
     <ClCompile Include="WindowApp.cpp" />
     <ClCompile Include="EntityLoader.cpp" />
     <ClCompile Include="EntityManager.cpp" />
@@ -190,8 +193,16 @@
     <ClInclude Include="AppInitializer.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraController.h" />
+    <ClInclude Include="CarController.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentThatAlwaysSayHello.h" />
+    <ClInclude Include="ecs_EntityManager.h" />
+    <ClInclude Include="GLLineMesh.h" />
+    <ClInclude Include="PerspectiveBuilder.h" />
+    <ClInclude Include="RectTransformComponent.h" />
+    <ClInclude Include="TestComponent.h" />
+    <ClInclude Include="TestSystem.h" />
+    <ClInclude Include="UIHandler.h" />
     <ClInclude Include="WindowApp.h" />
     <ClInclude Include="EscapeHandler.h" />
     <ClInclude Include="GLMesh.h" />
@@ -229,7 +240,11 @@
   <ItemGroup>
     <None Include="BasePostProcess.vert" />
     <None Include="PPPixelization.frag" />
+    <None Include="Shaders\DefaultUI.frag" />
+    <None Include="Shaders\DefaultUI.vert" />
     <None Include="Shaders\Diffuse.ueshad" />
+    <None Include="Shaders\Simple.frag" />
+    <None Include="Shaders\Simple.vert" />
     <None Include="SimpleDiffuse.frag" />
     <None Include="SimpleDiffuse.vert" />
     <None Include="testShader.frag" />

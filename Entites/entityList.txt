@@ -1,16 +1,77 @@
-AddEntity
-AddEntity
-	AddComponent<Transform>(20, 0, 0)
-	AddComponent<RenderMesh>(Models\box.obj, Materials\Diffuse_1.uemat)
-AddEntity
-	AddComponent<Transform>(60, 0, 0)
-	AddComponent<RenderMesh>(Models\box.obj, Materials\Diffuse_1.uemat)
-AddEntity
-	AddComponent<Transform>(0, 0, 0)
-	AddComponent<Camera>()
-	AddComponent<CameraController>()
-AddEntity
-	AddComponent<Transform>(40, 0, 0)
-	AddComponent<RenderMesh>(Models\box.obj, Materials\testMaterial.uemat)
-AddEntity
-	AddComponent<EscapeHandler>()
+Entity
+Entity
+Transform
+(20, 0, 0)
+(0, 0, 0)
+(1, 1, 1)
+0 		
+RenderMesh
+Models\box.obj
+Materials\Diffuse_1.uemat
+Entity
+Transform
+(20, 0, 0)
+(0, 0, 0)
+(1, 1, 1)
+0
+RenderMesh
+Models\box.obj
+Materials\Diffuse_1.uemat
+Entity
+Transform
+(20, 0, 0)
+(0, 0, 0)
+(1, 1, 1)
+0
+RenderMesh
+Models\box.obj
+Materials\Diffuse_1.uemat
+Entity
+Transform
+(40, 0, 0)
+(0, 0, 0)
+(1, 1, 1)
+0	
+RenderMesh
+Models\box.obj
+Materials\Diffuse_1.uemat
+Entity
+Transform
+(60, 0, 0) 									
+(0, 0, 0) 									
+(1, 1, 1) 									
+0 												
+RenderMesh
+Models\box.obj
+Materials\testMaterial.uemat
+CarController
+Entity
+Transform
+(0, 0, 0) 									
+(0, 0, 0) 									
+(1, 1, 1) 									
+0 	
+Camera
+CameraController
+Entity
+EscapeHandler
+Link
+1
+Transform
+-1
+{-1}
+Link
+2
+Transform
+-1
+{-1}
+Link
+3
+Transform
+-1
+{-1}
+Link
+4
+Transform
+-1
+{-1}

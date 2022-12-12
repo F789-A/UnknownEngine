@@ -4,7 +4,6 @@
 #include <iostream>
 #include <filesystem>
 #include <fstream>
-#include <regex>
 
 #include "AllComponents.h"
 #include "EntityManager.h"
@@ -18,16 +17,11 @@
 
 #include "Input.h"
 #include "StringToGLFWKey.h"
+#include <vector>
+#include <tuple>
 
-class EntityLoader
+namespace SerializationSystem
 {
-private:
-	std::string Path;
-
-public:
-	EntityLoader(std::string dataPath): Path(dataPath) {}
-	
-	void Load();
+	void LoadEntity(std::filesystem::path path);
 	void LoadKeyFromFile(std::filesystem::path path);
-	
-};
+}

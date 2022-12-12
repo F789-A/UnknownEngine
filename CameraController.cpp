@@ -29,7 +29,7 @@ void CameraController::Update()
     }
     if (movement != glm::vec3(0, 0, 0))
     {
-        float mult = AppTime::GetInstance().GetDeltaTime() * 1000;
+        float mult = _AppTime::GetInstance().GetDeltaTime() * 1000;
         transf.Position += glm::normalize(movement) * Speed * mult;
     }
 

@@ -1,64 +1,96 @@
 #include "EntityLoader.h"
 
-void EntityLoader::Load()
+void SerializationSystem::LoadEntity(std::filesystem::path path)
 {
-	SimpleTextProcessor textTool;
+	std::vector<std::tuple<int, std::string, std::string, int, std::string>> linkedComponents;
 	Singleton<SharedGraphicsResources> singlRes;
 	Singleton<ec::EntityManager> singlEntityManager;
 	Singleton<Logger> logger;
 
 	ec::Entity* currentEntity = nullptr;
 
-	std::ifstream file(Path.c_str());
+	std::ifstream file(path);
 	if (!file)
 	{
-		//logger->Log("File of entity doesn't open");
+		logger->Log("File of entity doesn't open");
 		throw std::exception("File of entity doesn't open");
 	}
 	
 	std::string str;
+
 	while (std::getline(file, str))
 	{
-		if (str == "AddEntity")
+		if (str.find("Entity") != std::string::npos)
 		{
 			currentEntity = &(singlEntityManager->AddEntity());
 		}
-		else if (str.find("AddComponent"))
+		else if (str.find("Transform") != std::string::npos)
 		{
-			std::string componentName = textTool.GetArea(str, "<>");
-
-			if (componentName == "Transform")
+				Transform& tr = currentEntity->AddComponent<Transform>();
+				std::getline(file, str);
+				tr.setPosition(TextTools::ReadVec3(str));
+				std::getline(file, str);
+				tr.Rotation = TextTools::ReadVec3(str);
+				std::getline(file, str);
+				tr.Scale = TextTools::ReadVec3(str);
+				std::getline(file, str);
+				tr.isLocal = std::stoi(str);
+		}
+		else if (str.find("ComponentThatAlwaysSayHello") != std::string::npos)
+		{
+			currentEntity->AddComponent<ComponentThatAlwaysSayHello>(std::string("I am born!!!"));
+		}
+		else if (str.find("RenderMesh") != std::string::npos)
+		{
+			std::vector<std::string> param(2);
+			std::getline(file, param[0]);
+			std::getline(file, param[1]);
+			currentEntity->AddComponent<RenderMesh>(GLMesh((singlRes->ModelCont.GetModelRef(param[0]).Meshes[0])),
+				singlRes->GetMaterial(param[1]));
+		}
+		else if (str == "Camera")
+		{
+			Camera& camer = currentEntity->AddComponent<Camera>();
+			ICamera::MainCamera = &camer;
+		}
+		else if (str.find("CameraController") != std::string::npos)
+		{
+			currentEntity->AddComponent<CameraController>();
+		}
+		else if (str.find("EscapeHandler") != std::string::npos)
+		{
+			currentEntity->AddComponent<InputHandler>();
+		}
+		else if (str.find("CarController") != std::string::npos)
+		{
+			currentEntity->AddComponent<CarController>();
+		}
+		else if (str.find("Link") != std::string::npos)
+		{
+			std::getline(file, str);
+			currentEntity = &(singlEntityManager->GetEntity(std::stoi(str)));
+			std::getline(file, str);
+			if (str.find("Transform") != std::string::npos)
 			{
-				std::string paramRow = textTool.GetArea(str, "()");
-				std::vector<std::string> param = textTool.SplitAndDelSpace(paramRow, ',');
-				glm::vec3 pos(std::atoi(param[0].c_str()), std::atoi(param[1].c_str()), std::atoi(param[2].c_str()));
-				currentEntity->AddComponent<Transform>(pos);
-			}
-			if (componentName == "ComponentThatAlwaysSayHello")
-			{
-				currentEntity->AddComponent<ComponentThatAlwaysSayHello>(std::string("I am born!!!"));
-			}
-			if (componentName == "RenderMesh")
-			{
-				
-				std::string paramRow = textTool.GetArea(str, "()");
-				std::vector<std::string> param = textTool.SplitAndDelSpace(paramRow, ',');
-
-				currentEntity->AddComponent<RenderMesh>(GLMesh((singlRes->ModelCont.GetModelRef(param[0]).Meshes[0])),
-					singlRes->GetMaterial(param[1]));
-			}
-			else if (componentName == "Camera")
-			{
-				Camera& camer = currentEntity->AddComponent<Camera>();
-				ICamera::MainCamera = &camer;
-			}
-			else if (componentName == "CameraController")
-			{
-				currentEntity->AddComponent<CameraController>();
-			}
-			else if (componentName == "EscapeHandler")
-			{
-				currentEntity->AddComponent<InputHandler>();
+				Transform& tr = currentEntity->GetComponent<Transform>();
+				std::getline(file, str);
+				if (std::stoi(str) == -1)
+				{
+					tr.parent = nullptr;
+				}
+				else
+				{
+					tr.parent = &(singlEntityManager->GetEntity(std::stoi(str)).GetComponent<Transform>());
+				}
+				std::getline(file, str);
+				std::vector<int> ch = TextTools::GetVectorInt(str);
+				for (auto l : ch)
+				{
+					if (l != -1)
+					{
+						tr.childs.push_back(&(singlEntityManager->GetEntity(l).GetComponent<Transform>()));
+					}
+				}
 			}
 		}
 		else
@@ -68,10 +100,13 @@ void EntityLoader::Load()
 	}
 }
 
-void EntityLoader::LoadKeyFromFile(std::filesystem::path path)
+void LoadEntity_(std::filesystem::path path)
 {
-	SimpleTextProcessor textTool;
 
+}
+
+void SerializationSystem::LoadKeyFromFile(std::filesystem::path path)
+{
 	std::fstream file = std::fstream(path, std::ios_base::in);
 	if (!file)
 	{
@@ -81,7 +116,7 @@ void EntityLoader::LoadKeyFromFile(std::filesystem::path path)
 	std::string inStr;
 	while (std::getline(file, inStr))
 	{
-		std::vector<std::string> param = textTool.SplitAndDelSpace(inStr, '=');
+		std::vector<std::string> param = TextTools::SplitAndDelSpace(inStr, '=');
 		Input::GetInstance().BindKey(param[0], StringToGLFWKey.at(param[1]));
 	}
 }

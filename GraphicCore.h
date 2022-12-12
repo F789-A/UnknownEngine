@@ -36,6 +36,10 @@ class GraphicCore
 
 public:
 	bool EnablePostProcessing = false;
+	int Height;
+	int Weigth;
+	std::vector<void(*)()> funcs;
+	std::vector<void(*)()> UIPass;
 
 	static GraphicCore& GetInstance();
 	void UpdateGraphic();

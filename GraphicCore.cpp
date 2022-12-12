@@ -1,4 +1,5 @@
 #include "GraphicCore.h"
+#include "UIHandler.h"
 
 GraphicCore::GraphicCore()
 {
@@ -32,7 +33,7 @@ GraphicCore::GraphicCore()
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, 2*sizeof(GLuint), aspect);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	glfwSetInputMode(WindowApp::GetInstance().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(WindowApp::GetInstance().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 GraphicCore& GraphicCore::GetInstance()
@@ -59,6 +60,12 @@ void GraphicCore::UpdateGraphic()
 	for (int i = 0; i < ILoopUpdate<UpdateType::GraphicLoop>::UpdateVector.size(); i++)
 	{
 		ILoopUpdate<UpdateType::GraphicLoop>::UpdateVector[i]->Update();
+	}
+
+	ui_engine::DrawUIImage();
+	for (int i = 0; i < funcs.size(); i++)
+	{
+		funcs[i]();
 	}
 
 	if (CurrentSkybox.get() != nullptr)

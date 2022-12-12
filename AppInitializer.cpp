@@ -1,4 +1,6 @@
 #include "AppInitializer.h"
+#include "WindowApp.h"
+#include "GameLoop.h"
 
 void RunApp()
 {

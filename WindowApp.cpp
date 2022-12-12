@@ -1,5 +1,5 @@
 #include "WindowApp.h"
-
+#include "Logger.h"
 //Init
 WindowApp::WindowApp(unsigned int width, unsigned int height, std::string name)
 {
@@ -8,6 +8,7 @@ WindowApp::WindowApp(unsigned int width, unsigned int height, std::string name)
 
 inline void WindowApp::SetupWindowApp(unsigned int width, unsigned int height, std::string name)
 {
+	Singleton<Logger> log;
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GlVersionMajor);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GlVersionMinor);
@@ -18,7 +19,7 @@ inline void WindowApp::SetupWindowApp(unsigned int width, unsigned int height, s
 
 	if (Window == nullptr)
 	{
-		std::cout << "Failed to create GLFW window";
+		log->Log("Failed to create GLFW window");
 		assert(false);
 	}
 
@@ -28,13 +29,13 @@ inline void WindowApp::SetupWindowApp(unsigned int width, unsigned int height, s
 
 	if (!loadedGLL)
 	{
-		std::cout << "Failed to initialize GLAD";
+		log->Log("Failed to initialize GLAD");
 		assert(false);
 	}
 
 	glfwGetFramebufferSize(Window, &WindowWidth, &WindowHeight);
 	glViewport(0, 0, WindowWidth, WindowHeight);
-	glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 WindowApp& WindowApp::GetInstance()
@@ -47,11 +48,11 @@ void WindowApp::CreateWindow()
 {}
 
 //Getters
-unsigned int WindowApp::Width()
+int WindowApp::Width()
 {
 	return WindowWidth;
 }
-unsigned int WindowApp::Height()
+int WindowApp::Height()
 {
 	return WindowHeight;
 }
@@ -59,10 +60,7 @@ GLFWwindow* WindowApp::GetWindow()
 {
 	return Window;
 }
-float WindowApp::GetTime()
-{
-	return glfwGetTime();
-}
+
 bool WindowApp::ShouldClose()
 {
 	return glfwWindowShouldClose(Window);

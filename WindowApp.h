@@ -1,5 +1,4 @@
 #pragma once
-
 #include <iostream>
 #include <glad/glad.h> 
 #include <GLFW\glfw3.h>
@@ -31,11 +30,10 @@ public:
 
 	void CreateWindow();
 
-	unsigned int Width();
-	unsigned int Height();
+	int Width();
+	int Height();
 
 	GLFWwindow* GetWindow();
-	float GetTime();
 	bool ShouldClose();
 	void TerminateApp();
 };

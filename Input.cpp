@@ -1,8 +1,13 @@
 #include "Input.h"
 
-Input::Input() : NameToKey()
+void Input::ProcessMousePos()
 {
-	glfwSetInputMode(WindowApp::GetInstance().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwGetCursorPos(WindowApp::GetInstance().GetWindow(), &MousePosX, &MousePosY);
+}
+
+Input::Input(): NameToKey()
+{
+	//glfwSetInputMode(WindowApp::GetInstance().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	Input::ProcessMousePos();
 }
 
@@ -20,11 +25,8 @@ void Input::UpdateInput()
 	glfwPollEvents(); // порядок? не только ввод?
 }
 
-void Input::ProcessMousePos()
-{
-	glfwGetCursorPos(WindowApp::GetInstance().GetWindow(), &MousePosX, &MousePosY);
-}
 
+//ForUsers
 void Input::BindKey(std::string name, int key)
 {
 	NameToKey[name] = key;
@@ -40,6 +42,22 @@ bool Input::GetKey(int key, int mode) const
 	return glfwGetKey(WindowApp::GetInstance().GetWindow(), key) == mode;
 }
 
+bool Input::GetKey(int key, PressMode mode) const
+{
+	return glfwGetKey(WindowApp::GetInstance().GetWindow(), key) == (int)mode;
+}
+
+void Input::EnableCursor()
+{
+	glfwSetInputMode(WindowApp::GetInstance().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
+
+void Input::DisableCursor()
+{
+	glfwSetInputMode(WindowApp::GetInstance().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}
+
+//Getters
 float Input::MouseDeltaX() const
 {
 	return MousePosX - PrevMousePosX;

@@ -25,7 +25,6 @@ Model ImportObj(std::filesystem::path path)
 	std::vector<glm::vec3> pos;
 	std::vector<glm::vec3> tex;
 	std::vector<glm::vec3> norm;
-	SimpleTextProcessor textTool;
 	std::ifstream objFile(path);
 	if (!objFile)
 	{
@@ -92,7 +91,7 @@ Model ImportObj(std::filesystem::path path)
 			for (; ist >> word;)
 			{
 				Vertex vert;
-				std::vector<std::string> index = textTool.SplitAndDelSpace(word, '/');
+				std::vector<std::string> index = TextTools::SplitAndDelSpace(word, '/');
 				vert.position = pos[std::atoi(index[0].c_str()) - 1];
 				vert.texCoords = tex[std::atoi(index[1].c_str()) - 1];
 				vert.normal = norm[std::atoi(index[2].c_str()) - 1];

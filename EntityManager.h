@@ -63,7 +63,7 @@ namespace ec
 
 	private:
 		std::vector<Entity> Entities;
-		std::vector<int> FreeEntity; // заменить на двусвязный список
+		std::vector<int> FreeEntity;
 	};
 }
 

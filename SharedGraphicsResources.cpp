@@ -38,11 +38,10 @@ void GLTextureConteiner::AddGLCubemap(const std::string& path)
 	{
 		throw std::exception("File of cube,ap doesnt open");
 	}
-	SimpleTextProcessor textTool;
 	std::vector<Texture*> textures;
 	while (std::getline(file, str))
 	{
-		std::vector<std::string> param = textTool.SplitAndDelSpace(str, '=');
+		std::vector<std::string> param = TextTools::SplitAndDelSpace(str, '=');
 		textures.push_back(&LinkedTexCont.GetTextureRef(param[1]));
 	}
 	GLCubemapTexture glCubemap(textures);
@@ -69,7 +68,6 @@ void MaterialConteiner::AddMaterial(const std::string& path)
 		throw std::exception("File of material doesnt open");
 	}
 	std::vector<std::string> param;
-	SimpleTextProcessor textTool;
 	GLShader* shader = nullptr;
 	std::map<std::string, int> ParametersInt;
 	std::map<std::string, float> ParametersFloat;
@@ -77,7 +75,7 @@ void MaterialConteiner::AddMaterial(const std::string& path)
 	std::map<std::string, GLTexture*> Textures;
 	while (file)
 	{
-		param = textTool.SplitAndDelSpace(str, ' ');
+		param = TextTools::SplitAndDelSpace(str, ' ');
 		if (param[0] == "shader_path")
 		{
 			shader = &LinkedShaderCont.GetShaderRef(param[1]);
@@ -92,7 +90,7 @@ void MaterialConteiner::AddMaterial(const std::string& path)
 		}
 		if (param[0] == "vec3")
 		{
-			std::vector<std::string> vec = textTool.SplitAndDelSpace(param[2], ',');
+			std::vector<std::string> vec = TextTools::SplitAndDelSpace(param[2], ',');
 			ParametersVec3.insert(std::pair(param[1], glm::vec3((float)std::atof(vec[0].c_str()),
 				(float)std::atof(vec[1].c_str()), (float)std::atof(vec[2].c_str()))));
 		}
@@ -148,7 +146,6 @@ void ShaderConteiner::AddShader(const std::string& path)
 	std::string str;
 	std::getline(file, str);
 	std::vector<std::string> param;
-	SimpleTextProcessor textTool;
 
 	if (!file)
 	{
@@ -168,7 +165,7 @@ void ShaderConteiner::AddShader(const std::string& path)
 	std::string pathFrag;
 	while (file)
 	{
-		param = textTool.SplitAndDelSpace(str, '=');
+		param = TextTools::SplitAndDelSpace(str, '=');
 		if (param[0] == "shader_path_vert")
 		{
 			pathVert = param[1];

@@ -2,6 +2,9 @@
 #include "Component.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <vector>
+#include <glm/gtc/matrix_transform.hpp>
+#include <queue>
 
 class Transform : public ec::Component
 {
@@ -10,6 +13,13 @@ public:
 	glm::quat Rotation;
 	glm::vec3 Scale;
 
+	glm::mat4 transformation;
+
+	bool isLocal = false;
+
+	Transform* parent = nullptr;
+	std::vector<Transform*> childs;
+
 	~Transform() override = default;
 
 	Transform(glm::vec3 pos = glm::vec3(0, 0, 0), glm::quat rot = glm::quat(1, 0, 0, 0), glm::vec3 scale = glm::vec3(1, 1, 1))
@@ -17,7 +27,40 @@ public:
 		Position = pos;
 		Rotation = rot;
 		Scale = scale;
+		RecalcTransformation();
 	}
+
+	void setPosition(glm::vec3 newPos)
+	{
+		Position = newPos;
+		RecalcTransformation();
+	}
+
+	void RecalcTransformation()
+	{
+		transformation = glm::translate(glm::mat4(1.0f), Position) * glm::mat4_cast(Rotation) * glm::scale(glm::mat4(1.0f), Scale);
+		if (isLocal)
+		{
+			transformation = parent->transformation * transformation;
+		}
+		std::queue<Transform*> ch;
+		ch.push(this);
+		while (!ch.empty())
+		{
+			Transform* cur = ch.front();
+			ch.pop();
+
+			for (auto l : cur->childs)
+			{
+				if (l->isLocal)
+				{
+					ch.push(l);
+					cur->transformation = cur->parent->transformation * cur->transformation;
+				}
+			}
+		}
+	}
+
 
 	glm::vec3 Front() const
 	{
@@ -42,5 +85,6 @@ public:
 		quat.y = axis.y * sin(angle / 2);
 		quat.z = axis.z * sin(angle / 2);
 		Rotation = quat * Rotation;
+		RecalcTransformation();
 	}
 };

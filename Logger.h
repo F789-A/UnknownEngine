@@ -5,6 +5,7 @@
 #include <fstream>
 #include <Singleton.h>
 #include <iostream>
+#include "AppTime.h"
 
 constexpr std::string_view DefaultPath = "Log.txt";
 
@@ -25,13 +26,15 @@ public:
 		}
 		else
 		{
-			std::fstream(Path, std::ios_base::out | std::ios_base::ate);
+			File = std::fstream(Path, std::ios_base::out | std::ios_base::ate);
 		}
+
 		if (!File.is_open())
 		{
-			throw std::exception("Log file doesnt open");
+			throw std::exception("Log file doesn't open");
 		}
-		File << "---------------------------";
+
+		File << "-------------------" << _AppTime::GetInstance().GetTime() << "-------------------" << std::endl;
 	}
 
 	std::fstream& GetFile()
