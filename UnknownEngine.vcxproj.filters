@@ -46,8 +46,8 @@
     <Filter Include="Source Files\ECS\Compoents">
       <UniqueIdentifier>{9b8024ea-6a7b-4725-b785-b6b8f022223a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ECS\Systems">
-      <UniqueIdentifier>{820cfdf0-196b-4553-a572-fc2f79f01d86}</UniqueIdentifier>
+    <Filter Include="Source Files\ECS\Compoents\Game">
+      <UniqueIdentifier>{5dc8489a-c4b8-444b-8043-be4d2511e05e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -135,11 +135,17 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClCompile>
-    <ClCompile Include="UIHandler.cpp">
-      <Filter>Source Files\ECS\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="ecs_EntityManager.cpp">
       <Filter>Source Files\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="LineDrawSystem.cpp">
+      <Filter>Source Files\ECS\Compoents</Filter>
+    </ClCompile>
+    <ClCompile Include="AimSystem.cpp">
+      <Filter>Source Files\ECS\Compoents\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHandler.cpp">
+      <Filter>Source Files\ECS\Compoents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,23 +272,32 @@
     <ClInclude Include="ecs_EntityManager.h">
       <Filter>Source Files\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="TestSystem.h">
-      <Filter>Source Files\ECS\Compoents</Filter>
-    </ClInclude>
-    <ClInclude Include="TestComponent.h">
-      <Filter>Source Files\ECS\Compoents</Filter>
-    </ClInclude>
     <ClInclude Include="RectTransformComponent.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
-    <ClInclude Include="UIHandler.h">
-      <Filter>Source Files\ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="PerspectiveBuilder.h">
-      <Filter>Source Files\ECS\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="GLLineMesh.h">
       <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderLine.h">
+      <Filter>Source Files\ECS\Compoents</Filter>
+    </ClInclude>
+    <ClInclude Include="LineDrawSystem.h">
+      <Filter>Source Files\ECS\Compoents</Filter>
+    </ClInclude>
+    <ClInclude Include="AimData.h">
+      <Filter>Source Files\ECS\Compoents\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="AimSystem.h">
+      <Filter>Source Files\ECS\Compoents\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="PerspectiveBuilder.h">
+      <Filter>Source Files\ECS\Compoents</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHandler.h">
+      <Filter>Source Files\ECS\Compoents</Filter>
+    </ClInclude>
+    <ClInclude Include="AlienData.h">
+      <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

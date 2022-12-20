@@ -157,12 +157,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AimSystem.cpp" />
     <ClCompile Include="AppInitializer.cpp" />
     <ClCompile Include="AppTime.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="AlienHeadersLib\glad.c" />
     <ClCompile Include="ecs_EntityManager.cpp" />
+    <ClCompile Include="LineDrawSystem.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SimpleTextProcessor.cpp" />
     <ClCompile Include="UIHandler.cpp" />
@@ -189,6 +191,9 @@
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AimData.h" />
+    <ClInclude Include="AimSystem.h" />
+    <ClInclude Include="AlienData.h" />
     <ClInclude Include="AllComponents.h" />
     <ClInclude Include="AppInitializer.h" />
     <ClInclude Include="Camera.h" />
@@ -198,10 +203,10 @@
     <ClInclude Include="ComponentThatAlwaysSayHello.h" />
     <ClInclude Include="ecs_EntityManager.h" />
     <ClInclude Include="GLLineMesh.h" />
+    <ClInclude Include="LineDrawSystem.h" />
     <ClInclude Include="PerspectiveBuilder.h" />
     <ClInclude Include="RectTransformComponent.h" />
-    <ClInclude Include="TestComponent.h" />
-    <ClInclude Include="TestSystem.h" />
+    <ClInclude Include="RenderLine.h" />
     <ClInclude Include="UIHandler.h" />
     <ClInclude Include="WindowApp.h" />
     <ClInclude Include="EscapeHandler.h" />

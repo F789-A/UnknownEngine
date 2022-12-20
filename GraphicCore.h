@@ -38,9 +38,10 @@ public:
 	bool EnablePostProcessing = false;
 	int Height;
 	int Weigth;
-	std::vector<void(*)()> funcs;
-	std::vector<void(*)()> UIPass;
 
+	std::vector<void(*)()> mainPass;
+	std::vector<void(*)()> UiPass;
+	
 	static GraphicCore& GetInstance();
 	void UpdateGraphic();
 };

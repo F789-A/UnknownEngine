@@ -1,9 +1,11 @@
 #include "GameLoop.h"
 #include "ecs_EntityManager.h"
-#include "TestSystem.h"
 #include "UIHandler.h"
 #include "RectTransformComponent.h"
 #include "PerspectiveBuilder.h"
+#include "LineDrawSystem.h"
+#include "AimData.h"
+#include "AimSystem.h"
 
 GameLoop& GameLoop::GetInstance()
 {
@@ -20,11 +22,6 @@ void GameLoop::RunLoop()
 void GameLoop::Loop()
 {
 	static GLfloat lastFrame = 0.0f;
-
-	ECS::DefEcs_().system.Register<ButtonProcessor>(0);
-	int a = ECS::DefEcs_().entity.AddEntity<RectTransform, Image, Button>();
-	//ECS::DefEcs.entity.AddComponent<ecsComponent>(a);
-	GraphicCore::GetInstance().funcs.push_back(PerspectiveBuild);
 	while (!WindowApp::GetInstance().ShouldClose())
 	{
 		GLfloat currentFrame = glfwGetTime();
@@ -45,6 +42,20 @@ void GameLoop::ConstructScene()
 {
 	SerializationSystem::LoadKeyFromFile("Key.txt");
 	SerializationSystem::LoadEntity("Entites\\entityList.txt");
+
+	//graphics
+	GraphicCore::GetInstance().mainPass.push_back(DrawLine);
+
+	//ecs sustems
+	//ui
+	ECS::DefEcs_().system.systemsPtr.push_back(ui::ProcessButtons);
+	ECS::DefEcs_().system.systemsPtr.push_back(ui::DrawUIImage);
+	//game
+	ECS::DefEcs_().system.systemsPtr.push_back(AsteroidHunter::CharacterController);
+	ECS::DefEcs_().system.systemsPtr.push_back(AsteroidHunter::AlienController);
+	//int a = ECS::DefEcs_().entity.AddEntity<RectTransform, Image, Button>();
+
+	//GraphicCore::GetInstance().mainPass.push_back(PerspectiveBuild);
 }
 
 float GameLoop::GetDeltaTime() const

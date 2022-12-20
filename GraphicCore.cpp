@@ -62,13 +62,17 @@ void GraphicCore::UpdateGraphic()
 		ILoopUpdate<UpdateType::GraphicLoop>::UpdateVector[i]->Update();
 	}
 
-	ui_engine::DrawUIImage();
-	for (int i = 0; i < funcs.size(); i++)
+	for (int i = 0; i < mainPass.size(); i++)
 	{
-		funcs[i]();
+		mainPass[i]();
 	}
 
-	if (CurrentSkybox.get() != nullptr)
+	for (auto& uiFunc : UiPass)
+	{
+		uiFunc();
+	}
+
+	if (CurrentSkybox != nullptr)
 	{
 		CurrentSkybox->Draw(view, projection);
 	}

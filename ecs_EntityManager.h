@@ -9,14 +9,18 @@
 
 namespace ECS
 {
+	class EntityManager;
+
 	template<typename T>
 	class Component
 	{
-	public:
-		using typeName = T;
-		Component(int ent) : entity(ent) {};
-		const int entity;
+		friend EntityManager;
+	private:
+		int entity;
 		static const int type;
+
+	public:
+		Component() = default;
 	};
 
 	int generateComponentType();
@@ -50,82 +54,43 @@ namespace ECS
 	class EntityManager
 	{
 	public:
-		template<typename T>
+
+		//Iterator
+		template<typename T1, typename... Ts>
 		class ComponentIterator
 		{
-			typename std::unordered_map<int, T>::iterator it_end;
-			typename std::unordered_map<int, T>::iterator it;
+			friend class EntityManager;
 		public:
-			bool end = false;
-
-			ComponentIterator(EntityManager& em)
+			bool end()
 			{
-				it = em.GetConteiner<T>().components.begin();
-				it_end = em.GetConteiner<T>().components.end();
-			}
-
-			bool operator!=(const ComponentIterator& b)
-			{
-				return it != b.it && (end != b.end);
+				return it == it_end;
 			}
 
 			void operator++()
 			{
 				it++;
-				end = (it == it_end) ? true : false;
+				if constexpr(sizeof...(Ts) > 0)
+				{
+					while (it != it_end && !checkReg<Ts...>(it->first))
+					{
+						it++;
+					}
+				}
 			}
-
-			T& operator*()
+			
+			std::tuple<T1&, Ts&...> operator*()
 			{
-				return it->second;
+				return std::tie(em.GetComponent<T1>(it->first), em.GetComponent<Ts>(it->first)...);
 			}
-		};
 
-		template<typename T1, typename T2, typename... Ts>
-		class ComponentIterator_
-		{
+		private:
 			EntityManager& em;
 			typename std::unordered_map<int, T1>::iterator it_end;
 			typename std::unordered_map<int, T1>::iterator it;
-		public:
-			bool end = false;
 
-			ComponentIterator_(EntityManager& em_): em(em_)
-			{
-				it = em.GetConteiner<T1>().components.begin();
-				it_end = em.GetConteiner<T1>().components.end();
-			}
-
-			bool operator!=(const ComponentIterator_& b)
-			{
-				return it != b.it && (end != b.end);
-			}
-
-			template<typename Arg1, typename Arg2, typename... Args>
-			bool foo(int ent)
-			{
-				return true;
-			}
-
-			void operator++()
-			{
-				it++;
-				if (it == it_end)
-				{
-					end = true;
-					return;
-				}
-				while (!checkReg<T2, Ts...>(it->first))
-				{
-					it++;
-					if (it == it_end)
-					{
-						end = true;
-						break;
-					}
-				}
-				end = (it == it_end) ? true : false;
-			}
+			ComponentIterator(EntityManager& em_): em(em_), it(em_.GetConteiner<T1>().components.begin()),
+				it_end(em.GetConteiner<T1>().components.end())
+			{}
 
 			template<typename Arg1, typename Arg2, typename... Args>
 			bool checkReg(int ent)
@@ -145,12 +110,6 @@ namespace ECS
 					return true;
 				}
 				return false;
-			}
-
-			std::tuple<T1&, T2&, Ts&...> operator*()
-			{
-				return std::tie(em.GetComponent<T1>(it->first), em.GetComponent<T2>(it->first),
-					em.GetComponent<Ts>(it->first)...);
 			}
 		};
 
@@ -204,7 +163,8 @@ namespace ECS
 			{
 				regist<T>();
 			}
-			GetConteiner<T>().components.emplace(entity, T(entity));
+			GetConteiner<T>().components.emplace(entity, T());
+			GetConteiner<T>().components[entity].entity = entity;
 			Entityes[entity].insert(T::type);
 		}
 
@@ -221,16 +181,14 @@ namespace ECS
 			return GetConteiner<T>().components.at(entity);
 		}
 
-		template<typename Arg1, typename Arg2, typename... Args>
-		ComponentIterator_<Arg1, Arg2, Args...> GetComponents()
+		template<typename Arg1, typename... Args>
+		ComponentIterator<Arg1, Args...> GetComponents()
 		{
-			return ComponentIterator_<Arg1, Arg2, Args...>(*this);
-		}
-
-		template<typename T>
-		ComponentIterator<T> GetComponents()
-		{
-			return ComponentIterator<T>(*this);
+			if (Arg1::type >= ComponentsConteiners.size() || ComponentsConteiners[Arg1::type] == nullptr)
+			{
+				regist<Arg1>();
+			}
+			return ComponentIterator<Arg1, Args...>(*this);
 		}
 
 		template<typename T>
@@ -266,45 +224,28 @@ namespace ECS
 		std::queue<int> freeEntity;
 	};
 
-	class SystemBase
-	{
-	public:
-		virtual void Update() = 0;
-	};
-
 	class SystemController
 	{
 	public:
-		template<typename T>
 		void Register(int priority)
 		{
-			if (systems.size() < priority+1)
-			{
-				systems.resize(priority+1);
-			}
-			systems[priority] = std::make_unique<T>();
-			T::priorityId = priority;
+	
 		}
 
-		template<typename T>
 		void Delete()
 		{
-			systems[T::priorityId] = nullptr;
-			T::priorityId = -1;
+			
 		}
 
 		void Update()
 		{
-			for (auto& l : systems)
+			for (auto& l : systemsPtr)
 			{
-				l->Update();
+				l();
 			}
 		}
 
-	private:
-
-
-		std::vector<std::unique_ptr<SystemBase>> systems;
+		std::vector<void(*)()> systemsPtr;
 	};
 
 	class EcsSystem
