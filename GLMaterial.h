@@ -22,7 +22,7 @@ public:
 	std::map<std::string, float> ParametersFloat;
 	std::map<std::string, glm::vec3> ParametersVec3;
 
-	GLMaterial();
+	GLMaterial() {};
 
 	GLMaterial(GLShader& shader);
 

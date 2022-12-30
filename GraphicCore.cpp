@@ -1,5 +1,7 @@
 #include "GraphicCore.h"
-#include "UIHandler.h"
+
+#include "ecs_EntityManager.h"
+#include "Camera.h"
 
 GraphicCore::GraphicCore()
 {
@@ -49,18 +51,21 @@ void GraphicCore::UpdateGraphic()
 		PostProcess->Use();
 	}
 
+	Camera* cam = nullptr;
+	for (auto l = ECS::DefEcs_().entity.GetComponents<MainCamera, Camera>(); !l.end(); ++l)
+	{
+		auto [m, camera] = *l;
+		cam = &camera;
+	}
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glm::mat4 view = ICamera::MainCamera->GetViewMatrix();
-	glm::mat4 projection = glm::perspective(ICamera::MainCamera->GetFOV(), (float)WindowApp::GetInstance().Width() / WindowApp::GetInstance().Height(), 0.1f, 100.0f);
+	glm::mat4 view = cam->GetViewMatrix();
+	glm::mat4 projection = glm::perspective(cam->FOV, (float)WindowApp::GetInstance().Width() / WindowApp::GetInstance().Height(), 0.1f, 100.0f);
 	glBindBuffer(GL_UNIFORM_BUFFER, uniformCameraBlock);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projection));
 	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	
-	for (int i = 0; i < ILoopUpdate<UpdateType::GraphicLoop>::UpdateVector.size(); i++)
-	{
-		ILoopUpdate<UpdateType::GraphicLoop>::UpdateVector[i]->Update();
-	}
 
 	for (int i = 0; i < mainPass.size(); i++)
 	{

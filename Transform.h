@@ -1,17 +1,17 @@
 #pragma once
-#include "Component.h"
+#include "ecs_EntityManager.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <vector>
 #include <glm/gtc/matrix_transform.hpp>
 #include <queue>
 
-class Transform : public ec::Component
+class Transform : public ECS::Component<Transform>
 {
 public:
-	glm::vec3 Position;
-	glm::quat Rotation;
-	glm::vec3 Scale;
+	glm::vec3 Position = glm::vec3(0, 0, 0);
+	glm::quat Rotation = glm::quat(1, 0, 0, 0);
+	glm::vec3 Scale = glm::vec3(1, 1, 1);
 
 	glm::mat4 transformation;
 
@@ -20,15 +20,7 @@ public:
 	Transform* parent = nullptr;
 	std::vector<Transform*> childs;
 
-	~Transform() override = default;
-
-	Transform(glm::vec3 pos = glm::vec3(0, 0, 0), glm::quat rot = glm::quat(1, 0, 0, 0), glm::vec3 scale = glm::vec3(1, 1, 1))
-	{
-		Position = pos;
-		Rotation = rot;
-		Scale = scale;
-		RecalcTransformation();
-	}
+	~Transform() = default;
 
 	void setPosition(glm::vec3 newPos)
 	{

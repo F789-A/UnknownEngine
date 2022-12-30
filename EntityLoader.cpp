@@ -1,108 +1,114 @@
 #include "EntityLoader.h"
+#include "ecs_EntityManager.h"
+#include "SimpleTextProcessor.h"
+
+#include "Transform.h"
+#include "RenderMesh.h"
+#include "Camera.h"
+#include "CameraController.h"
+
+void LoadComponentTransform(int a, std::map<std::string, int>& names, std::map<std::string, std::string>& res) 
+{
+	Transform& tr = ECS::DefEcs_().entity.GetComponent<Transform>(a);
+	tr.Position = TextTools::ReadVec3(res["Position"]);
+	tr.Scale = TextTools::ReadVec3(res["Scale"]);
+	//tr.Rotation = TextTools::ReadVec3(res["Rotation"]);
+}
+
+void LoadComponentRenderMesh(int a, std::map<std::string, int>& names, std::map<std::string, std::string>& res)
+{
+	Singleton<SharedGraphicsResources> singlRes;
+	RenderMesh& renMesh = ECS::DefEcs_().entity.GetComponent<RenderMesh>(a);
+	renMesh.RenderedMesh = GLMesh(singlRes->ModelCont.GetModelRef(res["RenderMesh"]).Meshes[0]);
+	renMesh.RenderMaterial = GLMaterial(singlRes->GetMaterial(res["RenderMaterial"]));
+}
+
+void LoadComponentCamera(int a, std::map<std::string, int>& names, std::map<std::string, std::string>& res)
+{
+	Camera& cam = ECS::DefEcs_().entity.GetComponent<Camera>(a);
+	cam.FOV = glm::radians(std::stof(res["FOV"]));
+	cam.NearClip = std::stof(res["NearClip"]);
+	cam.FarClip = std::stof(res["FarClip"]);
+}
+
+void LoadComponentCameraController(int a, std::map<std::string, int>& names, std::map<std::string, std::string>& res)
+{
+	CameraController& contr = ECS::DefEcs_().entity.GetComponent<CameraController>(a);
+	contr.MouseSensitivity = std::stof(res["MouseSensitivity"]);
+	contr.Speed = std::stof(res["Speed"]);
+}
 
 void SerializationSystem::LoadEntity(std::filesystem::path path)
 {
-	std::vector<std::tuple<int, std::string, std::string, int, std::string>> linkedComponents;
-	Singleton<SharedGraphicsResources> singlRes;
-	Singleton<ec::EntityManager> singlEntityManager;
+	static std::map<std::string, std::pair<void(ECS::EntityManager::*)(int), void(*)(int, std::map<std::string, int>&, std::map<std::string, std::string>&)>> links
+	{
+		{"Transform", {&ECS::EntityManager::AddComponent<Transform>, LoadComponentTransform}},
+		{"RenderMesh", {&ECS::EntityManager::AddComponent<RenderMesh>, LoadComponentRenderMesh}},
+		{"Camera", {&ECS::EntityManager::AddComponent<Camera>, LoadComponentCamera}},
+		{"CameraController", {&ECS::EntityManager::AddComponent<CameraController>, LoadComponentCameraController}}
+	};
+	std::map<std::pair<int, std::string>, std::map<std::string, std::string>> loadedComp;
+	std::map<std::string, int> names;
 	Singleton<Logger> logger;
-
-	ec::Entity* currentEntity = nullptr;
-
 	std::ifstream file(path);
 	if (!file)
 	{
 		logger->Log("File of entity doesn't open");
 		throw std::exception("File of entity doesn't open");
 	}
-	
-	std::string str;
 
-	while (std::getline(file, str))
+	std::string str;
+	while (file >> str)
 	{
-		if (str.find("Entity") != std::string::npos)
+		if (str == "Entity")
 		{
-			currentEntity = &(singlEntityManager->AddEntity());
-		}
-		else if (str.find("Transform") != std::string::npos)
-		{
-				Transform& tr = currentEntity->AddComponent<Transform>();
-				std::getline(file, str);
-				tr.setPosition(TextTools::ReadVec3(str));
-				std::getline(file, str);
-				tr.Rotation = TextTools::ReadVec3(str);
-				std::getline(file, str);
-				tr.Scale = TextTools::ReadVec3(str);
-				std::getline(file, str);
-				tr.isLocal = std::stoi(str);
-		}
-		else if (str.find("ComponentThatAlwaysSayHello") != std::string::npos)
-		{
-			currentEntity->AddComponent<ComponentThatAlwaysSayHello>(std::string("I am born!!!"));
-		}
-		else if (str.find("RenderMesh") != std::string::npos)
-		{
-			std::vector<std::string> param(2);
-			std::getline(file, param[0]);
-			std::getline(file, param[1]);
-			currentEntity->AddComponent<RenderMesh>(GLMesh((singlRes->ModelCont.GetModelRef(param[0]).Meshes[0])),
-				singlRes->GetMaterial(param[1]));
-		}
-		else if (str == "Camera")
-		{
-			Camera& camer = currentEntity->AddComponent<Camera>();
-			ICamera::MainCamera = &camer;
-		}
-		else if (str.find("CameraController") != std::string::npos)
-		{
-			currentEntity->AddComponent<CameraController>();
-		}
-		else if (str.find("EscapeHandler") != std::string::npos)
-		{
-			currentEntity->AddComponent<InputHandler>();
-		}
-		else if (str.find("CarController") != std::string::npos)
-		{
-			currentEntity->AddComponent<CarController>();
-		}
-		else if (str.find("Link") != std::string::npos)
-		{
-			std::getline(file, str);
-			currentEntity = &(singlEntityManager->GetEntity(std::stoi(str)));
-			std::getline(file, str);
-			if (str.find("Transform") != std::string::npos)
+			std::string name;
+			file >> str;
+			if (str == "=")
 			{
-				Transform& tr = currentEntity->GetComponent<Transform>();
-				std::getline(file, str);
-				if (std::stoi(str) == -1)
+				file >> name;
+				file >> str;
+			}
+			int a = ECS::DefEcs_().entity.AddEntity<>();
+			if (!name.empty())
+			{
+				names[name] = a;
+			}
+			//загрузка компонентов
+			if (str == "{")
+			{
+				file >> str;
+				
+				while (str != "}")
 				{
-					tr.parent = nullptr;
-				}
-				else
-				{
-					tr.parent = &(singlEntityManager->GetEntity(std::stoi(str)).GetComponent<Transform>());
-				}
-				std::getline(file, str);
-				std::vector<int> ch = TextTools::GetVectorInt(str);
-				for (auto l : ch)
-				{
-					if (l != -1)
+					std::string nameComp = str;
+					(ECS::DefEcs_().entity.*links[str].first)(a);
+
+					file >> str;
+					if (str == "{")
 					{
-						tr.childs.push_back(&(singlEntityManager->GetEntity(l).GetComponent<Transform>()));
+						std::map<std::string, std::string> map;
+						file >> str;
+						while (str != "}")
+						{
+							std::string val;
+							file >> val;
+							std::getline(file, val);
+							map[str] = TextTools::DelChar(val, ' ');
+							file >> str;
+						}
+						loadedComp[{a, nameComp}] = std::move(map);
+						file >> str;
 					}
 				}
 			}
 		}
-		else
-		{
-			throw std::exception("Invalid data of entity");
-		}
 	}
-}
 
-void LoadEntity_(std::filesystem::path path)
-{
-
+	for (auto l : loadedComp)
+	{
+		(links[l.first.second].second)(l.first.first, names, l.second);
+	}
 }
 
 void SerializationSystem::LoadKeyFromFile(std::filesystem::path path)

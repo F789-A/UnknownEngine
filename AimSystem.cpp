@@ -6,7 +6,7 @@
 #include "AimData.h"
 #include "RenderLine.h"
 #include "AlienData.h"
-#include "RectTransformComponent.h"
+#include "UiComponents.h"
 
 #include <glm/vec2.hpp>
 #include <glm/gtc/matrix_transform.hpp>

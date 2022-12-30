@@ -15,7 +15,7 @@ namespace ECS
 	class Component
 	{
 		friend EntityManager;
-	private:
+	public:
 		int entity;
 		static const int type;
 
@@ -129,7 +129,7 @@ namespace ECS
 				Entityes.push_back({-1});
 				ent = Entityes.size() - 1;
 			}
-			if (sizeof...(Ts) > 0)
+			if constexpr(sizeof...(Ts) > 0)
 			{
 				AddComponent<Ts...>(ent);
 			}
@@ -138,9 +138,9 @@ namespace ECS
 
 
 		template<typename T>
-		int GetEntity(Component<T>& comp)
+		int GetEntity(const Component<T>& comp) 
 		{
-			return comp->Entity;
+			return comp.entity;
 		}
 
 		void RemoveEntity(int entity)
@@ -227,12 +227,12 @@ namespace ECS
 	class SystemController
 	{
 	public:
-		void Register(int priority)
+		void Enable(int priority)
 		{
 	
 		}
 
-		void Delete()
+		void Disable(int priority)
 		{
 			
 		}
@@ -245,6 +245,8 @@ namespace ECS
 			}
 		}
 
+		std::map<std::string, int> numbers;
+		std::vector<bool> enabled;
 		std::vector<void(*)()> systemsPtr;
 	};
 
@@ -255,6 +257,5 @@ namespace ECS
 		EntityManager entity;
 	};
 
-	//EcsSystem DefEcs;
 	EcsSystem& DefEcs_();
 }

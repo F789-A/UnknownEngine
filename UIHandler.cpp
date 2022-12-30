@@ -1,5 +1,10 @@
-#include "UIHandler.h"
+#include "Systems.h"
 
+#include "UiComponents.h"
+#include "GlMaterial.h"
+#include "GLMesh.h"
+#include "SharedGraphicsResources.h"
+#include "Input.h"
 
 void ui::DrawImage()
 {
@@ -12,7 +17,6 @@ void ui::DrawImage()
 		DrawUI(singlRes->GetMaterial(a), transf.pos, transf.size);
 	}
 }
-
 
 void ui::ProcessButtons()
 {

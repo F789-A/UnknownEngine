@@ -5,7 +5,6 @@
 
 struct RenderLine : ECS::Component<RenderLine>
 {
-
 	GLLineMesh RenderedLine;
 	GLMaterial RenderedMaterial;
 };

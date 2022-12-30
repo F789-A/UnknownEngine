@@ -5,8 +5,6 @@
 #include <filesystem>
 #include <fstream>
 
-#include "AllComponents.h"
-#include "EntityManager.h"
 #include "ModelImporter.h"
 
 #include "Singleton.h"

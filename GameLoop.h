@@ -7,11 +7,6 @@
 #include <vector>
 
 #include "EntityLoader.h"
-#include "EntityManager.h"
-
-#include "ILoopUpdate.h"
-
-#include "EntityLoader.h"
 
 class GameLoop
 {

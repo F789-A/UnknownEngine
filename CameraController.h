@@ -1,24 +1,9 @@
 #pragma once
+#include "ecs_EntityManager.h"
 
-#include "Singleton.h"
-#include "Component.h"
-#include "ILoopUpdate.h"
-#include "Transform.h"
-#include "Camera.h"
-#include "Input.h"
-#include <glm/gtx/vector_angle.hpp>
-#include "AppTime.h"
-
-class CameraController : public ec::Component, public ILoopUpdate<UpdateType::GameLoop>
+struct CameraController : public ECS::Component<CameraController>
 {
-private:
-	float MouseSensitivity;
-	float Speed;
-
-	void Update() override;
-
-public:
-	CameraController(float mouseSensitivity = 0.01, float speed = 0.01);
-	
-	~CameraController() override = default;
+	float MouseSensitivity = 0.01;
+	float Speed = 0.01;
 };
+

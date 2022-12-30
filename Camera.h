@@ -1,26 +1,34 @@
 #pragma once
-
-#include <glad/glad.h>
-
+#include "ecs_EntityManager.h"
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
-#include <vector>
 
-#include "Component.h"
-#include "Transform.h"
-#include "ICamera.h"
-
-class Camera: public ec::Component, public ICamera
+class Camera: public ECS::Component<Camera>
 {
 public:
-    Camera(GLfloat nearClip = 0.1f, GLfloat farClip = 100.0f, GLfloat zoom = glm::radians(45.0));
-    ~Camera() override = default;
+    float FOV = glm::radians(45.0);
+    float NearClip = 0.1f;
+    float FarClip = 100.0f;
 
-    GLfloat Zoom;
-    GLfloat NearClip;
-    GLfloat FarClip;
-   
     glm::mat4 GetViewMatrix() const;
-    float GetFOV() const;
+};
+
+class MainCamera : public ECS::Component<MainCamera>
+{
+public:
+    static int count;
+    MainCamera()
+    {
+        count++;
+        if (count > 1)
+        {
+            throw "две камеры";
+        }
+    }
+
+    ~MainCamera()
+    {
+        count--;
+    }
+
 };

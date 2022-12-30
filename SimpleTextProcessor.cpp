@@ -1,5 +1,18 @@
 #include "SimpleTextProcessor.h"
 
+std::string TextTools::DelChar(const std::string& strIn, char ch)
+{
+	std::string res;
+	for (auto st : strIn)
+	{
+		if (st != ch)
+		{
+			res.push_back(st);
+		}
+	}
+	return res;
+}
+
 std::vector<std::string> TextTools::SplitAndDelSpace(const std::string& strIn, const char sep)
 {
 	std::vector<std::string> res;
@@ -29,9 +42,22 @@ std::string TextTools::GetArea(const std::string& strIn, const std::string& strT
 
 glm::vec3 TextTools::ReadVec3(const std::string& str)
 {
-	std::string _str = str.substr(1, str.length()-2);
+	std::string _str = DelChar(str, ' ');
+	_str = _str.substr(1, _str.length()-2);
 	std::vector<std::string> coords = TextTools::SplitAndDelSpace(_str, ',');
 	return glm::vec3(std::stof(coords[0]), std::stof(coords[1]), std::stof(coords[2]));
+}
+
+bool TextTools::ReadBool(const std::string& str)
+{
+	if (str == "true")
+	{
+		return true;
+	}
+	if (str == "false")
+	{
+		return false;
+	}
 }
 
 std::vector<int> TextTools::GetVectorInt(const std::string& str)

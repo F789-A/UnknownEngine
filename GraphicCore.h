@@ -3,11 +3,10 @@
 #include <GLFW\glfw3.h>
 #include "WindowApp.h"
 #include <vector>
-#include "ILoopUpdate.h"
 #include <glm/gtc/type_ptr.hpp>
 
-#include "LegacyCamera.h"
-#include "ICamera.h"
+
+
 #include "Singleton.h"
 #include "Skybox.h"
 #include "SharedGraphicsResources.h"
