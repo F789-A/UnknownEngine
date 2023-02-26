@@ -1,5 +1,5 @@
 #include "Systems.h"
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 #include "Transform.h"
 #include "Camera.h"
 #include "Input.h"

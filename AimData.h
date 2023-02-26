@@ -1,6 +1,6 @@
 #pragma once
 #include <glm/vec2.hpp>
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 #include "SimpleTextProcessor.h"
 #include "UiComponents.h"
 

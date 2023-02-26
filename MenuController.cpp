@@ -16,7 +16,7 @@ namespace AsteroidHunter
 			{
 				ecs::EntityManager tmpEm;
 				SerializationSystem::LoadEntity(tmpEm, "Scenes\\Level1.txt");
-				ecs::DefEcs_().SetEntityManager(std::move(tmpEm));
+				ecs::DefEcs().SetEntityManager(std::move(tmpEm));
 			}
 			if (ev.Id == 2)
 			{
@@ -24,17 +24,17 @@ namespace AsteroidHunter
 			}
 			if (ev.Id == 3)
 			{
-				for (auto k = ecs::DefEcs_().entity.GetComponents<Tag>(); !k.end(); ++k)
+				for (auto k = ecs::DefEcs().entity.GetComponents<Tag>(); !k.end(); ++k)
 				{
 					auto [tag] = *k;
 					if (tag.Name == "CreditsTable")
 					{
-						auto& tr = ecs::DefEcs_().entity.GetComponent<RectTransform>(tag);
+						auto& tr = ecs::DefEcs().entity.GetComponent<RectTransform>(tag);
 						tr.pos = glm::vec2(0.7, 0.5);
 					}
 				}
 			}
-			ecs::DefEcs_().entity.RemoveEntity(ecs::DefEcs_().entity.GetEntity(ev));
+			ecs::DefEcs().entity.RemoveEntity(ecs::DefEcs().entity.GetEntity(ev));
 		}
 	}
 }

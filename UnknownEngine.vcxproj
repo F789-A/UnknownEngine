@@ -163,7 +163,7 @@
     <ClCompile Include="AlienHeadersLib\glad.c" />
     <ClCompile Include="CameraControllerSystem.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="ecs_EntityManager.cpp" />
+    <ClCompile Include="EcsSystem.cpp" />
     <ClCompile Include="EscapeHandler.cpp" />
     <ClCompile Include="LevelChanger.cpp" />
     <ClCompile Include="LineDrawSystem.cpp" />
@@ -208,7 +208,7 @@
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="SortedByValueMap.h" />
     <ClInclude Include="Systems.h" />
-    <ClInclude Include="ecs_EntityManager.h" />
+    <ClInclude Include="EcsSystem.h" />
     <ClInclude Include="GLLineMesh.h" />
     <ClInclude Include="PerspectiveBuilder.h" />
     <ClInclude Include="UiComponents.h" />

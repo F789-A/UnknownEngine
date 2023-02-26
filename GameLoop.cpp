@@ -1,5 +1,5 @@
 #include "GameLoop.h"
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 
 #include "PerspectiveBuilder.h"
 
@@ -26,7 +26,7 @@ void GameLoop::Loop()
 		DeltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 		Input::GetInstance().UpdateInput();
-		ecs::DefEcs_().system.Update();
+		ecs::DefEcs().system.Update();
 
 		GraphicCore::GetInstance().UpdateGraphic();
 	}
@@ -35,7 +35,7 @@ void GameLoop::Loop()
 void GameLoop::ConstructScene()
 {
 	SerializationSystem::LoadKeyFromFile(Input::GetInstance(),  "Scenes\\Key.txt");
-	SerializationSystem::LoadEntity(ecs::DefEcs_().entity, "Scenes\\DemoLevel.txt");
+	SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\DemoLevel.txt");
 
 	Singleton<SharedGraphicsResources> singlRes;
 
@@ -48,15 +48,15 @@ void GameLoop::ConstructScene()
 	//ecs sustems
 
 	//ui
-	ecs::DefEcs_().system.AddSystem(ui::ProcessButtons);
+	ecs::DefEcs().system.AddSystem(ui::ProcessButtons);
 	
 	//game
-	ecs::DefEcs_().system.AddSystem(EscapeHandler);
-	ecs::DefEcs_().system.AddSystem(CameraControllerSystem);
-	ecs::DefEcs_().system.AddSystem(AsteroidHunter::CharacterController);
-	ecs::DefEcs_().system.AddSystem(AsteroidHunter::AlienController);
-	ecs::DefEcs_().system.AddSystem(AsteroidHunter::MenuEvent);
-	ecs::DefEcs_().system.AddSystem(AsteroidHunter::LevelChanger);
+	ecs::DefEcs().system.AddSystem(EscapeHandler);
+	ecs::DefEcs().system.AddSystem(CameraControllerSystem);
+	ecs::DefEcs().system.AddSystem(AsteroidHunter::CharacterController);
+	ecs::DefEcs().system.AddSystem(AsteroidHunter::AlienController);
+	ecs::DefEcs().system.AddSystem(AsteroidHunter::MenuEvent);
+	ecs::DefEcs().system.AddSystem(AsteroidHunter::LevelChanger);
 }
 
 float GameLoop::GetDeltaTime() const

@@ -1,5 +1,5 @@
 #pragma once
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 #include <glm/vec2.hpp>
 #include "SimpleTextProcessor.h"
 #include "GLMaterial.h"

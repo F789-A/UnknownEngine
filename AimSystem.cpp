@@ -1,6 +1,6 @@
 #include "Systems.h"
 
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 #include "Input.h"
 #include "AppTime.h"
 #include "AimData.h"
@@ -99,14 +99,14 @@ void AsteroidHunter::AlienController(ecs::EntityManager& em)
 		//died
 		if (alien.Health <= 0)
 		{
-			ecs::DefEcs_().entity.RemoveEntity(ecs::DefEcs_().entity.GetEntity(alien));
+			ecs::DefEcs().entity.RemoveEntity(ecs::DefEcs().entity.GetEntity(alien));
 		
-			SerializationSystem::LoadEntity(ecs::DefEcs_().entity, "Scenes\\AlienPrefab.txt");
+			SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\AlienPrefab.txt");
 			//
 			continue;
 		}
 		//shot
-		auto [player] = *ecs::DefEcs_().entity.GetComponents<AimData>();
+		auto [player] = *ecs::DefEcs().entity.GetComponents<AimData>();
 		player.Health -= alien.Damage * AppTime::GetDeltaTime();
 
 		// move

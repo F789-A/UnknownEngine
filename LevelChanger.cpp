@@ -12,7 +12,7 @@ void AsteroidHunter::LevelChanger(ecs::EntityManager& em)
 		{
 			ecs::EntityManager tmpEm;
 			SerializationSystem::LoadEntity(tmpEm, lvl.NextLevel);
-			ecs::DefEcs_().SetEntityManager(std::move(tmpEm));
+			ecs::DefEcs().SetEntityManager(std::move(tmpEm));
 		}
 	}
 }

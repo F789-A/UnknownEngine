@@ -1,6 +1,6 @@
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 
-ecs::EcsSystem& ecs::DefEcs_()
+ecs::EcsSystem& ecs::DefEcs()
 {
 	static ecs::EcsSystem f;
 	return f;

@@ -1,5 +1,5 @@
 #include "EntityLoader.h"
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 #include "SimpleTextProcessor.h"
 #include "Logger.h"
 #include <fstream>

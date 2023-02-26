@@ -10,6 +10,8 @@
 #include "ConceptLib.h"
 #include <iostream>
 
+//TODO: TAGS, EVENTS
+
 namespace ecs
 {
 	template<typename T>
@@ -133,10 +135,8 @@ namespace ecs
 		template<typename Arg1>
 		bool CheckComponents(int ent);
 
-		void AddEvent(const std::string& ev);
-		bool ReadEvent(const std::string& ev);
-		void MakeTag(const std::string& tag, int ent);
-		int GetEntityWithTag(const std::string& tag);
+		//void MakeTag(const std::string& tag, int ent);
+		//int GetEntityWithTag(const std::string& tag);
 	private:
 		template<typename T>
 		void regist();
@@ -150,11 +150,8 @@ namespace ecs
 		std::queue<int> freeEntity;
 		std::bitset<1000> enabledEntity;
 
-		std::set<std::string> Events;
-		std::vector<std::set<std::string>> eventsCycle;
 
-		std::map<std::string, int> Tags;
-
+		//std::map<std::string, int> Tags;
 	};
 
 	class EcsSystem;
@@ -187,7 +184,7 @@ namespace ecs
 		EntityManager* tempEM;
 	};
 
-	EcsSystem& DefEcs_();
+	EcsSystem& DefEcs();
 
 	//Serialization
 	std::map<std::string, std::pair<void(ecs::EntityManager::*)(int), void(*)(EntityManager& em, int, std::map<std::string, std::string>&)>>& LoadCallbacks();

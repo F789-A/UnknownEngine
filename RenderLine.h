@@ -1,7 +1,7 @@
 #pragma once
 #include "GLMaterial.h"
 #include "GLLineMesh.h"
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 #include "SharedGraphicsResources.h"
 
 struct RenderLine : ecs::Component<RenderLine>

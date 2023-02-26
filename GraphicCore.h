@@ -9,12 +9,13 @@
 #include "Skybox.h"
 #include "SharedGraphicsResources.h"
 #include "GlFrameBuffer.h"
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 
 using uint = unsigned int;
 
 class GraphicCore
 {
+	GLFWwindow* Window;
 	std::unique_ptr<Skybox> CurrentSkybox;
 
 	std::vector<GLMaterial> PostProcesses;
@@ -28,7 +29,7 @@ class GraphicCore
 
 	uint Uniform_Shaders_Parameters;
 
-	GraphicCore();
+	GraphicCore(GLFWwindow* window);
 	GraphicCore operator=(const GraphicCore&) = delete;
 	GraphicCore(const GraphicCore&) = delete;
 	GraphicCore(GraphicCore&& other) = delete;

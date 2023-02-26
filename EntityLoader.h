@@ -1,6 +1,6 @@
 #pragma once
 #include <filesystem>
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 #include "Input.h"
 
 namespace SerializationSystem

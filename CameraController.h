@@ -1,5 +1,5 @@
 #pragma once
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 
 struct CameraController : public ecs::Component<CameraController>
 {

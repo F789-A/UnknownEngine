@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 
 #include "GLMesh.h"
 #include "GLMaterial.h"

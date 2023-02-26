@@ -2,11 +2,11 @@
 
 #include "Camera.h"
 
-GraphicCore::GraphicCore()
+GraphicCore::GraphicCore(GLFWwindow* window) : Window(window)
 {
 	Height = WindowApp::GetInstance().Height();
 	Width = WindowApp::GetInstance().Width();
-	ecsS = &ecs::DefEcs_();
+	ecsS = &ecs::DefEcs();
 	//init advice
 	Singleton<SharedGraphicsResources> SinglRes;
 	
@@ -42,13 +42,11 @@ GraphicCore::GraphicCore()
 	glBindBufferBase(GL_UNIFORM_BUFFER, 3, Uniform_Shaders_Parameters);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, 2*sizeof(GLuint), aspect);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-	//glfwSetInputMode(WindowApp::GetInstance().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 GraphicCore& GraphicCore::GetInstance()
 {
-	static GraphicCore  instance;
+	static GraphicCore  instance(WindowApp::GetInstance().GetWindow());
 	return instance;
 }
 
@@ -65,13 +63,13 @@ void GraphicCore::UpdateGraphic()
 	static GLMesh screenPlane(vertices, ind);
 
 	Camera* cam = nullptr;
-	for (auto l = ecs::DefEcs_().entity.GetComponents<MainCamera, Camera>(); !l.end(); ++l)
+	for (auto l = ecs::DefEcs().entity.GetComponents<MainCamera, Camera>(); !l.end(); ++l)
 	{
 		auto [m, camera] = *l;
 		cam = &camera;
 	}
 	glm::mat4 view = cam->GetViewMatrix();
-	glm::mat4 projection = glm::perspective(cam->FOV, (float)WindowApp::GetInstance().Width() / WindowApp::GetInstance().Height(), 0.1f, 100.0f);
+	glm::mat4 projection = glm::perspective(cam->FOV, (float)Width / Height, 0.1f, 100.0f);
 	glBindBuffer(GL_UNIFORM_BUFFER, uniformCameraBlock);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projection));
 	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
@@ -115,5 +113,5 @@ void GraphicCore::UpdateGraphic()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	screenPlane.Draw(BlendSceneMaterial, glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1));
 
-	glfwSwapBuffers(WindowApp::GetInstance().GetWindow());
+	glfwSwapBuffers(Window);
 }

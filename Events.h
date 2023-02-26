@@ -1,5 +1,5 @@
 #pragma once
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 #include <string>
 
 struct Event : public ecs::Component<Event>

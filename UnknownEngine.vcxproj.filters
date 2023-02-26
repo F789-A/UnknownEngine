@@ -123,7 +123,7 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClCompile>
-    <ClCompile Include="ecs_EntityManager.cpp">
+    <ClCompile Include="EcsSystem.cpp">
       <Filter>Source Files\ECS</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
@@ -233,7 +233,7 @@
     <ClInclude Include="Logger.h">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClInclude>
-    <ClInclude Include="ecs_EntityManager.h">
+    <ClInclude Include="EcsSystem.h">
       <Filter>Source Files\ECS</Filter>
     </ClInclude>
     <ClInclude Include="GLLineMesh.h">

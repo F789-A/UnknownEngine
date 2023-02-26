@@ -1,5 +1,5 @@
 #pragma once
-#include "ecs_EntityManager.h"
+#include "EcsSystem.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <vector>
@@ -70,14 +70,6 @@ public:
 		return eulerAngles(Rotation);
 	}
 
-	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
-	{
-		Transform& tr = em.GetComponent<Transform>(a);
-		tr.Position = TextTools::ReadVec3(res["Position"]);
-		tr.Scale = TextTools::ReadVec3(res["Scale"]);
-		//tr.Rotation = TextTools::ReadVec3(res["Rotation"]);
-	}
-
 	void Rotate(glm::vec3 axis, float angle)
 	{
 		glm::quat quat;
@@ -87,5 +79,13 @@ public:
 		quat.z = axis.z * sin(angle / 2);
 		Rotation = quat * Rotation;
 		RecalcTransformation();
+	}
+
+	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
+	{
+		Transform& tr = em.GetComponent<Transform>(a);
+		tr.Position = TextTools::ReadVec3(res["Position"]);
+		tr.Scale = TextTools::ReadVec3(res["Scale"]);
+		//tr.Rotation = TextTools::ReadVec3(res["Rotation"]);
 	}
 };
