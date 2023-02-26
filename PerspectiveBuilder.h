@@ -65,6 +65,6 @@ void PerspectiveBuild()
 	static GLLineMesh a(arr);
 	Singleton<SharedGraphicsResources> singlRes;
 	singlRes->GetMaterial("Materials\\fuck.uemat").Use();
-	a.Draw(singlRes->GetMaterial("Materials\\fuck.uemat"), arr);
+	//a.Draw(singlRes->GetMaterial("Materials\\fuck.uemat"), arr);
 }
 

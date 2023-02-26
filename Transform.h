@@ -5,8 +5,9 @@
 #include <vector>
 #include <glm/gtc/matrix_transform.hpp>
 #include <queue>
+#include "SimpleTextProcessor.h"
 
-class Transform : public ECS::Component<Transform>
+class Transform : public ecs::Component<Transform>
 {
 public:
 	glm::vec3 Position = glm::vec3(0, 0, 0);
@@ -67,6 +68,14 @@ public:
 	glm::vec3 EulerAngle() const
 	{
 		return eulerAngles(Rotation);
+	}
+
+	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
+	{
+		Transform& tr = em.GetComponent<Transform>(a);
+		tr.Position = TextTools::ReadVec3(res["Position"]);
+		tr.Scale = TextTools::ReadVec3(res["Scale"]);
+		//tr.Rotation = TextTools::ReadVec3(res["Rotation"]);
 	}
 
 	void Rotate(glm::vec3 axis, float angle)

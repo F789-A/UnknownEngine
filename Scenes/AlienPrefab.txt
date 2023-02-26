@@ -1,0 +1,39 @@
+
+
+Entity
+{
+	RectTransform
+	{
+		pos = (0.5, 0.25, 0)
+		size = (0.2, 0.2, 1)
+		priority = 7
+		component childs = alienText
+	}
+	AlienData
+	{
+		Health = 15
+		Damage = 1
+		component HealthBar = alienText
+	}
+	Image
+	{
+		Material = Materials/Alien.uemat
+	}	
+}
+
+Entity = alienText
+{
+	RectTransform
+	{
+		pos = (0.0, 0.0, 0)
+		size = (0.2, 0.2, 0)
+		priority = 99
+		component childs =
+	}
+	Text
+	{
+		Text = AlienHealthnbnhvnvhngnghnghnhg
+		Size = 24
+		FontPath = Fonts\arial.ttf
+	}
+}

@@ -7,26 +7,26 @@
 #include "CameraController.h"
 #include <glm/gtx/vector_angle.hpp>
 
-void CameraControllerSystem()
+void CameraControllerSystem(ecs::EntityManager& em)
 {
-    for (auto l = ECS::DefEcs_().entity.GetComponents<MainCamera, CameraController, Transform>(); !l.end(); ++l)
+    for (auto l = em.GetComponents<MainCamera, CameraController, Transform>(); !l.end(); ++l)
     {
         auto [_m, controller, transf] = *l;
 
         glm::vec3 movement(0, 0, 0);
-        if (Input::GetInstance().GetButton("Front", GLFW_PRESS) == true)
+        if (Input::GetInstance().GetButton("Front", Input::PressMode::Repeat) == true)
         {
             movement += transf.Front();
         }
-        if (Input::GetInstance().GetButton("Backward", GLFW_PRESS) == true)
+        if (Input::GetInstance().GetButton("Backward", Input::PressMode::Repeat) == true)
         {
             movement -= transf.Front();
         }
-        if (Input::GetInstance().GetButton("Left", GLFW_PRESS) == true)
+        if (Input::GetInstance().GetButton("Left", Input::PressMode::Repeat) == true)
         {
             movement -= transf.Right();
         }
-        if (Input::GetInstance().GetButton("Right", GLFW_PRESS) == true)
+        if (Input::GetInstance().GetButton("Right", Input::PressMode::Repeat) == true)
         {
             movement += transf.Right();
         }

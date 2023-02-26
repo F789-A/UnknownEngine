@@ -38,3 +38,9 @@ Mesh& Mesh::operator=(Mesh&& other) noexcept
 	}
 	return *this;
 }
+
+Mesh::Mesh(std::string name, std::vector<Vertex> vertices, std::vector<uint> indices):
+	Name(std::move(name)),
+	Vertices(std::move(vertices)),
+	Indices(std::move(indices))
+{}

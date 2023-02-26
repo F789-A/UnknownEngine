@@ -13,6 +13,11 @@ std::string TextTools::DelChar(const std::string& strIn, char ch)
 	return res;
 }
 
+std::string TextTools::TrimStart(const std::string& str, int num)
+{
+	return str.substr(num, str.length());
+}
+
 std::vector<std::string> TextTools::SplitAndDelSpace(const std::string& strIn, const char sep)
 {
 	std::vector<std::string> res;
@@ -29,7 +34,10 @@ std::vector<std::string> TextTools::SplitAndDelSpace(const std::string& strIn, c
 			str.push_back(st);
 		}
 	}
-	res.push_back(str);
+	if (!str.empty())
+	{
+		res.push_back(str);
+	}
 	return res;
 }
 

@@ -1,4 +1,4 @@
-#include "AimSystem.h"
+#include "Systems.h"
 
 #include "ecs_EntityManager.h"
 #include "Input.h"
@@ -10,59 +10,57 @@
 
 #include <glm/vec2.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include  <algorithm>
+#include "GLMaterial.h"
+#include <glm/glm.hpp>
 
-void AimCalc();
+#include "EntityLoader.h"
 
-void AsteroidHunter::CharacterController()
+float Scr2Nor(float scr)
 {
-	for (auto l = ECS::DefEcs_().entity.GetComponents<AimData>(); !l.end(); ++l)
+	return scr * 2 - 1;
+}
+
+void AsteroidHunter::CharacterController(ecs::EntityManager& em)
+{
+	for (auto l = em.GetComponents<AimData, RenderLine>(); !l.end(); ++l)
 	{
-		auto [aim] = *l;
+		auto [aim, render] = *l;
 		float sens = aim.aimSensitivity * AppTime::GetDeltaTime();
-		if (Input::GetInstance().GetKey(GLFW_KEY_Y, Input::PressMode::Press))
+		if (Input::GetInstance().GetButton("Expansion", Input::PressMode::Repeat))
 		{
 			aim.size += sens;
 		}
-		if (Input::GetInstance().GetKey(GLFW_KEY_H, Input::PressMode::Press))
+		if (Input::GetInstance().GetButton("Contraction", Input::PressMode::Repeat))
 		{
 			aim.size -= sens;
 		}
-		if (Input::GetInstance().GetKey(GLFW_KEY_RIGHT, Input::PressMode::Press))
+		if (Input::GetInstance().GetButton("Front", Input::PressMode::Repeat))
 		{
-			aim.center.x += sens;
+			aim.center.y += sens * aim.Speed;
 		}
-		if (Input::GetInstance().GetKey(GLFW_KEY_LEFT, Input::PressMode::Press))
+		if (Input::GetInstance().GetButton("Backward", Input::PressMode::Repeat))
 		{
-			aim.center.x -= sens;
+			aim.center.y -= sens * aim.Speed;
 		}
-		if (Input::GetInstance().GetKey(GLFW_KEY_UP, Input::PressMode::Press))
+		if (Input::GetInstance().GetButton("Right", Input::PressMode::Repeat))
 		{
-			aim.center.y += sens;
+			aim.center.x += sens * aim.Speed;
 		}
-		if (Input::GetInstance().GetKey(GLFW_KEY_DOWN, Input::PressMode::Press))
+		if (Input::GetInstance().GetButton("Left", Input::PressMode::Repeat))
 		{
-			aim.center.y -= sens;
+			aim.center.x -= sens * aim.Speed;
 		}
-		aim.size = aim.size > 0 ? aim.size : 0;
+		aim.size = aim.size > aim.minSize ? aim.size : aim.minSize;
 
-		AimCalc();
-	}
-	
-}
-
-void AimCalc()
-{
-	for (auto l = ECS::DefEcs_().entity.GetComponents<AimData, RenderLine>(); !l.end(); ++l)
-	{
-		auto [aim, render] = *l;
-		
-		std::vector<glm::vec2> corner = { {-1, 1}, {1, 1}, {1, -1}, {-1, -1} };
+		static std::vector<glm::vec2> corner = { {-1, 1}, {1, 1}, {1, -1}, {-1, -1} };
+		float aspect = 3.0f / 4.0f;
 		std::vector<glm::vec2> quad =
 		{
-			{ aim.center.x - aim.size, aim.center.x + aim.size * aim.aspect },
-			{ aim.center.x + aim.size, aim.center.x + aim.size * aim.aspect },
-			{ aim.center.x + aim.size, aim.center.x - aim.size * aim.aspect },
-			{ aim.center.x - aim.size, aim.center.x - aim.size * aim.aspect }
+			{ aim.center.x - aim.size * aspect, aim.center.y + aim.size },
+			{ aim.center.x + aim.size * aspect, aim.center.y + aim.size },
+			{ aim.center.x + aim.size * aspect, aim.center.y - aim.size },
+			{ aim.center.x - aim.size * aspect, aim.center.y - aim.size }
 		};
 		std::vector<glm::vec2> arr =
 		{
@@ -78,16 +76,76 @@ void AimCalc()
 			corner[3], quad[3]
 		};
 		render.RenderedLine.setVert(arr);
-		render.RenderedLine.Draw(render.RenderedMaterial);
+
+		for (auto k = em.GetComponents<AlienData, RectTransform>(); !k.end(); ++k)
+		{
+			auto [alien, transf] = *k;
+			if (aim.center.x - aim.size * aspect < Scr2Nor(transf.pos.x) && Scr2Nor(transf.pos.x) < aim.center.x + aim.size * aspect
+				&& aim.center.y - aim.size < Scr2Nor(transf.pos.y) && Scr2Nor(transf.pos.y) < aim.center.y + aim.size)
+			{
+				alien.Health -= aim.Damage * aim.minSize/aim.size * AppTime::GetDeltaTime();
+			}
+		}
+		aim.text->text = std::string("Health: ") + std::to_string((int)aim.Health);
 	}
 }
 
-void AsteroidHunter::AlienController()
+void AsteroidHunter::AlienController(ecs::EntityManager& em)
 {
-	for (auto l = ECS::DefEcs_().entity.GetComponents<AlienData, RectTransform>(); !l.end(); ++l)
+	for (auto l = em.GetComponents<AlienData, RectTransform>(); !l.end(); ++l)
 	{
-		auto [alien, transform] = *l;
+		auto [alien, transf] = *l;
 
+		//died
+		if (alien.Health <= 0)
+		{
+			ecs::DefEcs_().entity.RemoveEntity(ecs::DefEcs_().entity.GetEntity(alien));
+		
+			SerializationSystem::LoadEntity(ecs::DefEcs_().entity, "Scenes\\AlienPrefab.txt");
+			//
+			continue;
+		}
+		//shot
+		auto [player] = *ecs::DefEcs_().entity.GetComponents<AimData>();
+		player.Health -= alien.Damage * AppTime::GetDeltaTime();
+
+		// move
+		int mode = 1;
+
+		if (mode == 2) //randomer
+		{
+			if ((int)AppTime::GetTime() % 10 < AppTime::GetDeltaTime() * 2)
+			{
+				int dirX = std::rand();
+				int dirY = std::rand();
+				alien.dir = glm::vec2((float)dirX / RAND_MAX, (float)dirY / RAND_MAX);
+			}
+		}
+		else if (mode == 3) // coward
+		{ 
+			alien.dir = transf.pos - em.GetComponent<RectTransform>(player).pos;
+		}
+
+		float dir = (float)std::rand() / RAND_MAX;  // bounder
+		if (transf.pos.x > 1)
+		{
+			alien.dir = glm::vec2(0, dir) - transf.pos;
+		} 
+		if (transf.pos.x < 0)
+		{
+			alien.dir = glm::vec2(1, dir) - transf.pos;
+		}
+		if (transf.pos.y > 1)
+		{
+			alien.dir = glm::vec2(dir, 0) - transf.pos;
+		}
+		if (transf.pos.y < 0)
+		{
+			alien.dir = glm::vec2(dir, 1) - transf.pos;
+		}
+		alien.dir = glm::normalize(alien.dir);
+		float delta = std::min(AppTime::GetDeltaTime(), 0.1f);
+		transf.pos += glm::vec2(alien.dir.x * delta, alien.dir.y * delta);
+		alien.HealthBar->text = std::to_string(alien.Health);
 	}
-
 }

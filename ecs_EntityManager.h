@@ -6,46 +6,75 @@
 #include <bitset>
 #include <set>
 #include <memory>
+#include "SortedByValueMap.h"
+#include "ConceptLib.h"
+#include <iostream>
 
-namespace ECS
+namespace ecs
 {
+	template<typename T>
+	class ComponentConteiner;
 	class EntityManager;
 
 	template<typename T>
 	class Component
 	{
 		friend EntityManager;
-	public:
+		friend ComponentConteiner<T>;
+	private:
 		int entity;
 		static const int type;
 
 	public:
+		bool enabled = true;
 		Component() = default;
+		virtual ~Component() = default;
 	};
 
 	int generateComponentType();
-
-	template<typename T>
-	const int Component<T>::type = generateComponentType();
 
 	class BaseComponentConteiner
 	{
 	public:
 		virtual void Remove(int entity) = 0;
 		virtual int Count() = 0;
+		virtual void Add(int ent) = 0;
 	};
 
 	template<typename T>
-	struct ComponentConteiner : public BaseComponentConteiner
+	class ComponentConteiner : public BaseComponentConteiner
 	{
 	public:
+		using iterator = std::unordered_map<int, T>::iterator;
+		
+		iterator begin()
+		{
+			return components.begin();
+		}
+
+		iterator end()
+		{
+			return components.end();
+		}
+
 		void Remove(int entity)
 		{
 			components.erase(entity);
 		}
 		int Count()
 		{
-			return 0;
+			return components.size();
+		}
+
+		void Add(int entity)
+		{
+			components.emplace(entity, T());
+			components[entity].entity = entity;
+		}
+
+		T& Get(int ent)
+		{
+			return components.at(ent);
 		}
 
 		std::unordered_map<int, T> components;
@@ -61,193 +90,87 @@ namespace ECS
 		{
 			friend class EntityManager;
 		public:
-			bool end()
-			{
-				return it == it_end;
-			}
-
-			void operator++()
-			{
-				it++;
-				if constexpr(sizeof...(Ts) > 0)
-				{
-					while (it != it_end && !checkReg<Ts...>(it->first))
-					{
-						it++;
-					}
-				}
-			}
-			
-			std::tuple<T1&, Ts&...> operator*()
-			{
-				return std::tie(em.GetComponent<T1>(it->first), em.GetComponent<Ts>(it->first)...);
-			}
+			bool end();
+			bool operator==(const ComponentIterator& b);
+			ComponentIterator& operator++();
+			std::tuple<T1&, Ts&...> operator*();
 
 		private:
 			EntityManager& em;
-			typename std::unordered_map<int, T1>::iterator it_end;
-			typename std::unordered_map<int, T1>::iterator it;
+			typename ComponentConteiner<T1>::iterator it_end;
+			typename ComponentConteiner<T1>::iterator it;
 
-			ComponentIterator(EntityManager& em_): em(em_), it(em_.GetConteiner<T1>().components.begin()),
-				it_end(em.GetConteiner<T1>().components.end())
-			{}
-
-			template<typename Arg1, typename Arg2, typename... Args>
-			bool checkReg(int ent)
-			{
-				if (!checkReg<Arg1>(ent))
-				{
-					return false;
-				}
-				return checkReg<Arg1, Args...>(ent);
-			}
-
-			template<typename Arg1>
-			bool checkReg(int ent)
-			{
-				if (em.Entityes[ent].find(Arg1::type) != em.Entityes[ent].end())
-				{
-					return true;
-				}
-				return false;
-			}
+			ComponentIterator(EntityManager& em);
 		};
 
 		//Entityes
-		template<typename... Ts>
-		int AddEntity()
-		{
-			int ent = -1;
-			if (!freeEntity.empty())
-			{
-				ent = freeEntity.front();
-				freeEntity.pop();
-				Entityes[ent] = {-1};
-			}
-			else
-			{
-				Entityes.push_back({-1});
-				ent = Entityes.size() - 1;
-			}
-			if constexpr(sizeof...(Ts) > 0)
-			{
-				AddComponent<Ts...>(ent);
-			}
-			return ent;
-		}
+		template<typename... Ts> int AddEntity();
+		template<typename T> int GetEntity(const Component<T>& comp);
+		void RemoveEntity(int entity);
 
-
-		template<typename T>
-		int GetEntity(const Component<T>& comp) 
-		{
-			return comp.entity;
-		}
-
-		void RemoveEntity(int entity)
-		{
-			freeEntity.push(entity);
-			for (auto l : Entityes[entity])
-			{
-				if (l == -1) continue;
-				ComponentsConteiners[l]->Remove(entity);
-			}
-			Entityes[entity].clear();
-		}
-
+		void CollectGarbage();
 		//Components
 
-		template<typename T>
-		void AddComponent(int entity)
-		{
-			if (ComponentsConteiners.size() <= T::type || ComponentsConteiners[T::type] == nullptr)
-			{
-				regist<T>();
-			}
-			GetConteiner<T>().components.emplace(entity, T());
-			GetConteiner<T>().components[entity].entity = entity;
-			Entityes[entity].insert(T::type);
-		}
-
+		template<typename T> void AddComponent(int entity);
 		template<typename Arg1, typename Arg2, typename... Args>
-		void AddComponent(int entity)
-		{
-			AddComponent<Arg1>(entity);
-			AddComponent<Arg2, Args...>(entity);
-		}
+		void AddComponent(int entity);
 
 		template<typename T>
-		T& GetComponent(int entity)
-		{
-			return GetConteiner<T>().components.at(entity);
-		}
+		T& GetComponent(int entity);
+		template<typename T, typename R>
+		T& GetComponent(R& comp);
+
+		void SetActiveEntity(int ent, bool state);
 
 		template<typename Arg1, typename... Args>
-		ComponentIterator<Arg1, Args...> GetComponents()
-		{
-			if (Arg1::type >= ComponentsConteiners.size() || ComponentsConteiners[Arg1::type] == nullptr)
-			{
-				regist<Arg1>();
-			}
-			return ComponentIterator<Arg1, Args...>(*this);
-		}
+		ComponentIterator<Arg1, Args...> GetComponents();
 
 		template<typename T>
-		void RemoveComponent(int entity)
-		{
-			ComponentsConteiners[T::Type]->Remove(entity);
-		}
+		void RemoveComponent(int entity);
 
+		template<typename Arg1, typename Arg2, typename... Args>
+		bool CheckComponents(int ent);
+		template<typename Arg1>
+		bool CheckComponents(int ent);
+
+		void AddEvent(const std::string& ev);
+		bool ReadEvent(const std::string& ev);
+		void MakeTag(const std::string& tag, int ent);
+		int GetEntityWithTag(const std::string& tag);
 	private:
 		template<typename T>
-		void regist()
-		{
-			if (ComponentsConteiners.size() <= T::type)
-			{
-				ComponentsConteiners.resize(T::type + 1);
-			}
-			ComponentsConteiners[T::type] = std::make_unique<ComponentConteiner<T>>();
-		}
+		void regist();
 
 		template<typename T> 
-		ComponentConteiner<T>& GetConteiner()
-		{
-			if (T::type >= ComponentsConteiners.size() || ComponentsConteiners[T::type] == nullptr)
-			{
-				regist<T>();
-			}
-			return *static_cast<ComponentConteiner<T>*>(ComponentsConteiners[T::type].get());
-		}
+		ComponentConteiner<T>& GetConteiner();
 
 		std::vector<std::unique_ptr<BaseComponentConteiner>> ComponentsConteiners;
 		std::vector<std::set<int>> Entityes;
-
+		std::queue<int> QueueDeletion;
 		std::queue<int> freeEntity;
+		std::bitset<1000> enabledEntity;
+
+		std::set<std::string> Events;
+		std::vector<std::set<std::string>> eventsCycle;
+
+		std::map<std::string, int> Tags;
+
 	};
+
+	class EcsSystem;
 
 	class SystemController
 	{
 	public:
-		void Enable(int priority)
-		{
-	
-		}
+		void Update();
 
-		void Disable(int priority)
-		{
-			
-		}
+		void AddSystem(void(*syst)(EntityManager&));
 
-		void Update()
-		{
-			for (auto& l : systemsPtr)
-			{
-				l();
-			}
-		}
+		void SetEnable(void(*syst)(EntityManager&), bool state);
 
-		std::map<std::string, int> numbers;
-		std::vector<bool> enabled;
-		std::vector<void(*)()> systemsPtr;
+		EcsSystem* ecsS = nullptr;
+		std::bitset<100> enabled;
+		std::vector<void(*)(EntityManager&)> systemsPtr;
 	};
 
 	class EcsSystem
@@ -255,7 +178,179 @@ namespace ECS
 	public:
 		SystemController system;
 		EntityManager entity;
+
+		EcsSystem();
+		void EndCycle();
+		void SetEntityManager(EntityManager&& em);
+
+	private:
+		EntityManager* tempEM;
 	};
 
 	EcsSystem& DefEcs_();
+
+	//Serialization
+	std::map<std::string, std::pair<void(ecs::EntityManager::*)(int), void(*)(EntityManager& em, int, std::map<std::string, std::string>&)>>& LoadCallbacks();
+
+	template<typename T>
+	void AddCollbacks()
+	{
+		std::string raw = typeid(T).name(); // Можно заменить на статичное поле внутри каждого компонента
+		std::string name = raw.substr(raw.find(" ")+1, raw.length());
+		LoadCallbacks()[name] = { &ecs::EntityManager::AddComponent<T>, &T::Load };
+	}
+
+	template<typename T>
+	const int Component<T>::type = (AddCollbacks<T>(), generateComponentType());
+};
+
+//Implemetation
+
+//EntityManager
+template<typename... Ts>
+int ecs::EntityManager::AddEntity()
+{
+	int ent = -1;
+	if (!freeEntity.empty())
+	{
+		ent = freeEntity.front();
+		freeEntity.pop();
+		Entityes[ent] = { -1 };
+	}
+	else
+	{
+		Entityes.push_back({ -1 });
+		ent = Entityes.size() - 1;
+	}
+	if constexpr (sizeof...(Ts) > 0)
+	{
+		AddComponent<Ts...>(ent);
+	}
+	return ent;
 }
+template<typename T>
+int ecs::EntityManager::GetEntity(const Component<T>& comp)
+{
+	return comp.entity;
+}
+template<typename T>
+void ecs::EntityManager::AddComponent(int entity)
+{
+	if (ComponentsConteiners.size() <= T::type || ComponentsConteiners[T::type] == nullptr)
+	{
+		regist<T>();
+	}
+	ComponentsConteiners[T::type]->Add(entity);
+	Entityes[entity].insert(T::type);
+}
+template<typename Arg1, typename Arg2, typename... Args>
+void ecs::EntityManager::AddComponent(int entity)
+{
+	AddComponent<Arg1>(entity);
+	AddComponent<Arg2, Args...>(entity);
+}
+template<typename T>
+T& ecs::EntityManager::GetComponent(int entity)
+{
+	return GetConteiner<T>().Get(entity);
+}
+template<typename T, typename R>
+T& ecs::EntityManager::GetComponent(R& comp)
+{
+	return GetConteiner<T>().Get(GetEntity(comp));
+}
+template<typename Arg1, typename Arg2, typename... Args>
+bool ecs::EntityManager::CheckComponents(int ent)
+{
+	if (!CheckComponents<Arg1>(ent))
+	{
+		return false;
+	}
+	return CheckComponents<Arg2, Args...>(ent);
+}
+template<typename Arg1>
+bool ecs::EntityManager::CheckComponents(int ent)
+{
+	if (Entityes[ent].find(Arg1::type) != Entityes[ent].end())
+	{
+		return true;
+	}
+	return false;
+}
+template<typename Arg1, typename... Args>
+ecs::EntityManager::ComponentIterator<Arg1, Args...> ecs::EntityManager::GetComponents()
+{
+	if (Arg1::type >= ComponentsConteiners.size() || ComponentsConteiners[Arg1::type] == nullptr)
+	{
+		regist<Arg1>();
+	}
+	return ComponentIterator<Arg1, Args...>(*this);
+}
+template<typename T>
+void ecs::EntityManager::RemoveComponent(int entity)
+{
+	ComponentsConteiners[T::type]->Remove(entity);
+}
+template<typename T>
+void ecs::EntityManager::regist()
+{
+	if (ComponentsConteiners.size() <= T::type)
+	{
+		ComponentsConteiners.resize(T::type + 1);
+	}
+	ComponentsConteiners[T::type] = std::make_unique<ComponentConteiner<T>>();
+}
+template<typename T>
+ecs::ComponentConteiner<T>& ecs::EntityManager::GetConteiner()
+{
+	if (T::type >= ComponentsConteiners.size() || ComponentsConteiners[T::type] == nullptr)
+	{
+		regist<T>();
+	}
+	return *static_cast<ComponentConteiner<T>*>(ComponentsConteiners[T::type].get());
+}
+
+//Iterator
+template<typename T1, typename... Ts>
+bool ecs::EntityManager::ComponentIterator<T1, Ts...>::end()
+{
+	return it == it_end;
+}
+template<typename T1, typename... Ts>
+bool ecs::EntityManager::ComponentIterator<T1, Ts...>::operator==(const ComponentIterator& b)
+{
+	return it == b.it;
+}
+template<typename T1, typename... Ts>
+ecs::EntityManager::ComponentIterator<T1, Ts...>& ecs::EntityManager::ComponentIterator<T1, Ts...>::operator++()
+{
+	++it;
+	if constexpr (sizeof...(Ts) > 0)
+	{
+		while (it != it_end && !em.CheckComponents<Ts...>(it->first))
+		{
+			++it;
+		}
+	}
+	return *this;
+}
+template<typename T1, typename... Ts>
+std::tuple<T1&, Ts&...> ecs::EntityManager::ComponentIterator<T1, Ts...>::operator*()
+{
+	return std::tie(em.GetComponent<T1>(it->first), em.GetComponent<Ts>(it->first)...);
+}
+template<typename T1, typename... Ts>
+ecs::EntityManager::ComponentIterator<T1, Ts...>::ComponentIterator(EntityManager& em_) :
+	em(em_),
+	it(em_.GetConteiner<T1>().begin()),
+	it_end(em.GetConteiner<T1>().end())
+{
+	if constexpr (sizeof...(Ts) > 0)
+	{
+		while (it != it_end && !em.CheckComponents<Ts...>(it->first))
+		{
+			++it;
+		}
+	}
+
+};

@@ -1,2 +1,2 @@
-texture diffuse Textures/wood.jpg
+texture diffuse Textures/fon.png
 shader_path Shaders\DefaultUI.ueshad

@@ -5,21 +5,24 @@
 #include <vector>
 #include <glm/gtc/type_ptr.hpp>
 
-
-
 #include "Singleton.h"
 #include "Skybox.h"
 #include "SharedGraphicsResources.h"
-#include "PostProcessing.h"
+#include "GlFrameBuffer.h"
+#include "ecs_EntityManager.h"
 
 using uint = unsigned int;
 
 class GraphicCore
 {
 	std::unique_ptr<Skybox> CurrentSkybox;
-	std::unique_ptr<PostProcessing> PostProcess;
 
-	std::vector<PostProcessing> _PostProcess;
+	std::vector<GLMaterial> PostProcesses;
+
+	GlFramebuffer uiFramebuffer;
+	GlFramebuffer sceneFramebuffer;
+	GlFramebuffer postProcessFramebuffer;
+	GLMaterial BlendSceneMaterial;
 
 	uint uniformCameraBlock;
 
@@ -36,10 +39,11 @@ class GraphicCore
 public:
 	bool EnablePostProcessing = false;
 	int Height;
-	int Weigth;
+	int Width;
+	ecs::EcsSystem* ecsS;
 
-	std::vector<void(*)()> mainPass;
-	std::vector<void(*)()> UiPass;
+	std::vector<void(*)(ecs::EntityManager&)> mainPass;
+	std::vector<void(*)(ecs::EntityManager&)> UiPass;
 	
 	static GraphicCore& GetInstance();
 	void UpdateGraphic();

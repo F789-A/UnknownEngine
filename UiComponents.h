@@ -1,26 +1,89 @@
 #pragma once
 #include "ecs_EntityManager.h"
 #include <glm/vec2.hpp>
+#include "SimpleTextProcessor.h"
+#include "GLMaterial.h"
+#include "SharedGraphicsResources.h"
+#include "FontInfo.h"
 
-class RectTransform : public ECS::Component<RectTransform>
+class RectTransform : public ecs::Component<RectTransform>
 {
 public:
-	RectTransform() : pos(0.5, 0.5), size(2, 2){};
+	glm::vec2 pos;	// local
+	glm::vec2 size; // global
+	float priority;
 
-	glm::vec2 pos;
-	glm::vec2 size;
+	std::vector<RectTransform*> childs;
+	RectTransform* parent = nullptr;
+
+	glm::vec2 globalPos; // global
+
+	void UpdateMatrix();
+
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
+	{
+		auto& tr = em.GetComponent<RectTransform>(ent);
+
+		tr.pos = TextTools::ReadVec3(res["pos"]);
+		tr.size = TextTools::ReadVec3(res["size"]);
+		tr.priority = std::stof(res["priority"]);
+
+		auto childs = TextTools::SplitAndDelSpace(res["childs"], ',');
+		for (auto& l : childs)
+		{
+			auto* ch = &em.GetComponent<RectTransform>(std::stoi(l));
+			tr.childs.push_back(ch);
+			ch->parent = &tr;
+		}
+
+	};
 };
 
-class Button : public ECS::Component<Button>
+class Button : public ecs::Component<Button>
 {
 public:
-	//callback void*
-	//
 	int identifier;
+
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
+	{
+		auto& comp = em.GetComponent<Button>(ent);
+		comp.identifier = std::stoi(res["identifier"]);
+	};
 };
 
-class Image : public ECS::Component<Image>
+struct Toggle : public ecs::Component<Toggle>
+{
+	bool active;
+
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
+	{
+		auto& comp = em.GetComponent<Toggle>(ent);
+	};
+};
+
+class Image : public ecs::Component<Image>
 {
 public:
-	int Material;
+	GLMaterial Material;
+
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
+	{
+		auto& im = em.GetComponent<Image>(ent);
+		Singleton<SharedGraphicsResources> singleRes;
+		im.Material = singleRes->GetMaterial(res["Material"]);
+	}
+};
+
+struct Text : public ecs::Component<Text>
+{ 
+	FontInfo* font; //Size //FontPath
+	std::string text;
+	
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
+	{
+		Singleton<FontStorage> resources;
+		auto& t = em.GetComponent<Text>(ent);
+		t.font = &resources->Get(res["FontPath"], std::stoi(res["Size"]));
+		t.text = res["Text"];
+	}
 };

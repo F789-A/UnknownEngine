@@ -3,8 +3,8 @@
 
 glm::mat4 Camera::GetViewMatrix() const
 {
-    int a = ECS::DefEcs_().entity.GetEntity<Camera>(*this);
-    const auto& transf = ECS::DefEcs_().entity.GetComponent<Transform>(a);
+    int a = ecs::DefEcs_().entity.GetEntity<Camera>(*this);
+    const auto& transf = ecs::DefEcs_().entity.GetComponent<Transform>(a);
     return glm::lookAt(transf.Position, transf.Position + transf.Front(), glm::vec3(0, 1, 0));
 }
 

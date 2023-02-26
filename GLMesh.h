@@ -25,23 +25,25 @@ public:
     bool HaveGPUResources = false;
 
 public:
+    enum RawFlags
+    {
+        Dynamic = 1
+    };
 
     GLMesh() = default;
     GLMesh(const Mesh& mesh);
+    GLMesh(const std::vector<float>& rawData, const std::vector<GLuint>& ind);
 
     GLMesh(const GLMesh&) = delete;
     GLMesh operator=(const GLMesh&) = delete;
-
     GLMesh(GLMesh&& other) noexcept;
     GLMesh& operator=(GLMesh&& other) noexcept;
-
     ~GLMesh();
 
-
-    void Draw(GLShader& shader, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
+    void SetData(const std::vector<float>& rawData, int offset = 0);
 
     void Draw(const GLMaterial& material, const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scale);
-
+    void Draw(const GLMaterial& material, const glm::mat4& transformMatrix);
     //TODO: void DrawInstance(Shader& shader);
 };
 

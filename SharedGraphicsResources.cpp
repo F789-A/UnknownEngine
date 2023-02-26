@@ -237,3 +237,10 @@ void SingletonFill<SharedGraphicsResources>(Singleton<SharedGraphicsResources>& 
 	static SharedGraphicsResources x;
 	a.SetData(&x);
 }
+
+template<>
+void SingletonFill<FontStorage>(Singleton<FontStorage>& a)
+{
+	static FontStorage x;
+	a.SetData(&x);
+}

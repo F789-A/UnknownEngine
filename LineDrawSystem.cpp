@@ -1,9 +1,9 @@
 #include "Systems.h"
 #include "RenderLine.h"
 
-void DrawLine()
+void DrawLine(ecs::EntityManager& em)
 {
-	for (auto l = ECS::DefEcs_().entity.GetComponents<RenderLine>(); !l.end(); ++l)
+	for (auto l = em.GetComponents<RenderLine>(); !l.end(); ++l)
 	{
 		auto [render] = *l;
 		render.RenderedLine.Draw(render.RenderedMaterial);

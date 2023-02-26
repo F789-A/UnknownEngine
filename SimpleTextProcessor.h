@@ -13,6 +13,7 @@ namespace TextTools
 	std::string DelChar(const std::string& strIn, char ch);
 	glm::vec3 ReadVec3(const std::string& str);
 	bool ReadBool(const std::string& str);
+	std::string TrimStart(const std::string& str, int num);
 
 	std::vector<int> GetVectorInt(const std::string& str);
 }

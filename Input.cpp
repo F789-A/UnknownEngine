@@ -1,30 +1,60 @@
 #include "Input.h"
-
-void Input::ProcessMousePos()
-{
-	glfwGetCursorPos(WindowApp::GetInstance().GetWindow(), &MousePosX, &MousePosY);
-}
-
-Input::Input(): NameToKey()
-{
-	//glfwSetInputMode(WindowApp::GetInstance().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	Input::ProcessMousePos();
-}
+#include "WindowApp.h"
+#include <iostream>
 
 Input& Input::GetInstance()
 {
-	static Input  instance;
+	static Input  instance(WindowApp::GetInstance().GetWindow());
 	return instance;
+}
+
+Input::Input(GLFWwindow* window): window(window)
+{
+	Input::ProcessMousePos();
 }
 
 void Input::UpdateInput()
 {
-	PrevMousePosX = MousePosX;
-	PrevMousePosY = MousePosY;
+	for (auto l : KeyState)
+	{
+		UpdateKey(l.first);
+	}
 	ProcessMousePos();
-	glfwPollEvents(); // порядок? не только ввод?
+	glfwPollEvents();
 }
 
+void Input::ProcessMousePos()
+{
+	PrevMousePosX = MousePosX;
+	PrevMousePosY = MousePosY;
+	glfwGetCursorPos(window, &MousePosX, &MousePosY);
+}
+
+void Input::UpdateKey(int key)
+{
+	bool rawPress;
+	if (GLFW_MOUSE_BUTTON_1 <= key && key <= GLFW_MOUSE_BUTTON_8)
+	{
+		rawPress = static_cast<bool>(glfwGetMouseButton(window, key));
+	}
+	else
+	{
+		rawPress = static_cast<bool>(glfwGetKey(window, key));
+	}
+
+	static const std::map<std::pair<PressMode, bool>, PressMode> transits = {
+		{{PressMode::NotPress, true}, PressMode::Press},
+		{{PressMode::Press, true}, PressMode::Repeat},
+		{{PressMode::Repeat, true}, PressMode::Repeat},
+		{{PressMode::Release, true}, PressMode::Press},
+		{{PressMode::NotPress, false}, PressMode::NotPress},
+		{{PressMode::Press, false}, PressMode::NotPress},
+		{{PressMode::Repeat, false}, PressMode::Release},
+		{{PressMode::Release, false}, PressMode::NotPress}
+	};
+
+	KeyState[key] = transits.at({KeyState[key], rawPress});
+}
 
 //ForUsers
 void Input::BindKey(std::string name, int key)
@@ -32,29 +62,30 @@ void Input::BindKey(std::string name, int key)
 	NameToKey[name] = key;
 }
 
-bool Input::GetButton(std::string name, int mode) const
+bool Input::GetButton(std::string name, PressMode mode)
 {
-	return GetKey(NameToKey.at(name) , mode);
+	return GetKey(NameToKey.at(name), mode);
 }
 
-bool Input::GetKey(int key, int mode) const
+bool Input::GetKey(int key, PressMode mode)
 {
-	return glfwGetKey(WindowApp::GetInstance().GetWindow(), key) == mode;
+	if (KeyState.find(key) == KeyState.end())
+	{
+		UpdateKey(key);
+	}
+	return KeyState.at(key) == mode;
 }
 
-bool Input::GetKey(int key, PressMode mode) const
+void Input::SetActiveCursor(bool state)
 {
-	return glfwGetKey(WindowApp::GetInstance().GetWindow(), key) == (int)mode;
-}
-
-void Input::EnableCursor()
-{
-	glfwSetInputMode(WindowApp::GetInstance().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-}
-
-void Input::DisableCursor()
-{
-	glfwSetInputMode(WindowApp::GetInstance().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	if (state)
+	{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
+	else
+	{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
 }
 
 //Getters

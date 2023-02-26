@@ -1,0 +1,2 @@
+shader_path Shaders\Pixelization.ueshad
+int intencity 100

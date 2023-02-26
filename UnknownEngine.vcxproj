@@ -128,12 +128,12 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;OpenGL32.Lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;OpenGL32.Lib;assimp-vc142-mtd.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -146,14 +146,14 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;OpenGL32.Lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;OpenGL32.Lib;assimp-vc142-mtd.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -165,10 +165,14 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ecs_EntityManager.cpp" />
     <ClCompile Include="EscapeHandler.cpp" />
+    <ClCompile Include="LevelChanger.cpp" />
     <ClCompile Include="LineDrawSystem.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MenuController.cpp" />
     <ClCompile Include="RenderMeshSystem.cpp" />
     <ClCompile Include="SimpleTextProcessor.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UiComponents.cpp" />
     <ClCompile Include="UIHandler.cpp" />
     <ClCompile Include="WindowApp.cpp" />
     <ClCompile Include="EntityLoader.cpp" />
@@ -191,12 +195,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AimData.h" />
-    <ClInclude Include="AimSystem.h" />
     <ClInclude Include="AlienData.h" />
     <ClInclude Include="AppInitializer.h" />
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ChangeLevel.h" />
+    <ClInclude Include="ConceptLib.h" />
+    <ClInclude Include="Events.h" />
+    <ClInclude Include="FontInfo.h" />
+    <ClInclude Include="GlFramebuffer.h" />
     <ClInclude Include="RenderMesh.h" />
+    <ClInclude Include="ServiceLocator.h" />
+    <ClInclude Include="SortedByValueMap.h" />
     <ClInclude Include="Systems.h" />
     <ClInclude Include="ecs_EntityManager.h" />
     <ClInclude Include="GLLineMesh.h" />
@@ -218,7 +228,6 @@
     <ClInclude Include="ModelImporter.h" />
     <ClInclude Include="ObjImporter.h" />
     <ClInclude Include="PolygonGeometry.h" />
-    <ClInclude Include="PostProcessing.h" />
     <ClInclude Include="AppTime.h" />
     <ClInclude Include="SharedGraphicsResources.h" />
     <ClInclude Include="SimpleTextProcessor.h" />
@@ -231,21 +240,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BasePostProcess.vert" />
-    <None Include="PPPixelization.frag" />
+    <None Include="Shaders\BlendUiAndScene.frag" />
     <None Include="Shaders\DefaultUI.frag" />
     <None Include="Shaders\DefaultUI.vert" />
     <None Include="Shaders\Diffuse.ueshad" />
+    <None Include="Shaders\IdentityScreen.frag" />
+    <None Include="Shaders\Pixelization.frag" />
     <None Include="Shaders\Simple.frag" />
     <None Include="Shaders\Simple.vert" />
+    <None Include="Shaders\UiText.frag" />
+    <None Include="Shaders\UiText.vert" />
     <None Include="SimpleDiffuse.frag" />
     <None Include="SimpleDiffuse.vert" />
     <None Include="testShader.frag" />
     <None Include="testShader.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Entites\entityList.txt" />
-    <Text Include="Key.txt" />
     <Text Include="Log.txt" />
+    <Text Include="Scenes\AlienPrefab.txt" />
+    <Text Include="Scenes\DemoLevel.txt" />
+    <Text Include="Scenes\Key.txt" />
+    <Text Include="Scenes\Level1.txt" />
+    <Text Include="Scenes\MainMenu.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

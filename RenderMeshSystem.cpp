@@ -4,9 +4,9 @@
 #include "Transform.h"
 #include "RenderMesh.h"
 
-void RenderMeshSystem()
+void RenderMeshSystem(ecs::EntityManager& em)
 {
-	for (auto l = ECS::DefEcs_().entity.GetComponents<RenderMesh, Transform>(); !l.end(); ++l)
+	for (auto l = em.GetComponents<RenderMesh, Transform>(); !l.end(); ++l)
 	{
 		auto [render, transform] = *l;
 		render.RenderedMesh.Draw(render.RenderMaterial, transform.Position, transform.Rotation, transform.Scale);

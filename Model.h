@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Mesh.h>
-
+#include "Mesh.h"
 #include <filesystem>
+#include <unordered_map>
 
 class Model
 {
@@ -10,7 +10,7 @@ public:
     std::string Directory;
 
     std::vector<Mesh> Meshes;
-    //std::vector<MaterialInfo> MatInfo;
+    std::vector<std::string> MatInfo;
 
 public:
     Model() = default;

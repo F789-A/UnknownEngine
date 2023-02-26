@@ -1,20 +1,31 @@
 #pragma once
-#include "GLMaterial.h"
-#include <glm/glm.hpp>
-
-void DrawUI(const GLMaterial& material, const glm::vec2& position, const glm::vec2& scale); // костыль
+#include "ecs_EntityManager.h"
 
 namespace ui
 {
-	void DrawImage();
-	void ProcessButtons();
-	void DrawUIImage();
+	void ProcessButtons(ecs::EntityManager&);
+	void DrawUIImage(ecs::EntityManager&);
+	void DrawText(ecs::EntityManager&);
 }
 
-void RenderMeshSystem();
+namespace gr
+{
 
-void EscapeHandler();
+}
 
-void DrawLine();
+void RenderMeshSystem(ecs::EntityManager&);
 
-void CameraControllerSystem();
+void EscapeHandler(ecs::EntityManager&);
+
+void DrawLine(ecs::EntityManager&);
+
+void CameraControllerSystem(ecs::EntityManager&);
+
+namespace AsteroidHunter
+{
+	void CharacterController(ecs::EntityManager&);
+	void AlienController(ecs::EntityManager&);
+	void MenuEvent(ecs::EntityManager&);
+	void LevelChanger(ecs::EntityManager&);
+	
+}

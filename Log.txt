@@ -1,9 +1,2 @@
--------------------37.4986-------------------
-ERROR::SHADER::PROGRAM::LINKING_FAILED
-Vertex shader(s) failed to link, fragment shader(s) failed to link.
-Vertex link error: INVALID_OPERATION.
-ERROR: error(#97) No program main found
-fragment link error: INVALID_OPERATION.
-ERROR: error(#97) No program main found
-
-
+-------------------4.86931-------------------
+File of entity doesn't open

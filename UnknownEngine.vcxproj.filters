@@ -46,6 +46,15 @@
     <Filter Include="Source Files\ECS\Compoents\MetaGame">
       <UniqueIdentifier>{43a226e0-5c78-460c-9eba-97071db3f327}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ECS\Systems">
+      <UniqueIdentifier>{546900a5-07c5-4196-b5bc-30cdf64e14ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{dedf6885-c9bf-4fae-bb0d-07944a4c2d6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ECS\Systems\Game">
+      <UniqueIdentifier>{f9029a48-c444-455f-8488-9ea3880d44b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GLShader.cpp">
@@ -111,35 +120,47 @@
     <ClCompile Include="AppTime.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleTextProcessor.cpp">
-      <Filter>Source Files\SerializationSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClCompile>
     <ClCompile Include="ecs_EntityManager.cpp">
       <Filter>Source Files\ECS</Filter>
     </ClCompile>
-    <ClCompile Include="LineDrawSystem.cpp">
-      <Filter>Source Files\ECS\Compoents</Filter>
-    </ClCompile>
-    <ClCompile Include="AimSystem.cpp">
-      <Filter>Source Files\ECS\Compoents\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="UIHandler.cpp">
+    <ClCompile Include="Camera.cpp">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClCompile>
     <ClCompile Include="CameraControllerSystem.cpp">
-      <Filter>Source Files\ECS\Compoents\MetaGame</Filter>
+      <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
     <ClCompile Include="EscapeHandler.cpp">
-      <Filter>Source Files\ECS\Compoents\MetaGame</Filter>
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="LineDrawSystem.cpp">
+      <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
     <ClCompile Include="RenderMeshSystem.cpp">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHandler.cpp">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleTextProcessor.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="UiComponents.cpp">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="Transform.cpp">
       <Filter>Source Files\ECS\Compoents</Filter>
+    </ClCompile>
+    <ClCompile Include="AimSystem.cpp">
+      <Filter>Source Files\ECS\Systems\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuController.cpp">
+      <Filter>Source Files\ECS\Systems\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelChanger.cpp">
+      <Filter>Source Files\ECS\Systems\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,17 +212,11 @@
     <ClInclude Include="SharedGraphicsResources.h">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleTextProcessor.h">
-      <Filter>Source Files\SerializationSystem</Filter>
-    </ClInclude>
     <ClInclude Include="GLMesh.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="StringToGLFWKey.h">
       <Filter>Source Files\SerializationSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="PostProcessing.h">
-      <Filter>Source Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="GraphicCore.h">
       <Filter>Source Files\Core</Filter>
@@ -230,19 +245,10 @@
     <ClInclude Include="AimData.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="AimSystem.h">
-      <Filter>Source Files\ECS\Compoents\Game</Filter>
-    </ClInclude>
     <ClInclude Include="AlienData.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="PerspectiveBuilder.h">
-      <Filter>Source Files\ECS\Compoents\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>Source Files\ECS\Compoents</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
     <ClInclude Include="RenderMesh.h">
@@ -257,6 +263,36 @@
     <ClInclude Include="CameraController.h">
       <Filter>Source Files\ECS\Compoents\MetaGame</Filter>
     </ClInclude>
+    <ClInclude Include="PerspectiveBuilder.h">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems.h">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SortedByValueMap.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleTextProcessor.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="FontInfo.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GlFramebuffer.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ConceptLib.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.h">
+      <Filter>Source Files\ECS\Compoents</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceLocator.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeLevel.h">
+      <Filter>Source Files\ECS\Compoents\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="testShader.vert">
@@ -269,12 +305,6 @@
       <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="SimpleDiffuse.vert">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="BasePostProcess.vert">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="PPPixelization.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Shaders\DefaultUI.frag">
@@ -292,15 +322,42 @@
     <None Include="Shaders\Diffuse.ueshad">
       <Filter>Source Files\Shaders</Filter>
     </None>
+    <None Include="Shaders\UiText.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\UiText.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\BlendUiAndScene.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\IdentityScreen.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="BasePostProcess.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\Pixelization.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
-    <Text Include="Entites\entityList.txt">
+    <Text Include="Scenes\MainMenu.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
-    <Text Include="Key.txt">
+    <Text Include="Scenes\Key.txt">
+      <Filter>Source Files\Resources</Filter>
+    </Text>
+    <Text Include="Scenes\DemoLevel.txt">
+      <Filter>Source Files\Resources</Filter>
+    </Text>
+    <Text Include="Scenes\Level1.txt">
+      <Filter>Source Files\Resources</Filter>
+    </Text>
+    <Text Include="Scenes\AlienPrefab.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
   </ItemGroup>

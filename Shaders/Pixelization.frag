@@ -1,9 +1,9 @@
-#version 420 core
+#version 330 core
 out vec4 FragColor;
   
 uniform sampler2D screenTexture;
 
-in vec2 texCoord;
+in vec2 TexCoords;
 
 layout (std140, binding = 3) uniform General
 {
@@ -26,7 +26,7 @@ void main()
     {
         size = float(aspectY) / float(aspectX ) * intencity;
     }
-    vec2 newCoord =  round(texCoord * size) / size;
+    vec2 newCoord =  round(TexCoords * size) / size;
     vec4 result =  vec4(texture(screenTexture, newCoord));
 
     if (bloor == 1)

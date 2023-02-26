@@ -1,4 +1,4 @@
-DepthTest = true
+DepthTest = false
 CullFace = true
 Blend = false
 CullMode = GL_BACK

@@ -1,5 +1,7 @@
 #include "WindowApp.h"
 #include "Logger.h"
+#include <iostream>
+#include <cassert>
 //Init
 WindowApp::WindowApp(unsigned int width, unsigned int height, std::string name)
 {

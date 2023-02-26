@@ -1,0 +1,2 @@
+texture diffuse Textures/alien.png
+shader_path Shaders\DefaultUI.ueshad

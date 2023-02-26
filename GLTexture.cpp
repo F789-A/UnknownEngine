@@ -1,19 +1,34 @@
 #include "GLTexture.h"
 
-GLTexture::GLTexture(int x, int y): 
+GLTexture::GLTexture(int x, int y, int numberComponents):
 	HaveGPUResources(true)
 {
 	glGenTextures(1, &TexId);
 	glBindTexture(GL_TEXTURE_2D, TexId);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	GLenum format = GL_RED;
+	if (numberComponents == 1)
+	{
+		format = GL_RED;
+	}
+	else if (numberComponents == 3)
+	{
+		format = GL_RGB;
+	}
+	else if (numberComponents == 4)
+	{
+		format = GL_RGBA;
+	}
+
+	glTexImage2D(GL_TEXTURE_2D, 0, format, x, y, 0, format, GL_UNSIGNED_BYTE, NULL);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-GLTexture::GLTexture(const Texture& texture, int wrapS, int wrapT, bool generateMipmap, int minFilter, int magFilter):
+GLTexture::GLTexture(const Texture& texture, int wrapS, int wrapT, bool generateMipmap, 
+	int minFilter, int magFilter):
 	HaveGPUResources(true)
 {
 	glGenTextures(1, &TexId);

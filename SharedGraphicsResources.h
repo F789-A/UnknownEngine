@@ -13,6 +13,7 @@
 #include "Singleton.h"
 #include "SimpleTextProcessor.h"
 #include "StringToGLFWKey.h"
+#include "FontInfo.h"
 
 class ModelConteiner
 {
@@ -116,5 +117,28 @@ public:
 	}
 };
 
+class FontStorage
+{
+public:
+	std::map<std::string, FontInfo> loadedFonts;
+
+	FontInfo& Get(const std::string& path, int size)
+	{
+		if (loadedFonts.find(path) == loadedFonts.end())
+		{
+			LoadFont(path, size);
+		}
+		return loadedFonts.at(path);
+	}
+
+	void LoadFont(const std::string& path, int size)
+	{
+		loadedFonts.emplace(path, FontInfo(path, size));
+	}
+};
+
 template<>
 void SingletonFill<SharedGraphicsResources>(Singleton<SharedGraphicsResources>& a);
+
+template<>
+void SingletonFill<FontStorage>(Singleton<FontStorage>& a);

@@ -1,8 +1,7 @@
 #pragma once
-#include <iostream>
 #include <glad/glad.h> 
 #include <GLFW\glfw3.h>
-#include <cassert>
+#include <string>
 
 class WindowApp
 {
@@ -16,6 +15,7 @@ private:
 	GLint WindowWidth;
 
 	WindowApp(unsigned int width = 800, unsigned int height = 600, std::string name = "Window");
+
 	WindowApp operator=(const WindowApp&) = delete;
 	WindowApp(const WindowApp&) = delete;
 	WindowApp(WindowApp&&) = delete;

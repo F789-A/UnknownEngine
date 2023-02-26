@@ -39,9 +39,38 @@ Entity
 		NearClip = 0.01
 		FarClip = 100
 	}
+	MainCamera
+	{
+	}
 	CameraController
 	{
 		MouseSensitivity = 0.01
 		Speed = 0.01
+	}
+}
+
+Entity
+{
+	ChangeLevel
+	{
+		NextLevel = Scenes/MainMenu.txt
+	}
+}
+
+//////UI///////
+Entity
+{
+	RectTransform
+	{
+		pos = (0.25, 0.875, 0)
+		size = (0.5, 0.25, 0)
+		priority = 2
+		component childs =
+	}
+	Text
+	{
+		Text = WSAD + Mouse - move, E - post_processing, P - change_level
+		Size = 24
+		FontPath = Fonts\arial.ttf
 	}
 }

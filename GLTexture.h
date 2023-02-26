@@ -29,8 +29,8 @@ private:
 	bool HaveGPUResources = true;
 	uint TexId;
 public:
-
-	GLTexture(int x, int y);
+	GLTexture(): HaveGPUResources(false) {};
+	GLTexture(int x, int y, int numberComponents = 3);
 
 	int Type() const override
 	{

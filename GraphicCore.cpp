@@ -1,24 +1,32 @@
 #include "GraphicCore.h"
 
-#include "ecs_EntityManager.h"
 #include "Camera.h"
 
 GraphicCore::GraphicCore()
 {
+	Height = WindowApp::GetInstance().Height();
+	Width = WindowApp::GetInstance().Width();
+	ecsS = &ecs::DefEcs_();
 	//init advice
 	Singleton<SharedGraphicsResources> SinglRes;
-	GLShader& shad = SinglRes->GetShaderRef("Shaders/Pixelization.ueshad");
-	PostProcess = std::make_unique<PostProcessing>(shad);
-	shad.SetInt("intencity", 100);
+	
+	GLShader& shad = SinglRes->GetShaderRef("Shaders\\BlendUiAndScene.ueshad");
+	BlendSceneMaterial = GLMaterial(shad);
+	BlendSceneMaterial.Textures.insert({"sceneTexture", &sceneFramebuffer.texture });
+	BlendSceneMaterial.Textures.insert({"uiTexture", &uiFramebuffer.texture });
 
 	GLCubemapTexture& skMap = SinglRes->GetGLCubemapRef("skybox/DefaultSkybox.ueskybox");
 	GLShader& skShad = SinglRes->GetShaderRef("Shaders/Skybox.ueshad");
 	CurrentSkybox = std::make_unique<Skybox>(skMap, skShad);
 
+	PostProcesses.push_back(SinglRes->GetMaterial("Materials/Pixelization.uemat"));
+	for (auto& l : PostProcesses)
+	{
+		l.Textures.insert({"screenTexture", &sceneFramebuffer.texture});
+	}
+
 	//init GL
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_TRUE);
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.2f, 0.3f, 0.3f, 0.0f);
 	//
 	glGenBuffers(1, &uniformCameraBlock);
 	glBindBuffer(GL_UNIFORM_BUFFER, uniformCameraBlock);
@@ -27,7 +35,7 @@ GraphicCore::GraphicCore()
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	
 	//
-	int aspect[2] {WindowApp::GetInstance().Width(), WindowApp::GetInstance().Height()};
+	int aspect[2] {Width, Height};
 	glGenBuffers(1, &Uniform_Shaders_Parameters);
 	glBindBuffer(GL_UNIFORM_BUFFER, Uniform_Shaders_Parameters);
 	glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(GLuint), NULL, GL_STATIC_DRAW);
@@ -46,46 +54,66 @@ GraphicCore& GraphicCore::GetInstance()
 
 void GraphicCore::UpdateGraphic()
 {
-	if (EnablePostProcessing)
-	{
-		PostProcess->Use();
-	}
+	static std::vector<GLfloat> vertices = {
+				-1, 1, 0,	0, 1,
+				-1, -1,	0,	0, 0,
+				1, -1, 0,	1, 0,
+				1, 1, 0,	1, 1,
+	};
+
+	static std::vector<GLuint> ind = {0, 1, 2, 0, 2, 3};
+	static GLMesh screenPlane(vertices, ind);
 
 	Camera* cam = nullptr;
-	for (auto l = ECS::DefEcs_().entity.GetComponents<MainCamera, Camera>(); !l.end(); ++l)
+	for (auto l = ecs::DefEcs_().entity.GetComponents<MainCamera, Camera>(); !l.end(); ++l)
 	{
 		auto [m, camera] = *l;
 		cam = &camera;
 	}
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glm::mat4 view = cam->GetViewMatrix();
 	glm::mat4 projection = glm::perspective(cam->FOV, (float)WindowApp::GetInstance().Width() / WindowApp::GetInstance().Height(), 0.1f, 100.0f);
 	glBindBuffer(GL_UNIFORM_BUFFER, uniformCameraBlock);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projection));
 	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-	
 
-	for (int i = 0; i < mainPass.size(); i++)
+	// Scene pass
+	glBindFramebuffer(GL_FRAMEBUFFER, sceneFramebuffer.fbo);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	for (auto& func : mainPass)
 	{
-		mainPass[i]();
+		func(ecsS->entity);
 	}
-
-	for (auto& uiFunc : UiPass)
-	{
-		uiFunc();
-	}
-
 	if (CurrentSkybox != nullptr)
 	{
 		CurrentSkybox->Draw(view, projection);
 	}
 
+	// Post process pass
 	if (EnablePostProcessing)
 	{
-		PostProcess->Render();
+		BlendSceneMaterial.Textures["sceneTexture"] = &postProcessFramebuffer.texture;
+		glBindFramebuffer(GL_FRAMEBUFFER, postProcessFramebuffer.fbo);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		screenPlane.Draw(PostProcesses[0], glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1));
 	}
+	else
+	{
+		BlendSceneMaterial.Textures["sceneTexture"] = &sceneFramebuffer.texture;
+	}
+
+	// UI pass
+	glBindFramebuffer(GL_FRAMEBUFFER, uiFramebuffer.fbo);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	for (auto& uiFunc : UiPass)
+	{
+		uiFunc(ecsS->entity);
+	}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// Draw all on screen
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	screenPlane.Draw(BlendSceneMaterial, glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1));
 
 	glfwSwapBuffers(WindowApp::GetInstance().GetWindow());
 }

@@ -1,0 +1,196 @@
+Entity
+{
+	Transform
+	{
+		Position = (0, 0, 0) 									
+		Scale = (1, 1, 1) 									 		
+	}
+	Camera
+	{
+		FOV = 45
+		NearClip = 0.01
+		FarClip = 100
+	}
+	MainCamera
+	{
+	}
+}
+
+////////
+
+//фон
+Entity
+{
+	RectTransform
+	{
+		pos = (0.5, 0.5, 0)
+		size = (1, 1, 0)
+		priority = 1
+		component childs =
+	}
+	Image
+	{
+		Material = Materials/DefaultUI.uemat
+	}
+}
+
+Entity
+{
+	ChangeLevel
+	{
+		NextLevel = Scenes/DemoLevel.txt
+	}
+}
+
+
+Entity
+{
+	RectTransform
+	{
+		pos = (0.5, 0.5, 0)
+		size = (0.2, 0.06, 0)
+		priority = 99
+		component childs =
+	}
+	Text
+	{
+		Text = Play
+		Size = 24
+		FontPath = Fonts\arial.ttf
+	}
+}
+
+Entity
+{
+	RectTransform
+	{
+		pos = (0.5, 0.5, 0)
+		size = (0.2, 0.06, 0)
+		priority = 99
+		component childs =
+	}
+	Button
+	{
+		identifier = 1
+	}
+}
+
+Entity
+{
+	RectTransform
+	{
+		pos = (0.5, 0.5, 0)
+		size = (0.2, 0.06, 0)
+		priority = 70
+		component childs =
+	}
+	Image
+	{
+		Material = Materials/test.uemat
+	}
+}
+
+Entity
+{
+	RectTransform
+	{
+		pos = (0.5, 0.40, 0)
+		size = (0.2, 0.06, 0)
+		priority = 99
+		component childs =
+	}
+	Text
+	{
+		Text = Exit
+		Size = 24
+		FontPath = Fonts\arial.ttf
+	}
+}
+
+Entity
+{
+	RectTransform
+	{
+		pos = (0.5, 0.40, 0)
+		size = (0.2, 0.06, 0)
+		priority = 99
+		component childs =
+	}
+	Button
+	{
+		identifier = 2
+	}
+}
+
+Entity
+{
+	RectTransform
+	{
+		pos = (0.5, 0.2, 0)
+		size = (0.2, 0.06, 0)
+		priority = 99
+		component childs =
+	}
+	Text
+	{
+		Text = Credits
+		Size = 24
+		FontPath = Fonts\arial.ttf
+	}
+}
+Entity
+{
+	RectTransform
+	{
+		pos = (0.5, 0.2, 0)
+		size = (0.2, 0.06, 0)
+		priority = 99
+		component childs =
+	}
+	Button
+	{
+		identifier = 3
+	}
+}
+
+//credits
+Entity
+{
+	RectTransform
+	{
+		pos = (2, 2, 0)
+		size = (0.2, 0.06, 0)
+		priority = 99
+		component childs =
+	}
+	Tag
+	{
+		Name = CreditsTable
+	}
+	Text
+	{
+		Text = Fear_Rus
+		Size = 24
+		FontPath = Fonts\arial.ttf
+	}
+}
+
+
+
+
+Entity
+{
+	RectTransform
+	{
+		pos = (0.25, 0.875, 0)
+		size = (0.5, 0.25, 0)
+		priority = 2
+		component childs =
+	}
+	Text
+	{
+		Text = Click_button!, P - change_level
+		Size = 24
+		FontPath = Fonts\arial.ttf
+	}
+}

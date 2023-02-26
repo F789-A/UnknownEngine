@@ -8,15 +8,29 @@
 
 class Input
 {
+public:
+	enum class PressMode
+	{
+		NotPress,
+		Press,
+		Repeat,
+		Release
+	};
+
 private:
+	GLFWwindow* window;
+
+	std::map<int, PressMode> KeyState;
 	std::map<std::string, int> NameToKey;
 
-	Input();
+	Input(GLFWwindow*);
+
 	Input operator=(const Input&) = delete;
 	Input(const Input&) = delete;
 	~Input() = default;
 
 	void ProcessMousePos();
+	void UpdateKey(int key);
 
 	GLdouble PrevMousePosX;
 	GLdouble PrevMousePosY;
@@ -24,25 +38,17 @@ private:
 	GLdouble MousePosY;
 	
 public:
-	enum class PressMode
-	{
-		Press = GLFW_PRESS,
-		Repeat = GLFW_REPEAT,
-		Release = GLFW_RELEASE
-	};
-
 	float MouseDeltaX() const;
 	float MouseDeltaY() const;
 
 	float GetMousePosX() const;
-	float GetMousePosY()const ;
+	float GetMousePosY() const ;
 
 	void BindKey(std::string name, int key);
-	bool GetButton(std::string name, int mode) const;
-	bool GetKey(int key, int mode) const;
-	bool GetKey(int key, PressMode mode) const;
-	void EnableCursor();
-	void DisableCursor();
+	bool GetButton(std::string name, PressMode mode);
+	bool GetKey(int key, PressMode mode);
+
+	void SetActiveCursor(bool);
 
 	static Input& GetInstance();
 

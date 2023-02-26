@@ -30,6 +30,40 @@ GLMesh::GLMesh(const Mesh& mesh)
     glEnableVertexAttribArray(3);
 
     glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+GLMesh::GLMesh(const std::vector<float>& rawData, const std::vector<GLuint>& ind)
+{
+    HaveGPUResources = true;
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+    IndicesSize = ind.size();
+
+    glBufferData(GL_ARRAY_BUFFER, rawData.size() * sizeof(float), &(rawData[0]), GL_STREAM_DRAW);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, IndicesSize * sizeof(unsigned int), &(ind[0]), GL_STREAM_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*  sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3*sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void GLMesh::SetData(const std::vector<float>& rawData, int offset)
+{
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, rawData.size() * sizeof(float), &(rawData[0]));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 GLMesh::GLMesh(GLMesh&& other) noexcept : VAO(other.VAO), VBO(other.VBO), EBO(other.EBO), IndicesSize(other.IndicesSize), HaveGPUResources(true)
@@ -65,9 +99,9 @@ void GLMesh::Draw(const GLMaterial& material, const glm::vec3& position, const g
     material.Use();
 
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::scale(model, scale);
-    model = glm::mat4_cast(rotation) * model;
-    model = glm::translate(model, position);
+    model = glm::scale(glm::mat4(1.0f), scale);
+    //model = glm::mat4_cast(rotation) * model;
+    model = glm::translate(glm::mat4(1.0f), position) * model;
 
     glUniformMatrix4fv(glGetUniformLocation(material.Shader->Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
@@ -76,27 +110,11 @@ void GLMesh::Draw(const GLMaterial& material, const glm::vec3& position, const g
     glBindVertexArray(0);
 }
 
-void GLMesh::Draw(GLShader& shader, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
+void GLMesh::Draw(const GLMaterial& material, const glm::mat4& transformMatrix)
 {
-    glUseProgram(shader.Program);
+    material.Use();
 
-    /*for (unsigned int i = 0; i < textures.size(); i++)
-    {
-        glActiveTexture(GL_TEXTURE0 + i);
-
-        glUniform1i(glGetUniformLocation(shader.Program, ("material.texture_" + textures[i].name).c_str()), i);
-
-        glBindTexture(GL_TEXTURE_2D, textures[i].id);
-    }
-    glActiveTexture(GL_TEXTURE0);*/
-    glDisable(GL_CULL_FACE);
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, position);
-    model = glm::scale(model, scale);
-    model = glm::rotate(model, rotation.z, glm::vec3(0, 0, 1));
-    model = glm::rotate(model, rotation.y, glm::vec3(0, 1, 0));
-    model = glm::rotate(model, rotation.x, glm::vec3(1, 0, 0));
-    glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+    glUniformMatrix4fv(glGetUniformLocation(material.Shader->Program, "model"), 1, GL_FALSE, glm::value_ptr(transformMatrix));
 
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, IndicesSize, GL_UNSIGNED_INT, 0);

@@ -14,7 +14,9 @@ Skybox::Skybox(GLCubemapTexture& map, GLShader& shader): Shader(&shader), Cubema
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3 * sizeof(GL_FLOAT)), (void*)0);
 	glEnableVertexAttribArray(0);
+
 	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void Skybox::Draw(glm::mat4 view, glm::mat4 projection)
@@ -33,6 +35,9 @@ void Skybox::Draw(glm::mat4 view, glm::mat4 projection)
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glDepthMask(GL_TRUE);
 	glDepthFunc(GL_LESS);
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+	glBindVertexArray(0);
 }
 
 Skybox::~Skybox()
