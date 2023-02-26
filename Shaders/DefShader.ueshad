@@ -6,5 +6,5 @@ BlendSourceFunc = GL_SRC_ALPHA
 FrontFaceMode = GL_CCW
 BlendDestinationFunc = GL_ONE_MINUS_SRC_ALPHA
 DepthFunc = GL_LEQUAL
-shader_path_vert = testShader.vert
-shader_path_frag = testShader.frag
+shader_path_vert = Shaders\testShader.vert
+shader_path_frag = Shaders\testShader.frag

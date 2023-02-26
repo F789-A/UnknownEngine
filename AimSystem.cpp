@@ -99,6 +99,7 @@ void AsteroidHunter::AlienController(ecs::EntityManager& em)
 		//died
 		if (alien.Health <= 0)
 		{
+			ecs::DefEcs().entity.RemoveEntity(ecs::DefEcs().entity.GetEntity(*transf.childs[0]));
 			ecs::DefEcs().entity.RemoveEntity(ecs::DefEcs().entity.GetEntity(alien));
 		
 			SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\AlienPrefab.txt");

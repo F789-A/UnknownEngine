@@ -6,5 +6,5 @@ BlendSourceFunc = GL_SRC_ALPHA
 FrontFaceMode = GL_CCW
 BlendDestinationFunc = GL_ONE_MINUS_SRC_ALPHA
 DepthFunc = GL_LEQUAL
-shader_path_vert = BasePostProcess.vert
+shader_path_vert = Shaders\BasePostProcess.vert
 shader_path_frag = Shaders\IdentityScreen.frag
