@@ -15,10 +15,18 @@
 #include <glm/glm.hpp>
 
 #include "EntityLoader.h"
+#include "LevelData.h"
+#include "TagController.h"
+#include "SafeSingleton.h"
 
 float Scr2Nor(float scr)
 {
 	return scr * 2 - 1;
+}
+
+glm::vec2 ClampVec2(glm::vec2 v, const glm::vec2& min, const glm::vec2& max)
+{
+	return { std::clamp(v.x, min.x, max.x), std::clamp(v.y, min.y, max.y) };
 }
 
 void AsteroidHunter::CharacterController(ecs::EntityManager& em)
@@ -51,10 +59,15 @@ void AsteroidHunter::CharacterController(ecs::EntityManager& em)
 		{
 			aim.center.x -= sens * aim.Speed;
 		}
-		aim.size = aim.size > aim.minSize ? aim.size : aim.minSize;
+
+		aim.size = std::clamp(aim.size, aim.minSize, aim.maxSize);
+
+		float aspect = 3.0f / 4.0f;
+		glm::vec2 boundCorner = { 1 - (aim.size + 0.01) * aspect , 1 - (aim.size+0.2) * aspect };
+		aim.center = ClampVec2(aim.center, -boundCorner, boundCorner);
 
 		static std::vector<glm::vec2> corner = { {-1, 1}, {1, 1}, {1, -1}, {-1, -1} };
-		float aspect = 3.0f / 4.0f;
+
 		std::vector<glm::vec2> quad =
 		{
 			{ aim.center.x - aim.size * aspect, aim.center.y + aim.size },
@@ -62,6 +75,7 @@ void AsteroidHunter::CharacterController(ecs::EntityManager& em)
 			{ aim.center.x + aim.size * aspect, aim.center.y - aim.size },
 			{ aim.center.x - aim.size * aspect, aim.center.y - aim.size }
 		};
+
 		std::vector<glm::vec2> arr =
 		{
 			//
@@ -101,52 +115,70 @@ void AsteroidHunter::AlienController(ecs::EntityManager& em)
 		{
 			ecs::DefEcs().entity.RemoveEntity(ecs::DefEcs().entity.GetEntity(*transf.childs[0]));
 			ecs::DefEcs().entity.RemoveEntity(ecs::DefEcs().entity.GetEntity(alien));
-		
-			SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\AlienPrefab.txt");
-			//
+
+			auto& levelData = InstanceOf<TagController>().GetComponentWithTag<LevelData>("LevelData");
+			levelData.countAlien--;
+			//SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\AlienPrefab.txt");
+			// Добавить плавное появление из-за границ экрана
 			continue;
 		}
 		//shot
 		auto [player] = *ecs::DefEcs().entity.GetComponents<AimData>();
 		player.Health -= alien.Damage * AppTime::GetDeltaTime();
 
-		// move
-		int mode = 1;
+		alien.HealthBar->text = std::to_string(alien.Health);
 
-		if (mode == 2) //randomer
+		alien.Timer -= AppTime::GetDeltaTime();
+
+		if (alien.Timer < 0)
 		{
-			if ((int)AppTime::GetTime() % 10 < AppTime::GetDeltaTime() * 2)
+			alien.Timer = alien.TimeToChangeDir;
+			if (static_cast<bool>(alien.alienType & AlienTypes::Randomer))
 			{
 				int dirX = std::rand();
 				int dirY = std::rand();
 				alien.dir = glm::vec2((float)dirX / RAND_MAX, (float)dirY / RAND_MAX);
 			}
+			else if (static_cast<bool>(alien.alienType & AlienTypes::Coward))
+			{
+				alien.dir = transf.pos - player.center;
+			}
+			alien.dir = glm::normalize(alien.dir);
 		}
-		else if (mode == 3) // coward
-		{ 
-			alien.dir = transf.pos - em.GetComponent<RectTransform>(player).pos;
+		if (static_cast<bool>(alien.alienType & AlienTypes::PingPonger))
+		{
+			float eps = (float)std::rand() / RAND_MAX / 10.0;
+			if ((transf.pos.x > 1 && alien.dir.x > 0) || (transf.pos.x < 0 && alien.dir.x < 0))
+			{
+				alien.dir = glm::normalize(glm::vec2(-alien.dir.x + eps, alien.dir.y));
+			} 
+			if ((transf.pos.y > 1 && alien.dir.y > 0) || (transf.pos.y < 0 && alien.dir.y < 0))
+			{
+				alien.dir = glm::normalize(glm::vec2(alien.dir.x, -alien.dir.y + eps));
+			}
 		}
-
-		float dir = (float)std::rand() / RAND_MAX;  // bounder
-		if (transf.pos.x > 1)
+		else if (static_cast<bool>(alien.alienType & AlienTypes::Bounder))
 		{
-			alien.dir = glm::vec2(0, dir) - transf.pos;
-		} 
-		if (transf.pos.x < 0)
-		{
-			alien.dir = glm::vec2(1, dir) - transf.pos;
-		}
-		if (transf.pos.y > 1)
-		{
-			alien.dir = glm::vec2(dir, 0) - transf.pos;
-		}
-		if (transf.pos.y < 0)
-		{
-			alien.dir = glm::vec2(dir, 1) - transf.pos;
+			float rndDir = ((float)std::rand() / RAND_MAX -0.5) * 10;
+			if (transf.pos.x > 1)
+			{
+				alien.dir = glm::normalize(glm::vec2(-1, rndDir));
+			}
+			if (transf.pos.x < 0)
+			{
+				alien.dir = glm::normalize(glm::vec2(1, rndDir));
+			}
+			if (transf.pos.y > 1)
+			{
+				alien.dir = glm::normalize(glm::vec2(rndDir, -1));
+			}
+			if (transf.pos.y < 0 )
+			{
+				alien.dir = glm::normalize(glm::vec2(rndDir, 1));
+			}
 		}
 		alien.dir = glm::normalize(alien.dir);
 		float delta = std::min(AppTime::GetDeltaTime(), 0.1f);
 		transf.pos += glm::vec2(alien.dir.x * delta, alien.dir.y * delta);
-		alien.HealthBar->text = std::to_string(alien.Health);
 	}
 }

@@ -27,5 +27,5 @@ namespace AsteroidHunter
 	void AlienController(ecs::EntityManager&);
 	void MenuEvent(ecs::EntityManager&);
 	void LevelChanger(ecs::EntityManager&);
-	
+	void LevelController(ecs::EntityManager&);
 }

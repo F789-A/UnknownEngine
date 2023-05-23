@@ -51,7 +51,7 @@ std::string TextTools::GetArea(const std::string& strIn, const std::string& strT
 glm::vec3 TextTools::ReadVec3(const std::string& str)
 {
 	std::string _str = DelChar(str, ' ');
-	_str = _str.substr(1, _str.length()-2);
+	//_str = _str.substr(1, _str.length()-2);
 	std::vector<std::string> coords = TextTools::SplitAndDelSpace(_str, ',');
 	return glm::vec3(std::stof(coords[0]), std::stof(coords[1]), std::stof(coords[2]));
 }

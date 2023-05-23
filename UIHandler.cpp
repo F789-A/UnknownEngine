@@ -74,9 +74,16 @@ void ui::ProcessButtons(ecs::EntityManager& em)
 				{
 					auto& toggle = em.GetComponent<Toggle>(em.GetEntity(button));
 					toggle.active = !toggle.active;
+
+					int ent = em.AddEntity<ToggleEvent>();
+					em.GetComponent<ToggleEvent>(ent).Id = button.identifier;
+					em.GetComponent<ToggleEvent>(ent).state = toggle.active;
 				}
-				int ent = em.AddEntity<Event>();
-				em.GetComponent<Event>(ent).Id = button.identifier;
+				else
+				{
+					int ent = em.AddEntity<Event>();
+					em.GetComponent<Event>(ent).Id = button.identifier;
+				}
 			}
 		}
 	}

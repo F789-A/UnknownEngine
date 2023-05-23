@@ -57,6 +57,7 @@ void GameLoop::ConstructScene()
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::AlienController);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::MenuEvent);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::LevelChanger);
+	//ecs::DefEcs().system.AddSystem(AsteroidHunter::LevelController);
 }
 
 float GameLoop::GetDeltaTime() const

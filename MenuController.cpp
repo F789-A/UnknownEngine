@@ -22,6 +22,11 @@ namespace AsteroidHunter
 			{
 				glfwSetWindowShouldClose(WindowApp::GetInstance().GetWindow(), true);
 			}
+			ecs::DefEcs().entity.RemoveEntity(ecs::DefEcs().entity.GetEntity(ev));
+		}
+		for (auto l = em.GetComponents<ToggleEvent>(); !l.end(); ++l)
+		{
+			auto [ev] = *l;
 			if (ev.Id == 3)
 			{
 				for (auto k = ecs::DefEcs().entity.GetComponents<Tag>(); !k.end(); ++k)
@@ -30,7 +35,14 @@ namespace AsteroidHunter
 					if (tag.Name == "CreditsTable")
 					{
 						auto& tr = ecs::DefEcs().entity.GetComponent<RectTransform>(tag);
-						tr.pos = glm::vec2(0.7, 0.5);
+						if (ev.state == true)
+						{
+							tr.pos = glm::vec2(0.7, 0.5);
+						}
+						else
+						{
+							tr.pos = glm::vec2(-5, -5);
+						}
 					}
 				}
 			}

@@ -2,14 +2,14 @@ Entity
 {
 	Transform
 	{
-		Position = (0, 0, 0) 									
-		Scale = (1, 1, 1) 									 		
+		float[] Position = [0, 0, 0] 									
+		float[] Scale = [1, 1, 1] 									 		
 	}
 	Camera
 	{
-		FOV = 45
-		NearClip = 0.01
-		FarClip = 100
+		float FOV = 45
+		float NearClip = 0.01
+		float FarClip = 100
 	}
 	MainCamera
 	{
@@ -23,14 +23,14 @@ Entity
 {
 	RectTransform
 	{
-		pos = (0.5, 0.5, 0)
-		size = (1, 1, 0)
-		priority = 1
-		component childs =
+		float[] pos = [0.5, 0.5, 0]
+		float[] size = [1, 1, 0]
+		int priority = 1
+		ref[] childs = []
 	}
 	Image
 	{
-		Material = Materials/DefaultUI.uemat
+		string Material = "Materials/DefaultUI.uemat"
 	}
 }
 
@@ -38,7 +38,7 @@ Entity
 {
 	ChangeLevel
 	{
-		NextLevel = Scenes/DemoLevel.txt
+		string NextLevel = "Scenes/DemoLevel.txt"
 	}
 }
 
@@ -47,16 +47,16 @@ Entity
 {
 	RectTransform
 	{
-		pos = (0.5, 0.5, 0)
-		size = (0.2, 0.06, 0)
-		priority = 99
-		component childs =
+		float[] pos = [0.5, 0.5, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
 	}
 	Text
 	{
-		Text = Play
-		Size = 24
-		FontPath = Fonts\arial.ttf
+		string Text = "Play"
+		float Size = 24
+		string FontPath = "Fonts\arial.ttf"
 	}
 }
 
@@ -64,14 +64,14 @@ Entity
 {
 	RectTransform
 	{
-		pos = (0.5, 0.5, 0)
-		size = (0.2, 0.06, 0)
-		priority = 99
-		component childs =
+		float[] pos = [0.5, 0.5, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
 	}
 	Button
 	{
-		identifier = 1
+		int identifier = 1
 	}
 }
 
@@ -79,14 +79,14 @@ Entity
 {
 	RectTransform
 	{
-		pos = (0.5, 0.5, 0)
-		size = (0.2, 0.06, 0)
-		priority = 70
-		component childs =
+		float[] pos = [0.5, 0.5, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 70
+		ref[] childs = []
 	}
 	Image
 	{
-		Material = Materials/test.uemat
+		string Material = "Materials/test.uemat"
 	}
 }
 
@@ -94,16 +94,16 @@ Entity
 {
 	RectTransform
 	{
-		pos = (0.5, 0.40, 0)
-		size = (0.2, 0.06, 0)
-		priority = 99
-		component childs =
+		float[] pos = [0.5, 0.40, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
 	}
 	Text
 	{
-		Text = Exit
-		Size = 24
-		FontPath = Fonts\arial.ttf
+		string Text = "Exit"
+		int Size = 24
+		string FontPath = "Fonts\arial.ttf"
 	}
 }
 
@@ -111,14 +111,14 @@ Entity
 {
 	RectTransform
 	{
-		pos = (0.5, 0.40, 0)
-		size = (0.2, 0.06, 0)
-		priority = 99
-		component childs =
+		float[] pos = [0.5, 0.40, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
 	}
 	Button
 	{
-		identifier = 2
+		int identifier = 2
 	}
 }
 
@@ -126,30 +126,34 @@ Entity
 {
 	RectTransform
 	{
-		pos = (0.5, 0.2, 0)
-		size = (0.2, 0.06, 0)
-		priority = 99
-		component childs =
+		float[] pos = [0.5, 0.2, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
 	}
 	Text
 	{
-		Text = Credits
-		Size = 24
-		FontPath = Fonts\arial.ttf
+		string Text = "Credits"
+		int Size = 24
+		string FontPath = "Fonts\arial.ttf"
 	}
 }
+
 Entity
 {
 	RectTransform
 	{
-		pos = (0.5, 0.2, 0)
-		size = (0.2, 0.06, 0)
-		priority = 99
-		component childs =
+		float[] pos = [0.5, 0.2, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
 	}
 	Button
 	{
-		identifier = 3
+		int identifier = 3
+	}
+	Toggle
+	{
 	}
 }
 
@@ -158,39 +162,36 @@ Entity
 {
 	RectTransform
 	{
-		pos = (2, 2, 0)
-		size = (0.2, 0.06, 0)
-		priority = 99
-		component childs =
+		float[] pos = [2, 2, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
 	}
 	Tag
 	{
-		Name = CreditsTable
+		string Name = "CreditsTable"
 	}
 	Text
 	{
-		Text = Fear_Rus
-		Size = 24
-		FontPath = Fonts\arial.ttf
+		string Text = "Fear_Rus"
+		int Size = 24
+		string FontPath = "Fonts\arial.ttf"
 	}
 }
-
-
-
 
 Entity
 {
 	RectTransform
 	{
-		pos = (0.25, 0.875, 0)
-		size = (0.5, 0.25, 0)
-		priority = 2
-		component childs =
+		float[] pos = [0.25, 0.875, 0]
+		float[] size = [0.5, 0.25, 0]
+		float priority = 2
+		ref[] childs = []
 	}
 	Text
 	{
-		Text = Click_button!, P - change_level
-		Size = 24
-		FontPath = Fonts\arial.ttf
+		string Text = "Click button! P - change level"
+		int Size = 24
+		string FontPath = "Fonts\arial.ttf"
 	}
 }

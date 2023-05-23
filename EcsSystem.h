@@ -9,6 +9,7 @@
 #include "SortedByValueMap.h"
 #include "ConceptLib.h"
 #include <iostream>
+#include <functional>
 
 //TODO: TAGS, EVENTS
 
@@ -23,12 +24,11 @@ namespace ecs
 	{
 		friend EntityManager;
 		friend ComponentConteiner<T>;
-	private:
+	public:
 		int entity;
 		static const int type;
 
 	public:
-		bool enabled = true;
 		Component() = default;
 		virtual ~Component() = default;
 	};
@@ -106,14 +106,17 @@ namespace ecs
 		};
 
 		//Entityes
-		template<typename... Ts> int AddEntity();
-		template<typename T> int GetEntity(const Component<T>& comp);
+		template<typename... Ts> 
+		int AddEntity();
+		template<typename T>
+		int GetEntity(const Component<T>& comp);
 		void RemoveEntity(int entity);
 
 		void CollectGarbage();
 		//Components
 
-		template<typename T> void AddComponent(int entity);
+		template<typename T>
+		void AddComponent(int entity);
 		template<typename Arg1, typename Arg2, typename... Args>
 		void AddComponent(int entity);
 
@@ -135,11 +138,10 @@ namespace ecs
 		template<typename Arg1>
 		bool CheckComponents(int ent);
 
-		//void MakeTag(const std::string& tag, int ent);
-		//int GetEntityWithTag(const std::string& tag);
+		std::vector<std::function<void(int, int)>> onComponentRemoveCollbacks;
 	private:
 		template<typename T>
-		void regist();
+		void Register();
 
 		template<typename T> 
 		ComponentConteiner<T>& GetConteiner();
@@ -149,9 +151,7 @@ namespace ecs
 		std::queue<int> QueueDeletion;
 		std::queue<int> freeEntity;
 		std::bitset<1000> enabledEntity;
-
-
-		//std::map<std::string, int> Tags;
+		
 	};
 
 	class EcsSystem;
@@ -235,7 +235,7 @@ void ecs::EntityManager::AddComponent(int entity)
 {
 	if (ComponentsConteiners.size() <= T::type || ComponentsConteiners[T::type] == nullptr)
 	{
-		regist<T>();
+		Register<T>();
 	}
 	ComponentsConteiners[T::type]->Add(entity);
 	Entityes[entity].insert(T::type);
@@ -279,7 +279,7 @@ ecs::EntityManager::ComponentIterator<Arg1, Args...> ecs::EntityManager::GetComp
 {
 	if (Arg1::type >= ComponentsConteiners.size() || ComponentsConteiners[Arg1::type] == nullptr)
 	{
-		regist<Arg1>();
+		Register<Arg1>();
 	}
 	return ComponentIterator<Arg1, Args...>(*this);
 }
@@ -289,7 +289,7 @@ void ecs::EntityManager::RemoveComponent(int entity)
 	ComponentsConteiners[T::type]->Remove(entity);
 }
 template<typename T>
-void ecs::EntityManager::regist()
+void ecs::EntityManager::Register()
 {
 	if (ComponentsConteiners.size() <= T::type)
 	{
@@ -302,7 +302,7 @@ ecs::ComponentConteiner<T>& ecs::EntityManager::GetConteiner()
 {
 	if (T::type >= ComponentsConteiners.size() || ComponentsConteiners[T::type] == nullptr)
 	{
-		regist<T>();
+		Register<T>();
 	}
 	return *static_cast<ComponentConteiner<T>*>(ComponentsConteiners[T::type].get());
 }

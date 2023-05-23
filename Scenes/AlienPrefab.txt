@@ -1,39 +1,37 @@
-
-
 Entity
 {
 	RectTransform
 	{
-		pos = (0.5, 0.25, 0)
-		size = (0.2, 0.2, 1)
-		priority = 7
-		component childs = alienText
+		float[] pos = [0.5, 0.25, 0]
+		float[] size = [0.2, 0.2, 1]
+		int priority = 7
+		ref[] childs = [alienText]
 	}
 	AlienData
 	{
-		Health = 15
-		Damage = 1
-		component HealthBar = alienText
+		int Health = 15
+		int Damage = 1
+		ref HealthBar = alienText
 	}
 	Image
 	{
-		Material = Materials/Alien.uemat
+		string Material = "Materials/Alien.uemat"
 	}	
 }
 
-Entity = alienText
+Entity as alienText
 {
 	RectTransform
 	{
-		pos = (0.0, 0.0, 0)
-		size = (0.2, 0.2, 0)
-		priority = 99
-		component childs =
+		float[] pos = [0.0, 0.0, 0]
+		float[] size = [0.2, 0.2, 0]
+		int priority = 99
+		ref[] childs = []
 	}
 	Text
 	{
-		Text = AlienHealthnbnhvnvhngnghnghnhg
-		Size = 24
-		FontPath = Fonts\arial.ttf
+		string Text = "AlienHealth"
+		int Size = 24
+		int FontPath = "Fonts\arial.ttf"
 	}
 }

@@ -5,116 +5,252 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include "TagController.h"
+#include "Input.h"
 
 #include "StringToGLFWKey.h"
 
+namespace
+{
+	std::set<char> sep = {' ', '\n', '\t', '=', ',', '[', ']', '{', '}', '/', '"', '"' };
+	std::set<char> ignor = {' ', '\n', '\t'};
+
+	void SkipLine(std::ifstream& inp)
+	{
+		char ch = inp.get();
+		while (!inp.eof() && ch != '\n')
+		{
+			ch = inp.get();
+		}
+	}
+
+	void CheckCorrect(const std::string& str, const std::string& cor)
+	{
+		if (str != cor)
+		{
+			throw "bad";
+		}
+	}
+
+	void CheckTerminal(const std::string& str)
+	{
+		if (str.size() == 0 || ( str.size() == 1 && sep.contains(str[0]))) {
+			throw "bad";
+		}
+	}
+
+	std::string ReadPreToken(std::ifstream& inp)
+	{
+		char ch = inp.get();
+		std::string res;
+		bool skipIgnor = true;
+		while (skipIgnor)
+		{
+			skipIgnor = false;
+			while (!inp.eof() && ignor.contains(ch)) {
+				ch = inp.get();
+			}
+			if (inp.eof()) {
+				return "";
+			}
+			if (ch == '/'){
+				ch = inp.get();
+				if (ch == '/') {
+					SkipLine(inp);
+					skipIgnor = true;
+					ch = inp.get();
+				}
+				else{
+					inp.seekg(-1, std::ios::cur);
+				}
+			}
+		}
+		if (sep.contains(ch)){
+			return { ch };
+		}
+		while (!sep.contains(ch)){
+		    res.push_back(ch);
+			ch = inp.get();
+		}
+		if (!ignor.contains(ch)) {
+			inp.seekg(-1, std::ios::cur);
+		}
+		std::cout << res << std::endl;
+		return res;
+	}
+
+	std::string ReadString(std::ifstream& inp)
+	{
+		char ch = inp.get();
+		CheckCorrect({ ch }, "\"");
+		ch = inp.get();
+		std::string result;
+		while (ch != '"')
+		{
+			result.push_back(ch);
+			ch = inp.get();
+		}
+		return result;
+	}
+}
+
 void SerializationSystem::LoadEntity(ecs::EntityManager& em, std::filesystem::path path)
+{
+	LoadEntity(em, path, nullptr);
+}
+
+
+void SerializationSystem::LoadEntity(ecs::EntityManager& em, std::filesystem::path path, TagController* tagController)
 {
 	std::map<std::pair<int, std::string>, std::map<std::string, std::string>> loadedComp;
 	std::map<std::string, int> names;
 	Singleton<Logger> logger;
 	std::ifstream file(path);
-	if (!file)
-	{
+	if (!file){
 		logger->Log("File of entity doesn't open");
 		throw std::exception("File of entity doesn't open");
 	}
 
-	std::string str;
-	while (file >> str)
+	while (!file.eof())
 	{
+		std::string str = ReadPreToken(file);
+		if (str == "")
+		{
+			continue;
+		}
 		if (str == "Entity")
 		{
 			std::string name;
-			file >> str;
-			if (str == "=")
-			{
-				file >> name;
-				file >> str;
-			}
 			int ent;
-			if (!name.empty() && names.find(name) != names.end())
+			str = ReadPreToken(file);
+			if (str == "as")
 			{
-				ent = names[name];
-			}
-			else
-			{
-				ent = em.AddEntity<>();
-				if (!name.empty() && names.find(name) == names.end())
-				{
-					names[name] = ent;
+				str = ReadPreToken(file);
+				CheckTerminal(str);
+				if (names.contains(str)) {
+					ent = names[str];
 				}
+				else {
+					ent = em.AddEntity<>();
+				}
+				str = ReadPreToken(file);
 			}
-			//загрузка компонентов
-			if (str == "{")
+			else {
+				ent = em.AddEntity<>();
+			}
+			CheckCorrect(str, "{");
+			str = ReadPreToken(file);
+			while (str != "}")
 			{
-				file >> str;
-
-				while (str != "}")
+				if (str == "tag")
 				{
-					std::string nameComp = str;
-					(em.*ecs::LoadCallbacks()[str].first)(ent);
-
-					file >> str;
-					if (str == "{")
+					str = ReadPreToken(file);
+					CheckCorrect(str, "=");
+					str = ReadPreToken(file);
+					CheckTerminal(str);
+					if (tagController)
 					{
-						std::map<std::string, std::string> compArgs;
-						file >> str;
-						while (str != "}")
-						{
-							if (str == "component")
-							{
-								std::string param;
-								file >> param;
-								std::string val;
-								//file >> val >> val;
-								std::getline(file, val);
-								val = TextTools::DelChar(val, ' ');
-								val = val.substr(1, val.size() - 1);
-								std::vector<std::string> vals = TextTools::SplitAndDelSpace(val, ',');
-								compArgs[param] = "";
-								for (auto l : vals)
-								{
-									if (names.find(l) != names.end())
-									{
-										if (compArgs[param].empty())
-										{
-											compArgs[param] += std::to_string(names[l]);
-										}
-										else
-										{
-											compArgs[param] += ", " + std::to_string(names[l]);
-										}
-									}
-									else
-									{
-										int newEnt = em.AddEntity<>();
-										if (compArgs[param].empty())
-										{
-											compArgs[param] += std::to_string(newEnt);
-										}
-										else
-										{
-											compArgs[param] += ", " + std::to_string(newEnt);
-										}
-										names[l] = newEnt;
-									}
-								}
-							}
-							else
-							{
-								std::string val;
-								file >> val;
-								std::getline(file, val);
-								compArgs[str] = TextTools::DelChar(val, ' ');
-							}
-							file >> str;
-						}
-						loadedComp[{ent, nameComp}] = std::move(compArgs);
-						file >> str;
+						tagController->AddTagToEntity(str, ent);
 					}
 				}
+				else
+				{
+					CheckTerminal(str);
+					std::string compName = str;
+					(em.*ecs::LoadCallbacks()[compName].first)(ent); // Создаем компонент
+					str = ReadPreToken(file);
+					CheckCorrect(str, "{");
+					str = ReadPreToken(file);
+					std::map<std::string, std::string> compArgs;
+					while (str != "}")
+					{
+						if (str == "tag")
+						{
+							str = ReadPreToken(file);
+							CheckCorrect(str, "=");
+							str = ReadPreToken(file);
+							CheckTerminal(str);
+							if (tagController)
+							{
+								//tagController->AddTagToComponent(str);
+							}
+						}
+						else
+						{
+							bool isArray = false;
+							bool isRef = false;
+							CheckTerminal(str);
+							//обработка типа
+							if (str == "ref") {
+								isRef = true;
+							}
+							str = ReadPreToken(file);
+							if (str == "[")
+							{
+								str = ReadPreToken(file);
+								CheckCorrect(str, "]");
+								isArray = true;
+								str = ReadPreToken(file);
+							}
+							CheckTerminal(str);
+							std::string paramName = str;
+							str = ReadPreToken(file);
+							CheckCorrect(str, "=");
+							std::string paramValue;
+							bool firstPass = true;
+
+							if (isArray)
+							{
+								str = ReadPreToken(file);
+								CheckCorrect(str, "[");
+							}
+							str = ReadPreToken(file);
+							while ((firstPass || (isArray && str != "]")) && !(isArray && str == "]"))
+							{
+								if (!firstPass)
+								{
+									paramValue += ", ";
+									CheckCorrect(str, ",");
+									str = ReadPreToken(file);
+								}
+								firstPass = false;
+								if (isRef)
+								{
+									CheckTerminal(str);
+									if (!names.contains(str))
+									{
+										int newEnt = em.AddEntity<>();
+										names[str] = newEnt;
+									}
+									paramValue += std::to_string(names[str]);
+								}
+								else if (str == "\"")
+								{
+									file.seekg(-1, std::ios::cur);
+									paramValue += ReadString(file);
+								}
+								else {
+									paramValue += str;
+								}
+								if (isArray)
+								{
+									str = ReadPreToken(file);
+								}
+							}
+							compArgs[paramName] = paramValue;
+						}
+						str = ReadPreToken(file);
+					}
+					loadedComp[{ent, compName}] = std::move(compArgs);
+					str = ReadPreToken(file);
+				}
+
+
 			}
+		}
+		else
+		{
+			throw "bad";
 		}
 	}
 	for (auto l : loadedComp)

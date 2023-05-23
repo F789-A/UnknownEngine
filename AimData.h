@@ -13,6 +13,7 @@ struct AimData : public ecs::Component<AimData>
 	float Health;
 	float Damage;
 	float minSize = 0.1;
+	float maxSize = 0.8;
 	float Speed = 5;
 
 	Text* text;

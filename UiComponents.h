@@ -57,7 +57,7 @@ struct Toggle : public ecs::Component<Toggle>
 
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
-		auto& comp = em.GetComponent<Toggle>(ent);
+		//auto& comp = em.GetComponent<Toggle>(ent);
 	};
 };
 
@@ -86,4 +86,12 @@ struct Text : public ecs::Component<Text>
 		t.font = &resources->Get(res["FontPath"], std::stoi(res["Size"]));
 		t.text = res["Text"];
 	}
+};
+
+struct ToggleEvent : public ecs::Component<ToggleEvent>
+{
+	int Id;
+	bool state;
+
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res){}
 };

@@ -2,34 +2,34 @@ Entity
 {
 	Transform
 	{
-		Position = (0, 0, 0) 									
-		Scale = (1, 1, 1) 									 		
+		float[] Position = [0, 0, 0] 									
+		float[] Scale = [1, 1, 1] 									 		
 	}
 	Camera
 	{
-		FOV = 45
-		NearClip = 0.01
-		FarClip = 100
+		float FOV = 45
+		float NearClip = 0.01
+		float FarClip = 100
 	}
 	MainCamera
 	{
 	}
 	CameraController
 	{
-		MouseSensitivity = 0.01
-		Speed = 0.01
+		float MouseSensitivity = 0.01
+		float Speed = 0.01
 	}
 	RenderLine
 	{
 	}
 	AimData
 	{
-		aspect = 1
-		aimSensitivity = 0.15
-		size = 0.5
-		Health = 100
-		Damage = 10
-		component text = healtBar
+		float aspect = 1
+		float aimSensitivity = 0.15
+		float size = 0.5
+		float Health = 100
+		float Damage = 10
+		ref text = healtBar
 	}
 }
 
@@ -37,7 +37,7 @@ Entity
 {
 	ChangeLevel
 	{
-		NextLevel = Scenes/DemoLevel.txt
+		string NextLevel = "Scenes/DemoLevel.txt"
 	}
 }
 ////////
@@ -47,14 +47,14 @@ Entity
 {
 	RectTransform
 	{
-		pos = (0.5, 0.5, 0)
-		size = (1, 1, 0)
-		priority = 1
-		component childs =
+		float[] pos = [0.5, 0.5, 0]
+		float[] size = [1, 1, 0]
+		int priority = 1
+		ref[] childs = []
 	}
 	Image
 	{
-		Material = Materials/DefaultUI.uemat
+		string Material = "Materials/DefaultUI.uemat"
 	}
 }
 
@@ -63,54 +63,54 @@ Entity
 {
 	RectTransform
 	{
-		pos = (0.5, 0.25, 0)
-		size = (0.2, 0.2, 1)
-		priority = 7
-		component childs = alienText
+		float[] pos = [0.5, 0.25, 0]
+		float[] size = [0.2, 0.2, 1]
+		int priority = 7
+		ref[] childs = [alienText]
 	}
 	AlienData
 	{
-		Health = 8
-		Damage = 1
-		component HealthBar = alienText
+		float Health = 8
+		float Damage = 1
+		ref HealthBar = alienText
 	}
 	Image
 	{
-		Material = Materials/Alien.uemat
+		string Material = "Materials/Alien.uemat"
 	}	
 }
 
-Entity = healtBar
+Entity as healtBar
 {
 	RectTransform
 	{
-		pos = (0.125, 0.875, 0)
-		size = (0.25, 0.25, 0)
-		priority = 2
-		component childs =
+		float[] pos = [0.125, 0.875, 0]
+		float[] size = [0.25, 0.25, 0]
+		int priority = 2
+		ref[] childs = []
 	}
 	Text
 	{
-		Text = Iext
-		Size = 24
-		FontPath = Fonts\arial.ttf
+		string Text = "Iext"
+		int Size = 24
+		string FontPath = "Fonts\arial.ttf"
 	}
 }
 
-Entity = alienText
+Entity as alienText
 {
 	RectTransform
 	{
-		pos = (0.0, 0.0, 0)
-		size = (0.2, 0.2, 0)
-		priority = 99
-		component childs =
+		float[] pos = [0.0, 0.0, 0]
+		float[] size = [0.2, 0.2, 0]
+		int priority = 99
+		ref[] childs = []
 	}
 	Text
 	{
-		Text = AlienHealthnbnhvnvhngnghnghnhg
-		Size = 24
-		FontPath = Fonts\arial.ttf
+		string Text = "AlienHealthnbnhvnvhngnghnghnhg"
+		int Size = 24
+		string FontPath = "Fonts\arial.ttf"
 	}
 }
 
@@ -120,15 +120,15 @@ Entity
 {
 	RectTransform
 	{
-		pos = (0.25, 0.5, 0)
-		size = (0.5, 0.25, 0)
-		priority = 2
-		component childs =
+		float[] pos = [0.25, 0.5, 0]
+		float[] size = [0.5, 0.25, 0]
+		int priority = 2
+		ref[] childs = []
 	}
 	Text
 	{
-		Text = WSAD - move, Y, H - change_size_aim, P - change_level
-		Size = 24
-		FontPath = Fonts\arial.ttf
+		string Text = "WSAD - move, Y, H - change size aim, P - change level"
+		int Size = 24
+		string FontPath = "Fonts\arial.ttf"
 	}
 }

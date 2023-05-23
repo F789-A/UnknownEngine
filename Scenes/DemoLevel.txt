@@ -2,13 +2,13 @@ Entity
 {
 	Transform
 	{
-		Position = (20, 0, 0)
-		Scale = (1, 1, 1)
+		float[] Position = [20, 0, 0]
+		float[] Scale = [1, 1, 1]
 	}
 	RenderMesh
 	{
-		RenderMesh = Models\box.obj
-		RenderMaterial = Materials\Diffuse_1.uemat
+		string RenderMesh = "Models\box.obj"
+		string RenderMaterial = "Materials\Diffuse_1.uemat"
 	}
 }
 
@@ -16,13 +16,13 @@ Entity
 {
 	Transform
 	{
-		Position = (40, 0, 0)
-		Scale = (1, 1, 1)
+		float[] Position = [40, 0, 0]
+		float[] Scale = [1, 1, 1]
 	}
 	RenderMesh
 	{
-		RenderMesh = Models\box.obj
-		RenderMaterial = Materials\Diffuse_1.uemat
+		string RenderMesh = "Models\box.obj"
+		string RenderMaterial = "Materials\Diffuse_1.uemat"
 	}
 }
 
@@ -30,22 +30,22 @@ Entity
 {
 	Transform
 	{
-		Position = (0, 0, 0) 									
-		Scale = (1, 1, 1) 									 		
+		float[] Position = [0, 0, 0] 									
+		float[] Scale = [1, 1, 1]								 		
 	}
 	Camera
 	{
-		FOV = 45
-		NearClip = 0.01
-		FarClip = 100
+		float FOV = 45
+		float NearClip = 0.01
+		float FarClip = 100
 	}
 	MainCamera
 	{
 	}
 	CameraController
 	{
-		MouseSensitivity = 0.01
-		Speed = 0.01
+		float MouseSensitivity = 0.01
+		float Speed = 0.01
 	}
 }
 
@@ -53,7 +53,7 @@ Entity
 {
 	ChangeLevel
 	{
-		NextLevel = Scenes/MainMenu.txt
+		string NextLevel = "Scenes/MainMenu.txt"
 	}
 }
 
@@ -62,15 +62,15 @@ Entity
 {
 	RectTransform
 	{
-		pos = (0.25, 0.875, 0)
-		size = (0.5, 0.25, 0)
-		priority = 2
-		component childs =
+		float[] pos = [0.25, 0.875, 0]
+		float[] size = [0.5, 0.25, 0]
+		int priority = 2
+		ref[] childs = []
 	}
 	Text
 	{
-		Text = WSAD + Mouse - move, E - post_processing, P - change_level
-		Size = 24
-		FontPath = Fonts\arial.ttf
+		string Text = "WSAD + Mouse - move, E - post processing, P - change level"
+		int Size = 24
+		string FontPath = "Fonts\arial.ttf"
 	}
 }
