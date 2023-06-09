@@ -4,13 +4,18 @@
 #include "LevelData.h"
 #include "EntityLoader.h"
 
-void AsteroidHunter::LevelController(ecs::EntityManager&)
+void AsteroidHunter::LevelController(ecs::EntityManager& em)
 {
-	auto& levelData = InstanceOf<TagController>().GetComponentWithTag<LevelData>("LevelData");
-
-	if (levelData.countAlien < 2)
+	for (auto l = em.GetComponents<LevelData>(); !l.end(); ++l)
 	{
-		SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\AlienPrefab.txt");
-		levelData.countAlien++;
+		//auto& levelData = em.GetComponent<LevelData>(InstanceOf<TagController>().GetEntityWithTag("LevelData"));
+		auto [levelData] = *l;
+
+		if (levelData.countAlien < 2)
+		{
+			SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\AlienPrefab.txt");
+			levelData.countAlien++;
+		}
 	}
+	
 }

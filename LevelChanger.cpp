@@ -2,6 +2,8 @@
 #include "ChangeLevel.h"
 #include "EntityLoader.h"
 #include "Input.h"
+#include "SafeSingleton.h"
+#include "TagController.h"
 
 void AsteroidHunter::LevelChanger(ecs::EntityManager& em)
 {
@@ -11,7 +13,7 @@ void AsteroidHunter::LevelChanger(ecs::EntityManager& em)
 		if (Input::GetInstance().GetButton("ChangeLevel", Input::PressMode::Press))
 		{
 			ecs::EntityManager tmpEm;
-			SerializationSystem::LoadEntity(tmpEm, lvl.NextLevel);
+			SerializationSystem::LoadEntity(tmpEm, lvl.NextLevel, &InstanceOf<TagController>());
 			ecs::DefEcs().SetEntityManager(std::move(tmpEm));
 		}
 	}

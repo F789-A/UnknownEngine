@@ -30,6 +30,20 @@ Entity
 {
 	Transform
 	{
+		float[] Position = [40, 40, 0]
+		float[] Scale = [1, 1, 1]
+	}
+	RenderMesh
+	{
+		string RenderMesh = "Models\box.obj"
+		string RenderMaterial = "Materials\Diffuse_1.uemat"
+	}
+}
+
+Entity
+{
+	Transform
+	{
 		float[] Position = [0, 0, 0] 									
 		float[] Scale = [1, 1, 1]								 		
 	}

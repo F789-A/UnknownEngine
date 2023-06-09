@@ -35,6 +35,15 @@ Entity
 
 Entity
 {
+	tag = LevelData
+	LevelData
+	{
+		
+	}
+}
+
+Entity
+{
 	ChangeLevel
 	{
 		string NextLevel = "Scenes/DemoLevel.txt"

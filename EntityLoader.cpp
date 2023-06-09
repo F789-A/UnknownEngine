@@ -75,7 +75,6 @@ namespace
 		if (!ignor.contains(ch)) {
 			inp.seekg(-1, std::ios::cur);
 		}
-		std::cout << res << std::endl;
 		return res;
 	}
 
@@ -152,6 +151,7 @@ void SerializationSystem::LoadEntity(ecs::EntityManager& em, std::filesystem::pa
 					{
 						tagController->AddTagToEntity(str, ent);
 					}
+					str = ReadPreToken(file);
 				}
 				else
 				{

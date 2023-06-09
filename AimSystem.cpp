@@ -116,7 +116,7 @@ void AsteroidHunter::AlienController(ecs::EntityManager& em)
 			ecs::DefEcs().entity.RemoveEntity(ecs::DefEcs().entity.GetEntity(*transf.childs[0]));
 			ecs::DefEcs().entity.RemoveEntity(ecs::DefEcs().entity.GetEntity(alien));
 
-			auto& levelData = InstanceOf<TagController>().GetComponentWithTag<LevelData>("LevelData");
+			auto& levelData = em.GetComponent<LevelData>(InstanceOf<TagController>().GetEntityWithTag("LevelData"));
 			levelData.countAlien--;
 			//SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\AlienPrefab.txt");
 			// Добавить плавное появление из-за границ экрана
