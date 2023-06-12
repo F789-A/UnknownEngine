@@ -82,12 +82,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Workflow\Cpp\LibsF\include;C:\Workflow\Cpp\UnknownEngine;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Workflow\Cpp\UnknownEngine\Scripts;C:\Workflow\Cpp\LibsF\include;C:\Workflow\Cpp\UnknownEngine;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Workflow\Cpp\LibsF\Libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Workflow\Cpp\LibsF\include;C:\Workflow\Cpp\UnknownEngine;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Workflow\Cpp\UnknownEngine\Scripts;C:\Workflow\Cpp\LibsF\include;C:\Workflow\Cpp\UnknownEngine;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Workflow\Cpp\LibsF\Libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -166,6 +166,7 @@
     <ClCompile Include="EcsSystem.cpp" />
     <ClCompile Include="EscapeHandler.cpp" />
     <ClCompile Include="EventSystem.cpp" />
+    <ClCompile Include="Scripts\Graphics\GLLineMesh.cpp" />
     <ClCompile Include="LevelChanger.cpp" />
     <ClCompile Include="LevelController.cpp" />
     <ClCompile Include="LineDrawSystem.cpp" />
@@ -207,9 +208,11 @@
     <ClInclude Include="EventSystem.h" />
     <ClInclude Include="FontInfo.h" />
     <ClInclude Include="GlFramebuffer.h" />
+    <ClInclude Include="GLObjects.h" />
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="RenderMesh.h" />
     <ClInclude Include="SafeSingleton.h" />
+    <ClInclude Include="Scripts\Graphics\LineRenderData.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="SortedByValueMap.h" />
     <ClInclude Include="Systems.h" />
@@ -245,7 +248,7 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BasePostProcess.vert" />
+    <None Include="Shaders\BasePostProcess.vert" />
     <None Include="Shaders\BlendUiAndScene.frag" />
     <None Include="Shaders\DefaultUI.frag" />
     <None Include="Shaders\DefaultUI.vert" />
@@ -254,12 +257,16 @@
     <None Include="Shaders\Pixelization.frag" />
     <None Include="Shaders\Simple.frag" />
     <None Include="Shaders\Simple.vert" />
+    <None Include="Shaders\SimpleDiffuse.frag" />
+    <None Include="Shaders\SimpleDiffuse.vert" />
+    <None Include="Shaders\Skybox.frag" />
+    <None Include="Shaders\Skybox.vert" />
+    <None Include="Shaders\testShader.frag" />
+    <None Include="Shaders\testShader.vert" />
     <None Include="Shaders\UiText.frag" />
     <None Include="Shaders\UiText.vert" />
     <None Include="SimpleDiffuse.frag" />
-    <None Include="SimpleDiffuse.vert" />
     <None Include="testShader.frag" />
-    <None Include="testShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.txt" />

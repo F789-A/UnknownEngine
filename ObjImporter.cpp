@@ -90,7 +90,7 @@ Model ImportObj(std::filesystem::path path)
 			
 			for (; ist >> word;)
 			{
-				Vertex vert;
+				Vertex3D vert;
 				std::vector<std::string> index = TextTools::SplitAndDelSpace(word, '/');
 				vert.position = pos[std::atoi(index[0].c_str()) - 1];
 				vert.texCoords = tex[std::atoi(index[1].c_str()) - 1];

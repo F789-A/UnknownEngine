@@ -1,6 +1,7 @@
 #include "GraphicCore.h"
 
 #include "Camera.h"
+#include "Mesh.h"
 
 GraphicCore::GraphicCore(GLFWwindow* window) : Window(window)
 {
@@ -52,11 +53,11 @@ GraphicCore& GraphicCore::GetInstance()
 
 void GraphicCore::UpdateGraphic()
 {
-	static std::vector<GLfloat> vertices = {
-				-1, 1, 0,	0, 1,
-				-1, -1,	0,	0, 0,
-				1, -1, 0,	1, 0,
-				1, 1, 0,	1, 1,
+	static std::vector<Vertex2D> vertices = {
+		{{-1, 1, 0}, {0, 1}},
+		{{-1, -1, 0}, {0, 0}},
+		{{ 1, -1, 0}, {1, 0}},
+		{{ 1, 1, 0}, {1, 1}}
 	};
 
 	static std::vector<GLuint> ind = {0, 1, 2, 0, 2, 3};
@@ -93,7 +94,7 @@ void GraphicCore::UpdateGraphic()
 		BlendSceneMaterial.Textures["sceneTexture"] = &postProcessFramebuffer.texture;
 		glBindFramebuffer(GL_FRAMEBUFFER, postProcessFramebuffer.fbo);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		screenPlane.Draw(PostProcesses[0], glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1));
+		screenPlane.Draw(PostProcesses[0], glm::mat4(1.0f));
 	}
 	else
 	{
@@ -111,7 +112,7 @@ void GraphicCore::UpdateGraphic()
 
 	// Draw all on screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	screenPlane.Draw(BlendSceneMaterial, glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1));
+	screenPlane.Draw(BlendSceneMaterial, glm::mat4(1.0f));
 
 	glfwSwapBuffers(Window);
 }

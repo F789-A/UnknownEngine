@@ -168,6 +168,9 @@
     <ClCompile Include="LevelController.cpp">
       <Filter>Source Files\ECS\Systems\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\Graphics\GLLineMesh.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLShader.h">
@@ -311,18 +314,18 @@
     <ClInclude Include="LevelData.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\Graphics\LineRenderData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLObjects.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="testShader.vert">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
     <None Include="testShader.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="SimpleDiffuse.frag">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="SimpleDiffuse.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Shaders\DefaultUI.frag">
@@ -343,19 +346,37 @@
     <None Include="Shaders\UiText.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="Shaders\UiText.vert">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
     <None Include="Shaders\BlendUiAndScene.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Shaders\IdentityScreen.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="BasePostProcess.vert">
+    <None Include="Shaders\Pixelization.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="Shaders\Pixelization.frag">
+    <None Include="Shaders\BasePostProcess.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\SimpleDiffuse.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\SimpleDiffuse.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\Skybox.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\Skybox.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\testShader.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\testShader.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\UiText.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>

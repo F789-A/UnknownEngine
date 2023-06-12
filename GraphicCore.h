@@ -41,6 +41,7 @@ public:
 	bool EnablePostProcessing = false;
 	int Height;
 	int Width;
+	float Aspect = 0.75f;
 	ecs::EcsSystem* ecsS;
 
 	std::vector<void(*)(ecs::EntityManager&)> mainPass;

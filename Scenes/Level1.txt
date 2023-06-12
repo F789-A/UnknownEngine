@@ -31,6 +31,9 @@ Entity
 		float Damage = 10
 		ref text = healtBar
 	}
+	AimEffect
+	{
+	}
 }
 
 Entity

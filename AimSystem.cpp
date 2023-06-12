@@ -18,6 +18,7 @@
 #include "LevelData.h"
 #include "TagController.h"
 #include "SafeSingleton.h"
+#include "GraphicCore.h"
 
 float Scr2Nor(float scr)
 {
@@ -31,9 +32,9 @@ glm::vec2 ClampVec2(glm::vec2 v, const glm::vec2& min, const glm::vec2& max)
 
 void AsteroidHunter::CharacterController(ecs::EntityManager& em)
 {
-	for (auto l = em.GetComponents<AimData, RenderLine>(); !l.end(); ++l)
+	for (auto l = em.GetComponents<AimData, RenderLine, AimEffect>(); !l.end(); ++l)
 	{
-		auto [aim, render] = *l;
+		auto [aim, render, effect] = *l;
 		float sens = aim.aimSensitivity * AppTime::GetDeltaTime();
 		if (Input::GetInstance().GetButton("Expansion", Input::PressMode::Repeat))
 		{
@@ -62,7 +63,7 @@ void AsteroidHunter::CharacterController(ecs::EntityManager& em)
 
 		aim.size = std::clamp(aim.size, aim.minSize, aim.maxSize);
 
-		float aspect = 3.0f / 4.0f;
+		float aspect = GraphicCore::GetInstance().Aspect;
 		glm::vec2 boundCorner = { 1 - (aim.size + 0.01) * aspect , 1 - (aim.size+0.2) * aspect };
 		aim.center = ClampVec2(aim.center, -boundCorner, boundCorner);
 
@@ -89,7 +90,16 @@ void AsteroidHunter::CharacterController(ecs::EntityManager& em)
 			corner[2], quad[2],
 			corner[3], quad[3]
 		};
-		render.RenderedLine.setVert(arr);
+		render.RenderedLine.SetVertices(arr);
+
+		float step = std::abs((quad[2].x - quad[3].x) / 10.0f);
+		std::vector<glm::vec2> effArr;
+		for (int i = 0; i < 10; i++)
+		{
+			//effArr.push_back(glm::vec2(quad[3].x + step*i, quad[3].y + 0.05f + 0.2f * effect.LerpFactors[i*2]));
+			//effArr.push_back(glm::vec2(quad[3].x + step * i, quad[3].y + 0.05f + 0.2f * effect.LerpFactors[i * 2 + 1]));
+			//effect.LerpFactors[i * 2] + 
+		}
 
 		for (auto k = em.GetComponents<AlienData, RectTransform>(); !k.end(); ++k)
 		{

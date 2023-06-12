@@ -16,7 +16,7 @@ struct RenderLine : ecs::Component<RenderLine>
 		{
 			{0, 0}, {0, 0}
 		};
-		render.RenderedLine = GLLineMesh(arr);
+		render.RenderedLine = GLLineMesh(arr, {1});
 		Singleton<SharedGraphicsResources> singlRes;
 		render.RenderedMaterial = singlRes->GetMaterial("Materials\\fuck.uemat");
 	}

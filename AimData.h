@@ -16,6 +16,8 @@ struct AimData : public ecs::Component<AimData>
 	float maxSize = 0.8;
 	float Speed = 5;
 
+	bool Initialized = false;
+
 	Text* text;
 
 	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
@@ -30,5 +32,16 @@ struct AimData : public ecs::Component<AimData>
 
 		aim.text = &em.GetComponent<Text>(std::stoi(res["text"]));
 	}
+};
+
+struct AimEffect : public ecs::Component<AimEffect>
+{
+	std::vector<glm::vec2> Vertices;
+	std::vector<float> LerpFactors;
+	float TailSpeed;
+	float HeadSpeed;
+
+	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
+	{}
 };
 

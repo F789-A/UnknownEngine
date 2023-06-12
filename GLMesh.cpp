@@ -1,75 +1,99 @@
 #include "GLMesh.h"
 #include "GraphicCore.h"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <numeric>
 
-GLMesh::GLMesh(const Mesh& mesh)
+GLMesh::GLMesh() : HaveGPUResources(false) 
+{}
+
+GLMesh::GLMesh(const std::vector<Vertex3D>& vertexData, const std::vector<GLuint>& indices,
+    GeometryTypes geometryType, DrawFlags drawFlags) : GeometryType(geometryType)
 {
-    HaveGPUResources = true;
-    IndicesSize = mesh.Indices.size();
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
-
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    HaveGPUResources = true;
 
-    glBufferData(GL_ARRAY_BUFFER, mesh.Vertices.size() * sizeof(Vertex), &(mesh.Vertices[0]), GL_STATIC_DRAW);
+    IndicesSize = indices.size();
+    glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(Vertex3D), &(vertexData[0]), static_cast<GLenum>(drawFlags));
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.Indices.size() * sizeof(unsigned int), &(mesh.Indices[0]), GL_STATIC_DRAW);
-   
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &(indices[0]), static_cast<GLenum>(drawFlags));
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, position));
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, texCoords));
     glEnableVertexAttribArray(1);
 
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, normal));
     glEnableVertexAttribArray(2);
 
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangentVec));
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)offsetof(Vertex3D, tangentVec));
     glEnableVertexAttribArray(3);
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-GLMesh::GLMesh(const std::vector<float>& rawData, const std::vector<GLuint>& ind)
+GLMesh::GLMesh(const std::vector<Vertex2D>& vertexData, const std::vector<GLuint>& indices,
+    GeometryTypes geometryType, DrawFlags drawFlags) : GeometryType(geometryType)
 {
-    HaveGPUResources = true;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    HaveGPUResources = true;
 
-    IndicesSize = ind.size();
+    IndicesSize = indices.size();
+    glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(Vertex3D), &(vertexData[0]), static_cast<GLenum>(drawFlags));
 
-    glBufferData(GL_ARRAY_BUFFER, rawData.size() * sizeof(float), &(rawData[0]), GL_STREAM_DRAW);
-    
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, IndicesSize * sizeof(unsigned int), &(ind[0]), GL_STREAM_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &(indices[0]), static_cast<GLenum>(drawFlags));
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*  sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex2D), (void*)offsetof(Vertex2D, position));
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3*sizeof(float)));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex2D), (void*)offsetof(Vertex2D, texCoords));
     glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void GLMesh::SetData(const std::vector<float>& rawData, int offset)
+GLMesh::GLMesh(const std::vector<Vertex>& vertexData, const std::vector<GLuint>& indices,
+    GeometryTypes geometryType, DrawFlags drawFlags) : GeometryType(geometryType)
 {
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+    glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, rawData.size() * sizeof(float), &(rawData[0]));
+    HaveGPUResources = true;
+
+    IndicesSize = indices.size();
+    glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(Vertex3D), &(vertexData[0]), static_cast<GLenum>(drawFlags));
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &(indices[0]), static_cast<GLenum>(drawFlags));
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+    glEnableVertexAttribArray(0);
+
+    glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-GLMesh::GLMesh(GLMesh&& other) noexcept : VAO(other.VAO), VBO(other.VBO), EBO(other.EBO), IndicesSize(other.IndicesSize), HaveGPUResources(true)
+GLMesh::GLMesh(GLMesh&& other) noexcept : VAO(other.VAO), VBO(other.VBO), EBO(other.EBO), IndicesSize(other.IndicesSize), 
+    HaveGPUResources(true), GeometryType(other.GeometryType)
 {
     other.HaveGPUResources = false;
 }
+
 GLMesh& GLMesh::operator=(GLMesh&& other) noexcept
 {
     if (this != &other)
@@ -80,6 +104,7 @@ GLMesh& GLMesh::operator=(GLMesh&& other) noexcept
         IndicesSize = other.IndicesSize;
         HaveGPUResources = true;
         other.HaveGPUResources = false;
+        GeometryType = other.GeometryType;
     }
     return *this;
 }
@@ -90,24 +115,15 @@ GLMesh::~GLMesh()
     {
         glDeleteBuffers(1, &VBO);
         glDeleteBuffers(1, &EBO);
-        glDeleteBuffers(1, &VAO);
+        glDeleteVertexArrays(1, &VAO);
     }
 }
 
-void GLMesh::Draw(const GLMaterial& material, const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scale)
+void GLMesh::SetData(const std::vector<float>& rawData, int offset)
 {
-    material.Use();
-
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::scale(glm::mat4(1.0f), scale);
-    //model = glm::mat4_cast(rotation) * model;
-    model = glm::translate(glm::mat4(1.0f), position) * model;
-
-    glUniformMatrix4fv(glGetUniformLocation(material.Shader->Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-
-    glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, IndicesSize, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, rawData.size() * sizeof(float), &(rawData[0]));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void GLMesh::Draw(const GLMaterial& material, const glm::mat4& transformMatrix)
@@ -117,6 +133,6 @@ void GLMesh::Draw(const GLMaterial& material, const glm::mat4& transformMatrix)
     glUniformMatrix4fv(glGetUniformLocation(material.Shader->Program, "model"), 1, GL_FALSE, glm::value_ptr(transformMatrix));
 
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, IndicesSize, GL_UNSIGNED_INT, 0);
+    glDrawElements(static_cast<GLenum>(GeometryType), IndicesSize, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }

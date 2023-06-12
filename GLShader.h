@@ -46,4 +46,5 @@ public:
     void SetFloat(const std::string& name, GLfloat a);
     void SetInt(const std::string& name, GLint a);
     void SetTexture(const std::string& name, const I_GLTexture& map, int target);
+    void SetMatrix(const std::string& name, glm::mat4 matrix);
 };

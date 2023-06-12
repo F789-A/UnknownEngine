@@ -15,7 +15,8 @@ struct RenderMesh : public ecs::Component<RenderMesh>
 	{
 		Singleton<SharedGraphicsResources> singlRes;
 		RenderMesh& renMesh = em.GetComponent<RenderMesh>(a);
-		renMesh.RenderedMesh = GLMesh(singlRes->ModelCont.GetModelRef(res["RenderMesh"]).Meshes[0]);
+		auto& mesh = singlRes->ModelCont.GetModelRef(res["RenderMesh"]).Meshes[0];
+		renMesh.RenderedMesh = GLMesh(mesh.Vertices, mesh.Indices);
 		renMesh.RenderMaterial = GLMaterial(singlRes->GetMaterial(res["RenderMaterial"]));
 	}
 };
