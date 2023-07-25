@@ -42,8 +42,8 @@ public:
     GLMesh& operator=(GLMesh&& other) noexcept;
     ~GLMesh();
 
-    void SetData(const std::vector<float>& rawData, int offset = 0);
-    void SetIndices(const std::vector<GLuint>& indices);
+    void SetVertexData(const std::vector<GLfloat>& rawData);
+    void SetIndicesData(const std::vector<GLuint>& indices);
 
     void Draw(const GLMaterial& material, const glm::mat4& transformMatrix);
     //TODO: void DrawInstance(Shader& shader);

@@ -41,6 +41,11 @@ void ecs::EntityManager::CollectGarbage()
 		Entityes[QueueDeletion.front()].clear();
 		QueueDeletion.pop();
 	}
+	while (!QueueDeletionComponent.empty())
+	{
+		ComponentsConteiners[QueueDeletionComponent.front().first]->Remove(QueueDeletionComponent.front().second);
+		QueueDeletionComponent.pop();
+	}
 }
 
 void ecs::SystemController::SetEnable(void(*syst)(EntityManager&), bool state)

@@ -1,4 +1,4 @@
-Entity
+Entity as MainCharacter
 {
 	Transform
 	{
@@ -21,6 +21,7 @@ Entity
 	}
 	RenderLine
 	{
+		string RenderedMaterial = "Materials/fuck.uemat"
 	}
 	AimData
 	{
@@ -31,8 +32,17 @@ Entity
 		float Damage = 10
 		ref text = healtBar
 	}
+	
+}
+
+Entity as effects
+{
 	AimEffect
 	{
+	}
+	RenderLine
+	{
+		string RenderedMaterial = "Materials/fuck.uemat"
 	}
 }
 
@@ -41,7 +51,6 @@ Entity
 	tag = LevelData
 	LevelData
 	{
-		
 	}
 }
 
@@ -137,10 +146,10 @@ Entity
 		int priority = 2
 		ref[] childs = []
 	}
-	Text
-	{
-		string Text = "WSAD - move, Y, H - change size aim, P - change level"
-		int Size = 24
-		string FontPath = "Fonts\arial.ttf"
-	}
+	//Text
+	//{
+		//string Text = "WSAD - move, Y, H - change size aim, P - change level"
+	//	int Size = 24
+	//	string FontPath = "Fonts\arial.ttf"
+	//}
 }

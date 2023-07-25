@@ -158,6 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AimSystem.cpp" />
+    <ClCompile Include="AlienData.cpp" />
     <ClCompile Include="AppInitializer.cpp" />
     <ClCompile Include="AppTime.cpp" />
     <ClCompile Include="AlienHeadersLib\glad.c" />

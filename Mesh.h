@@ -1,14 +1,11 @@
 #pragma once
 
-#include <iostream>
+#include <glad/glad.h> 
+#include <GLFW\glfw3.h>
 
 #include <glm/glm.hpp>
-
 #include <string>
 #include <vector>
-#include "Logger.h"
-
-using uint = unsigned int;
 
 struct Vertex
 {
@@ -33,16 +30,6 @@ class Mesh
 {
 public:
     std::vector<Vertex3D> Vertices;
-    std::vector<unsigned int> Indices;
+    std::vector<GLuint> Indices;
     std::string Name;
-
-    Mesh(){}
-
-    Mesh(const Mesh& other);
-    Mesh operator=(const Mesh& other);
-
-    Mesh(Mesh&& other) noexcept;
-    Mesh& operator=(Mesh&& other) noexcept;
-
-    Mesh(const std::string& name, const std::vector<Vertex3D>& vertices, const std::vector<unsigned int>& indices);
 };

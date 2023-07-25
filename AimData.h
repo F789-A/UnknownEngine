@@ -36,10 +36,14 @@ struct AimData : public ecs::Component<AimData>
 
 struct AimEffect : public ecs::Component<AimEffect>
 {
-	std::vector<glm::vec2> Vertices;
-	std::vector<float> LerpFactors;
-	float TailSpeed;
-	float HeadSpeed;
+	struct EffectPoint
+	{
+		glm::vec2 TargetPos;
+		glm::vec2 CurrentPos;
+	};
+	std::vector<EffectPoint> Lines = std::vector<EffectPoint>(40);
+	float TailSpeed = 0.25f;
+	float HeadSpeed = 0.30f;
 
 	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
 	{}

@@ -1,11 +1,12 @@
 #pragma once
-#include <glm/vec2.hpp>
+/*#include <glm/vec2.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <vector>
 #include <glad/glad.h> 
 #include <GLFW\glfw3.h>
 #include "AppTime.h"
-#include "GLLineMesh.h"
+#include "GLMesh.h"
+#include "Mesh.h"
 
 void PerspectiveBuild()
 {
@@ -49,22 +50,23 @@ void PerspectiveBuild()
 	quad[1] = glm::vec2(1 - height * ctgB, 1-height);
 	quad[2] = glm::vec2(1 - height * ctgB, -1 + height * ctgB*tgC);
 	quad[3] = glm::vec2(-1 + height * ctgA, -1 + height * ctgB * tgC);
-	std::vector<glm::vec2> arr =
+	std::vector<Vertex> arr =
 	{
 		//
-		quad[0], quad[1],
-		quad[1], quad[2],
-		quad[2], quad[3],
-		quad[3], quad[0],
+		Vertex({quad[0], quad[1], 0}),
+		Vertex({quad[1], quad[2], 0}),
+		Vertex({quad[2], quad[3], 0}),
+		Vertex({quad[3], quad[0], 0}),
 		//
-		corner[0], quad[0],
-		corner[1], quad[1],
-		corner[2], quad[2],
-		corner[3], quad[3]
+		Vertex({corner[0], quad[0], 0}),
+		Vertex({corner[1], quad[1], 0}),
+		Vertex({corner[2], quad[2], 0}),
+		Vertex({corner[3], quad[3], 0})
 	};
-	static GLLineMesh a(arr, {});
+	static GLMesh a(arr, {1}, GLMesh::GeometryTypes::Lines);
 	Singleton<SharedGraphicsResources> singlRes;
 	singlRes->GetMaterial("Materials\\fuck.uemat").Use();
 	//a.Draw(singlRes->GetMaterial("Materials\\fuck.uemat"), arr);
 }
 
+*/

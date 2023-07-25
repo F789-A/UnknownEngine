@@ -6,6 +6,6 @@ void DrawLine(ecs::EntityManager& em)
 	for (auto l = em.GetComponents<RenderLine>(); !l.end(); ++l)
 	{
 		auto [render] = *l;
-		render.RenderedLine.Draw(render.RenderedMaterial);
+		render.RenderedLine.Draw(render.RenderedMaterial, glm::mat4(1.0f));
 	}
 }

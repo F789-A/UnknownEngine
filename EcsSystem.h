@@ -149,6 +149,7 @@ namespace ecs
 		std::vector<std::unique_ptr<BaseComponentConteiner>> ComponentsConteiners;
 		std::vector<std::set<int>> Entityes;
 		std::queue<int> QueueDeletion;
+		std::queue<std::pair<int, int>> QueueDeletionComponent;
 		std::queue<int> freeEntity;
 		std::bitset<1000> enabledEntity;
 		
@@ -286,8 +287,9 @@ ecs::EntityManager::ComponentIterator<Arg1, Args...> ecs::EntityManager::GetComp
 template<typename T>
 void ecs::EntityManager::RemoveComponent(int entity)
 {
-	ComponentsConteiners[T::type]->Remove(entity);
+	QueueDeletionComponent.push({ T::type, entity });
 }
+
 template<typename T>
 void ecs::EntityManager::Register()
 {

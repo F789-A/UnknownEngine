@@ -46,7 +46,7 @@ void DrawUI(const GLMaterial& material, std::vector<Vertex2D> vertices, int prio
 		verts.push_back(l.texCoords.x);
 		verts.push_back(l.texCoords.y);
 	}
-	uiplane.SetData(verts);
+	uiplane.SetVertexData(verts);
 
 	glm::mat4 modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(1, 1, 1));
 	//model = glm::mat4_cast(glm::quat(1, 0, 0, 0)) * model;

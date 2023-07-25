@@ -1,6 +1,6 @@
 #pragma once
 #include "EcsSystem.h"
-#include <glm\\glm.hpp>
+#include <glm/glm.hpp>
 #include "UiComponents.h"
 #include <type_traits>
 
@@ -14,13 +14,9 @@ enum class AlienTypes : int
 	PingPonger = 1 << 4
 };
 
-AlienTypes operator |(const AlienTypes& lhs, const AlienTypes& rhs) {
-	return static_cast<AlienTypes>(static_cast<int>(lhs) | static_cast<int>(rhs));
-}
+AlienTypes operator|(const AlienTypes& lhs, const AlienTypes& rhs);
 
-AlienTypes operator &(const AlienTypes& lhs, const AlienTypes& rhs) {
-	return static_cast<AlienTypes>(static_cast<int>(lhs) & static_cast<int>(rhs));
-}
+AlienTypes operator&(const AlienTypes& lhs, const AlienTypes& rhs);
 
 enum class AlienState
 {
@@ -34,15 +30,17 @@ public:
 
 	float Health;
 	float Damage;
+	float Support;
+	AlienTypes alienType;
+
 	Text* HealthBar;
 
 	float TimeToChangeDir = 1;
 	float Timer = 1;
-
-	glm::vec2 dir;
-
 	AlienState alientState;
-	AlienTypes alienType;
+	glm::vec2 dir;
+	
+
 
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
@@ -53,4 +51,10 @@ public:
 		alien.dir = glm::normalize(glm::vec2(1, 0.3));
 		alien.alienType = AlienTypes::Coward | AlienTypes::PingPonger;
 	}
+};
+
+class NewPlacedAlienTag : public ecs::Component<NewPlacedAlienTag>
+{
+public:
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res){}
 };

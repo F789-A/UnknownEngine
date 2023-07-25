@@ -119,15 +119,34 @@ GLMesh::~GLMesh()
     }
 }
 
-void GLMesh::SetData(const std::vector<float>& rawData, int offset)
+void GLMesh::SetVertexData(const std::vector<GLfloat>& rawData)
 {
+    if (!HaveGPUResources)
+    {
+        throw "";
+    }
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, rawData.size() * sizeof(float), &(rawData[0]));
+    glBufferSubData(GL_ARRAY_BUFFER, 0, rawData.size() * sizeof(GLfloat), &(rawData[0]));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void GLMesh::SetIndicesData(const std::vector<GLuint>& indices)
+{
+    if (!HaveGPUResources)
+    {
+        throw "";
+    }
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size() * sizeof(GLuint), &(indices[0]));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void GLMesh::Draw(const GLMaterial& material, const glm::mat4& transformMatrix)
 {
+    if (!HaveGPUResources)
+    {
+        throw "";
+    }
     material.Use();
 
     glUniformMatrix4fv(glGetUniformLocation(material.Shader->Program, "model"), 1, GL_FALSE, glm::value_ptr(transformMatrix));
