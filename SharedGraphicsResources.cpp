@@ -73,6 +73,7 @@ void MaterialConteiner::AddMaterial(const std::string& path)
 	std::map<std::string, float> ParametersFloat;
 	std::map<std::string, glm::vec3> ParametersVec3;
 	std::map<std::string, GLTexture*> Textures;
+	std::map<std::string, GLCubemapTexture*> CubemapTextures;
 	while (file)
 	{
 		param = TextTools::SplitAndDelSpace(str, ' ');
@@ -98,6 +99,10 @@ void MaterialConteiner::AddMaterial(const std::string& path)
 		{
 			Textures.insert(std::pair(param[1], &(LinkedGLTexCont.GetGLTextureRef(param[2]))));
 		}
+		if (param[0] == "cubemap")
+		{
+			CubemapTextures.insert(std::pair(param[1], &(LinkedGLTexCont.GetGLCubemapRef(param[2]))));
+		}
 		
 		std::getline(file, str);
 	}
@@ -106,6 +111,7 @@ void MaterialConteiner::AddMaterial(const std::string& path)
 	Materials.at(path).ParametersFloat = ParametersFloat;
 	Materials.at(path).ParametersVec3 = ParametersVec3;
 	Materials.at(path).Textures = Textures;
+	Materials.at(path).CubemapTextures = CubemapTextures;
 }
 
 GLMaterial MaterialConteiner::GetMaterial(const std::string& path)
@@ -152,6 +158,7 @@ void ShaderConteiner::AddShader(const std::string& path)
 		throw std::exception("File of shader doesnt open");
 	}
 
+	bool DepthMask = true;
 	bool DepthTest = true;
 	bool CullFace = true;
 	bool Blend = false;
@@ -177,6 +184,10 @@ void ShaderConteiner::AddShader(const std::string& path)
 		else if (param[0] == "shader_path_frag")
 		{
 			pathFrag = param[1];
+		}
+		else if (param[0] == "DepthMask")
+		{
+			DepthMask = StringToShaderConst.at(param[1]);
 		}
 		else if (param[0] == "DepthTest")
 		{
@@ -221,6 +232,7 @@ void ShaderConteiner::AddShader(const std::string& path)
 		Shaders.try_emplace(path, pathVert.c_str(), pathFrag.c_str(), pathGeom.c_str());
 	}
 	GLShader& shader = Shaders.at(path); // ƒобавить конструктор дл€ параметров
+	shader.DepthMask = DepthMask;
 	shader.DepthTest = DepthTest;
 	shader.CullFace = CullFace;
 	shader.Blend = Blend;

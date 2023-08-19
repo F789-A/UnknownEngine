@@ -2,6 +2,7 @@
 #include "EcsSystem.h"
 
 #include "PerspectiveBuilder.h"
+#include "Camera.h"
 
 #include "Systems.h"
 
@@ -40,10 +41,27 @@ void GameLoop::ConstructScene()
 	Singleton<SharedGraphicsResources> singlRes;
 
 	//graphics
-	GraphicCore::GetInstance().mainPass.push_back(RenderMeshSystem);
-	GraphicCore::GetInstance().UiPass.push_back(ui::DrawUIImage);
-	GraphicCore::GetInstance().UiPass.push_back(DrawLine);
-	GraphicCore::GetInstance().UiPass.push_back(ui::DrawText);
+	GraphicCore::GetInstance().GetCameraMatrices = []() {
+		for (auto l = ecs::DefEcs().entity.GetComponents<MainCamera, Camera>(); !l.end(); ++l)
+		{
+			auto [tag, camera] = *l;
+			glm::mat4 projection = camera.GetProjectionMatrix();
+			glm::mat4 view = camera.GetViewMatrix();
+			return std::make_pair(projection, view);
+		}
+		throw " ";
+	};
+
+	GraphicCore::GetInstance().mainPassFunc = []() {
+		RenderMeshSystem(ecs::DefEcs().entity); 
+		graphics::RenderSkyboxSystem(ecs::DefEcs().entity);
+	};
+
+	GraphicCore::GetInstance().uiPassFunc = []() {
+		ui::DrawUIImage(ecs::DefEcs().entity);
+		DrawLine(ecs::DefEcs().entity);
+		ui::DrawText(ecs::DefEcs().entity);
+	};
 
 	//ecs sustems
 

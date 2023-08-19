@@ -133,7 +133,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;OpenGL32.Lib;assimp-vc142-mtd.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;OpenGL32.Lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,13 +147,14 @@
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;OpenGL32.Lib;assimp-vc142-mtd.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;OpenGL32.Lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -174,6 +175,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuController.cpp" />
     <ClCompile Include="RenderMeshSystem.cpp" />
+    <ClCompile Include="Scripts\Systems\RenderSkyboxSystem.cpp" />
     <ClCompile Include="SimpleTextProcessor.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="UiComponents.cpp" />
@@ -194,7 +196,6 @@
     <ClCompile Include="ObjImporter.cpp" />
     <ClCompile Include="PolygonGeometry.cpp" />
     <ClCompile Include="SharedGraphicsResources.cpp" />
-    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -213,7 +214,7 @@
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="RenderMesh.h" />
     <ClInclude Include="SafeSingleton.h" />
-    <ClInclude Include="Scripts\Graphics\LineRenderData.h" />
+    <ClInclude Include="Scripts\Components\Skybox.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="SortedByValueMap.h" />
     <ClInclude Include="Systems.h" />
@@ -242,7 +243,6 @@
     <ClInclude Include="SharedGraphicsResources.h" />
     <ClInclude Include="SimpleTextProcessor.h" />
     <ClInclude Include="Singleton.h" />
-    <ClInclude Include="Skybox.h" />
     <ClInclude Include="AlienHeadersLib\stb_image.h" />
     <ClInclude Include="StringToGLFWKey.h" />
     <ClInclude Include="Texture.h" />
@@ -266,8 +266,6 @@
     <None Include="Shaders\testShader.vert" />
     <None Include="Shaders\UiText.frag" />
     <None Include="Shaders\UiText.vert" />
-    <None Include="SimpleDiffuse.frag" />
-    <None Include="testShader.frag" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.txt" />

@@ -21,6 +21,7 @@ private:
 public:
     GLuint Program;
 
+    bool DepthMask = true;
     int FrontFaceMode = GL_CCW;
     bool DepthTest = true;
     bool CullFace = true;

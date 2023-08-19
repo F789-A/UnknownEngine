@@ -7,7 +7,6 @@ GraphicCore::GraphicCore(GLFWwindow* window) : Window(window)
 {
 	Height = WindowApp::GetInstance().Height();
 	Width = WindowApp::GetInstance().Width();
-	ecsS = &ecs::DefEcs();
 	//init advice
 	Singleton<SharedGraphicsResources> SinglRes;
 	
@@ -15,10 +14,6 @@ GraphicCore::GraphicCore(GLFWwindow* window) : Window(window)
 	BlendSceneMaterial = GLMaterial(shad);
 	BlendSceneMaterial.Textures.insert({"sceneTexture", &sceneFramebuffer.texture });
 	BlendSceneMaterial.Textures.insert({"uiTexture", &uiFramebuffer.texture });
-
-	GLCubemapTexture& skMap = SinglRes->GetGLCubemapRef("skybox/DefaultSkybox.ueskybox");
-	GLShader& skShad = SinglRes->GetShaderRef("Shaders/Skybox.ueshad");
-	CurrentSkybox = std::make_unique<Skybox>(skMap, skShad);
 
 	PostProcesses.push_back(SinglRes->GetMaterial("Materials/Pixelization.uemat"));
 	for (auto& l : PostProcesses)
@@ -63,32 +58,36 @@ void GraphicCore::UpdateGraphic()
 	static std::vector<GLuint> ind = {0, 1, 2, 0, 2, 3};
 	static GLMesh screenPlane(vertices, ind);
 
-	Camera* cam = nullptr;
-	for (auto l = ecs::DefEcs().entity.GetComponents<MainCamera, Camera>(); !l.end(); ++l)
-	{
-		auto [m, camera] = *l;
-		cam = &camera;
-	}
-	glm::mat4 view = cam->GetViewMatrix();
-	glm::mat4 projection = glm::perspective(cam->FOV, (float)Width / Height, 0.1f, 100.0f);
+	auto matrices = GetCameraMatrices();
 	glBindBuffer(GL_UNIFORM_BUFFER, uniformCameraBlock);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projection));
-	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(matrices.first));
+	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(matrices.second));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 	// Scene pass
 	glBindFramebuffer(GL_FRAMEBUFFER, sceneFramebuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	for (auto& func : mainPass)
-	{
-		func(ecsS->entity);
-	}
-	if (CurrentSkybox != nullptr)
-	{
-		CurrentSkybox->Draw(view, projection);
-	}
+
+	mainPassFunc();
 
 	// Post process pass
+	/*
+	const auto& postProcesses = GetPostProcesses();
+	if (postProcesses.size != 0)
+	{
+		BlendSceneMaterial.Textures["sceneTexture"] = &postProcessFramebuffer.texture;
+		glBindFramebuffer(GL_FRAMEBUFFER, postProcessFramebuffer.fbo);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+	else
+	{
+		BlendSceneMaterial.Textures["sceneTexture"] = &sceneFramebuffer.texture;
+	}
+	// for (auto postProcess : postProcesses)
+	{
+		postProcess.Textures["screenTexture"] = &sceneFramebuffer.texture;
+		screenPlane.Draw(PostProcesses[0], glm::mat4(1.0f));
+	}*/
 	if (EnablePostProcessing)
 	{
 		BlendSceneMaterial.Textures["sceneTexture"] = &postProcessFramebuffer.texture;
@@ -104,10 +103,7 @@ void GraphicCore::UpdateGraphic()
 	// UI pass
 	glBindFramebuffer(GL_FRAMEBUFFER, uiFramebuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	for (auto& uiFunc : UiPass)
-	{
-		uiFunc(ecsS->entity);
-	}
+	uiPassFunc();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// Draw all on screen

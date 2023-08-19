@@ -24,5 +24,11 @@ void GLMaterial::Use() const
 		Shader->SetTexture(l.first, *(l.second), i);
 		i++;
 	}
+	i = 0;
+	for (auto l : CubemapTextures)
+	{
+		Shader->SetTexture(l.first, *(l.second), i);
+		i++;
+	}
 
 }

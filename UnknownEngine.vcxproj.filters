@@ -87,9 +87,6 @@
     <ClCompile Include="AppInitializer.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Skybox.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="GLTexture.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
@@ -174,6 +171,9 @@
     <ClCompile Include="AlienData.cpp">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\Systems\RenderSkyboxSystem.cpp">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLShader.h">
@@ -208,9 +208,6 @@
     </ClInclude>
     <ClInclude Include="AppTime.h">
       <Filter>Source Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Skybox.h">
-      <Filter>Source Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="GLTexture.h">
       <Filter>Source Files\Graphics</Filter>
@@ -317,20 +314,14 @@
     <ClInclude Include="LevelData.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Graphics\LineRenderData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GLObjects.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\Components\Skybox.h">
+      <Filter>Source Files\ECS\Compoents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="testShader.frag">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="SimpleDiffuse.frag">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
     <None Include="Shaders\DefaultUI.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>

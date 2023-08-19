@@ -21,6 +21,19 @@
 #include "GraphicCore.h"
 #include <random>
 
+std::vector<GLfloat> ToFloat3Array(const std::vector<glm::vec2>& source)
+{
+	std::vector<GLfloat> res;
+	res.reserve(source.size() * 3);
+	for (int i = 0; i < source.size(); i++)
+	{
+		res.push_back(source[i].x);
+		res.push_back(source[i].y);
+		res.push_back(0);
+	}
+	return res;
+}
+
 float Scr2Nor(float scr)
 {
 	return scr * 2 - 1;
@@ -30,6 +43,11 @@ glm::vec2 ClampVec2(glm::vec2 v, const glm::vec2& min, const glm::vec2& max)
 {
 	return { std::clamp(v.x, min.x, max.x), std::clamp(v.y, min.y, max.y) };
 }
+
+static glm::vec2 right = { 1.0f, 0.0f };
+static glm::vec2 left =  {-1.0f, 0.0f };
+static glm::vec2 up =	 { 0.0f, 1.0f };
+static glm::vec2 down =	 { 0.0f, -1.0f};
 
 void ProcessShootEffect(ecs::EntityManager& em, const std::vector<glm::vec2>& linePoints)
 {
@@ -65,100 +83,60 @@ void ProcessShootEffect(ecs::EntityManager& em, const std::vector<glm::vec2>& li
 		std::uniform_real_distribution<float> distSmall(0, 0.1f);
 		std::uniform_real_distribution<float> distLen(0.1f, 0.15f);
 
+		const float tolerance = 0.05;
+
+		const float len = 0.05f;
+
 		auto updatePos = [&](int num)
 		{
-			bool tailReached = glm::length(effect.Lines[num].TargetPos - effect.Lines[num].CurrentPos) < 0.001f;
-			bool headReached = glm::length(effect.Lines[num + 1].TargetPos - effect.Lines[num + 1].CurrentPos) < 0.001f;
-			glm::vec2 speed = glm::normalize(effect.Lines[num].TargetPos - effect.Lines[num].CurrentPos) * effect.TailSpeed * AppTime::GetDeltaTime();
-			glm::vec2 speedHead = glm::normalize(effect.Lines[num].TargetPos - effect.Lines[num].CurrentPos) * effect.HeadSpeed * AppTime::GetDeltaTime();
-			if (!tailReached)
-			{
-				effect.Lines[num].CurrentPos += speed;
-			}
-			if (!headReached)
-			{
-				effect.Lines[num + 1].CurrentPos += speedHead;
-			}
-		};
-
-		auto updateLeft = [&](int num)
-		{
-			bool tailReached = glm::length(effect.Lines[num].TargetPos - effect.Lines[num].CurrentPos) < 0.01f;
-			bool headReached = glm::length(effect.Lines[num + 1].TargetPos - effect.Lines[num + 1].CurrentPos) < 0.01f;
+			bool tailReached = glm::length(effect.Lines[num].TargetPos - effect.Lines[num].CurrentPos) < tolerance;
+			bool headReached = glm::length(effect.Lines[num + 1].TargetPos - effect.Lines[num + 1].CurrentPos) < tolerance;
 			if (tailReached && headReached)
 			{
 				effect.Lines[num].CurrentPos = { distSmall(rnd), distBig(rnd) };
-				effect.Lines[num].TargetPos = effect.Lines[num].CurrentPos + glm::vec2{ distLen(rnd), 0.0f };
-				effect.Lines[num + 1].CurrentPos = effect.Lines[num].CurrentPos + glm::vec2{ 0.05f, 0.0f };
-				effect.Lines[num + 1].TargetPos = effect.Lines[num].TargetPos + glm::vec2{ 0.05f, 0.0f };
+				effect.Lines[num].TargetPos = effect.Lines[num].CurrentPos + right * distLen(rnd);
+				effect.Lines[num + 1].CurrentPos = effect.Lines[num].CurrentPos + right * len;
+				effect.Lines[num + 1].TargetPos = effect.Lines[num].TargetPos + right * len;
 			}
-			updatePos(num);
-		};
-		auto updateRight = [&](int num)
-		{
-			bool tailReached = glm::length(effect.Lines[num].TargetPos - effect.Lines[num].CurrentPos) < 0.001f;
-			bool headReached = glm::length(effect.Lines[num + 1].TargetPos - effect.Lines[num + 1].CurrentPos) < 0.001f;
-			if (tailReached && headReached)
+			glm::vec2 dir = glm::normalize(effect.Lines[num].TargetPos - effect.Lines[num].CurrentPos) * AppTime::GetDeltaTime();
+			if (!tailReached)
 			{
-				effect.Lines[num].CurrentPos = { 1 - distSmall(rnd), distBig(rnd) };
-				effect.Lines[num].TargetPos = effect.Lines[num].CurrentPos + glm::vec2{ -distLen(rnd), 0.0f };
-				effect.Lines[num + 1].CurrentPos = effect.Lines[num].CurrentPos + glm::vec2{ -0.05f, 0.0f };
-				effect.Lines[num + 1].TargetPos = effect.Lines[num].TargetPos + glm::vec2{ -0.05f, 0.0f };
+				effect.Lines[num].CurrentPos += dir * effect.TailSpeed;
 			}
-			updatePos(num);
+			if (!headReached)
+			{
+				effect.Lines[num + 1].CurrentPos += dir * effect.HeadSpeed;
+			}
 		};
 
-		auto updateUp = [&](int num)
+
+		auto swapXY = [](const glm::vec2& vec)
 		{
-			bool tailReached = glm::length(effect.Lines[num].TargetPos - effect.Lines[num].CurrentPos) < 0.001f;
-			bool headReached = glm::length(effect.Lines[num + 1].TargetPos - effect.Lines[num + 1].CurrentPos) < 0.001f;
-			if (tailReached && headReached)
-			{
-				effect.Lines[num].CurrentPos = { distBig(rnd) , 1 - distSmall(rnd) };
-				effect.Lines[num].TargetPos = effect.Lines[num].CurrentPos - glm::vec2{ 0.0f, distLen(rnd) };
-				effect.Lines[num + 1].CurrentPos = effect.Lines[num].CurrentPos + glm::vec2{ 0.0f, -0.05f };
-				effect.Lines[num + 1].TargetPos = effect.Lines[num].TargetPos + glm::vec2{ 0.0f, -0.05f };
-			}
-			updatePos(num);
+			return glm::vec2(vec.y, vec.x);
 		};
 
-		auto updateDown = [&](int num)
-		{
-			bool tailReached = glm::length(effect.Lines[num].TargetPos - effect.Lines[num].CurrentPos) < 0.001f;
-			bool headReached = glm::length(effect.Lines[num + 1].TargetPos - effect.Lines[num + 1].CurrentPos) < 0.001f;
-			if (tailReached && headReached)
-			{
-				effect.Lines[num].CurrentPos = { distBig(rnd) , distSmall(rnd) };
-				effect.Lines[num].TargetPos = effect.Lines[num].CurrentPos + glm::vec2{ 0.0f, distLen(rnd) };
-				effect.Lines[num + 1].CurrentPos = effect.Lines[num].CurrentPos + glm::vec2{ 0.0f, 0.05f };
-				effect.Lines[num + 1].TargetPos = effect.Lines[num].TargetPos + glm::vec2{ 0.0f, 0.05f };
-			}
-			updatePos(num);
-		};
-
+		const glm::vec2 vecMult = { distX, distY };
 		std::vector<glm::vec2> effArr;
 		for (int i = 0; i < 5; i++)
 		{
-			updateLeft(i * 2);
-			effArr.push_back(leftDownCorner + glm::vec2{ distX * effect.Lines[i * 2].CurrentPos.x, distY * effect.Lines[i * 2].CurrentPos.y });
-			effArr.push_back(leftDownCorner + glm::vec2{ distX * effect.Lines[i * 2 + 1].CurrentPos.x, distY * effect.Lines[i * 2 + 1].CurrentPos.y });
-			updateRight(10 + i * 2);
-			effArr.push_back(rightUpCorner + glm::vec2{ distX * effect.Lines[10 + i * 2].CurrentPos.x, distY * effect.Lines[10 + i * 2].CurrentPos.y });
-			effArr.push_back(rightUpCorner + glm::vec2{ distX * effect.Lines[10 + i * 2 + 1].CurrentPos.x, distY * effect.Lines[10 + i * 2 + 1].CurrentPos.y });
-			updateDown(20 + i * 2);
-			effArr.push_back(leftDownCorner + glm::vec2{ distX * effect.Lines[20 + i * 2].CurrentPos.x, distY * effect.Lines[20 + i * 2].CurrentPos.y });
-			effArr.push_back(leftDownCorner + glm::vec2{ distX * effect.Lines[20 + i * 2 + 1].CurrentPos.x, distY * effect.Lines[20 + i * 2 + 1].CurrentPos.y });
-			updateUp(30 + i * 2);
-			effArr.push_back(rightUpCorner + glm::vec2{ distX * effect.Lines[30 + i * 2].CurrentPos.x, distY * effect.Lines[30 + i * 2].CurrentPos.y });
-			effArr.push_back(rightUpCorner + glm::vec2{ distX * effect.Lines[30 + i * 2].CurrentPos.x, distY * effect.Lines[30 + i * 2].CurrentPos.y });
+			updatePos(i * 2);
+			effArr.push_back(leftDownCorner + effect.Lines[i * 2].CurrentPos * vecMult);
+			effArr.push_back(leftDownCorner + effect.Lines[i * 2 + 1].CurrentPos * vecMult);
+
+			updatePos(10 + i * 2);
+			effArr.push_back(rightUpCorner + effect.Lines[10 + i * 2].CurrentPos * -1.0f * vecMult);
+			effArr.push_back(rightUpCorner + effect.Lines[10 + i * 2 + 1].CurrentPos * -1.0f * vecMult);
+
+			updatePos(20 + i * 2);
+			effArr.push_back(leftDownCorner + swapXY(effect.Lines[20 + i * 2].CurrentPos) * vecMult);
+			effArr.push_back(leftDownCorner + swapXY(effect.Lines[20 + i * 2 + 1].CurrentPos) * vecMult);
+
+			updatePos(30 + i * 2);
+			effArr.push_back(rightUpCorner + swapXY(effect.Lines[30 + i * 2].CurrentPos) * -1.0f * vecMult);
+			effArr.push_back(rightUpCorner + swapXY(effect.Lines[30 + i * 2 + 1].CurrentPos) * -1.0f * vecMult);
 		}
-		std::vector<GLfloat> effArr_1;
-		for (int i = 0; i < effArr.size(); i++)
-		{
-			effArr_1.push_back(effArr[i].x);
-			effArr_1.push_back(effArr[i].y);
-			effArr_1.push_back(0);
-		}
+
+		std::vector<GLfloat> effArr_1 = ToFloat3Array(effArr);
 		effectRender.RenderedLine.SetVertexData(effArr_1);
 	}
 }

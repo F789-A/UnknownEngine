@@ -6,17 +6,16 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Singleton.h"
-#include "Skybox.h"
 #include "SharedGraphicsResources.h"
 #include "GlFrameBuffer.h"
-#include "EcsSystem.h"
+
+#include <functional>
 
 using uint = unsigned int;
 
 class GraphicCore
 {
 	GLFWwindow* Window;
-	std::unique_ptr<Skybox> CurrentSkybox;
 
 	std::vector<GLMaterial> PostProcesses;
 
@@ -42,11 +41,12 @@ public:
 	int Height;
 	int Width;
 	float Aspect = 0.75f;
-	ecs::EcsSystem* ecsS;
+	std::function<void()> mainPassFunc;
+	std::function<void()> uiPassFunc;
+	std::function<std::pair<glm::mat4, glm::mat4>()> GetCameraMatrices; // <projection, view> matrices from camera
+	std::function<std::vector<GLMaterial>()> GetPostProcesses;
 
-	std::vector<void(*)(ecs::EntityManager&)> mainPass;
-	std::vector<void(*)(ecs::EntityManager&)> UiPass;
-	
+public:
 	static GraphicCore& GetInstance();
 	void UpdateGraphic();
 };

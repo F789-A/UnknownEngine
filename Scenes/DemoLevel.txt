@@ -71,6 +71,13 @@ Entity
 	}
 }
 
+Entity
+{
+	Skybox
+	{
+		string RenderMaterial = "Materials/skyboxMaterial.txt"
+	}
+}
 //////UI///////
 Entity
 {

@@ -10,6 +10,7 @@ in VS_OUT
 
 void main()
 {  
-    FragColor = vec4(vec3(texture(diffuse, vs_in.texCoords)), 1);
-    //FragColor = vec4(vs_in.texCoords, 0, 1);
+    FragColor = vec4(texture(diffuse, vs_in.texCoords));
+    if (FragColor.a < 0.001f)
+        discard;
 }

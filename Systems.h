@@ -8,9 +8,9 @@ namespace ui
 	void DrawText(ecs::EntityManager&);
 }
 
-namespace gr
+namespace graphics
 {
-
+	void RenderSkyboxSystem(ecs::EntityManager&);
 }
 
 void RenderMeshSystem(ecs::EntityManager&);

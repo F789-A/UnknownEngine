@@ -87,6 +87,7 @@ GLShader& GLShader::operator=(GLShader&& other) noexcept
 {
     Program = other.Program;
 
+    DepthMask = other.DepthMask;
     FrontFaceMode = other.FrontFaceMode;
     DepthTest = other.DepthTest;
     CullFace = other.CullFace;
@@ -100,7 +101,7 @@ GLShader& GLShader::operator=(GLShader&& other) noexcept
     return *this;
 }
 
-GLShader::GLShader(GLShader&& other) noexcept:Program ( other.Program), FrontFaceMode(other.FrontFaceMode),
+GLShader::GLShader(GLShader&& other) noexcept:Program ( other.Program), DepthMask(other.DepthMask), FrontFaceMode(other.FrontFaceMode),
     DepthTest (other.DepthTest), CullFace (other.CullFace), Blend(other.Blend), CullMode(other.CullMode),
     BlendSourceFunc(other.BlendSourceFunc), BlendDestinationFunc(other.BlendDestinationFunc), DepthFunc(other.DepthFunc)
 {
@@ -117,6 +118,14 @@ GLShader::~GLShader()
 
 void GLShader::Use()
 {
+    if (DepthMask)
+    {
+        glDepthMask(GL_TRUE);
+    }
+    else
+    {
+        glDepthMask(GL_FALSE);
+    }
     if (DepthTest)
     {
         glEnable(GL_DEPTH_TEST);

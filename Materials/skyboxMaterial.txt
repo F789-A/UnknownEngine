@@ -1,0 +1,2 @@
+cubemap skybox skybox/DefaultSkybox.ueskybox
+shader_path Shaders\Skybox.ueshad

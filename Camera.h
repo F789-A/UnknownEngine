@@ -19,6 +19,7 @@ public:
     }
 
     glm::mat4 GetViewMatrix() const;
+    glm::mat4 GetProjectionMatrix() const;
 };
 
 class MainCamera : public ecs::Component<MainCamera>

@@ -17,6 +17,7 @@ class GLMaterial
 public:
 	GLShader* Shader;
 	std::map<std::string, GLTexture*> Textures;
+	std::map<std::string, GLCubemapTexture*> CubemapTextures;
 
 	std::map<std::string, int> ParametersInt;
 	std::map<std::string, float> ParametersFloat;

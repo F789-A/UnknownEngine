@@ -1,2 +1,4 @@
+DepthMask = false
+DepthFunc = GL_LEQUAL
 shader_path_vert = Shaders\Skybox.vert
 shader_path_frag = Shaders\Skybox.frag
