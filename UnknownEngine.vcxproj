@@ -212,6 +212,7 @@
     <ClInclude Include="GlFramebuffer.h" />
     <ClInclude Include="GLObjects.h" />
     <ClInclude Include="LevelData.h" />
+    <ClInclude Include="PostProcessComponent.h" />
     <ClInclude Include="RenderMesh.h" />
     <ClInclude Include="SafeSingleton.h" />
     <ClInclude Include="Scripts\Components\Skybox.h" />

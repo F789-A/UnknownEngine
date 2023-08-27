@@ -1,25 +1,19 @@
 #include "GraphicCore.h"
 
-#include "Camera.h"
+#include "SharedGraphicsResources.h"
 #include "Mesh.h"
 
 GraphicCore::GraphicCore(GLFWwindow* window) : Window(window)
 {
 	Height = WindowApp::GetInstance().Height();
 	Width = WindowApp::GetInstance().Width();
+	Aspect = Height / Width;
 	//init advice
 	Singleton<SharedGraphicsResources> SinglRes;
-	
 	GLShader& shad = SinglRes->GetShaderRef("Shaders\\BlendUiAndScene.ueshad");
 	BlendSceneMaterial = GLMaterial(shad);
 	BlendSceneMaterial.Textures.insert({"sceneTexture", &sceneFramebuffer.texture });
 	BlendSceneMaterial.Textures.insert({"uiTexture", &uiFramebuffer.texture });
-
-	PostProcesses.push_back(SinglRes->GetMaterial("Materials/Pixelization.uemat"));
-	for (auto& l : PostProcesses)
-	{
-		l.Textures.insert({"screenTexture", &sceneFramebuffer.texture});
-	}
 
 	//init GL
 	glClearColor(0.2f, 0.3f, 0.3f, 0.0f);
@@ -49,10 +43,10 @@ GraphicCore& GraphicCore::GetInstance()
 void GraphicCore::UpdateGraphic()
 {
 	static std::vector<Vertex2D> vertices = {
-		{{-1, 1, 0}, {0, 1}},
+		{{-1,  1, 0}, {0, 1}},
 		{{-1, -1, 0}, {0, 0}},
 		{{ 1, -1, 0}, {1, 0}},
-		{{ 1, 1, 0}, {1, 1}}
+		{{ 1,  1, 0}, {1, 1}}
 	};
 
 	static std::vector<GLuint> ind = {0, 1, 2, 0, 2, 3};
@@ -67,13 +61,11 @@ void GraphicCore::UpdateGraphic()
 	// Scene pass
 	glBindFramebuffer(GL_FRAMEBUFFER, sceneFramebuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	mainPassFunc();
 
 	// Post process pass
-	/*
 	const auto& postProcesses = GetPostProcesses();
-	if (postProcesses.size != 0)
+	if (postProcesses.size() != 0)
 	{
 		BlendSceneMaterial.Textures["sceneTexture"] = &postProcessFramebuffer.texture;
 		glBindFramebuffer(GL_FRAMEBUFFER, postProcessFramebuffer.fbo);
@@ -83,23 +75,11 @@ void GraphicCore::UpdateGraphic()
 	{
 		BlendSceneMaterial.Textures["sceneTexture"] = &sceneFramebuffer.texture;
 	}
-	// for (auto postProcess : postProcesses)
+	for (auto postProcess : postProcesses)
 	{
-		postProcess.Textures["screenTexture"] = &sceneFramebuffer.texture;
-		screenPlane.Draw(PostProcesses[0], glm::mat4(1.0f));
-	}*/
-	if (EnablePostProcessing)
-	{
-		BlendSceneMaterial.Textures["sceneTexture"] = &postProcessFramebuffer.texture;
-		glBindFramebuffer(GL_FRAMEBUFFER, postProcessFramebuffer.fbo);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		screenPlane.Draw(PostProcesses[0], glm::mat4(1.0f));
+		postProcess->Textures["screenTexture"] = &sceneFramebuffer.texture;
+		screenPlane.Draw(*postProcess, glm::mat4(1.0f));
 	}
-	else
-	{
-		BlendSceneMaterial.Textures["sceneTexture"] = &sceneFramebuffer.texture;
-	}
-
 	// UI pass
 	glBindFramebuffer(GL_FRAMEBUFFER, uiFramebuffer.fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

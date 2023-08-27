@@ -1,15 +1,18 @@
 #pragma once
 #include <glad/glad.h> 
 #include <GLFW\glfw3.h>
-#include "WindowApp.h"
-#include <vector>
+
 #include <glm/gtc/type_ptr.hpp>
 
+#include <functional>
+#include <vector>
+
+#include "WindowApp.h"
 #include "Singleton.h"
 #include "SharedGraphicsResources.h"
 #include "GlFrameBuffer.h"
 
-#include <functional>
+
 
 using uint = unsigned int;
 
@@ -37,14 +40,13 @@ class GraphicCore
 	~GraphicCore() = default;
 
 public:
-	bool EnablePostProcessing = false;
 	int Height;
 	int Width;
-	float Aspect = 0.75f;
+	float Aspect;
 	std::function<void()> mainPassFunc;
 	std::function<void()> uiPassFunc;
 	std::function<std::pair<glm::mat4, glm::mat4>()> GetCameraMatrices; // <projection, view> matrices from camera
-	std::function<std::vector<GLMaterial>()> GetPostProcesses;
+	std::function<std::vector<GLMaterial*>()> GetPostProcesses;
 
 public:
 	static GraphicCore& GetInstance();

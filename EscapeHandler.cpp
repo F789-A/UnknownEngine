@@ -4,27 +4,45 @@
 #include "GLShader.h"
 #include "SharedGraphicsResources.h"
 #include "GraphicCore.h"
+#include "PostProcessComponent.h"
+
+int Restrict(int val, int min, int max)
+{
+	if (val > max)
+	{
+		val = max;
+	}
+	if (val < min)
+	{
+		val = min;
+	}
+	return val;
+}
 
 void EscapeHandler(ecs::EntityManager& em)
 {
-	Singleton<SharedGraphicsResources> SinglRes;
-	GLShader& shad = SinglRes->GetShaderRef("Shaders/Pixelization.ueshad");
-	static int a = 10000;
 	if (Input::GetInstance().GetButton("Escape", Input::PressMode::Press))
 	{
 		glfwSetWindowShouldClose(WindowApp::GetInstance().GetWindow(), true);
 	}
-	if (Input::GetInstance().GetButton("UseQ", Input::PressMode::Press))
+	for (auto l = em.GetComponents<PostProcessComponent>(); !l.end(); ++l)
 	{
-		a--;
-	}
-	if (Input::GetInstance().GetButton("UseR", Input::PressMode::Press))
-	{
-		a++;
-	}
-	if (Input::GetInstance().GetButton("UseE", Input::PressMode::Press))
-	{
-		GraphicCore::GetInstance().EnablePostProcessing = !GraphicCore::GetInstance().EnablePostProcessing;
+		auto [postPr] = *l;
+		if (Input::GetInstance().GetButton("UseE", Input::PressMode::Press))
+		{
+			postPr.IsEnabled = !postPr.IsEnabled;
+		}
+		int intencity = postPr.RenderedMaterial.ParametersInt["intencity"];
+		if (Input::GetInstance().GetButton("UseQ", Input::PressMode::Repeat))
+		{
+			intencity--;
+		}
+		if (Input::GetInstance().GetButton("UseR", Input::PressMode::Repeat))
+		{
+			intencity++;
+		}
+		intencity = Restrict(intencity, 1, 1000);
+		postPr.RenderedMaterial.ParametersInt["intencity"] = intencity;
 	}
 	if (Input::GetInstance().GetButton("UseN", Input::PressMode::Press))
 	{
@@ -34,9 +52,4 @@ void EscapeHandler(ecs::EntityManager& em)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
-	if (a < 1)
-	{
-		a = 1;
-	}
-	shad.SetInt("intencity", a / 100);
 }

@@ -77,6 +77,10 @@ Entity
 	{
 		string RenderMaterial = "Materials/skyboxMaterial.txt"
 	}
+	PostProcessComponent 
+	{
+		string RenderedMaterial = "Materials/Pixelization.uemat"
+	}
 }
 //////UI///////
 Entity

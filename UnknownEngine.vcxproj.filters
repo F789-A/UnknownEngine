@@ -320,6 +320,9 @@
     <ClInclude Include="Scripts\Components\Skybox.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
+    <ClInclude Include="PostProcessComponent.h">
+      <Filter>Source Files\ECS\Compoents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\DefaultUI.frag">

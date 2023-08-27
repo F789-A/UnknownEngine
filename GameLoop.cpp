@@ -3,6 +3,7 @@
 
 #include "PerspectiveBuilder.h"
 #include "Camera.h"
+#include "PostProcessComponent.h"
 
 #include "Systems.h"
 
@@ -50,6 +51,20 @@ void GameLoop::ConstructScene()
 			return std::make_pair(projection, view);
 		}
 		throw " ";
+	};
+
+	GraphicCore::GetInstance().GetPostProcesses = []() {
+		std::vector<GLMaterial*> res;
+		for (auto l = ecs::DefEcs().entity.GetComponents<PostProcessComponent>(); !l.end(); ++l)
+		{
+			auto [postPr] = *l;
+			if (postPr.IsEnabled)
+			{
+				res.push_back(&postPr.RenderedMaterial);
+			}
+		}
+
+		return res;
 	};
 
 	GraphicCore::GetInstance().mainPassFunc = []() {
