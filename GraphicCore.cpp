@@ -7,7 +7,7 @@ GraphicCore::GraphicCore(GLFWwindow* window) : Window(window)
 {
 	Height = WindowApp::GetInstance().Height();
 	Width = WindowApp::GetInstance().Width();
-	Aspect = Height / Width;
+	Aspect = (double)Height / Width;
 	//init advice
 	Singleton<SharedGraphicsResources> SinglRes;
 	GLShader& shad = SinglRes->GetShaderRef("Shaders\\BlendUiAndScene.ueshad");

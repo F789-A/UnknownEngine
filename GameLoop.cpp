@@ -4,6 +4,7 @@
 #include "PerspectiveBuilder.h"
 #include "Camera.h"
 #include "PostProcessComponent.h"
+#include "RenderLineFiller.h"
 
 #include "Systems.h"
 

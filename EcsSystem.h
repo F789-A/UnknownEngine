@@ -191,15 +191,17 @@ namespace ecs
 	std::map<std::string, std::pair<void(ecs::EntityManager::*)(int), void(*)(EntityManager& em, int, std::map<std::string, std::string>&)>>& LoadCallbacks();
 
 	template<typename T>
-	void AddCollbacks()
+	int RegisterComponent()
 	{
 		std::string raw = typeid(T).name(); // Можно заменить на статичное поле внутри каждого компонента
-		std::string name = raw.substr(raw.find(" ")+1, raw.length());
+		std::string name = raw.substr(raw.find(" ") + 1, raw.length());
 		LoadCallbacks()[name] = { &ecs::EntityManager::AddComponent<T>, &T::Load };
+
+		return generateComponentType();
 	}
 
 	template<typename T>
-	const int Component<T>::type = (AddCollbacks<T>(), generateComponentType());
+	const int Component<T>::type = RegisterComponent<T>();
 };
 
 //Implemetation

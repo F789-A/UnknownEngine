@@ -1,6 +1,5 @@
 #include "Input.h"
 #include "WindowApp.h"
-#include <iostream>
 
 Input& Input::GetInstance()
 {
@@ -76,16 +75,9 @@ bool Input::GetKey(int key, PressMode mode)
 	return KeyState.at(key) == mode;
 }
 
-void Input::SetActiveCursor(bool state)
+void Input::SetCursorMode(CursorMode cursorMode)
 {
-	if (state)
-	{
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	}
-	else
-	{
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	}
+	glfwSetInputMode(window, GLFW_CURSOR, static_cast<int>(cursorMode));
 }
 
 //Getters

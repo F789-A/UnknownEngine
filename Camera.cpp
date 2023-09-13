@@ -11,7 +11,10 @@ glm::mat4 Camera::GetViewMatrix() const
 
 glm::mat4 Camera::GetProjectionMatrix() const
 {
-    return glm::perspective(FOV, (float)WindowApp::GetInstance().Width() / WindowApp::GetInstance().Height(), NearClip, FarClip);
+    if (cameraType == CameraType::Perspective)
+        return glm::perspective(FOV, (float)WindowApp::GetInstance().Width() / WindowApp::GetInstance().Height(), NearClip, FarClip);
+    else
+        return glm::ortho(0.0f, (float)WindowApp::GetInstance().Width(), 0.0f, (float)WindowApp::GetInstance().Height(), NearClip, FarClip);
 }
 
 int MainCamera::count = 0;

@@ -50,7 +50,7 @@ GLMesh::GLMesh(const std::vector<Vertex2D>& vertexData, const std::vector<GLuint
     HaveGPUResources = true;
 
     IndicesSize = indices.size();
-    glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(Vertex3D), &(vertexData[0]), static_cast<GLenum>(drawFlags));
+    glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(Vertex2D), &(vertexData[0]), static_cast<GLenum>(drawFlags));
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &(indices[0]), static_cast<GLenum>(drawFlags));
@@ -76,7 +76,7 @@ GLMesh::GLMesh(const std::vector<Vertex>& vertexData, const std::vector<GLuint>&
     HaveGPUResources = true;
 
     IndicesSize = indices.size();
-    glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(Vertex3D), &(vertexData[0]), static_cast<GLenum>(drawFlags));
+    glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(Vertex), &(vertexData[0]), static_cast<GLenum>(drawFlags));
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &(indices[0]), static_cast<GLenum>(drawFlags));

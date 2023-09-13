@@ -72,7 +72,7 @@ void ui::ProcessButtons(ecs::EntityManager& em)
 		auto [button, transf] = *l;
 		float x = Input::GetInstance().GetMousePosX() / 800;
 		float y = 1-Input::GetInstance().GetMousePosY() / 600;
-		glfwSetInputMode(WindowApp::GetInstance().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		Input::GetInstance().SetCursorMode(Input::CursorMode::Normal);
 
 		if (Input::GetInstance().GetButton("MouseLeft", Input::PressMode::Release ))
 		{

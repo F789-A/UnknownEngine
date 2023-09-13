@@ -13,7 +13,7 @@ struct Skybox : public ecs::Component<Skybox>
     {
         auto& sk = em.GetComponent<Skybox>(a);
 
-        static std::vector<Vertex> SkyboxVertices = { //TODO: replace to model
+        static const std::vector<Vertex> SkyboxVertices = { //TODO: replace to model
 			Vertex({-1.0f,  1.0f, -1.0f}),
 			Vertex({-1.0f, -1.0f, -1.0f}),
 			Vertex({ 1.0f, -1.0f, -1.0f}),

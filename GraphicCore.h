@@ -12,8 +12,6 @@
 #include "SharedGraphicsResources.h"
 #include "GlFrameBuffer.h"
 
-
-
 using uint = unsigned int;
 
 class GraphicCore

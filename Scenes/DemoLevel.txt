@@ -53,21 +53,11 @@ Entity
 		float NearClip = 0.01
 		float FarClip = 100
 	}
-	MainCamera
-	{
-	}
+	MainCamera {}
 	CameraController
 	{
 		float MouseSensitivity = 0.01
 		float Speed = 0.01
-	}
-}
-
-Entity
-{
-	ChangeLevel
-	{
-		string NextLevel = "Scenes/MainMenu.txt"
 	}
 }
 
@@ -80,6 +70,10 @@ Entity
 	PostProcessComponent 
 	{
 		string RenderedMaterial = "Materials/Pixelization.uemat"
+	}
+	ChangeLevel
+	{
+		string NextLevel = "Scenes/MainMenu.txt"
 	}
 }
 //////UI///////

@@ -2,7 +2,6 @@
 #include <glad/glad.h> 
 #include <GLFW\glfw3.h>
 
-#include "WindowApp.h"
 #include <map>
 #include <string>
 
@@ -15,6 +14,13 @@ public:
 		Press,
 		Repeat,
 		Release
+	};
+
+	enum class CursorMode
+	{
+		Normal = GLFW_CURSOR_NORMAL,
+		Hidden = GLFW_CURSOR_HIDDEN,
+		Disable = GLFW_CURSOR_DISABLED
 	};
 
 private:
@@ -48,7 +54,7 @@ public:
 	bool GetButton(std::string name, PressMode mode);
 	bool GetKey(int key, PressMode mode);
 
-	void SetActiveCursor(bool);
+	void SetCursorMode(CursorMode cursorMode);
 
 	static Input& GetInstance();
 

@@ -213,6 +213,7 @@
     <ClInclude Include="GLObjects.h" />
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="PostProcessComponent.h" />
+    <ClInclude Include="RenderLineFiller.h" />
     <ClInclude Include="RenderMesh.h" />
     <ClInclude Include="SafeSingleton.h" />
     <ClInclude Include="Scripts\Components\Skybox.h" />
@@ -256,6 +257,9 @@
     <None Include="Shaders\DefaultUI.vert" />
     <None Include="Shaders\Diffuse.ueshad" />
     <None Include="Shaders\IdentityScreen.frag" />
+    <None Include="Shaders\MeshLines.frag" />
+    <None Include="Shaders\MeshLines.geom" />
+    <None Include="Shaders\MeshLines.vert" />
     <None Include="Shaders\Pixelization.frag" />
     <None Include="Shaders\Simple.frag" />
     <None Include="Shaders\Simple.vert" />
@@ -275,6 +279,7 @@
     <Text Include="Scenes\Key.txt" />
     <Text Include="Scenes\Level1.txt" />
     <Text Include="Scenes\MainMenu.txt" />
+    <Text Include="Scenes\Trenchetrauma.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

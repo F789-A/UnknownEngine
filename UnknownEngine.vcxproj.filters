@@ -323,6 +323,9 @@
     <ClInclude Include="PostProcessComponent.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
+    <ClInclude Include="RenderLineFiller.h">
+      <Filter>Source Files\ECS\Compoents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\DefaultUI.frag">
@@ -376,6 +379,15 @@
     <None Include="Shaders\UiText.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
+    <None Include="Shaders\MeshLines.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\MeshLines.geom">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\MeshLines.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.txt">
@@ -394,6 +406,9 @@
       <Filter>Source Files\Resources</Filter>
     </Text>
     <Text Include="Scenes\AlienPrefab.txt">
+      <Filter>Source Files\Resources</Filter>
+    </Text>
+    <Text Include="Scenes\Trenchetrauma.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
   </ItemGroup>
