@@ -1,5 +1,6 @@
 #include "GraphicCore.h"
 
+#include "WindowApp.h"
 #include "SharedGraphicsResources.h"
 #include "Mesh.h"
 

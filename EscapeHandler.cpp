@@ -5,19 +5,7 @@
 #include "SharedGraphicsResources.h"
 #include "GraphicCore.h"
 #include "PostProcessComponent.h"
-
-int Restrict(int val, int min, int max)
-{
-	if (val > max)
-	{
-		val = max;
-	}
-	if (val < min)
-	{
-		val = min;
-	}
-	return val;
-}
+#include "WindowApp.h"
 
 void EscapeHandler(ecs::EntityManager& em)
 {
@@ -41,7 +29,7 @@ void EscapeHandler(ecs::EntityManager& em)
 		{
 			intencity++;
 		}
-		intencity = Restrict(intencity, 1, 1000);
+		intencity = std::clamp(intencity, 1, 1000);
 		postPr.RenderedMaterial.ParametersInt["intencity"] = intencity;
 	}
 	if (Input::GetInstance().GetButton("UseN", Input::PressMode::Press))

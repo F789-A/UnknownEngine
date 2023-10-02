@@ -55,6 +55,15 @@
     <Filter Include="Source Files\ECS\Systems\Game">
       <UniqueIdentifier>{f9029a48-c444-455f-8488-9ea3880d44b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ECS\Compoents\Physics">
+      <UniqueIdentifier>{12a35a89-1ddb-40d0-b9a0-e044ef9cf639}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ECS\Systems\Physics">
+      <UniqueIdentifier>{045fab29-2114-42d2-84d0-0859f37a50c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{d0816aba-17cc-4686-b456-e9acd1af063d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GLShader.cpp">
@@ -98,9 +107,6 @@
     </ClCompile>
     <ClCompile Include="GLMesh.cpp">
       <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicCore.cpp">
-      <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files\Core</Filter>
@@ -174,6 +180,18 @@
     <ClCompile Include="Scripts\Systems\RenderSkyboxSystem.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionProcessor.cpp">
+      <Filter>Source Files\ECS\Systems\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Bvh.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCore.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLShader.h">
@@ -226,9 +244,6 @@
     </ClInclude>
     <ClInclude Include="StringToGLFWKey.h">
       <Filter>Source Files\SerializationSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicCore.h">
-      <Filter>Source Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="WindowApp.h">
       <Filter>Source Files\Core</Filter>
@@ -325,6 +340,24 @@
     </ClInclude>
     <ClInclude Include="RenderLineFiller.h">
       <Filter>Source Files\ECS\Compoents</Filter>
+    </ClInclude>
+    <ClInclude Include="Gravity.h">
+      <Filter>Source Files\ECS\Compoents\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicalBody.h">
+      <Filter>Source Files\ECS\Compoents\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicBvh2D.h">
+      <Filter>Source Files\ECS\Compoents\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes.h">
+      <Filter>Source Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Bvh.h">
+      <Filter>Source Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCore.h">
+      <Filter>Source Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,6 @@
 #include <functional>
 #include <vector>
 
-#include "WindowApp.h"
 #include "Singleton.h"
 #include "SharedGraphicsResources.h"
 #include "GlFrameBuffer.h"

@@ -7,9 +7,24 @@ Entity
 	}
 	Camera
 	{
-		float FOV = 45
 		float NearClip = 0.01
 		float FarClip = 100
 	}
 	MainCamera {}
 }
+
+Entity
+{
+	Transform
+	{
+		float[] Position = [0, 0, 0]
+		float[] Scale = [1, 1, 1]
+	}
+	//RenderMesh
+	//{
+		//string RenderMesh = "Models\Plane.obj"
+		//string RenderMaterial = "Materials\FonSprite.uemat"
+	//}
+}
+
+//Для статичной геометрии сбалансированное bsp-дерево, для остального окта-деревья

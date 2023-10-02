@@ -13,6 +13,13 @@ namespace graphics
 	void RenderSkyboxSystem(ecs::EntityManager&);
 }
 
+namespace physics
+{
+	void ProcessMovement(ecs::EntityManager&);
+	void ProcessCollision(ecs::EntityManager&);
+	void ProcessFriction(ecs::EntityManager&);
+}
+
 void RenderMeshSystem(ecs::EntityManager&);
 
 void EscapeHandler(ecs::EntityManager&);
