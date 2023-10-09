@@ -6,11 +6,6 @@ ecs::EcsSystem& ecs::DefEcs()
 	return f;
 }
 
-void ecs::EntityManager::SetActiveEntity(int ent, bool state)
-{
-	enabledEntity[ent] = !state;
-}
-
 std::map<std::string, std::pair<void(ecs::EntityManager::*)(int), void(*)(ecs::EntityManager& em, int, std::map<std::string, std::string>&)>>& ecs::LoadCallbacks()
 {
 	static std::map<std::string, std::pair<void(ecs::EntityManager::*)(int), void(*)(ecs::EntityManager& em, int, std::map<std::string, std::string>&)>> callbacks;
@@ -94,4 +89,14 @@ void ecs::EcsSystem::EndCycle()
 void ecs::EcsSystem::SetEntityManager(EntityManager&& em)
 {
 	tempEM = new EntityManager(std::move(em));
+}
+
+void ecs::CreateComponent(ecs::EntityManager& em, const std::string& componentName, int entity)
+{
+	(em.*ecs::LoadCallbacks()[componentName].first)(entity);
+}
+
+void ecs::LoadComponent(const std::string& componentName, ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
+{
+	(ecs::LoadCallbacks()[componentName].second)(em, ent, res);
 }

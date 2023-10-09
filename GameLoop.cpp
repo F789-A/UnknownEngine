@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "PostProcessComponent.h"
 #include "RenderLineFiller.h"
+#include "DynamicBvh2D.h"
 
 #include "Systems.h"
 

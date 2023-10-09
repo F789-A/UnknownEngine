@@ -7,9 +7,10 @@
 #include <queue>
 #include "SimpleTextProcessor.h"
 
-class Transform : public ecs::Component<Transform>
+struct Transform : public ecs::Component<Transform>
 {
-public:
+	static constexpr std::string_view ComponentName = "Transform";
+
 	glm::vec3 Position = glm::vec3(0, 0, 0);
 	glm::quat Rotation = glm::quat(1, 0, 0, 0);
 	glm::vec3 Scale = glm::vec3(1, 1, 1);

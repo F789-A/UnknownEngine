@@ -9,9 +9,10 @@ enum class CameraType
     Perspective
 };
 
-class Camera: public ecs::Component<Camera>
+struct Camera: public ecs::Component<Camera>
 {
-public:
+    static constexpr std::string_view ComponentName = "Camera";
+
     float FOV = glm::radians(45.0);
     float NearClip = 0.1f;
     float FarClip = 100.0f;
@@ -37,9 +38,10 @@ public:
     glm::mat4 GetProjectionMatrix() const;
 };
 
-class MainCamera : public ecs::Component<MainCamera>
+struct MainCamera : public ecs::Component<MainCamera>
 {
-public:
+    static constexpr std::string_view ComponentName = "MainCamera";
+
     static int count;
     MainCamera()
     {

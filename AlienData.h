@@ -24,9 +24,9 @@ enum class AlienState
 	Act
 };
 
-class AlienData: public ecs::Component<AlienData>
+struct AlienData: public ecs::Component<AlienData>
 {
-public:
+	static constexpr std::string_view ComponentName = "AlienData";
 
 	float Health;
 	float Damage;
@@ -53,8 +53,9 @@ public:
 	}
 };
 
-class NewPlacedAlienTag : public ecs::Component<NewPlacedAlienTag>
+struct NewPlacedAlienTag : public ecs::Component<NewPlacedAlienTag>
 {
-public:
+	static constexpr std::string_view ComponentName = "NewPlacedAlienTag";
+
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res){}
 };

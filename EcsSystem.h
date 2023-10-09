@@ -11,8 +11,6 @@
 #include <iostream>
 #include <functional>
 
-//TODO: TAGS, EVENTS
-
 namespace ecs
 {
 	template<typename T>
@@ -33,7 +31,14 @@ namespace ecs
 		virtual ~Component() = default;
 	};
 
+	//namespace
+	//{
 	int generateComponentType();
+	template<typename T>
+	int RegisterComponent();
+	//}
+	template<typename T>
+	const int Component<T>::type = RegisterComponent<T>();
 
 	class BaseComponentConteiner
 	{
@@ -49,36 +54,15 @@ namespace ecs
 	public:
 		using iterator = std::unordered_map<int, T>::iterator;
 		
-		iterator begin()
-		{
-			return components.begin();
-		}
+		iterator begin();
+		iterator end();
 
-		iterator end()
-		{
-			return components.end();
-		}
-
-		void Remove(int entity)
-		{
-			components.erase(entity);
-		}
-		int Count()
-		{
-			return components.size();
-		}
-
-		void Add(int entity)
-		{
-			components.emplace(entity, T());
-			components[entity].entity = entity;
-		}
-
-		T& Get(int ent)
-		{
-			return components.at(ent);
-		}
-
+		void Add(int entity);
+		void Remove(int entity);
+		T& Get(int ent);
+		int Count();
+		
+	private:
 		std::unordered_map<int, T> components;
 	};
 
@@ -125,8 +109,6 @@ namespace ecs
 		template<typename T, typename R>
 		T& GetComponent(R& comp);
 
-		void SetActiveEntity(int ent, bool state);
-
 		template<typename Arg1, typename... Args>
 		ComponentIterator<Arg1, Args...> GetComponents();
 
@@ -151,8 +133,6 @@ namespace ecs
 		std::queue<int> QueueDeletion;
 		std::queue<std::pair<int, int>> QueueDeletionComponent;
 		std::queue<int> freeEntity;
-		std::bitset<1000> enabledEntity;
-		
 	};
 
 	class EcsSystem;
@@ -185,26 +165,60 @@ namespace ecs
 		EntityManager* tempEM;
 	};
 
+	//utils
 	EcsSystem& DefEcs();
+	void CreateComponent(ecs::EntityManager& em, const std::string& componentName, int entity);
+	void LoadComponent(const std::string& componentName, ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res);
 
+	//namespace
+	//{
 	//Serialization
 	std::map<std::string, std::pair<void(ecs::EntityManager::*)(int), void(*)(EntityManager& em, int, std::map<std::string, std::string>&)>>& LoadCallbacks();
-
-	template<typename T>
-	int RegisterComponent()
-	{
-		std::string raw = typeid(T).name(); // Можно заменить на статичное поле внутри каждого компонента
-		std::string name = raw.substr(raw.find(" ") + 1, raw.length());
-		LoadCallbacks()[name] = { &ecs::EntityManager::AddComponent<T>, &T::Load };
-
-		return generateComponentType();
-	}
-
-	template<typename T>
-	const int Component<T>::type = RegisterComponent<T>();
+	//}
 };
 
-//Implemetation
+//IMPLEMENTATION
+
+//Component
+template<typename T>
+int ecs::RegisterComponent<T>()
+{
+	LoadCallbacks()[std::string(T::ComponentName)] = { &ecs::EntityManager::AddComponent<T>, &T::Load };
+	return generateComponentType();
+}
+
+//ComponentConteiner
+template<typename T>
+ecs::ComponentConteiner<T>::iterator ecs::ComponentConteiner<T>::begin()
+{
+	return components.begin();
+}
+template<typename T>
+ecs::ComponentConteiner<T>::iterator ecs::ComponentConteiner<T>::end()
+{
+	return components.end();
+}
+template<typename T>
+void ecs::ComponentConteiner<T>::Remove(int entity)
+{
+	components.erase(entity);
+}
+template<typename T>
+int ecs::ComponentConteiner<T>::Count()
+{
+	return components.size();
+}
+template<typename T>
+void ecs::ComponentConteiner<T>::Add(int entity)
+{
+	components.emplace(entity, T());
+	components[entity].entity = entity;
+}
+template<typename T>
+T& ecs::ComponentConteiner<T>::Get(int ent)
+{
+	return components.at(ent);
+}
 
 //EntityManager
 template<typename... Ts>

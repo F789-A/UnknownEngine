@@ -8,6 +8,8 @@
 
 struct RenderMesh : public ecs::Component<RenderMesh>
 {
+	static constexpr std::string_view ComponentName = "RenderMesh";
+
 	GLMesh RenderedMesh;
 	GLMaterial RenderMaterial;
 

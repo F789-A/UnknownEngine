@@ -6,6 +6,8 @@
 
 struct AimData : public ecs::Component<AimData>
 {
+	static constexpr std::string_view ComponentName = "AimData";
+
 	float aimSensitivity;
 
 	glm::vec2 center;
@@ -36,6 +38,8 @@ struct AimData : public ecs::Component<AimData>
 
 struct AimEffect : public ecs::Component<AimEffect>
 {
+	static constexpr std::string_view ComponentName = "AimEffect";
+
 	struct EffectPoint
 	{
 		glm::vec2 TargetPos;

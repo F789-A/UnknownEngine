@@ -4,6 +4,8 @@
 
 struct Event : public ecs::Component<Event>
 {
+	static constexpr std::string_view ComponentName = "Event";
+
 	int Id;
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{};
@@ -11,6 +13,8 @@ struct Event : public ecs::Component<Event>
 
 struct Tag : public ecs::Component<Tag>
 {
+	static constexpr std::string_view ComponentName = "Tag";
+
 	std::string Name;
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{

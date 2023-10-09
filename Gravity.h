@@ -6,6 +6,8 @@ namespace Physics
 {
     struct Gravity : public ecs::Component<Gravity>
     {
+        static constexpr std::string_view ComponentName = "Gravity";
+
         float Acceleration = 9.8f;
         glm::vec3 Direction = { 0.0f, -1.0f, 0.0f };
 

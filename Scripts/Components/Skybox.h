@@ -6,6 +6,8 @@
 
 struct Skybox : public ecs::Component<Skybox>
 {
+	static constexpr std::string_view ComponentName = "Skybox";
+
 	GLMesh RenderedSkybox;
 	GLMaterial RenderedMaterial;
 

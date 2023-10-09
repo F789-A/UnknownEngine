@@ -3,6 +3,8 @@
 
 struct CameraController : public ecs::Component<CameraController>
 {
+	static constexpr std::string_view ComponentName = "CameraController";
+
 	float MouseSensitivity = 0.01;
 	float Speed = 0.01;
 

@@ -8,6 +8,8 @@
 
 struct RenderLine : ecs::Component<RenderLine>
 {
+	static constexpr std::string_view ComponentName = "RenderLine";
+
 	GLMesh RenderedLine;
 	GLMaterial RenderedMaterial;
 

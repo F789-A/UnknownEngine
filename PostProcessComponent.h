@@ -3,9 +3,10 @@
 #include "GLMaterial.h"
 #include "SharedGraphicsResources.h"
 
-class PostProcessComponent : public ecs::Component<PostProcessComponent>
+struct PostProcessComponent : public ecs::Component<PostProcessComponent>
 {
-public:
+	static constexpr std::string_view ComponentName = "PostProcessComponent";
+
 	bool IsEnabled = false;
 	GLMaterial RenderedMaterial;
 

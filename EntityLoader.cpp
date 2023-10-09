@@ -157,7 +157,7 @@ void SerializationSystem::LoadEntity(ecs::EntityManager& em, std::filesystem::pa
 				{
 					CheckTerminal(str);
 					std::string compName = str;
-					(em.*ecs::LoadCallbacks()[compName].first)(ent); // Создаем компонент
+					ecs::CreateComponent(em, compName, ent); // Создаем компонент
 					str = ReadPreToken(file);
 					CheckCorrect(str, "{");
 					str = ReadPreToken(file);
@@ -255,7 +255,7 @@ void SerializationSystem::LoadEntity(ecs::EntityManager& em, std::filesystem::pa
 	}
 	for (auto l : loadedComp)
 	{
-		(ecs::LoadCallbacks()[l.first.second].second)(em, l.first.first, l.second);
+		ecs::LoadComponent(l.first.second, em, l.first.first, l.second);
 	}
 }
 

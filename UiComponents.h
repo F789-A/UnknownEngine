@@ -6,9 +6,10 @@
 #include "SharedGraphicsResources.h"
 #include "FontInfo.h"
 
-class RectTransform : public ecs::Component<RectTransform>
+struct RectTransform : public ecs::Component<RectTransform>
 {
-public:
+	static constexpr std::string_view ComponentName = "RectTransform";
+
 	glm::vec2 pos;	// local
 	glm::vec2 size; // global
 	float priority;
@@ -39,9 +40,10 @@ public:
 	};
 };
 
-class Button : public ecs::Component<Button>
+struct Button : public ecs::Component<Button>
 {
-public:
+	static constexpr std::string_view ComponentName = "Button";
+
 	int identifier;
 
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
@@ -53,6 +55,8 @@ public:
 
 struct Toggle : public ecs::Component<Toggle>
 {
+	static constexpr std::string_view ComponentName = "Toggle";
+
 	bool active;
 
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
@@ -61,9 +65,10 @@ struct Toggle : public ecs::Component<Toggle>
 	};
 };
 
-class Image : public ecs::Component<Image>
+struct Image : public ecs::Component<Image>
 {
-public:
+	static constexpr std::string_view ComponentName = "Image";
+
 	GLMaterial Material;
 
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
@@ -76,6 +81,8 @@ public:
 
 struct Text : public ecs::Component<Text>
 { 
+	static constexpr std::string_view ComponentName = "Text";
+
 	FontInfo* font; //Size //FontPath
 	std::string text;
 	
@@ -90,6 +97,8 @@ struct Text : public ecs::Component<Text>
 
 struct ToggleEvent : public ecs::Component<ToggleEvent>
 {
+	static constexpr std::string_view ComponentName = "ToggleEvent";
+
 	int Id;
 	bool state;
 

@@ -4,6 +4,8 @@
 
 struct ChangeLevel : public ecs::Component<ChangeLevel>
 {
+	static constexpr std::string_view ComponentName = "ChangeLevel";
+
 	std::string NextLevel;
 
 

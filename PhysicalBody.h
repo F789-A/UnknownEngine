@@ -8,6 +8,8 @@ namespace Physics
 {
     struct RigidBody : public ecs::Component<RigidBody>
     {
+        static constexpr std::string_view ComponentName = "RigidBody";
+
         glm::vec2 velocity;
         glm::vec2 forse;
         float invMass = 1;

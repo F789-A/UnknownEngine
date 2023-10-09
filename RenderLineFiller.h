@@ -4,6 +4,7 @@
 
 struct RenderLineFiller : public ecs::Component<RenderLineFiller>
 {
+	static constexpr std::string_view ComponentName = "RenderLineFiller";
 	
 	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
 	{
