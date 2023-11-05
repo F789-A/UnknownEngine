@@ -1,98 +1,162 @@
 #include "Shapes.h"
 
+#include <glm/gtx/norm.hpp>
 #include <algorithm>
+#include <functional>
 
 namespace Physics
 {
-    Square::Square(const glm::vec2& min, const glm::vec2& max) : min(min), max(max)
-    {}
 
-    bool Square::IntersectWith(const Point& shape) const
+    std::optional<Collision> Shape::GetCollision(const Shape& shape) const
     {
-        return shape.origin.x <= max.x && shape.origin.y <= max.y && shape.origin.x >= min.x && shape.origin.y >= min.y;
+        return std::nullopt;
     }
 
-    bool Square::IntersectWith(const Ray& shape) const
+    Line::Line(const glm::vec2& origin, const glm::vec2& direction)
     {
-        glm::vec2 arr[4] = { min, {max.x, min.y}, max, {min.x, max.y} };
-        auto getCoeff = [&](const glm::vec2& origin, const glm::vec2& dir)
+        if (direction.y == 0.0f)
         {
-            float k = dir.y / dir.x;
-            float b = origin.y - k * origin.x;
-            return std::make_pair(k, b);
-        };
-        auto coefShape = getCoeff(shape.origin, shape.direction);
-        float k = coefShape.first;
-        float b = coefShape.second;
-        for (int i = 0; i < 4; ++i)
+            A = 0.0f;
+            B = 1.0f;
+            C = -origin.y;
+            return;
+        }
+        if (direction.x == 0.0f)
         {
-            glm::vec2 origin = arr[i];
-            glm::vec2 dir = arr[i % 4] - arr[i];
-            auto coef = getCoeff(origin, dir);
+            A = 1.0f;
+            B = 0.0f;
+            C = -origin.x;
+            return;
+        }
+        float k = direction.y / direction.x;
+        float normalized = 1.0f / glm::vec2(k, -1).length();
 
-            float x = (b - coef.second) / (coef.first - k); // ?
-            float y = k * x - b;
-            glm::vec2 point = { x, y };
+        A = -normalized;
+        B = k * normalized;
+        C = (origin.y - k * origin.x) * normalized;
+    }
 
-            if (glm::dot(point - shape.origin, shape.direction) >= 0)
-            {
-                auto len = (point - origin).length();
-                if (0 < len && len < dir.length())
-                {
-
-                }
-            }
+    std::optional<glm::vec2> Line::IntersectWith(const Line& other) const
+    {
+        if (std::abs(A) == std::abs(other.A) && std::abs(B) == std::abs(other.B))
+        {
+            return std::nullopt;
         }
 
-        return false;
+        float k = other.A / A;
+        float c = other.C + k * C;
+        k = other.B - k * B;
+
+        float y = -c / k;
+        float x = (C - B * y) / A;
+        return { {x, y} };
     }
+
+    std::optional<glm::vec2> Interval::IntersectWith(const Ray& shape) const
+    {
+        auto rayLine = Line(shape.origin, shape.direction);
+        auto intervalLine = Line(start, end - start);
+
+        auto collision = intervalLine.IntersectWith(rayLine);
+
+        if (!collision)
+        {
+            return std::nullopt;
+        }
+
+        glm::vec2 dir1 = start - *collision;
+        glm::vec2 dir2 = end - *collision;
+        glm::vec2 dir3 = *collision - shape.origin;
+
+        if (glm::dot(dir1, dir2) < 0 && glm::dot(shape.direction, dir3) > 0)
+        {
+            return collision;
+        }
+        return std::nullopt;
+    }
+
+    Square::Square(const glm::vec2& min, const glm::vec2& max) : min(min), max(max)
+    {}
 
     glm::vec2 Square::Center() const
     {
         return (min + max) / 2.0f;
     }
 
-    Circle::Circle(glm::vec2 origin, float radius) : origin(origin), radius(radius)
-    {}
-
-    bool Circle::IntersectWith(const Point& shape) const
+    float Square::Size() const
     {
-        glm::vec2 dir = shape.origin - origin;
-        return (dir.x * dir.x + dir.y * dir.y) <= radius * radius;
+        return glm::length(max - min) / 2;
     }
 
-    bool Circle::IntersectWith(const Ray& shape) const
+    bool Square::IntersectWith(const Point& shape) const
     {
-        float k = shape.direction.y / shape.direction.x;
-        float b = shape.origin.y - k * shape.origin.x;
+        return shape.origin.x <= max.x && shape.origin.y <= max.y && shape.origin.x >= min.x && shape.origin.y >= min.y;
+    }
 
-        float B = 1 / glm::vec2(k, -1).length();
+    bool Square::IntersectWith(const Ray& ray) const
+    {
+        glm::vec2 corners[4] = { min, {max.x, min.y}, max, {min.x, max.y} };
 
-        k *= B;
-        b *= B;
-
-        float len = (k * origin.x + B * origin.y + b);
-
-        if (radius >= len)
+        for (int i = 0; i < 4; ++i)
         {
-            glm::vec2 point = { origin.x - len * k, origin.y - len * B };
-            if (len == radius)
+            auto interval = Interval(corners[i], corners[(i + 1) % 4]);
+            if (interval.IntersectWith(ray))
             {
-
+                return true;
             }
-            else
-            {
-                float len2 = std::sqrt(radius * radius - len * len);
-                glm::vec2 point1 = point + len2 * glm::vec2(B, -k);
-                glm::vec2 point2 = point + len2 * glm::vec2(-B, +k);
-            }
-
         }
 
         return false;
     }
 
-    std::tuple<bool, Collision, Collision> IsCollision(const Square& A, const Square& B)
+    Circle::Circle(glm::vec2 origin, float radius) : origin(origin), radius(radius)
+    {}
+
+    glm::vec2 Circle::Center() const
+    {
+        return origin;
+    }
+
+    float Circle::Size() const
+    {
+        return radius;
+    }
+
+    bool Circle::IntersectWith(const Point& shape) const
+    {
+        return glm::length2(shape.origin - origin) <= std::powf(radius, 2.0f);
+    }
+
+    bool Circle::IntersectWith(const Ray& shape) const
+    {
+        auto line = Line(shape.origin, shape.direction);
+
+        float len = (line.A * origin.x + line.B * origin.y + line.C);
+
+        if (radius >= len)
+        {
+            glm::vec2 point = { origin.x - len * line.A, origin.y - len * line.B };
+            if (len != radius)
+            {
+                float len2 = std::sqrt(radius * radius - len * len);
+                glm::vec2 point1 = point + len2 * glm::vec2(line.B, -line.A);
+                glm::vec2 point2 = point + len2 * glm::vec2(-line.B, line.A);
+
+                if (glm::dot(point1 - shape.origin, shape.direction) > 0)
+                    return true;
+                if (glm::dot(point2 - shape.origin, shape.direction) > 0)
+                    return true;
+            }
+            else
+            {
+                if (glm::dot(point - shape.origin, shape.direction) > 0)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    std::optional<std::pair<Collision, Collision>> IsCollision(const Square& A, const Square& B)
     {
         glm::vec2 dir = B.Center() - A.Center();
 
@@ -118,7 +182,7 @@ namespace Physics
 
                     Collision ToA = { {contactX, A.Center().y + halfAy * sgn(dir.y)}, normal, overlapY };
                     Collision ToB = { {contactX, B.Center().y + halfBy * sgn(-dir.y)}, -normal, overlapY };
-                    return { true, ToA, ToB };
+                    return { {ToA, ToB} };
                 }
                 else
                 {
@@ -128,22 +192,21 @@ namespace Physics
 
                     Collision ToA = { {contactY, A.Center().x + halfAx * sgn(dir.x)}, normal, overlapX };
                     Collision ToB = { {contactY, B.Center().x + halfBx * sgn(-dir.x)}, -normal, overlapX };
-                    return { true, ToA, ToB };
+                    return { {ToA, ToB} };
                 }
 
             }
         }
-        return { false, {}, {} };
+        return std::nullopt;
     }
-
-    std::tuple<bool, Collision, Collision> IsCollision(const Circle& A, const Circle& B)
+    std::optional<std::pair<Collision, Collision>> IsCollision(const Circle& A, const Circle& B)
     {
         glm::vec2 dir = B.origin - A.origin;
         float dist = dir.x * dir.x + dir.y * dir.y;
 
         if (dist > A.radius * A.radius + B.radius * B.radius)
         {
-            return { false, {}, {} };
+            return std::nullopt;
         }
 
         if (dist != 0)
@@ -152,17 +215,16 @@ namespace Physics
             dist = std::sqrtf(dist);
             Collision ToA = { A.origin + dir * A.radius, dir, dist - B.radius };
             Collision ToB = { B.origin + dir * A.radius, -dir, dist - A.radius };
-            return { true, ToA, ToB };
+            return { { ToA, ToB } };
         }
         else
         {
             Collision ToA = { A.origin, {0.0f, 1.0f}, A.radius };
             Collision ToB = { B.origin, {0.0f, -1.0f}, B.radius };
-            return { true, ToA, ToB };
+            return { { ToA, ToB } };
         }
     }
-
-    std::tuple<bool, Collision, Collision> IsCollision(const Square& A, const Circle& B)
+    std::optional<std::pair<Collision, Collision>> IsCollision(const Square& A, const Circle& B)
     {
         glm::vec2 dir = B.origin - A.Center();
         glm::vec2 closest = dir;
@@ -182,4 +244,55 @@ namespace Physics
         return IsCollision(newCircle, B);
     }
 
+    /*std::optional<Collision> Shape::GetCollision(const Shape& shape) const
+    {
+        std::optional<Collision> res;
+        if (dynamic_cast<const Square*>(this))
+        {
+            const auto* thisSquare = dynamic_cast<const Square*>(this);
+            if (dynamic_cast<const Square*>(&shape))
+            {
+                const auto* other = dynamic_cast<const Square*>(&shape);
+                auto res2 = IsCollision(*thisSquare, *other);
+                if (res2)
+                {
+                    res = { res2.value().first };
+                }
+            }
+            else if(dynamic_cast<const Circle*>(&shape))
+            {
+                const auto* other = dynamic_cast<const Circle*>(&shape);
+                auto res2 = IsCollision(*thisSquare, *other);
+                if (res2)
+                {
+                    res = { res2.value().first };
+                }
+            }
+        }
+        else if (dynamic_cast<const Circle*>(this))
+        {
+            const auto* thisCircle = dynamic_cast<const Circle*>(this);
+            if (dynamic_cast<const Square*>(&shape))
+            {
+                const auto* other = dynamic_cast<const Square*>(&shape);
+                auto res2 = IsCollision(*other, *thisCircle);
+                if (res2)
+                {
+                    res = { res2.value().second };
+                }
+            }
+            else if (dynamic_cast<const Circle*>(&shape))
+            {
+                const auto* other = dynamic_cast<const Circle*>(&shape);
+                auto res2 = IsCollision(*other, *thisCircle);
+                if (res2)
+                {
+                    res = { res2.value().second };
+                }
+            }
+        }
+
+        return res;
+        
+    }*/
 }

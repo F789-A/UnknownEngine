@@ -91,9 +91,9 @@ namespace Physics
             for (int i = 0; i < current->objects.size(); ++i)
             {
                 auto obj = current->objects[i];
-                for (int j = i; j < current->objects.size(); ++j)
+                for (int j = i+1; j < current->objects.size(); ++j)
                 {
-                    if (std::get<0>(IsCollision(obj.first, current->objects[j].first)))
+                    if (IsCollision(obj.first, current->objects[j].first))
                     {
                         result.push_back(std::make_pair(obj.second, current->objects[j].second));
                     }
@@ -112,7 +112,7 @@ namespace Physics
 
                     for (auto obj2 : current->objects)
                     {
-                        if (std::get<0>(IsCollision(obj.first, obj2.first)))
+                        if (IsCollision(obj.first, obj2.first))
                         {
                             result.push_back(std::make_pair(obj.second, obj2.second));
                         }
@@ -202,7 +202,7 @@ namespace Physics
             else
             {
                 glm::vec2 center = current->volume.Center();
-                int numberOfVolume = object.origin.x > center.x + 2 * object.origin.y < center.y; // see figure
+                int numberOfVolume = (object.origin.x > center.x) + 2 * (object.origin.y < center.y); // see figure
                 if (!current->childs[numberOfVolume])
                 {
                     float left = current->volume.min.x;

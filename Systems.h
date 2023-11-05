@@ -15,9 +15,9 @@ namespace graphics
 
 namespace physics
 {
+	void BuildBvh(ecs::EntityManager&);
 	void ProcessMovement(ecs::EntityManager&);
 	void ProcessCollision(ecs::EntityManager&);
-	void ProcessFriction(ecs::EntityManager&);
 }
 
 void RenderMeshSystem(ecs::EntityManager&);

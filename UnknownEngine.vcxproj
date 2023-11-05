@@ -211,6 +211,7 @@
     <ClInclude Include="ChangeLevel.h" />
     <ClInclude Include="ConceptLib.h" />
     <ClInclude Include="DynamicBvh2D.h" />
+    <ClInclude Include="DynamicDispatching.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="EventSystem.h" />
     <ClInclude Include="FontInfo.h" />
@@ -226,6 +227,7 @@
     <ClInclude Include="Scripts\Components\Skybox.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Shapes.h" />
+    <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="SortedByValueMap.h" />
     <ClInclude Include="Systems.h" />
     <ClInclude Include="EcsSystem.h" />
