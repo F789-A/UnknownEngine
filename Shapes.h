@@ -98,4 +98,5 @@ namespace Physics
     std::optional<std::pair<Collision, Collision>> IsCollision(const Square& A, const Square& B);
     std::optional<std::pair<Collision, Collision>> IsCollision(const Circle& A, const Circle& B);
     std::optional<std::pair<Collision, Collision>> IsCollision(const Square& A, const Circle& B);
+    std::optional<std::pair<Collision, Collision>> IsCollision(const Circle& A, const Square& B);
 }

@@ -4,14 +4,10 @@
 #include <algorithm>
 #include <functional>
 
+#include "DynamicDispatching.h"
+
 namespace Physics
 {
-
-    std::optional<Collision> Shape::GetCollision(const Shape& shape) const
-    {
-        return std::nullopt;
-    }
-
     Line::Line(const glm::vec2& origin, const glm::vec2& direction)
     {
         if (direction.y == 0.0f)
@@ -243,10 +239,31 @@ namespace Physics
 
         return IsCollision(newCircle, B);
     }
-
-    /*std::optional<Collision> Shape::GetCollision(const Shape& shape) const
+    std::optional<std::pair<Collision, Collision>> IsCollision(const Circle& A, const Square& B)
     {
-        std::optional<Collision> res;
+        auto res = IsCollision(B, A);
+        if (res)
+        {
+            return { {(*res).second, (*res).first} };
+        }
+        return res;
+    }
+
+    std::optional<Collision> Shape::GetCollision(const Shape& shape) const
+    {
+        std::function<std::optional<std::pair<Collision, Collision>>(const Square&, const Square&)> func1 =
+            static_cast<std::optional<std::pair<Collision, Collision>>(*)(const Square&, const Square&)>(IsCollision);
+        std::function<std::optional<std::pair<Collision, Collision>>(const Square&, const Circle&)> func2 =
+            static_cast<std::optional<std::pair<Collision, Collision>>(*)(const Square&, const Circle&)>(IsCollision);
+        std::function<std::optional<std::pair<Collision, Collision>>(const Circle&, const Circle&)> func3 =
+            static_cast<std::optional<std::pair<Collision, Collision>>(*)(const Circle&, const Circle&)>(IsCollision);
+        std::function<std::optional<std::pair<Collision, Collision>>(const Circle&, const Square&)> func4 =
+            static_cast<std::optional<std::pair<Collision, Collision>>(*)(const Circle&, const Square&)>(IsCollision);
+
+        DynamicDispatch(*this, shape, func1, func2, func3, func4);
+
+        return std::nullopt;
+        /*std::optional<Collision> res;
         if (dynamic_cast<const Square*>(this))
         {
             const auto* thisSquare = dynamic_cast<const Square*>(this);
@@ -292,7 +309,7 @@ namespace Physics
             }
         }
 
-        return res;
+        return res;*/
         
-    }*/
+    }
 }
