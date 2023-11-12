@@ -2,7 +2,7 @@ Entity
 {
 	Transform
 	{
-		float[] Position = [0, 0, 0]				
+		float[] Position = [-5, 0, 0]				
 		float[] Scale = [1, 1, 1]
 	}
 	Camera
@@ -24,6 +24,7 @@ Entity
 	Transform
 	{
 		float[] Position = [0, 0, 0]
+		float[] Rotation = [0, -90, 0]
 		float[] Scale = [10, 10, 10]
 	}
 	RenderMesh

@@ -31,6 +31,7 @@ Entity
 	Transform
 	{
 		float[] Position = [40, 40, 0]
+		float[] Rotation = [0, 0, 0]
 		float[] Scale = [1, 1, 1]
 	}
 	RenderMesh

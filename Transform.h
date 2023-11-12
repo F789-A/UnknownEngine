@@ -25,14 +25,20 @@ struct Transform : public ecs::Component<Transform>
 		Transform& tr = em.GetComponent<Transform>(a);
 		tr.Position = TextTools::ReadVec3(res["Position"]);
 		tr.Scale = TextTools::ReadVec3(res["Scale"]);
-		//tr.Rotation = TextTools::ReadVec3(res["Rotation"]);
+		if (res.contains("Rotation"))
+		{
+			auto rot = TextTools::ReadVec3(res["Rotation"]) / 360.0f * 2.0f * std::acos(-1.0f);
+			tr.Rotate(glm::vec3(1.0f, 0.0f, 0.0f), rot.x);
+			tr.Rotate(glm::vec3(0.0f, 1.0f, 0.0f), rot.y);
+			tr.Rotate(glm::vec3(0.0f, 0.0f, 1.0f), rot.z);
+		}
 	}
 
 	glm::vec3 Front() const;
 	glm::vec3 Right() const;
 	glm::vec3 EulerAngle() const;
 
-	void Rotate(glm::vec3 axis, float angle);
+	void Rotate(const glm::vec3& axis, float angle);
 
 	//void RecalcTransformation();
 };

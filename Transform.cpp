@@ -15,13 +15,13 @@ glm::vec3 Transform::EulerAngle() const
 	return eulerAngles(Rotation);
 }
 
-void Transform::Rotate(glm::vec3 axis, float angle)
+void Transform::Rotate(const glm::vec3& axis, float angle)
 {
 	glm::quat quat;
-	quat.w = cos(angle / 2);
-	quat.x = axis.x * sin(angle / 2);
-	quat.y = axis.y * sin(angle / 2);
-	quat.z = axis.z * sin(angle / 2);
+	quat.w = std::cos(angle / 2);
+	quat.x = axis.x * std::sin(angle / 2);
+	quat.y = axis.y * std::sin(angle / 2);
+	quat.z = axis.z * std::sin(angle / 2);
 	Rotation = quat * Rotation;
 	//RecalcTransformation();
 }
