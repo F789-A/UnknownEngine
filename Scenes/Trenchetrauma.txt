@@ -2,15 +2,21 @@ Entity
 {
 	Transform
 	{
-		float[] Position = [0, 0, 0] 									
-		float[] Scale = [1, 1, 1] 									 		
+		float[] Position = [0, 0, 0]				
+		float[] Scale = [1, 1, 1]
 	}
 	Camera
 	{
+		float FOV = 45
 		float NearClip = 0.01
 		float FarClip = 100
 	}
 	MainCamera {}
+	CameraController
+	{
+		float MouseSensitivity = 0.01
+		float Speed = 0.01
+	}
 }
 
 Entity
@@ -18,13 +24,63 @@ Entity
 	Transform
 	{
 		float[] Position = [0, 0, 0]
-		float[] Scale = [1, 1, 1]
+		float[] Scale = [10, 10, 10]
 	}
-	//RenderMesh
-	//{
-		//string RenderMesh = "Models\Plane.obj"
-		//string RenderMaterial = "Materials\FonSprite.uemat"
-	//}
+	RenderMesh
+	{
+		string RenderMesh = "Models\Plane.obj"
+		string RenderMaterial = "Materials\Diffuse_1.uemat"
+	}
 }
+
+Entity
+{
+	DynamicBvh2D
+	{
+	}
+}
+
+Entity
+{
+	Transform
+	{
+		float[] Position = [0, 0, 0] 									
+		float[] Scale = [1, 1, 1] 									 		
+	}
+	RigidBody
+	{
+	}
+	Collider
+	{
+		string shape = Circle
+		float rad = 1
+	}
+}
+
+Entity
+{
+	ChangeLevel
+	{
+		string NextLevel = "Scenes/DemoLevel.txt"
+	}
+}
+
+Entity
+{
+	Transform
+	{
+		float[] Position = [1, 0, 0] 									
+		float[] Scale = [1, 1, 1] 									 		
+	}
+	RigidBody
+	{
+	}
+	Collider
+	{
+		string shape = Circle
+		float rad = 1
+	}
+}
+
 
 //Для статичной геометрии сбалансированное bsp-дерево, для остального окта-деревья

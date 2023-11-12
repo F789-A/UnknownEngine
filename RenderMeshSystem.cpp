@@ -3,7 +3,7 @@
 #include "Transform.h"
 #include "RenderMesh.h"
 
-void RenderMeshSystem(ecs::EntityManager& em)
+void graphics::RenderMeshSystem(ecs::EntityManager& em)
 {
 	for (auto l = em.GetComponents<RenderMesh, Transform>(); !l.end(); ++l)
 	{

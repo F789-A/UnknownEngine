@@ -6,10 +6,13 @@ namespace ui
 	void ProcessButtons(ecs::EntityManager&);
 	void DrawUIImage(ecs::EntityManager&);
 	void DrawText(ecs::EntityManager&);
+
+	void DrawLine(ecs::EntityManager&);
 }
 
 namespace graphics
 {
+	void RenderMeshSystem(ecs::EntityManager&);
 	void RenderSkyboxSystem(ecs::EntityManager&);
 }
 
@@ -20,13 +23,11 @@ namespace physics
 	void ProcessCollision(ecs::EntityManager&);
 }
 
-void RenderMeshSystem(ecs::EntityManager&);
-
-void EscapeHandler(ecs::EntityManager&);
-
-void DrawLine(ecs::EntityManager&);
-
-void CameraControllerSystem(ecs::EntityManager&);
+namespace GameTools
+{
+	void EscapeHandler(ecs::EntityManager&);
+	void CameraControllerSystem(ecs::EntityManager&);
+}
 
 namespace AsteroidHunter
 {

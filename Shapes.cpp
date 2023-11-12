@@ -260,56 +260,13 @@ namespace Physics
         std::function<std::optional<std::pair<Collision, Collision>>(const Circle&, const Square&)> func4 =
             static_cast<std::optional<std::pair<Collision, Collision>>(*)(const Circle&, const Square&)>(IsCollision);
 
-        DynamicDispatch(*this, shape, func1, func2, func3, func4);
+        auto result = DynamicDispatch(*this, shape, func1, func2, func3, func4);
 
-        return std::nullopt;
-        /*std::optional<Collision> res;
-        if (dynamic_cast<const Square*>(this))
+        if (!result)
         {
-            const auto* thisSquare = dynamic_cast<const Square*>(this);
-            if (dynamic_cast<const Square*>(&shape))
-            {
-                const auto* other = dynamic_cast<const Square*>(&shape);
-                auto res2 = IsCollision(*thisSquare, *other);
-                if (res2)
-                {
-                    res = { res2.value().first };
-                }
-            }
-            else if(dynamic_cast<const Circle*>(&shape))
-            {
-                const auto* other = dynamic_cast<const Circle*>(&shape);
-                auto res2 = IsCollision(*thisSquare, *other);
-                if (res2)
-                {
-                    res = { res2.value().first };
-                }
-            }
-        }
-        else if (dynamic_cast<const Circle*>(this))
-        {
-            const auto* thisCircle = dynamic_cast<const Circle*>(this);
-            if (dynamic_cast<const Square*>(&shape))
-            {
-                const auto* other = dynamic_cast<const Square*>(&shape);
-                auto res2 = IsCollision(*other, *thisCircle);
-                if (res2)
-                {
-                    res = { res2.value().second };
-                }
-            }
-            else if (dynamic_cast<const Circle*>(&shape))
-            {
-                const auto* other = dynamic_cast<const Circle*>(&shape);
-                auto res2 = IsCollision(*other, *thisCircle);
-                if (res2)
-                {
-                    res = { res2.value().second };
-                }
-            }
+            return std::nullopt;
         }
 
-        return res;*/
-        
+        return (*result).first;
     }
 }

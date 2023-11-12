@@ -7,7 +7,7 @@
 #include "CameraController.h"
 #include <glm/gtx/vector_angle.hpp>
 
-void CameraControllerSystem(ecs::EntityManager& em)
+void GameTools::CameraControllerSystem(ecs::EntityManager& em)
 {
     for (auto l = em.GetComponents<MainCamera, CameraController, Transform>(); !l.end(); ++l)
     {

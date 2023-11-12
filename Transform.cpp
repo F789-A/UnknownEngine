@@ -1,28 +1,52 @@
 #include "Transform.h"
 
-void UpdateMatrix()
+glm::vec3 Transform::Front() const
 {
-	/*trMat = glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0));
-	trMat = glm::translate(glm::mat4(1.0f), ToScr(pos)) * trMat;
-	if (parent != nullptr)
-	{
-		trMat = parent->trMat * trMat;
-	}
-	std::queue<RectTransform*> que;
-	for (auto l : childs)
-	{
-		que.push(l);
-	}
-	while (!que.empty())
-	{
-		auto& crTr = *que.front();
-		que.pop();
-		for (auto l : crTr.childs)
-		{
-			que.push(l);
-		}
-		crTr.trMat = glm::scale(glm::mat4(1.0f), glm::vec3(crTr.size.x, crTr.size.y, 0));
-		crTr.trMat = glm::translate(glm::mat4(1.0f), ToScr(crTr.pos)) * crTr.trMat;
-		crTr.trMat = crTr.parent->trMat * crTr.trMat;
-	}*/
+	return Rotation * glm::vec3(1, 0, 0);
 }
+
+glm::vec3 Transform::Right() const
+{
+	return Rotation * glm::vec3(0, 0, 1);
+}
+
+glm::vec3 Transform::EulerAngle() const
+{
+	return eulerAngles(Rotation);
+}
+
+void Transform::Rotate(glm::vec3 axis, float angle)
+{
+	glm::quat quat;
+	quat.w = cos(angle / 2);
+	quat.x = axis.x * sin(angle / 2);
+	quat.y = axis.y * sin(angle / 2);
+	quat.z = axis.z * sin(angle / 2);
+	Rotation = quat * Rotation;
+	//RecalcTransformation();
+}
+
+/*void Transform::RecalcTransformation()
+{
+	transformation = glm::translate(glm::mat4(1.0f), Position) * glm::mat4_cast(Rotation) * glm::scale(glm::mat4(1.0f), Scale);
+	if (isLocal)
+	{
+		transformation = parent->transformation * transformation;
+	}
+	std::queue<Transform*> ch;
+	ch.push(this);
+	while (!ch.empty())
+	{
+		Transform* cur = ch.front();
+		ch.pop();
+
+		for (auto l : cur->childs)
+		{
+			if (l->isLocal)
+			{
+				ch.push(l);
+				cur->transformation = cur->parent->transformation * cur->transformation;
+			}
+		}
+	}
+}*/

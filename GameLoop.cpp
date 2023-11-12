@@ -70,13 +70,13 @@ void GameLoop::ConstructScene()
 	};
 
 	GraphicCore::GetInstance().mainPassFunc = []() {
-		RenderMeshSystem(ecs::DefEcs().entity); 
+		graphics::RenderMeshSystem(ecs::DefEcs().entity);
 		graphics::RenderSkyboxSystem(ecs::DefEcs().entity);
 	};
 
 	GraphicCore::GetInstance().uiPassFunc = []() {
 		ui::DrawUIImage(ecs::DefEcs().entity);
-		DrawLine(ecs::DefEcs().entity);
+		ui::DrawLine(ecs::DefEcs().entity);
 		ui::DrawText(ecs::DefEcs().entity);
 	};
 
@@ -84,10 +84,15 @@ void GameLoop::ConstructScene()
 
 	//ui
 	ecs::DefEcs().system.AddSystem(ui::ProcessButtons);
+
+	//physics
+	ecs::DefEcs().system.AddSystem(physics::BuildBvh);
+	//ecs::DefEcs().system.AddSystem(physics::ProcessMovement);
+	//ecs::DefEcs().system.AddSystem(physics::ProcessCollision);
 	
 	//game
-	ecs::DefEcs().system.AddSystem(EscapeHandler);
-	ecs::DefEcs().system.AddSystem(CameraControllerSystem);
+	ecs::DefEcs().system.AddSystem(GameTools::EscapeHandler);
+	ecs::DefEcs().system.AddSystem(GameTools::CameraControllerSystem);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::CharacterController);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::AlienController);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::MenuEvent);

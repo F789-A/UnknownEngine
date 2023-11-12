@@ -13,8 +13,14 @@ glm::mat4 Camera::GetProjectionMatrix() const
 {
     if (cameraType == CameraType::Perspective)
         return glm::perspective(FOV, (float)WindowApp::GetInstance().Width() / WindowApp::GetInstance().Height(), NearClip, FarClip);
-    else
-        return glm::ortho(0.0f, (float)WindowApp::GetInstance().Width(), 0.0f, (float)WindowApp::GetInstance().Height(), NearClip, FarClip);
+    else 
+    {
+        float aspect = (float)WindowApp::GetInstance().Height() / WindowApp::GetInstance().Width();
+        float h = Height * aspect / 2.0f; // TODO
+        float w = Width / 2.0f;
+        return glm::ortho(-w, w, -h, h, NearClip, FarClip);
+    }
+        
 }
 
 int MainCamera::count = 0;

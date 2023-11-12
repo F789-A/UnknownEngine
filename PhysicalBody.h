@@ -4,6 +4,7 @@
 #include <memory>
 #include <utility>
 #include <bitset>
+#include <string>
 #include <glm/glm.hpp>
 
 #include "Shapes.h"
@@ -42,7 +43,16 @@ namespace Physics
         static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
         {
             auto& collider = em.GetComponent<Collider>(ent);
-            collider.shape = std::make_unique<Circle>(glm::vec2(0, 0), 1);
+            if (res["shape"] == "Circle")
+            {
+                float radius = std::stof(res["rad"]);
+                collider.shape = std::make_unique<Circle>(glm::vec2(0, 0), radius);
+            }
+            else if (res["shape"] == "Square")
+            {
+                float len = std::stof(res["len"]);
+                collider.shape = std::make_unique<Square>(glm::vec2(-len, -len), glm::vec2(len, len));
+            }
         }
     };
 }

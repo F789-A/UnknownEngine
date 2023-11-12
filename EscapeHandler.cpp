@@ -7,7 +7,7 @@
 #include "PostProcessComponent.h"
 #include "WindowApp.h"
 
-void EscapeHandler(ecs::EntityManager& em)
+void GameTools::EscapeHandler(ecs::EntityManager& em)
 {
 	if (Input::GetInstance().GetButton("Escape", Input::PressMode::Press))
 	{

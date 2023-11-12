@@ -1,7 +1,7 @@
 #include "Systems.h"
 #include "RenderLine.h"
 
-void DrawLine(ecs::EntityManager& em)
+void ui::DrawLine(ecs::EntityManager& em)
 {
 	for (auto l = em.GetComponents<RenderLine>(); !l.end(); ++l)
 	{
