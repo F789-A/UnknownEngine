@@ -87,7 +87,8 @@ void GameLoop::ConstructScene()
 
 	//physics
 	ecs::DefEcs().system.AddSystem(physics::BuildBvh);
-	//ecs::DefEcs().system.AddSystem(physics::ProcessMovement);
+	ecs::DefEcs().system.AddSystem(physics::GravityController);
+	ecs::DefEcs().system.AddSystem(physics::ProcessMovement);
 	//ecs::DefEcs().system.AddSystem(physics::ProcessCollision);
 	
 	//game

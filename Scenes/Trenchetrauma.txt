@@ -30,32 +30,13 @@ Entity
 	RenderMesh
 	{
 		string RenderMesh = "Models\Plane.obj"
-		string RenderMaterial = "Materials\Diffuse_1.uemat"
+		string RenderMaterial = "Materials\TrencheTrauma\Fon.txt"
 	}
 }
 
 Entity
 {
-	DynamicBvh2D
-	{
-	}
-}
-
-Entity
-{
-	Transform
-	{
-		float[] Position = [0, 0, 0] 									
-		float[] Scale = [1, 1, 1] 									 		
-	}
-	RigidBody
-	{
-	}
-	Collider
-	{
-		string shape = Circle
-		float rad = 1
-	}
+	DynamicBvh2D{}
 }
 
 Entity
@@ -68,10 +49,46 @@ Entity
 
 Entity
 {
+	GlobalGravity
+	{}
+}
+
+Entity
+{
 	Transform
 	{
-		float[] Position = [1, 0, 0] 									
+		float[] Position = [-1, 0, 0] 	
+		float[] Rotation = [0, -90, 0]
 		float[] Scale = [1, 1, 1] 									 		
+	}
+	RenderMesh
+	{
+		string RenderMesh = "Models\Plane.obj"
+		string RenderMaterial = "Materials\TrencheTrauma\Circle.txt"
+	}
+	RigidBody
+	{
+	}
+	Gravity{}
+	Collider
+	{
+		string shape = Circle
+		float rad = 1
+	}
+}
+
+Entity
+{
+	Transform
+	{
+		float[] Position = [-1, -2, 0] 	
+		float[] Rotation = [0, -90, 0]
+		float[] Scale = [1, 1, 1] 									 		
+	}
+	RenderMesh
+	{
+		string RenderMesh = "Models\Plane.obj"
+		string RenderMaterial = "Materials\TrencheTrauma\Circle.txt"
 	}
 	RigidBody
 	{

@@ -1,0 +1,2 @@
+texture diffuse Textures/Trenchetrauma/Circle.png
+shader_path Shaders\Diffuse.ueshad

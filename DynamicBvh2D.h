@@ -2,7 +2,7 @@
 #include "EcsSystem.h"
 #include "Bvh.h"
 
-namespace Physics
+namespace physics
 { 
     struct DynamicBvh2D : public ecs::Component<DynamicBvh2D>
     {

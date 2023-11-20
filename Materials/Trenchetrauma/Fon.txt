@@ -1,0 +1,2 @@
+texture diffuse Textures/Trenchetrauma/fon.png
+shader_path Shaders\Diffuse.ueshad

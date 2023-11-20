@@ -4,7 +4,7 @@
 #include <optional>
 #include "SimpleMath.h"
 
-namespace Physics
+namespace physics
 { 
     struct Collision
     {

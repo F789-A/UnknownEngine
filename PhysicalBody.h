@@ -7,9 +7,10 @@
 #include <string>
 #include <glm/glm.hpp>
 
+#include "SimpleTextProcessor.h"
 #include "Shapes.h"
 
-namespace Physics
+namespace physics
 {
     struct RigidBody : public ecs::Component<RigidBody>
     {
@@ -31,6 +32,19 @@ namespace Physics
         static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
         {
             auto& body = em.GetComponent<RigidBody>(ent);
+        }
+    };
+
+    struct Gravity : public ecs::Component<Gravity>
+    {
+        static constexpr std::string_view ComponentName = "Gravity";
+
+        float Acceleration = 9.8f;
+        glm::vec3 Direction = { 0.0f, -1.0f, 0.0f };
+
+        static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
+        {
+            auto& grav = em.GetComponent<Gravity>(ent);
         }
     };
 

@@ -8,7 +8,7 @@
 
 #include "Shapes.h"
 
-namespace Physics
+namespace physics
 {
     template<typename BvhNodeData>
     class Bvh2D

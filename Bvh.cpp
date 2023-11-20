@@ -1,6 +1,6 @@
 #include "Bvh.h"
 
-namespace Physics
+namespace physics
 {
     
 }

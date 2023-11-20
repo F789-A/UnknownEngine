@@ -6,7 +6,7 @@
 
 #include "DynamicDispatching.h"
 
-namespace Physics
+namespace physics
 {
     Line::Line(const glm::vec2& origin, const glm::vec2& direction)
     {

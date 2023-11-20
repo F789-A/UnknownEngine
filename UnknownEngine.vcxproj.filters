@@ -192,6 +192,9 @@
     <ClCompile Include="GraphicCore.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="GravityController.cpp">
+      <Filter>Source Files\ECS\Systems\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLShader.h">

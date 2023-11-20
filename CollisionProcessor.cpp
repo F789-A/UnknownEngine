@@ -7,7 +7,9 @@
 #include "DynamicBvh2D.h"
 #include "Transform.h"
 
-using namespace Physics;
+#include "AppTime.h"
+
+using namespace physics;
 
 std::optional<Collision> GetCollision(const Collider& A, const Collider& B)
 {
@@ -95,7 +97,7 @@ void physics::BuildBvh(ecs::EntityManager& em)
             auto [rigidbody, collider, transform] = *l;
 
             int ent = em.GetEntity(collider);
-            Circle circle{ collider.shape->Center() + glm::vec2(transform.Position), collider.shape->Size() };
+            Circle circle{ collider.shape->Center() + glm::vec2(transform.Position), collider.shape->Size() * transform.Scale.x };
 
             bvh.bvh.Insert(circle, ent);
 
@@ -136,7 +138,7 @@ void physics::ProcessMovement(ecs::EntityManager& em)
     {
         auto [body, transf] = *l;
 
-        float dt = 0.01f;
+        float dt = AppTime::GetDeltaTime();
 
         // Симплектический метод Эйлера
         body.velocity += (body.invMass * body.forse) * dt;
@@ -146,6 +148,6 @@ void physics::ProcessMovement(ecs::EntityManager& em)
         body.torque = 0.0f;
 
         transf.Position += glm::vec3(body.velocity, 0.0f) * dt;
-        transf.Rotate({ 0.0f, 0.0f, 1.0f }, body.angularVelocity * dt);
+        transf.Rotate({ 1.0f, 0.0f, 0.0f }, body.angularVelocity * dt);
     }
 }

@@ -170,6 +170,7 @@
     <ClCompile Include="EcsSystem.cpp" />
     <ClCompile Include="EscapeHandler.cpp" />
     <ClCompile Include="EventSystem.cpp" />
+    <ClCompile Include="GravityController.cpp" />
     <ClCompile Include="Scripts\Graphics\GLLineMesh.cpp" />
     <ClCompile Include="LevelChanger.cpp" />
     <ClCompile Include="LevelController.cpp" />
