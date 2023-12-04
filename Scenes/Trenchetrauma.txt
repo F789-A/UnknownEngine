@@ -68,6 +68,8 @@ Entity
 	}
 	RigidBody
 	{
+		float Mass = 1;
+		float Elasticity = 0;
 	}
 	Gravity{}
 	Collider
@@ -92,6 +94,8 @@ Entity
 	}
 	RigidBody
 	{
+		float Mass = 100000;
+		float Elasticity = 0;
 	}
 	Collider
 	{

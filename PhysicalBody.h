@@ -18,7 +18,7 @@ namespace physics
 
         glm::vec2 velocity;
         glm::vec2 forse;
-        float invMass = 1;
+        float invMass;
         float elasticity;
 
         float invMomentOfInertia;
@@ -32,6 +32,8 @@ namespace physics
         static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
         {
             auto& body = em.GetComponent<RigidBody>(ent);
+            body.invMass = 1 / std::stof(res["Mass"]);
+            body.elasticity = std::stof(res["Elasticity"]);
         }
     };
 

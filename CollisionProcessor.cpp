@@ -18,34 +18,36 @@ std::optional<Collision> GetCollision(const Collider& A, const Collider& B)
 
 void CorrectCollision(RigidBody& A, Transform& trA, RigidBody& B, Transform& trB, const Collision& collision)
 {
-    glm::vec2 normal;
+    glm::vec2 normal = collision.normal;
     float penetration = 0.0f;
     const float percent = 0.8f;
     const float slop = 0.01f;
     glm::vec2 correction = std::max(penetration - slop, 0.0f) / (A.invMass + B.invMass) * percent * normal;
-    trA.Position -= A.invMass * glm::vec3(correction, 0.0f);
-    trB.Position += B.invMass * glm::vec3(correction, 0.0f);
+    //trA.Position -= A.invMass * glm::vec3(correction, 0.0f);
+    //trB.Position += B.invMass * glm::vec3(correction, 0.0f);
 }
 
 void ProcessFriction(RigidBody& A, RigidBody& B, const Collision& collision, float reaction);
 
 void ProcessReaction(RigidBody& A, RigidBody& B, const Collision& collision)
 {
-    glm::vec2 vel = B.velocity - A.velocity;
+    glm::vec2 vel = A.velocity - B.velocity;
 
     float velocityProj = glm::dot(vel, collision.normal);
 
-    if (velocityProj > 0)
+    if (velocityProj < 0)
     {
         return;
     }
 
     float locElasticity = std::min(A.elasticity, B.elasticity);
 
-    float j = (-(1 + locElasticity) * velocityProj) / (A.invMass + B.invMass);
+    float j = -(1 + locElasticity) * velocityProj / (A.invMass + B.invMass);
 
-    A.forse += j * collision.normal;
-    B.forse -= j * collision.normal;
+    glm::vec2 impulse = j * collision.normal;
+
+    A.velocity += impulse * A.invMass;
+    B.velocity -= impulse * B.invMass;
 
     ProcessFriction(A, B, collision, j);
 }
@@ -53,6 +55,11 @@ void ProcessReaction(RigidBody& A, RigidBody& B, const Collision& collision)
 void ProcessFriction(RigidBody& A, RigidBody& B, const Collision& collision, float reaction)
 {
     glm::vec2 vel = B.velocity - A.velocity;
+
+    if (glm::length2(vel - glm::dot(vel, collision.normal) * collision.normal) == 0)
+    {
+        return;
+    }
 
     glm::vec2 tangent = glm::normalize(vel - glm::dot(vel, collision.normal) * collision.normal);
 
@@ -80,8 +87,8 @@ void ProcessFriction(RigidBody& A, RigidBody& B, const Collision& collision, flo
         frictionImpulse = -reaction * tangent * dynamicFriction;
     }
 
-    A.forse += frictionImpulse;
-    B.forse += frictionImpulse;
+    A.velocity += frictionImpulse * A.invMass;
+    B.velocity -= frictionImpulse * B.invMass;
 }
 
 void physics::BuildBvh(ecs::EntityManager& em)
@@ -115,7 +122,16 @@ void physics::ProcessCollision(ecs::EntityManager& em)
         {
             auto& colliderA = em.GetComponent<Collider>(l.first);
             auto& colliderB = em.GetComponent<Collider>(l.second);
-            auto collision = GetCollision(colliderA, colliderB);
+
+            auto& transformA = em.GetComponent<Transform>(l.first);
+            auto& transformB = em.GetComponent<Transform>(l.second);
+
+            Circle circleA{ colliderA.shape->Center() + glm::vec2(transformA.Position), colliderA.shape->Size() * transformA.Scale.x };
+            Circle circleB{ colliderB.shape->Center() + glm::vec2(transformB.Position), colliderB.shape->Size() * transformB.Scale.x };
+
+            //auto collision = GetCollision(colliderA, colliderB);
+            auto collision = circleA.GetCollision(circleB);
+
             if (collision)
             {
                 auto& rigidBodyA = em.GetComponent<RigidBody>(l.first);
@@ -138,7 +154,7 @@ void physics::ProcessMovement(ecs::EntityManager& em)
     {
         auto [body, transf] = *l;
 
-        float dt = AppTime::GetDeltaTime();
+        float dt = std::min(AppTime::GetDeltaTime(), 0.01f);
 
         // Симплектический метод Эйлера
         body.velocity += (body.invMass * body.forse) * dt;
