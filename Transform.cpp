@@ -10,6 +10,11 @@ glm::vec3 Transform::Right() const
 	return Rotation * glm::vec3(0, 0, 1);
 }
 
+glm::vec3 Transform::Up() const
+{
+	return Rotation * glm::vec3(0, 1.0f, 0);
+}
+
 glm::vec3 Transform::EulerAngle() const
 {
 	return eulerAngles(Rotation);

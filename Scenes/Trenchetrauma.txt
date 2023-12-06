@@ -12,9 +12,8 @@ Entity
 		float FarClip = 100
 	}
 	MainCamera {}
-	CameraController
+	Camera2DController
 	{
-		float MouseSensitivity = 0.01
 		float Speed = 0.01
 	}
 }

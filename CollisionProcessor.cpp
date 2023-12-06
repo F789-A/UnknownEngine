@@ -11,6 +11,11 @@
 
 using namespace physics;
 
+float cross2(const glm::vec2& a, glm::vec2& b)
+{
+    return glm::length(glm::cross(glm::vec3(a.x, a.y, 0), glm::vec3(b.x, b.y, 0)));
+}
+
 std::optional<Collision> GetCollision(const Collider& A, const Collider& B)
 {
     return A.shape->GetCollision(*B.shape);
@@ -49,41 +54,33 @@ void ProcessReaction(RigidBody& A, RigidBody& B, const Collision& collision)
     A.velocity += impulse * A.invMass;
     B.velocity -= impulse * B.invMass;
 
+    //A.torque += cross2(collision.pos - glm::vec2(0, 0), impulse);
+    //B.torque += cross2(collision.pos - glm::vec2(0, 0), -impulse);
+
     ProcessFriction(A, B, collision, j);
 }
 
 void ProcessFriction(RigidBody& A, RigidBody& B, const Collision& collision, float reaction)
 {
     glm::vec2 vel = B.velocity - A.velocity;
-
-    if (glm::length2(vel - glm::dot(vel, collision.normal) * collision.normal) == 0)
-    {
-        return;
-    }
-
-    glm::vec2 tangent = glm::normalize(vel - glm::dot(vel, collision.normal) * collision.normal);
+    glm::vec2 tangent = { collision.normal.y, -collision.normal.x };
 
     float velocityProj = glm::dot(vel, tangent);
 
-    if (velocityProj > 0)
-    {
-        return;
-    }
-
     float locElasticity = std::min(A.elasticity, B.elasticity);
 
-    float j = (-(1 + locElasticity) * velocityProj) / (A.invMass + B.invMass); //TODO something wrong
+    float j = -(1 + locElasticity) * velocityProj / (A.invMass + B.invMass);
 
-    float m = (A.staticFriction + B.staticFriction) / 2.0f;
+    float staticFriction = (A.staticFriction + B.staticFriction) / 2.0f;
+    float dynamicFriction = (A.dynamicFriction + B.dynamicFriction) / 2.0f;
 
     glm::vec2 frictionImpulse;
-    if (abs(j) < reaction * m)
+    if (abs(j) < abs(reaction) * staticFriction)
     {
         frictionImpulse = j * tangent;
     }
     else
     {
-        float dynamicFriction = (A.dynamicFriction + B.dynamicFriction) / 2.0f;
         frictionImpulse = -reaction * tangent * dynamicFriction;
     }
 

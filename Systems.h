@@ -28,6 +28,7 @@ namespace GameTools
 {
 	void EscapeHandler(ecs::EntityManager&);
 	void CameraControllerSystem(ecs::EntityManager&);
+	void Camera2DControllerSystem(ecs::EntityManager&);
 }
 
 namespace AsteroidHunter

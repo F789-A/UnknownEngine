@@ -36,6 +36,7 @@ struct Transform : public ecs::Component<Transform>
 
 	glm::vec3 Front() const;
 	glm::vec3 Right() const;
+	glm::vec3 Up() const;
 	glm::vec3 EulerAngle() const;
 
 	void Rotate(const glm::vec3& axis, float angle);
