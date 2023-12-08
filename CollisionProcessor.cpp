@@ -24,12 +24,12 @@ std::optional<Collision> GetCollision(const Collider& A, const Collider& B)
 void CorrectCollision(RigidBody& A, Transform& trA, RigidBody& B, Transform& trB, const Collision& collision)
 {
     glm::vec2 normal = collision.normal;
-    float penetration = 0.0f;
-    const float percent = 0.8f;
-    const float slop = 0.01f;
+    float penetration = collision.penetration;
+    constexpr float percent = 0.8f;
+    constexpr float slop = 0.01f;
     glm::vec2 correction = std::max(penetration - slop, 0.0f) / (A.invMass + B.invMass) * percent * normal;
-    //trA.Position -= A.invMass * glm::vec3(correction, 0.0f);
-    //trB.Position += B.invMass * glm::vec3(correction, 0.0f);
+    trA.Position -= A.invMass * glm::vec3(correction, 0.0f);
+    trB.Position += B.invMass * glm::vec3(correction, 0.0f);
 }
 
 void ProcessFriction(RigidBody& A, RigidBody& B, const Collision& collision, float reaction);
@@ -152,7 +152,6 @@ void physics::ProcessMovement(ecs::EntityManager& em)
         auto [body, transf] = *l;
 
         float dt = std::min(AppTime::GetDeltaTime(), 0.01f);
-
         // Симплектический метод Эйлера
         body.velocity += (body.invMass * body.forse) * dt;
         body.angularVelocity += body.torque * body.invMomentOfInertia * dt;

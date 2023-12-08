@@ -195,12 +195,13 @@ namespace physics
         }
         return std::nullopt;
     }
+
     std::optional<std::pair<Collision, Collision>> IsCollision(const Circle& A, const Circle& B)
     {
         glm::vec2 dir = B.origin - A.origin;
-        float dist = dir.x * dir.x + dir.y * dir.y;
+        float dist = glm::length2(dir);
 
-        if (dist > A.radius * A.radius + B.radius * B.radius)
+        if (dist > A.radius + B.radius)
         {
             return std::nullopt;
         }
@@ -209,8 +210,9 @@ namespace physics
         {
             dir = glm::normalize(dir);
             dist = std::sqrtf(dist);
-            Collision ToA = { A.origin + dir * A.radius, dir, dist - B.radius };
-            Collision ToB = { B.origin + dir * A.radius, -dir, dist - A.radius };
+            float penetration = std::abs(A.radius - (dist - B.radius));
+            Collision ToA = { A.origin + dir * A.radius, dir, penetration };
+            Collision ToB = { B.origin + dir * A.radius, -dir, penetration };
             return { { ToA, ToB } };
         }
         else
@@ -220,6 +222,7 @@ namespace physics
             return { { ToA, ToB } };
         }
     }
+
     std::optional<std::pair<Collision, Collision>> IsCollision(const Square& A, const Circle& B)
     {
         glm::vec2 dir = B.origin - A.Center();
@@ -239,6 +242,7 @@ namespace physics
 
         return IsCollision(newCircle, B);
     }
+
     std::optional<std::pair<Collision, Collision>> IsCollision(const Circle& A, const Square& B)
     {
         auto res = IsCollision(B, A);
