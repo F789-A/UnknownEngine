@@ -16,7 +16,6 @@
 
 #include "EntityLoader.h"
 #include "LevelData.h"
-#include "TagController.h"
 #include "SafeSingleton.h"
 #include "GraphicCore.h"
 #include <random>
@@ -239,10 +238,13 @@ void AsteroidHunter::AlienController(ecs::EntityManager& em)
 			ecs::DefEcs().entity.RemoveEntity(ecs::DefEcs().entity.GetEntity(*transf.childs[0]));
 			ecs::DefEcs().entity.RemoveEntity(ecs::DefEcs().entity.GetEntity(alien));
 
-			auto& levelData = em.GetComponent<LevelData>(InstanceOf<TagController>().GetEntityWithTag("LevelData"));
-			levelData.countAlien--;
-			//SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\AlienPrefab.txt");
-			// Добавить плавное появление из-за границ экрана
+			for (auto ll = em.GetComponents<LevelData>(); !ll.end(); ++ll)
+			{
+				auto [levelData] = *ll;
+				levelData.countAlien--;
+				//SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\AlienPrefab.txt");
+				// Добавить плавное появление из-за границ экрана
+			}
 			continue;
 		}
 		//shot

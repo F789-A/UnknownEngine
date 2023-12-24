@@ -5,7 +5,6 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include "TagController.h"
 #include "Input.h"
 
 #include "StringToGLFWKey.h"
@@ -95,12 +94,6 @@ namespace
 
 void SerializationSystem::LoadEntity(ecs::EntityManager& em, std::filesystem::path path)
 {
-	LoadEntity(em, path, nullptr);
-}
-
-
-void SerializationSystem::LoadEntity(ecs::EntityManager& em, std::filesystem::path path, TagController* tagController)
-{
 	std::map<std::pair<int, std::string>, std::map<std::string, std::string>> loadedComp;
 	std::map<std::string, int> names;
 	Singleton<Logger> logger;
@@ -141,111 +134,81 @@ void SerializationSystem::LoadEntity(ecs::EntityManager& em, std::filesystem::pa
 			str = ReadPreToken(file);
 			while (str != "}")
 			{
-				if (str == "tag")
+			
+				CheckTerminal(str);
+				std::string compName = str;
+				ecs::CreateComponent(em, compName, ent); // Создаем компонент
+				str = ReadPreToken(file);
+				CheckCorrect(str, "{");
+				str = ReadPreToken(file);
+				std::map<std::string, std::string> compArgs;
+				while (str != "}")
 				{
-					str = ReadPreToken(file);
-					CheckCorrect(str, "=");
-					str = ReadPreToken(file);
+					bool isArray = false;
+					bool isRef = false;
 					CheckTerminal(str);
-					if (tagController)
-					{
-						tagController->AddTagToEntity(str, ent);
+					//обработка типа
+					if (str == "ref") {
+						isRef = true;
 					}
 					str = ReadPreToken(file);
-				}
-				else
-				{
-					CheckTerminal(str);
-					std::string compName = str;
-					ecs::CreateComponent(em, compName, ent); // Создаем компонент
-					str = ReadPreToken(file);
-					CheckCorrect(str, "{");
-					str = ReadPreToken(file);
-					std::map<std::string, std::string> compArgs;
-					while (str != "}")
+					if (str == "[")
 					{
-						if (str == "tag")
-						{
-							str = ReadPreToken(file);
-							CheckCorrect(str, "=");
-							str = ReadPreToken(file);
-							CheckTerminal(str);
-							if (tagController)
-							{
-								//tagController->AddTagToComponent(str);
-							}
-						}
-						else
-						{
-							bool isArray = false;
-							bool isRef = false;
-							CheckTerminal(str);
-							//обработка типа
-							if (str == "ref") {
-								isRef = true;
-							}
-							str = ReadPreToken(file);
-							if (str == "[")
-							{
-								str = ReadPreToken(file);
-								CheckCorrect(str, "]");
-								isArray = true;
-								str = ReadPreToken(file);
-							}
-							CheckTerminal(str);
-							std::string paramName = str;
-							str = ReadPreToken(file);
-							CheckCorrect(str, "=");
-							std::string paramValue;
-							bool firstPass = true;
-
-							if (isArray)
-							{
-								str = ReadPreToken(file);
-								CheckCorrect(str, "[");
-							}
-							str = ReadPreToken(file);
-							while ((firstPass || (isArray && str != "]")) && !(isArray && str == "]"))
-							{
-								if (!firstPass)
-								{
-									paramValue += ", ";
-									CheckCorrect(str, ",");
-									str = ReadPreToken(file);
-								}
-								firstPass = false;
-								if (isRef)
-								{
-									CheckTerminal(str);
-									if (!names.contains(str))
-									{
-										int newEnt = em.AddEntity<>();
-										names[str] = newEnt;
-									}
-									paramValue += std::to_string(names[str]);
-								}
-								else if (str == "\"")
-								{
-									file.seekg(-1, std::ios::cur);
-									paramValue += ReadString(file);
-								}
-								else {
-									paramValue += str;
-								}
-								if (isArray)
-								{
-									str = ReadPreToken(file);
-								}
-							}
-							compArgs[paramName] = paramValue;
-						}
+						str = ReadPreToken(file);
+						CheckCorrect(str, "]");
+						isArray = true;
 						str = ReadPreToken(file);
 					}
-					loadedComp[{ent, compName}] = std::move(compArgs);
+					CheckTerminal(str);
+					std::string paramName = str;
+					str = ReadPreToken(file);
+					CheckCorrect(str, "=");
+					std::string paramValue;
+					bool firstPass = true;
+
+					if (isArray)
+					{
+						str = ReadPreToken(file);
+						CheckCorrect(str, "[");
+					}
+					str = ReadPreToken(file);
+					while ((firstPass || (isArray && str != "]")) && !(isArray && str == "]"))
+					{
+						if (!firstPass)
+						{
+							paramValue += ", ";
+							CheckCorrect(str, ",");
+							str = ReadPreToken(file);
+						}
+						firstPass = false;
+						if (isRef)
+						{
+							CheckTerminal(str);
+							if (!names.contains(str))
+							{
+								int newEnt = em.AddEntity<>();
+								names[str] = newEnt;
+							}
+							paramValue += std::to_string(names[str]);
+						}
+						else if (str == "\"")
+						{
+							file.seekg(-1, std::ios::cur);
+							paramValue += ReadString(file);
+						}
+						else {
+							paramValue += str;
+						}
+						if (isArray)
+						{
+							str = ReadPreToken(file);
+						}
+					}
+					compArgs[paramName] = paramValue;
 					str = ReadPreToken(file);
 				}
-
-
+				loadedComp[{ent, compName}] = std::move(compArgs);
+				str = ReadPreToken(file);
 			}
 		}
 		else

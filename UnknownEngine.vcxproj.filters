@@ -165,9 +165,6 @@
     <ClCompile Include="LevelChanger.cpp">
       <Filter>Source Files\ECS\Systems\Game</Filter>
     </ClCompile>
-    <ClCompile Include="EventSystem.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="LevelController.cpp">
       <Filter>Source Files\ECS\Systems\Game</Filter>
     </ClCompile>
@@ -319,12 +316,6 @@
     </ClInclude>
     <ClInclude Include="ChangeLevel.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="TagController.h">
-      <Filter>Source Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="EventSystem.h">
-      <Filter>Source Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="SafeSingleton.h">
       <Filter>Source Files\Core</Filter>

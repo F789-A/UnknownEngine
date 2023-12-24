@@ -48,7 +48,6 @@ Entity as effects
 
 Entity
 {
-	tag = LevelData
 	LevelData
 	{
 	}

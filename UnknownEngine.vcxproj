@@ -169,7 +169,6 @@
     <ClCompile Include="CollisionProcessor.cpp" />
     <ClCompile Include="EcsSystem.cpp" />
     <ClCompile Include="EscapeHandler.cpp" />
-    <ClCompile Include="EventSystem.cpp" />
     <ClCompile Include="GravityController.cpp" />
     <ClCompile Include="Scripts\Graphics\GLLineMesh.cpp" />
     <ClCompile Include="LevelChanger.cpp" />
@@ -214,7 +213,6 @@
     <ClInclude Include="DynamicBvh2D.h" />
     <ClInclude Include="DynamicDispatching.h" />
     <ClInclude Include="Events.h" />
-    <ClInclude Include="EventSystem.h" />
     <ClInclude Include="FontInfo.h" />
     <ClInclude Include="GlFramebuffer.h" />
     <ClInclude Include="GLObjects.h" />
@@ -234,7 +232,6 @@
     <ClInclude Include="EcsSystem.h" />
     <ClInclude Include="GLLineMesh.h" />
     <ClInclude Include="PerspectiveBuilder.h" />
-    <ClInclude Include="TagController.h" />
     <ClInclude Include="UiComponents.h" />
     <ClInclude Include="RenderLine.h" />
     <ClInclude Include="WindowApp.h" />

@@ -4,8 +4,6 @@
 #include "UiComponents.h"
 #include "WindowApp.h"
 #include "EntityLoader.h"
-#include "SafeSingleton.h"
-#include "TagController.h"
 
 namespace AsteroidHunter
 {
@@ -17,7 +15,7 @@ namespace AsteroidHunter
 			if (ev.Id == 1)
 			{
 				ecs::EntityManager tmpEm;
-				SerializationSystem::LoadEntity(tmpEm, "Scenes\\Level1.txt", &InstanceOf<TagController>());
+				SerializationSystem::LoadEntity(tmpEm, "Scenes\\Level1.txt");
 				ecs::DefEcs().SetEntityManager(std::move(tmpEm));
 			}
 			if (ev.Id == 2)
