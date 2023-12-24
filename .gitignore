@@ -338,4 +338,8 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
-/Log.txt
+
+#UnknownEngine
+./Log.txt
+.AlienHeadersLib/
+
