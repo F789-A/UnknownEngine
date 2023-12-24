@@ -20,6 +20,7 @@
 4)https://freetype.org/index.html
 Собрать в СMake. Добавить соотвествующие файлы в папку include и Libs. .dll положить в корневую директорию.
 
+5)Добавить stb_image.h в папку AlienHeadersLib
 
 Прописать путь до include в Solution->Properties->Configeration properties->VC++ directories->Include Directories
 Прописать путь до lib в Solution->Properties->Configuration properties->VC++ directories->Library Directories
