@@ -340,6 +340,6 @@ ASALocalRun/
 healthchecksdb
 
 #UnknownEngine
-./Log.txt
-.AlienHeadersLib/
+Log.txt
+AlienHeadersLib/
 
