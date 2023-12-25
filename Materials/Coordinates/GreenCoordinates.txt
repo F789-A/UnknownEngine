@@ -1,0 +1,2 @@
+vec3 Color 0,1,0
+shader_path Shaders\SimpleColor.ueshad

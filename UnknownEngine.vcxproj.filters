@@ -28,9 +28,6 @@
     <Filter Include="Source Files\Shaders">
       <UniqueIdentifier>{8d1d96a2-8fe2-44e8-b68e-7d1b81fd3503}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Alien">
-      <UniqueIdentifier>{793cd6d0-5c1c-4e6f-8301-2b5e19b29c44}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Resources">
       <UniqueIdentifier>{4d66d104-51f5-40a4-a464-fdc9fc1659f4}</UniqueIdentifier>
     </Filter>
@@ -63,6 +60,9 @@
     </Filter>
     <Filter Include="Source Files\Physics">
       <UniqueIdentifier>{d0816aba-17cc-4686-b456-e9acd1af063d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AlienHeadersLib">
+      <UniqueIdentifier>{793cd6d0-5c1c-4e6f-8301-2b5e19b29c44}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -118,7 +118,7 @@
       <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="AlienHeadersLib\glad.c">
-      <Filter>Source Files\Alien</Filter>
+      <Filter>Source Files\AlienHeadersLib</Filter>
     </ClCompile>
     <ClCompile Include="AppTime.cpp">
       <Filter>Source Files\Core</Filter>
@@ -252,7 +252,7 @@
       <Filter>Source Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="AlienHeadersLib\stb_image.h">
-      <Filter>Source Files\Alien</Filter>
+      <Filter>Source Files\AlienHeadersLib</Filter>
     </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Source Files\SerializationSystem</Filter>
@@ -403,12 +403,6 @@
     <None Include="Shaders\Skybox.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="Shaders\testShader.frag">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="Shaders\testShader.vert">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
     <None Include="Shaders\UiText.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
@@ -419,6 +413,9 @@
       <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Shaders\MeshLines.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\SimpleColor.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>

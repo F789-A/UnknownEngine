@@ -271,12 +271,11 @@
     <None Include="Shaders\Pixelization.frag" />
     <None Include="Shaders\Simple.frag" />
     <None Include="Shaders\Simple.vert" />
+    <None Include="Shaders\SimpleColor.frag" />
     <None Include="Shaders\SimpleDiffuse.frag" />
     <None Include="Shaders\SimpleDiffuse.vert" />
     <None Include="Shaders\Skybox.frag" />
     <None Include="Shaders\Skybox.vert" />
-    <None Include="Shaders\testShader.frag" />
-    <None Include="Shaders\testShader.vert" />
     <None Include="Shaders\UiText.frag" />
     <None Include="Shaders\UiText.vert" />
   </ItemGroup>

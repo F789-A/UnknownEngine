@@ -21,7 +21,7 @@ Entity as MainCharacter
 	}
 	RenderLine
 	{
-		string RenderedMaterial = "Materials/fuck.uemat"
+		string RenderedMaterial = "Materials/Simple.uemat"
 	}
 	AimData
 	{
@@ -42,7 +42,7 @@ Entity as effects
 	}
 	RenderLine
 	{
-		string RenderedMaterial = "Materials/fuck.uemat"
+		string RenderedMaterial = "Materials/Simple.uemat"
 	}
 }
 

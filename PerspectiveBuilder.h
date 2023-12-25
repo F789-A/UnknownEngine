@@ -65,8 +65,8 @@ void PerspectiveBuild()
 	};
 	static GLMesh a(arr, {1}, GLMesh::GeometryTypes::Lines);
 	Singleton<SharedGraphicsResources> singlRes;
-	singlRes->GetMaterial("Materials\\fuck.uemat").Use();
-	//a.Draw(singlRes->GetMaterial("Materials\\fuck.uemat"), arr);
+	singlRes->GetMaterial("Materials\\Simple.uemat").Use();
+	//a.Draw(singlRes->GetMaterial("Materials\\Simple.uemat"), arr);
 }
 
 */
