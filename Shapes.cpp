@@ -1,5 +1,6 @@
 #include "Shapes.h"
 
+#include <iostream>
 #include <glm/gtx/norm.hpp>
 #include <algorithm>
 #include <functional>
