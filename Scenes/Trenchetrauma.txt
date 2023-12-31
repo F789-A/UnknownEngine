@@ -2,7 +2,7 @@ Entity
 {
 	Transform
 	{
-		float[] Position = [0, 0, 5]	
+		float[] Position = [0, -1, 5]	
 		float[] Rotation = [0, 90, 0]
 		float[] Scale = [1, 1, 1]
 	}
@@ -105,7 +105,7 @@ Entity
 {
 	Transform
 	{
-		float[] Position = [0, 0, 1] 	
+		float[] Position = [-0.1, 0, 1] 	
 		float[] Rotation = [0, 0, 0]
 		float[] Scale = [1, 1, 1] 									 		
 	}
@@ -117,7 +117,7 @@ Entity
 	RigidBody
 	{
 		float Mass = 1;
-		float Elasticity = 0;
+		float Elasticity = 1;
 	}
 	Gravity{}
 	Collider
@@ -138,17 +138,17 @@ Entity
 	RenderMesh
 	{
 		string RenderMesh = "Models\Plane.obj"
-		string RenderMaterial = "Materials\TrencheTrauma\Circle.txt"
+		string RenderMaterial = "Materials\TrencheTrauma\Square.txt"
 	}
 	RigidBody
 	{
 		float Mass = 100000;
-		float Elasticity = 0;
+		float Elasticity = 1;
 	}
 	Collider
 	{
-		string shape = Circle
-		float rad = 0.5
+		string shape = Square
+		float len = 1
 	}
 }
 

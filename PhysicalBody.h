@@ -67,7 +67,7 @@ namespace physics
             else if (res["shape"] == "Square")
             {
                 float len = std::stof(res["len"]);
-                collider.shape = std::make_unique<Square>(glm::vec2(-len, -len), glm::vec2(len, len));
+                collider.shape = std::make_unique<Square>(glm::vec2(-len/2.0f, -len/2.0f), glm::vec2(len / 2.0f, len / 2.0f));
             }
         }
     };

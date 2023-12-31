@@ -25,7 +25,7 @@ namespace physics
             return;
         }
         float k = direction.y / direction.x;
-        float normalized = 1.0f / glm::vec2(k, -1).length();
+        float normalized = 1.0f / glm::length(glm::vec2(k, -1));
 
         A = -normalized;
         B = k * normalized;
@@ -225,22 +225,22 @@ namespace physics
 
     std::optional<std::pair<Collision, Collision>> IsCollision(const Square& A, const Circle& B)
     {
-        glm::vec2 dir = B.origin - A.Center();
-        glm::vec2 closest = dir;
+        glm::vec2 closest = { std::clamp(B.origin.x, A.min.x, A.max.x),  std::clamp(B.origin.y, A.min.y, A.max.y) };
+        
+        glm::vec2 normal = B.origin - closest;
+        float penetration = B.radius - glm::length(normal);
 
-        float halfAx = (A.max.x - A.min.x) / 2;
-        float halfAy = (A.max.y - A.min.y) / 2;
+        if (penetration < 0.0f)
+        {
+            return std::nullopt;
+        }
 
-        closest.x = std::clamp(-halfAx, halfAx, closest.x);
-        closest.y = std::clamp(-halfAy, halfAy, closest.y);
+        normal = glm::normalize(normal);
 
-        glm::vec2 r = A.Center() - closest;
+        Collision ToA = { closest, normal, penetration };
+        Collision ToB = { closest, -normal, penetration };
 
-        float radius = std::sqrtf(std::abs(glm::dot(r, r)));
-
-        Circle newCircle{ A.Center(), radius };
-
-        return IsCollision(newCircle, B);
+        return { { ToA, ToB } };
     }
 
     std::optional<std::pair<Collision, Collision>> IsCollision(const Circle& A, const Square& B)

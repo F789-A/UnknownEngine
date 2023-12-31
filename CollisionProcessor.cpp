@@ -16,11 +16,6 @@ float cross2(const glm::vec2& a, glm::vec2& b)
     return glm::length(glm::cross(glm::vec3(a.x, a.y, 0), glm::vec3(b.x, b.y, 0)));
 }
 
-std::optional<Collision> GetCollision(const Collider& A, const Collider& B)
-{
-    return A.shape->GetCollision(*B.shape);
-}
-
 void CorrectCollision(RigidBody& A, Transform& trA, RigidBody& B, Transform& trB, const Collision& collision)
 {
     glm::vec2 normal = collision.normal;
@@ -123,11 +118,35 @@ void physics::ProcessCollision(ecs::EntityManager& em)
             auto& transformA = em.GetComponent<Transform>(l.first);
             auto& transformB = em.GetComponent<Transform>(l.second);
 
-            Circle circleA{ colliderA.shape->Center() + glm::vec2(transformA.Position), colliderA.shape->Size() * transformA.Scale.x };
-            Circle circleB{ colliderB.shape->Center() + glm::vec2(transformB.Position), colliderB.shape->Size() * transformB.Scale.x };
+            // apply transform
+            auto* crA = dynamic_cast<Circle*>(colliderA.shape.get());
+            auto* crB = dynamic_cast<Circle*>(colliderB.shape.get());
+            auto* sqA = dynamic_cast<Square*>(colliderA.shape.get());
+            auto* sqB = dynamic_cast<Square*>(colliderB.shape.get());
+            std::unique_ptr<Shape> shapeA;
+            std::unique_ptr<Shape> shapeB;
+            if (crA) 
+            {
+                shapeA = std::make_unique<Circle>(crA->Center() + glm::vec2(transformA.Position), crA->Size() * transformA.Scale.x);
+            }
+            else if (sqA)
+            {
+                sqA->min* transformA.Scale.x + glm::vec2(transformA.Position);
+                shapeA = std::make_unique<Square>(sqA->min * transformA.Scale.x + glm::vec2(transformA.Position),
+                    sqA->max * transformA.Scale.x + glm::vec2(transformA.Position));
+            }
+            if (crB)
+            {
+                shapeB = std::make_unique<Circle>(crB->Center() + glm::vec2(transformB.Position), crB->Size() * transformB.Scale.x);
+            }
+            else if (sqB)
+            {
+                shapeB = std::make_unique<Square>(sqB->min * transformB.Scale.x + glm::vec2(transformB.Position),
+                    sqB->max * transformB.Scale.x + glm::vec2(transformB.Position));
+            }
+            //
 
-            //auto collision = GetCollision(colliderA, colliderB);
-            auto collision = circleA.GetCollision(circleB);
+            auto collision = shapeA->GetCollision(*shapeB);
 
             if (collision)
             {
