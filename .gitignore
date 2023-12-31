@@ -342,4 +342,5 @@ healthchecksdb
 #UnknownEngine
 Log.txt
 AlienHeadersLib/
-
+ft2build.h
+freetype.dll
