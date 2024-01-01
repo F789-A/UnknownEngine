@@ -18,22 +18,30 @@ namespace physics
 
         glm::vec2 velocity;
         glm::vec2 forse;
-        float invMass;
-        float elasticity;
-
-        float invMomentOfInertia;
         float angularVelocity;
         float torque;
+
+        float invMass;
+        float elasticity;
         float staticFriction;
         float dynamicFriction;
+        float invMomentOfInertia;
 
         std::bitset<10> layer;
 
         static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
         {
             auto& body = em.GetComponent<RigidBody>(ent);
-            body.invMass = 1 / std::stof(res["Mass"]);
+            body.invMass = 1.0f / std::stof(res["Mass"]);
             body.elasticity = std::stof(res["Elasticity"]);
+            body.staticFriction = std::stof(res["StaticFriction"]);
+            body.dynamicFriction = std::stof(res["DynamicFriction"]);
+            body.invMomentOfInertia = 1.0f / std::stof(res["MomentOfInertia"]);
+
+            if (body.staticFriction < body.dynamicFriction)
+            {
+                throw "not correct";
+            }
         }
     };
 

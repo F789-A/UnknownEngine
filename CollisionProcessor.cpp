@@ -42,9 +42,9 @@ void ProcessReaction(RigidBody& A, RigidBody& B, const Collision& collision)
 
     float locElasticity = std::min(A.elasticity, B.elasticity);
 
-    float j = -(1 + locElasticity) * velocityProj / (A.invMass + B.invMass);
+    float impulseAmount = -(1 + locElasticity) * velocityProj / (A.invMass + B.invMass);
 
-    glm::vec2 impulse = j * collision.normal;
+    glm::vec2 impulse = impulseAmount * collision.normal;
 
     A.velocity += impulse * A.invMass;
     B.velocity -= impulse * B.invMass;
@@ -52,31 +52,30 @@ void ProcessReaction(RigidBody& A, RigidBody& B, const Collision& collision)
     //A.torque += cross2(collision.pos - glm::vec2(0, 0), impulse);
     //B.torque += cross2(collision.pos - glm::vec2(0, 0), -impulse);
 
-    ProcessFriction(A, B, collision, j);
+    ProcessFriction(A, B, collision, impulseAmount);
 }
 
 void ProcessFriction(RigidBody& A, RigidBody& B, const Collision& collision, float reaction)
-{
-    glm::vec2 vel = B.velocity - A.velocity;
+{ 
+    glm::vec2 vel = A.velocity - B.velocity;
     glm::vec2 tangent = { collision.normal.y, -collision.normal.x };
 
     float velocityProj = glm::dot(vel, tangent);
 
     float locElasticity = std::min(A.elasticity, B.elasticity);
-
-    float j = -(1 + locElasticity) * velocityProj / (A.invMass + B.invMass);
+    float impulseAmount = -(1 + locElasticity) * velocityProj / (A.invMass + B.invMass);
 
     float staticFriction = (A.staticFriction + B.staticFriction) / 2.0f;
-    float dynamicFriction = (A.dynamicFriction + B.dynamicFriction) / 2.0f;
 
     glm::vec2 frictionImpulse;
-    if (abs(j) < abs(reaction) * staticFriction)
+    if (std::abs(impulseAmount) < std::abs(reaction) * staticFriction)
     {
-        frictionImpulse = j * tangent;
+        frictionImpulse = impulseAmount * tangent;
     }
     else
     {
-        frictionImpulse = -reaction * tangent * dynamicFriction;
+        float dynamicFriction = (A.dynamicFriction + B.dynamicFriction) / 2.0f;
+        frictionImpulse = sgn(velocityProj) * reaction * tangent * dynamicFriction;
     }
 
     A.velocity += frictionImpulse * A.invMass;

@@ -98,7 +98,10 @@ Entity
 Entity
 {
 	GlobalGravity
-	{}
+	{
+		float Acceleration = 9.8
+		float[] Direction = [0.3, -0.5, 0]
+	}
 }
 
 Entity
@@ -116,8 +119,11 @@ Entity
 	}
 	RigidBody
 	{
-		float Mass = 1;
-		float Elasticity = 1;
+		float Mass = 1
+		float Elasticity = 0
+		float StaticFriction = 0.25
+		float DynamicFriction = 0.2
+		float MomentOfInertia = 1
 	}
 	Gravity{}
 	Collider
@@ -142,8 +148,11 @@ Entity
 	}
 	RigidBody
 	{
-		float Mass = 100000;
-		float Elasticity = 1;
+		float Mass = 100000
+		float Elasticity = 1
+		float StaticFriction = 0.25
+		float DynamicFriction = 0.2
+		float MomentOfInertia = 1
 	}
 	Collider
 	{
