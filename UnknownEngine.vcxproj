@@ -170,6 +170,7 @@
     <ClCompile Include="EcsSystem.cpp" />
     <ClCompile Include="EscapeHandler.cpp" />
     <ClCompile Include="GravityController.cpp" />
+    <ClCompile Include="ImpulseControllerSystem.cpp" />
     <ClCompile Include="Scripts\Graphics\GLLineMesh.cpp" />
     <ClCompile Include="LevelChanger.cpp" />
     <ClCompile Include="LevelController.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="GlFramebuffer.h" />
     <ClInclude Include="GLObjects.h" />
     <ClInclude Include="Gravity.h" />
+    <ClInclude Include="ImpulseController.h" />
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="PhysicalBody.h" />
     <ClInclude Include="PostProcessComponent.h" />

@@ -95,6 +95,7 @@ void GameLoop::ConstructScene()
 	ecs::DefEcs().system.AddSystem(GameTools::EscapeHandler);
 	ecs::DefEcs().system.AddSystem(GameTools::CameraControllerSystem);
 	ecs::DefEcs().system.AddSystem(GameTools::Camera2DControllerSystem);
+	ecs::DefEcs().system.AddSystem(GameTools::ImpulseControllerSystem);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::CharacterController);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::AlienController);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::MenuEvent);

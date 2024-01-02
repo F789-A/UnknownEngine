@@ -13,7 +13,7 @@ using namespace physics;
 
 float cross2(const glm::vec2& a, glm::vec2& b)
 {
-    return glm::length(glm::cross(glm::vec3(a.x, a.y, 0), glm::vec3(b.x, b.y, 0)));
+    return glm::cross(glm::vec3(a.x, a.y, 0), glm::vec3(b.x, b.y, 0)).z;
 }
 
 std::unique_ptr<Shape> ApplyTransformToShape(const Shape& shape, const glm::vec2& position, const glm::vec2& scale)
@@ -45,9 +45,9 @@ void CorrectCollision(RigidBody& A, Transform& trA, RigidBody& B, Transform& trB
     trB.Position += B.invMass * glm::vec3(correction, 0.0f);
 }
 
-void ProcessFriction(RigidBody& A, RigidBody& B, const Collision& collision, float reaction);
+void ProcessFriction(RigidBody& A, RigidBody& B, const glm::vec2& centerA, const glm::vec2& centerB, const Collision& collision, float reaction);
 
-void ProcessReaction(RigidBody& A, RigidBody& B, const Collision& collision)
+void ProcessReaction(RigidBody& A, RigidBody& B, const glm::vec2& centerA, const glm::vec2& centerB, const Collision& collision)
 {
     glm::vec2 vel = A.velocity - B.velocity;
 
@@ -67,13 +67,13 @@ void ProcessReaction(RigidBody& A, RigidBody& B, const Collision& collision)
     A.velocity += impulse * A.invMass;
     B.velocity -= impulse * B.invMass;
 
-    //A.torque += cross2(collision.pos - glm::vec2(0, 0), impulse);
-    //B.torque += cross2(collision.pos - glm::vec2(0, 0), -impulse);
+    A.angularVelocity += -cross2(centerA - collision.pos, impulse) * A.invMomentOfInertia;
+    B.angularVelocity -= -cross2(centerB - collision.pos, impulse) * B.invMomentOfInertia;
 
-    ProcessFriction(A, B, collision, impulseAmount);
+    ProcessFriction(A, B, centerA, centerB, collision, impulseAmount);
 }
 
-void ProcessFriction(RigidBody& A, RigidBody& B, const Collision& collision, float reaction)
+void ProcessFriction(RigidBody& A, RigidBody& B, const glm::vec2& centerA, const glm::vec2& centerB, const Collision& collision, float reaction)
 { 
     glm::vec2 vel = A.velocity - B.velocity;
     glm::vec2 tangent = { collision.normal.y, -collision.normal.x };
@@ -93,11 +93,14 @@ void ProcessFriction(RigidBody& A, RigidBody& B, const Collision& collision, flo
     else
     {
         float dynamicFriction = (A.dynamicFriction + B.dynamicFriction) / 2.0f;
-        frictionImpulse = sgn(velocityProj) * reaction * tangent * dynamicFriction;
+        frictionImpulse = -sgn(velocityProj) * std::abs(reaction) * tangent * dynamicFriction;
     }
 
     A.velocity += frictionImpulse * A.invMass;
     B.velocity -= frictionImpulse * B.invMass;
+
+    A.angularVelocity += -cross2(centerA - collision.pos, frictionImpulse) * A.invMomentOfInertia;
+    B.angularVelocity -= -cross2(centerB - collision.pos, frictionImpulse) * B.invMomentOfInertia;
 }
 
 void physics::BuildBvh(ecs::EntityManager& em)
@@ -150,7 +153,7 @@ void physics::ProcessCollision(ecs::EntityManager& em)
 
                 CorrectCollision(rigidBodyA, transformA, rigidBodyB, transformB, *collision);
 
-                ProcessReaction(rigidBodyA, rigidBodyB, *collision);
+                ProcessReaction(rigidBodyA, rigidBodyB, shapeA->Center(), shapeB->Center(), *collision);
             }
         }
     }
@@ -171,6 +174,6 @@ void physics::ProcessMovement(ecs::EntityManager& em)
         body.torque = 0.0f;
 
         transf.Position += glm::vec3(body.velocity, 0.0f) * dt;
-        transf.Rotate({ 1.0f, 0.0f, 0.0f }, body.angularVelocity * dt);
+        transf.Rotate({ 0.0f, 0.0f, 1.0f }, body.angularVelocity * dt);
     }
 }

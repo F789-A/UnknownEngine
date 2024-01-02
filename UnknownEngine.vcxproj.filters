@@ -64,6 +64,9 @@
     <Filter Include="Source Files\AlienHeadersLib">
       <UniqueIdentifier>{793cd6d0-5c1c-4e6f-8301-2b5e19b29c44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ECS\Systems\GameTools">
+      <UniqueIdentifier>{baef07de-e3cc-44ed-b15f-3331477ab14f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GLShader.cpp">
@@ -132,12 +135,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClCompile>
-    <ClCompile Include="CameraControllerSystem.cpp">
-      <Filter>Source Files\ECS\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="EscapeHandler.cpp">
-      <Filter>Source Files\ECS\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="LineDrawSystem.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
@@ -191,6 +188,15 @@
     </ClCompile>
     <ClCompile Include="GravityController.cpp">
       <Filter>Source Files\ECS\Systems\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="EscapeHandler.cpp">
+      <Filter>Source Files\ECS\Systems\GameTools</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraControllerSystem.cpp">
+      <Filter>Source Files\ECS\Systems\GameTools</Filter>
+    </ClCompile>
+    <ClCompile Include="ImpulseControllerSystem.cpp">
+      <Filter>Source Files\ECS\Systems\GameTools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +364,9 @@
     </ClInclude>
     <ClInclude Include="DynamicDispatching.h">
       <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ImpulseController.h">
+      <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

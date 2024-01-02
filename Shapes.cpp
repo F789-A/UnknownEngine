@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <functional>
 
+#include <iostream>
+
 #include "DynamicDispatching.h"
 
 namespace physics
@@ -201,7 +203,7 @@ namespace physics
         glm::vec2 dir = B.origin - A.origin;
         float dist = glm::length2(dir);
 
-        if (dist > A.radius + B.radius)
+        if (dist > std::powf(A.radius + B.radius, 2.0f))
         {
             return std::nullopt;
         }

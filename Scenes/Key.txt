@@ -13,3 +13,7 @@ Contraction = GLFW_KEY_H
 MouseLeft = GLFW_MOUSE_BUTTON_LEFT
 MouseRight = GLFW_MOUSE_BUTTON_RIGHT
 ChangeLevel = GLFW_KEY_P
+UseT = GLFW_KEY_T
+UseF = GLFW_KEY_F
+UseG = GLFW_KEY_G
+UseH = GLFW_KEY_H

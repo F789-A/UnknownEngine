@@ -100,7 +100,7 @@ Entity
 	GlobalGravity
 	{
 		float Acceleration = 9.8
-		float[] Direction = [0.3, -0.5, 0]
+		float[] Direction = [0.0, -1.0, 0]
 	}
 }
 
@@ -108,9 +108,12 @@ Entity
 {
 	Transform
 	{
-		float[] Position = [-0.1, 0, 1] 	
+		float[] Position = [5, 0, 1] 	
 		float[] Rotation = [0, 0, 0]
 		float[] Scale = [1, 1, 1] 									 		
+	}
+	ImpulseController
+	{
 	}
 	RenderMesh
 	{
@@ -120,10 +123,10 @@ Entity
 	RigidBody
 	{
 		float Mass = 1
-		float Elasticity = 0
-		float StaticFriction = 0.25
-		float DynamicFriction = 0.2
 		float MomentOfInertia = 1
+		float Elasticity = 0.5
+		float StaticFriction = 0.3
+		float DynamicFriction = 0.2
 	}
 	Gravity{}
 	Collider
@@ -139,7 +142,7 @@ Entity
 	{
 		float[] Position = [0, -2, 1] 	
 		float[] Rotation = [0, 0, 0]
-		float[] Scale = [3, 1, 1] 									 		
+		float[] Scale = [20, 1, 1] 									 		
 	}
 	RenderMesh
 	{
@@ -148,11 +151,11 @@ Entity
 	}
 	RigidBody
 	{
-		float Mass = 100000
+		float Mass = 2000000000
+		float MomentOfInertia = 2000000000
 		float Elasticity = 1
-		float StaticFriction = 0.25
+		float StaticFriction = 0.3
 		float DynamicFriction = 0.2
-		float MomentOfInertia = 1
 	}
 	Collider
 	{
