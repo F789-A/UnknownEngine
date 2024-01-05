@@ -317,9 +317,6 @@
     <ClInclude Include="Events.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
-    <ClInclude Include="ServiceLocator.h">
-      <Filter>Source Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="ChangeLevel.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>

@@ -226,7 +226,6 @@
     <ClInclude Include="RenderMesh.h" />
     <ClInclude Include="SafeSingleton.h" />
     <ClInclude Include="Scripts\Components\Skybox.h" />
-    <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="SortedByValueMap.h" />
