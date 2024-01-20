@@ -4,7 +4,6 @@
 #include "PerspectiveBuilder.h"
 #include "Camera.h"
 #include "PostProcessComponent.h"
-#include "RenderLineFiller.h"
 #include "DynamicBvh2D.h"
 
 #include "Systems.h"
@@ -40,8 +39,6 @@ void GameLoop::ConstructScene()
 {
 	SerializationSystem::LoadKeyFromFile(Input::GetInstance(),  "Scenes\\Key.txt");
 	SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\DemoLevel.txt");
-
-	Singleton<SharedGraphicsResources> singlRes;
 
 	//graphics
 	GraphicCore::GetInstance().GetCameraMatrices = []() {

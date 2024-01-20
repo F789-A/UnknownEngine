@@ -222,7 +222,6 @@
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="PhysicalBody.h" />
     <ClInclude Include="PostProcessComponent.h" />
-    <ClInclude Include="RenderLineFiller.h" />
     <ClInclude Include="RenderMesh.h" />
     <ClInclude Include="SafeSingleton.h" />
     <ClInclude Include="Scripts\Components\Skybox.h" />
