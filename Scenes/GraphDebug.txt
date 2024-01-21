@@ -1,0 +1,65 @@
+Entity
+{
+	Transform
+	{
+		float[] Position = [0, 0, 0] 									
+		float[] Scale = [1, 1, 1] 									 		
+	}
+	Camera
+	{
+		float FOV = 45
+		float NearClip = 0.01
+		float FarClip = 100
+	}
+	MainCamera
+	{
+	}
+}
+
+////////
+
+//фон
+//Entity
+//{
+//	RectTransform
+//	{
+//		float[] pos = [0.5, 0.5, 0]
+//		float[] size = [1, 1, 0]
+//		int priority = 1
+//		ref[] childs = []
+//	}
+//	Image
+//	{
+//		string Material = "Materials/DefaultUI.uemat"
+//	}
+//}
+
+Entity
+{
+	GraphDebugInfo{}
+}
+
+Entity
+{
+	RectTransform
+	{
+		float[] pos = [0.25, 0.875, 0]
+		float[] size = [0.5, 0.25, 0]
+		float priority = 2
+		ref[] childs = []
+	}
+	Text
+	{
+		string Text = "Click button! P - change level"
+		int Size = 24
+		string FontPath = "Fonts\arial.ttf"
+	}
+}
+
+Entity
+{
+	ChangeLevel
+	{
+		string NextLevel = "Scenes/DemoLevel.txt"
+	}
+}

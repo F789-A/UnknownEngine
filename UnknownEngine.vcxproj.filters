@@ -67,6 +67,9 @@
     <Filter Include="Source Files\ECS\Systems\GameTools">
       <UniqueIdentifier>{baef07de-e3cc-44ed-b15f-3331477ab14f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameTools">
+      <UniqueIdentifier>{66a3a2c1-a59f-43dd-9ec1-847df2cf6484}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GLShader.cpp">
@@ -197,6 +200,12 @@
     </ClCompile>
     <ClCompile Include="ImpulseControllerSystem.cpp">
       <Filter>Source Files\ECS\Systems\GameTools</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphGenerator.cpp">
+      <Filter>Source Files\GameTools</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphDebugger.cpp">
+      <Filter>Source Files\ECS\Systems\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,9 +344,6 @@
     <ClInclude Include="PostProcessComponent.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
-    <ClInclude Include="RenderLineFiller.h">
-      <Filter>Source Files\ECS\Compoents</Filter>
-    </ClInclude>
     <ClInclude Include="Gravity.h">
       <Filter>Source Files\ECS\Compoents\Physics</Filter>
     </ClInclude>
@@ -363,6 +369,12 @@
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="ImpulseController.h">
+      <Filter>Source Files\ECS\Compoents\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphGenerator.h">
+      <Filter>Source Files\GameTools</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphDebugInfo.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
   </ItemGroup>
@@ -445,6 +457,9 @@
       <Filter>Source Files\Resources</Filter>
     </Text>
     <Text Include="Scenes\Trenchetrauma.txt">
+      <Filter>Source Files\Resources</Filter>
+    </Text>
+    <Text Include="Scenes\GraphDebug.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
   </ItemGroup>

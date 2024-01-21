@@ -40,3 +40,8 @@ namespace AsteroidHunter
 	void LevelChanger(ecs::EntityManager&);
 	void LevelController(ecs::EntityManager&);
 }
+
+namespace HellishLabyrinth
+{
+	void GraphDebugger(ecs::EntityManager&);
+}

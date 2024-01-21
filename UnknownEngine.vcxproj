@@ -169,6 +169,8 @@
     <ClCompile Include="CollisionProcessor.cpp" />
     <ClCompile Include="EcsSystem.cpp" />
     <ClCompile Include="EscapeHandler.cpp" />
+    <ClCompile Include="GraphDebugger.cpp" />
+    <ClCompile Include="GraphGenerator.cpp" />
     <ClCompile Include="GravityController.cpp" />
     <ClCompile Include="ImpulseControllerSystem.cpp" />
     <ClCompile Include="Scripts\Graphics\GLLineMesh.cpp" />
@@ -217,6 +219,8 @@
     <ClInclude Include="FontInfo.h" />
     <ClInclude Include="GlFramebuffer.h" />
     <ClInclude Include="GLObjects.h" />
+    <ClInclude Include="GraphDebugInfo.h" />
+    <ClInclude Include="GraphGenerator.h" />
     <ClInclude Include="Gravity.h" />
     <ClInclude Include="ImpulseController.h" />
     <ClInclude Include="LevelData.h" />
@@ -283,6 +287,7 @@
     <Text Include="Log.txt" />
     <Text Include="Scenes\AlienPrefab.txt" />
     <Text Include="Scenes\DemoLevel.txt" />
+    <Text Include="Scenes\GraphDebug.txt" />
     <Text Include="Scenes\Key.txt" />
     <Text Include="Scenes\Level1.txt" />
     <Text Include="Scenes\MainMenu.txt" />

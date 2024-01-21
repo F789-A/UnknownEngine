@@ -98,6 +98,7 @@ void GameLoop::ConstructScene()
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::MenuEvent);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::LevelChanger);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::LevelController);
+	ecs::DefEcs().system.AddSystem(HellishLabyrinth::GraphDebugger);
 }
 
 float GameLoop::GetDeltaTime() const
