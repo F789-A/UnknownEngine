@@ -1,0 +1,6 @@
+right = Textures/Skybox/right.jpg
+left = Textures/Skybox/left.jpg
+top = Textures/Skybox/top.jpg
+bottom = Textures/Skybox/bottom.jpg
+front = Textures/Skybox/front.jpg
+back = Textures/Skybox/back.jpg

@@ -72,325 +72,310 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GLShader.cpp">
+    <ClCompile Include="Scripts\Graphics\GLShader.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="GameLoop.cpp">
+    <ClCompile Include="Scripts\Core\GameLoop.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="ModelImporter.cpp">
+    <ClCompile Include="Scripts\Assets\ModelImporter.cpp">
       <Filter>Source Files\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="ObjImporter.cpp">
+    <ClCompile Include="Scripts\Assets\ObjImporter.cpp">
       <Filter>Source Files\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="PolygonGeometry.cpp">
+    <ClCompile Include="Scripts\Assets\PolygonGeometry.cpp">
       <Filter>Source Files\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
+    <ClCompile Include="Scripts\Assets\Model.cpp">
       <Filter>Source Files\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files\Assets</Filter>
-    </ClCompile>
-    <ClCompile Include="GlMaterial.cpp">
+    <ClCompile Include="Scripts\Graphics\GlMaterial.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="EntityLoader.cpp">
+    <ClCompile Include="Scripts\SerializationSystem\EntityLoader.cpp">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClCompile>
-    <ClCompile Include="AppInitializer.cpp">
+    <ClCompile Include="Scripts\Core\AppInitializer.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="GLTexture.cpp">
+    <ClCompile Include="Scripts\Graphics\GLTexture.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="SharedGraphicsResources.cpp">
+    <ClCompile Include="Scripts\SerializationSystem\SharedGraphicsResources.cpp">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
+    <ClCompile Include="Scripts\Assets\Texture.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="GLMesh.cpp">
+    <ClCompile Include="Scripts\Graphics\GLMesh.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="Scripts\Core\Main.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="WindowApp.cpp">
+    <ClCompile Include="Scripts\Core\WindowApp.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp">
+    <ClCompile Include="Scripts\Core\Input.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="AlienHeadersLib\glad.c">
       <Filter>Source Files\AlienHeadersLib</Filter>
     </ClCompile>
-    <ClCompile Include="AppTime.cpp">
+    <ClCompile Include="Scripts\Core\AppTime.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Logger.cpp">
+    <ClCompile Include="Scripts\SerializationSystem\Logger.cpp">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClCompile>
-    <ClCompile Include="EcsSystem.cpp">
+    <ClCompile Include="Scripts\ECS\EcsSystem.cpp">
       <Filter>Source Files\ECS</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="Scripts\ECS\Components\Camera.cpp">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClCompile>
-    <ClCompile Include="LineDrawSystem.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Graphics\LineDrawSystem.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="RenderMeshSystem.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Graphics\RenderMeshSystem.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="UIHandler.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Graphics\UIHandler.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleTextProcessor.cpp">
+    <ClCompile Include="Scripts\Utils\SimpleTextProcessor.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="UiComponents.cpp">
+    <ClCompile Include="Scripts\ECS\Components\UiComponents.cpp">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
+    <ClCompile Include="Scripts\ECS\Components\Transform.cpp">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClCompile>
-    <ClCompile Include="AimSystem.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Game\AimSystem.cpp">
       <Filter>Source Files\ECS\Systems\Game</Filter>
     </ClCompile>
-    <ClCompile Include="MenuController.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Game\MenuController.cpp">
       <Filter>Source Files\ECS\Systems\Game</Filter>
     </ClCompile>
-    <ClCompile Include="LevelChanger.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\GameTools\LevelChanger.cpp">
       <Filter>Source Files\ECS\Systems\Game</Filter>
     </ClCompile>
-    <ClCompile Include="LevelController.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Game\LevelController.cpp">
       <Filter>Source Files\ECS\Systems\Game</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\Graphics\GLLineMesh.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="AlienData.cpp">
+    <ClCompile Include="Scripts\ECS\Components\Game\AlienData.cpp">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Systems\RenderSkyboxSystem.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Graphics\RenderSkyboxSystem.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionProcessor.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Physics\CollisionProcessor.cpp">
       <Filter>Source Files\ECS\Systems\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Shapes.cpp">
+    <ClCompile Include="Scripts\Physics\Shapes.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Bvh.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicCore.cpp">
+    <ClCompile Include="Scripts\Graphics\GraphicCore.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="GravityController.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Physics\GravityController.cpp">
       <Filter>Source Files\ECS\Systems\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="EscapeHandler.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Game\EscapeHandler.cpp">
       <Filter>Source Files\ECS\Systems\GameTools</Filter>
     </ClCompile>
-    <ClCompile Include="CameraControllerSystem.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\GameTools\CameraControllerSystem.cpp">
       <Filter>Source Files\ECS\Systems\GameTools</Filter>
     </ClCompile>
-    <ClCompile Include="ImpulseControllerSystem.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Physics\ImpulseControllerSystem.cpp">
       <Filter>Source Files\ECS\Systems\GameTools</Filter>
     </ClCompile>
-    <ClCompile Include="GraphGenerator.cpp">
+    <ClCompile Include="Scripts\GameTools\GraphGenerator.cpp">
       <Filter>Source Files\GameTools</Filter>
     </ClCompile>
-    <ClCompile Include="GraphDebugger.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Game\GraphDebugger.cpp">
       <Filter>Source Files\ECS\Systems\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\ECS\Systems\Game\RoomTravelerController.cpp">
+      <Filter>Source Files\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\ECS\Components\Game\RoomRedrawerController.cpp">
+      <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GLShader.h">
+    <ClInclude Include="Scripts\Graphics\GLShader.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="GLMaterial.h">
+    <ClInclude Include="Scripts\Graphics\GLMaterial.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="GameLoop.h">
+    <ClInclude Include="Scripts\Core\GameLoop.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="EntityLoader.h">
+    <ClInclude Include="Scripts\SerializationSystem\EntityLoader.h">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
+    <ClInclude Include="Scripts\Assets\Model.h">
       <Filter>Source Files\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
+    <ClInclude Include="Scripts\Assets\Mesh.h">
       <Filter>Source Files\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="ModelImporter.h">
+    <ClInclude Include="Scripts\Assets\ModelImporter.h">
       <Filter>Source Files\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="ObjImporter.h">
+    <ClInclude Include="Scripts\Assets\ObjImporter.h">
       <Filter>Source Files\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="PolygonGeometry.h">
+    <ClInclude Include="Scripts\Assets\PolygonGeometry.h">
       <Filter>Source Files\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="AppInitializer.h">
+    <ClInclude Include="Scripts\Core\AppInitializer.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="AppTime.h">
+    <ClInclude Include="Scripts\Core\AppTime.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="GLTexture.h">
+    <ClInclude Include="Scripts\Graphics\GLTexture.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
+    <ClInclude Include="Scripts\Assets\Texture.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Singleton.h">
+    <ClInclude Include="Scripts\Utils\Singleton.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="SharedGraphicsResources.h">
+    <ClInclude Include="Scripts\SerializationSystem\SharedGraphicsResources.h">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClInclude>
-    <ClInclude Include="GLMesh.h">
+    <ClInclude Include="Scripts\Graphics\GLMesh.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="StringToGLFWKey.h">
+    <ClInclude Include="Scripts\SerializationSystem\StringToGLFWKey.h">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClInclude>
-    <ClInclude Include="WindowApp.h">
+    <ClInclude Include="Scripts\Core\WindowApp.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h">
+    <ClInclude Include="Scripts\Core\Input.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="AlienHeadersLib\stb_image.h">
       <Filter>Source Files\AlienHeadersLib</Filter>
     </ClInclude>
-    <ClInclude Include="Logger.h">
+    <ClInclude Include="Scripts\SerializationSystem\Logger.h">
       <Filter>Source Files\SerializationSystem</Filter>
     </ClInclude>
-    <ClInclude Include="EcsSystem.h">
+    <ClInclude Include="Scripts\ECS\EcsSystem.h">
       <Filter>Source Files\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="GLLineMesh.h">
+    <ClInclude Include="Scripts\Graphics\GLLineMesh.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="RenderLine.h">
+    <ClInclude Include="Scripts\ECS\Components\RenderLine.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
-    <ClInclude Include="AimData.h">
+    <ClInclude Include="Scripts\ECS\Components\Game\AimData.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="AlienData.h">
+    <ClInclude Include="Scripts\ECS\Components\Game\AlienData.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
+    <ClInclude Include="Scripts\ECS\Components\Transform.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
-    <ClInclude Include="RenderMesh.h">
+    <ClInclude Include="Scripts\ECS\Components\RenderMesh.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
-    <ClInclude Include="UiComponents.h">
+    <ClInclude Include="Scripts\ECS\Components\UiComponents.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="Scripts\ECS\Components\Camera.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
-    <ClInclude Include="CameraController.h">
+    <ClInclude Include="Scripts\ECS\Components\GameTools\CameraController.h">
       <Filter>Source Files\ECS\Compoents\MetaGame</Filter>
     </ClInclude>
-    <ClInclude Include="PerspectiveBuilder.h">
+    <ClInclude Include="Scripts\ECS\Systems\Systems.h">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Systems.h">
-      <Filter>Source Files\ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="SortedByValueMap.h">
+    <ClInclude Include="Scripts\Utils\SimpleTextProcessor.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleTextProcessor.h">
-      <Filter>Source Files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="FontInfo.h">
+    <ClInclude Include="Scripts\Graphics\FontInfo.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="GlFramebuffer.h">
+    <ClInclude Include="Scripts\Graphics\GlFramebuffer.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="ConceptLib.h">
+    <ClInclude Include="Scripts\Utils\ConceptLib.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Events.h">
+    <ClInclude Include="Scripts\ECS\Components\Events.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
-    <ClInclude Include="ChangeLevel.h">
+    <ClInclude Include="Scripts\ECS\Components\GameTools\ChangeLevel.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="SafeSingleton.h">
+    <ClInclude Include="Scripts\Utils\SafeSingleton.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="LevelData.h">
+    <ClInclude Include="Scripts\ECS\Components\Game\LevelData.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="GLObjects.h">
-      <Filter>Source Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripts\Components\Skybox.h">
+    <ClInclude Include="Scripts\ECS\Components\Skybox.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
-    <ClInclude Include="PostProcessComponent.h">
+    <ClInclude Include="Scripts\ECS\Components\PostProcessComponent.h">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
-    <ClInclude Include="Gravity.h">
+    <ClInclude Include="Scripts\ECS\Components\Physics\Gravity.h">
       <Filter>Source Files\ECS\Compoents\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicalBody.h">
+    <ClInclude Include="Scripts\ECS\Components\Physics\PhysicalBody.h">
       <Filter>Source Files\ECS\Compoents\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicBvh2D.h">
+    <ClInclude Include="Scripts\ECS\Components\Physics\DynamicBvh2D.h">
       <Filter>Source Files\ECS\Compoents\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Shapes.h">
+    <ClInclude Include="Scripts\Physics\Shapes.h">
       <Filter>Source Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Bvh.h">
+    <ClInclude Include="Scripts\Physics\Bvh.h">
       <Filter>Source Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicCore.h">
+    <ClInclude Include="Scripts\Graphics\GraphicCore.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleMath.h">
+    <ClInclude Include="Scripts\Utils\SimpleMath.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicDispatching.h">
+    <ClInclude Include="Scripts\Utils\DynamicDispatching.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="ImpulseController.h">
+    <ClInclude Include="Scripts\ECS\Components\Physics\ImpulseController.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="GraphGenerator.h">
+    <ClInclude Include="Scripts\GameTools\GraphGenerator.h">
       <Filter>Source Files\GameTools</Filter>
     </ClInclude>
-    <ClInclude Include="GraphDebugInfo.h">
+    <ClInclude Include="Scripts\ECS\Components\Game\GraphDebugInfo.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="LabyrinthData.h">
+    <ClInclude Include="Scripts\ECS\Components\Game\LabyrinthData.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="RoomTraveler.h">
+    <ClInclude Include="Scripts\ECS\Components\Game\RoomTraveler.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="RoomRedrawer.h">
+    <ClInclude Include="Scripts\ECS\Components\Game\RoomRedrawer.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="RoomTravelerController.cpp">
-      <Filter>Source Files\ECS\Systems\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="RoomRedrawerController.cpp">
-      <Filter>Source Files\ECS\Systems\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
