@@ -1,12 +1,13 @@
-#include "Systems.h"
-#include "GraphDebugInfo.h"
-#include "LabyrinthData.h"
-#include "Input.h"
-#include "GraphGenerator.h"
-#include "UiComponents.h"
-#include "RenderLine.h"
-#include "SharedGraphicsResources.h"
-#include "RoomTraveler.h"
+#include "ECS\Systems\Systems.h"
+#include "ECS\Components\Game\GraphDebugInfo.h"
+#include "ECS\Components\Game\LabyrinthData.h"
+#include "ECS\Components\UiComponents.h"
+#include "ECS\Components\RenderLine.h"
+#include "ECS\Components\Game\RoomTraveler.h"
+#include "GameTools\GraphGenerator.h"
+#include "Core\Input.h"
+#include "SerializationSystem\SharedGraphicsResources.h"
+
 
 void Labyrinth::GraphDebugger(ecs::EntityManager& em)
 {

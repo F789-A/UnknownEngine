@@ -1,7 +1,7 @@
-#include "Systems.h"
-#include "ChangeLevel.h"
-#include "EntityLoader.h"
-#include "Input.h"
+#include "ECS\Systems\Systems.h"
+#include "ECS\Components\GameTools\ChangeLevel.h"
+#include "SerializationSystem\EntityLoader.h"
+#include "Core\Input.h"
 
 void GameTools::LevelChanger(ecs::EntityManager& em)
 {

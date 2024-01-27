@@ -179,7 +179,7 @@
     <ClCompile Include="Scripts\Core\Main.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Game\MenuController.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Graphics\RenderMeshSystem.cpp" />
-    <ClCompile Include="Scripts\ECS\Components\Game\RoomRedrawerController.cpp" />
+    <ClCompile Include="Scripts\ECS\Systems\Game\RoomRedrawerController.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Game\RoomTravelerController.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Graphics\RenderSkyboxSystem.cpp" />
     <ClCompile Include="Scripts\Physics\Shapes.cpp" />

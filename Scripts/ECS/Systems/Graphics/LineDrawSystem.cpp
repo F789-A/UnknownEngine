@@ -1,5 +1,5 @@
-#include "Systems.h"
-#include "RenderLine.h"
+#include "ECS\Systems\Systems.h"
+#include "ECS\Components\RenderLine.h"
 
 void ui::DrawLine(ecs::EntityManager& em)
 {

@@ -204,7 +204,7 @@
     <ClCompile Include="Scripts\ECS\Systems\Game\RoomTravelerController.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\ECS\Components\Game\RoomRedrawerController.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Game\RoomRedrawerController.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,9 +1,9 @@
 #include "ECS\Systems\Systems.h"
-#include "RoomRedrawer.h"
+#include "ECS\Components\Game\RoomRedrawer.h"
 #include "SerializationSystem\EntityLoader.h"
 #include "ECS\Components\Events.h"
-#include "LabyrinthData.h"
-#include "RoomTraveler.h"
+#include "ECS\Components\Game\LabyrinthData.h"
+#include "ECS\Components\Game\RoomTraveler.h"
 #include "ECS\Components\Transform.h"
 
 void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)

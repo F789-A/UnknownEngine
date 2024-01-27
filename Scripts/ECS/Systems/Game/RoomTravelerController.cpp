@@ -1,5 +1,5 @@
-#include "Systems.h"
-#include "RoomTraveler.h"
+#include "ECS\Systems\Systems.h"
+#include "ECS\Components\Game\RoomTraveler.h"
 
 void Labyrinth::RoomTravelerController(ecs::EntityManager& em)
 {

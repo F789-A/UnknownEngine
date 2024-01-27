@@ -1,7 +1,7 @@
-#include "Systems.h"
+#include "ECS\Systems\Systems.h"
 
-#include "Transform.h"
-#include "RenderMesh.h"
+#include "ECS\Components\Transform.h"
+#include "ECS\Components\RenderMesh.h"
 
 void graphics::RenderMeshSystem(ecs::EntityManager& em)
 {
