@@ -1,9 +1,10 @@
 #pragma once
-#include <glm/vec2.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <vector>
 #include <glad/glad.h> 
 #include <GLFW\glfw3.h>
+#include <vector>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "GLMaterial.h"
 
 class GLLineMesh

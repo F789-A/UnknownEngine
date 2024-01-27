@@ -1,7 +1,9 @@
 #include "WindowApp.h"
-#include "Logger.h"
-#include <iostream>
+
 #include <cassert>
+
+#include "SerializationSystem\Logger.h"
+
 //Init
 WindowApp::WindowApp(unsigned int width, unsigned int height, std::string name)
 {

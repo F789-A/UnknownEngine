@@ -1,11 +1,14 @@
-#include "Systems.h"
-#include "SafeSingleton.h"
-#include "LevelData.h"
-#include "EntityLoader.h"
-#include "ECS\Components\Game\AlienData.h"
-#include <glm\vec2.hpp>
+#include "ECS\Systems\Systems.h"
+
 #include <random>
-#include "Events.h"
+#include <glm\glm.hpp>
+
+#include "ECS\Components\Game\LevelData.h"
+#include "ECS\Components\Game\AlienData.h"
+#include "ECS\Components\Events.h"
+
+#include "SerializationSystem\EntityLoader.h"
+#include "Utils\SafeSingleton.h"
 
 struct Box2d
 {

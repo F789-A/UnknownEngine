@@ -1,9 +1,8 @@
 #include "ECS\Systems\Systems.h"
 
-#include  <algorithm>
+#include <algorithm>
 #include <random>
 #include <glm/glm.hpp>
-#include <glm/vec2.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "ECS\EcsSystem.h"

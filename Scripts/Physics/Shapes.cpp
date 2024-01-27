@@ -1,10 +1,9 @@
 #include "Shapes.h"
 
-#include <glm/gtx/norm.hpp>
 #include <algorithm>
 #include <functional>
 
-#include <iostream>
+#include <glm/gtx/norm.hpp>
 
 #include "Utils\DynamicDispatching.h"
 

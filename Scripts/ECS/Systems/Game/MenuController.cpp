@@ -1,9 +1,8 @@
-#include "Systems.h"
-#include "Events.h"
-#include <iostream>
-#include "UiComponents.h"
-#include "WindowApp.h"
-#include "EntityLoader.h"
+#include "ECS\Systems\Systems.h"
+#include "ECS\Components\Events.h"
+#include "ECS\Components\UiComponents.h"
+#include "Core\WindowApp.h"
+#include "SerializationSystem\EntityLoader.h"
 
 namespace AsteroidHunter
 {

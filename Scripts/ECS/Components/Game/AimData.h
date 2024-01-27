@@ -1,5 +1,5 @@
 #pragma once
-#include <glm/vec2.hpp>
+#include <glm/glm.hpp>
 #include "ECS\EcsSystem.h"
 #include "Utils\SimpleTextProcessor.h"
 #include "ECS\Components\UiComponents.h"

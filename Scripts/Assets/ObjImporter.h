@@ -11,10 +11,11 @@
 #include <array>
 #include <vector>
 
-#include "PolygonGeometry.h"
-
 #include <glm/glm.hpp>
+
+#include "PolygonGeometry.h"
 #include "Model.h"
+
 #include "Utils\SimpleTextProcessor.h"
 
 Model ImportObj(std::filesystem::path path);

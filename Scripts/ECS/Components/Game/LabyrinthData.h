@@ -1,7 +1,8 @@
 #pragma once
+#include <glm/glm.hpp>
 #include "ECS\EcsSystem.h"
 #include "GameTools\GraphGenerator.h"
-#include <glm/glm.hpp>
+
 
 struct Room
 {

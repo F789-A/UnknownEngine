@@ -1,8 +1,9 @@
 #pragma once
-#include "ECS\EcsSystem.h"
-#include <glm/glm.hpp>
-#include "ECS\Components\UiComponents.h"
 #include <type_traits>
+#include <glm/glm.hpp>
+#include "ECS\EcsSystem.h"
+#include "ECS\Components\UiComponents.h"
+
 
 enum class AlienTypes : int
 {
