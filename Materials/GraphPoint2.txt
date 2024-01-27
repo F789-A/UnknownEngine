@@ -1,0 +1,2 @@
+texture diffuse Textures/Trenchetrauma/Square.png
+shader_path Shaders\DefaultUI.ueshad

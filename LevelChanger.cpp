@@ -3,7 +3,7 @@
 #include "EntityLoader.h"
 #include "Input.h"
 
-void AsteroidHunter::LevelChanger(ecs::EntityManager& em)
+void GameTools::LevelChanger(ecs::EntityManager& em)
 {
 	for (auto l = em.GetComponents<ChangeLevel>(); !l.end(); ++l)
 	{

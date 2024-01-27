@@ -30,6 +30,7 @@ namespace GameTools
 	void CameraControllerSystem(ecs::EntityManager&);
 	void Camera2DControllerSystem(ecs::EntityManager&);
 	void ImpulseControllerSystem(ecs::EntityManager&);
+	void LevelChanger(ecs::EntityManager&);
 }
 
 namespace AsteroidHunter
@@ -37,11 +38,12 @@ namespace AsteroidHunter
 	void CharacterController(ecs::EntityManager&);
 	void AlienController(ecs::EntityManager&);
 	void MenuEvent(ecs::EntityManager&);
-	void LevelChanger(ecs::EntityManager&);
 	void LevelController(ecs::EntityManager&);
 }
 
-namespace HellishLabyrinth
+namespace Labyrinth
 {
 	void GraphDebugger(ecs::EntityManager&);
+	void RoomTravelerController(ecs::EntityManager&);
+	void RoomRedrawerController(ecs::EntityManager&);
 }

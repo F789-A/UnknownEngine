@@ -93,12 +93,14 @@ void GameLoop::ConstructScene()
 	ecs::DefEcs().system.AddSystem(GameTools::CameraControllerSystem);
 	ecs::DefEcs().system.AddSystem(GameTools::Camera2DControllerSystem);
 	ecs::DefEcs().system.AddSystem(GameTools::ImpulseControllerSystem);
+	ecs::DefEcs().system.AddSystem(GameTools::LevelChanger);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::CharacterController);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::AlienController);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::MenuEvent);
-	ecs::DefEcs().system.AddSystem(AsteroidHunter::LevelChanger);
 	ecs::DefEcs().system.AddSystem(AsteroidHunter::LevelController);
-	ecs::DefEcs().system.AddSystem(HellishLabyrinth::GraphDebugger);
+	ecs::DefEcs().system.AddSystem(Labyrinth::GraphDebugger);
+	ecs::DefEcs().system.AddSystem(Labyrinth::RoomTravelerController);
+	ecs::DefEcs().system.AddSystem(Labyrinth::RoomRedrawerController);
 }
 
 float GameLoop::GetDeltaTime() const

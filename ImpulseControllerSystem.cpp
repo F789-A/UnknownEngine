@@ -1,4 +1,3 @@
-#pragma once
 #include "Systems.h"
 #include "PhysicalBody.h"
 #include "ImpulseController.h"

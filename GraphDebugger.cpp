@@ -1,27 +1,34 @@
 #include "Systems.h"
 #include "GraphDebugInfo.h"
+#include "LabyrinthData.h"
 #include "Input.h"
 #include "GraphGenerator.h"
 #include "UiComponents.h"
 #include "RenderLine.h"
 #include "SharedGraphicsResources.h"
+#include "RoomTraveler.h"
 
-void HellishLabyrinth::GraphDebugger(ecs::EntityManager& em)
+void Labyrinth::GraphDebugger(ecs::EntityManager& em)
 {
-	for (auto l = em.GetComponents<GraphDebugInfo>(); !l.end(); ++l)
+	for (auto l = em.GetComponents<GraphDebugInfo, LabyrinthData, RoomTraveler>(); !l.end(); ++l)
 	{
-		auto [lvl] = *l;
+		auto [debInfo, labyrinth, travaler] = *l;
 		if (Input::GetInstance().GetButton("UseQ", Input::PressMode::Press))
 		{
-			Graph g{34580, 8, 4, 4, 8, 4 };
+			for (auto ent : debInfo.Entites)
+			{
+				em.RemoveEntity(ent);
+			}
+			debInfo.Entites.clear();
 			
-			for (int i = 0; i < g.Verts.size(); ++i)
+			for (int i = 0; i < labyrinth.levelGraph.Verts.size(); ++i)
 			{
 				auto e = em.AddEntity();
+				debInfo.Entites.push_back(e);
 
 				em.AddComponent<RectTransform>(e);
 				auto& rt = em.GetComponent<RectTransform>(e);
-				rt.pos = glm::vec2((float)g.debugPos[i].first / 10.0f + 0.5f, (float)g.debugPos[i].second / 10.0f + 0.1f);
+				rt.pos = glm::vec2((float)labyrinth.levelGraph.debugPos[i].first / 10.0f + 0.5f, (float)labyrinth.levelGraph.debugPos[i].second / 10.0f + 0.1f);
 				rt.size = glm::vec3(0.05, 0.05, 0);
 				rt.priority = 1;
 
@@ -30,9 +37,17 @@ void HellishLabyrinth::GraphDebugger(ecs::EntityManager& em)
 				
 				Singleton<SharedGraphicsResources> shr;
 
-				im.Material = GLMaterial(shr->GetMaterial("Materials\\GraphPoint.txt"));
+				if (travaler.CurrentRoom == i)
+				{
+					im.Material = GLMaterial(shr->GetMaterial("Materials\\GraphPoint2.txt"));
+				}
+				else
+				{
+					im.Material = GLMaterial(shr->GetMaterial("Materials\\GraphPoint.txt"));
+				}
 
 				auto line = em.AddEntity();
+				debInfo.Entites.push_back(line);
 				em.AddComponent<RenderLine>(line);
 
 				auto& lineRenderer = em.GetComponent<RenderLine>(line);
@@ -41,11 +56,11 @@ void HellishLabyrinth::GraphDebugger(ecs::EntityManager& em)
 
 				std::vector<GLuint> verts;
 				std::vector<Vertex> arr;
-				arr.push_back({ { (float)g.debugPos[i].first / 10.0f * 2.0f, (float)g.debugPos[i].second / 10.0f * 2.0f - 0.8f, 0 } });
+				arr.push_back({ { (float)labyrinth.levelGraph.debugPos[i].first / 10.0f * 2.0f, (float)labyrinth.levelGraph.debugPos[i].second / 10.0f * 2.0f - 0.8f, 0 } });
 				int f = 1;
-				for (auto j : g.Verts[i])
+				for (auto j : labyrinth.levelGraph.Verts[i])
 				{
-					arr.push_back({ { (float)g.debugPos[j].first / 10.0f * 2.0f, (float)g.debugPos[j].second / 10.0f * 2.0f - 0.8f, 0 } });
+					arr.push_back({ { (float)labyrinth.levelGraph.debugPos[j].first / 10.0f * 2.0f, (float)labyrinth.levelGraph.debugPos[j].second / 10.0f * 2.0f - 0.8f, 0 } });
 					verts.push_back(0);
 					verts.push_back(f);
 					f++;

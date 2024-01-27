@@ -180,6 +180,8 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuController.cpp" />
     <ClCompile Include="RenderMeshSystem.cpp" />
+	<ClCompile Include="RoomRedrawerController.cpp" />
+    <ClCompile Include="RoomTravelerController.cpp" />
     <ClCompile Include="Scripts\Systems\RenderSkyboxSystem.cpp" />
     <ClCompile Include="Shapes.cpp" />
     <ClCompile Include="SimpleTextProcessor.cpp" />
@@ -223,10 +225,13 @@
     <ClInclude Include="GraphGenerator.h" />
     <ClInclude Include="Gravity.h" />
     <ClInclude Include="ImpulseController.h" />
+    <ClInclude Include="LabyrinthData.h" />
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="PhysicalBody.h" />
     <ClInclude Include="PostProcessComponent.h" />
     <ClInclude Include="RenderMesh.h" />
+    <ClInclude Include="RoomRedrawer.h" />
+    <ClInclude Include="RoomTraveler.h" />
     <ClInclude Include="SafeSingleton.h" />
     <ClInclude Include="Scripts\Components\Skybox.h" />
     <ClInclude Include="Shapes.h" />
@@ -287,10 +292,12 @@
     <Text Include="Log.txt" />
     <Text Include="Scenes\AlienPrefab.txt" />
     <Text Include="Scenes\DemoLevel.txt" />
+    <Text Include="Scenes\DoorPrefab.txt" />
     <Text Include="Scenes\GraphDebug.txt" />
     <Text Include="Scenes\Key.txt" />
     <Text Include="Scenes\Level1.txt" />
     <Text Include="Scenes\MainMenu.txt" />
+    <Text Include="Scenes\RoomPrefab.txt" />
     <Text Include="Scenes\Trenchetrauma.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

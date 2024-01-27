@@ -8,14 +8,12 @@
 
 class Graph
 {
-	std::seed_seq seed_w;
 	std::mt19937 random_generator;
 
 	std::vector<int> VertToLevel;
 	std::vector<std::array<std::vector<int>, 4>> LevelsToVert; //b00st::bimap
 	int Length;
 	//std::random_device rd;
-
 
 public:
 	std::vector<std::pair<int, int>> debugPos;

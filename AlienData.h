@@ -52,10 +52,3 @@ struct AlienData: public ecs::Component<AlienData>
 		alien.alienType = AlienTypes::Coward | AlienTypes::PingPonger;
 	}
 };
-
-struct NewPlacedAlienTag : public ecs::Component<NewPlacedAlienTag>
-{
-	static constexpr std::string_view ComponentName = "NewPlacedAlienTag";
-
-	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res){}
-};

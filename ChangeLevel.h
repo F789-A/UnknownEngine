@@ -8,9 +8,9 @@ struct ChangeLevel : public ecs::Component<ChangeLevel>
 
 	std::string NextLevel;
 
-	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
-		auto& cl = em.GetComponent<ChangeLevel>(a);
+		auto& cl = em.GetComponent<ChangeLevel>(ent);
 		cl.NextLevel = (res["NextLevel"]);
 	}
 };

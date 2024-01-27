@@ -377,6 +377,21 @@
     <ClInclude Include="GraphDebugInfo.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
+    <ClInclude Include="LabyrinthData.h">
+      <Filter>Source Files\ECS\Compoents\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomTraveler.h">
+      <Filter>Source Files\ECS\Compoents\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomRedrawer.h">
+      <Filter>Source Files\ECS\Compoents\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomTravelerController.cpp">
+      <Filter>Source Files\ECS\Systems\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomRedrawerController.cpp">
+      <Filter>Source Files\ECS\Systems\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\DefaultUI.frag">
@@ -460,6 +475,12 @@
       <Filter>Source Files\Resources</Filter>
     </Text>
     <Text Include="Scenes\GraphDebug.txt">
+      <Filter>Source Files\Resources</Filter>
+    </Text>
+    <Text Include="Scenes\DoorPrefab.txt">
+      <Filter>Source Files\Resources</Filter>
+    </Text>
+    <Text Include="Scenes\RoomPrefab.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
   </ItemGroup>

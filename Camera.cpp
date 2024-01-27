@@ -16,8 +16,8 @@ glm::mat4 Camera::GetProjectionMatrix() const
     else 
     {
         float aspect = (float)WindowApp::GetInstance().Height() / WindowApp::GetInstance().Width();
-        float h = Height * aspect / 2.0f; // TODO
-        float w = Width / 2.0f;
+        float h = Size * aspect / 2.0f;
+        float w = Size / 2.0f;
         return glm::ortho(-w, w, -h, h, NearClip, FarClip);
     }
         

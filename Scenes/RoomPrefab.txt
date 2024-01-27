@@ -1,0 +1,14 @@
+Entity
+{
+	Transform
+	{
+		float[] Position = [0, 0, 0]
+		float[] Scale = [10, 10, 1]
+
+	}
+	RenderMesh
+	{
+		string RenderMesh = "Models\Plane.obj"
+		string RenderMaterial = "Materials\TrencheTrauma\Fon.txt"
+	}
+}

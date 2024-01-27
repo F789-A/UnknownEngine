@@ -7,7 +7,7 @@ void graphics::RenderSkyboxSystem(ecs::EntityManager& em)
 	for (auto l = em.GetComponents<Skybox>(); !l.end(); ++l)
 	{
 		auto [skybox] = *l;
-		for (auto k = ecs::DefEcs().entity.GetComponents<MainCamera, Camera>(); !k.end(); ++k)
+		for (auto k = em.GetComponents<MainCamera, Camera>(); !k.end(); ++k)
 		{
 			auto [m, camera] = *k;
 			glm::mat4 view = camera.GetViewMatrix();

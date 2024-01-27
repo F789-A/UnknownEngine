@@ -5,6 +5,7 @@
 #include "AlienData.h"
 #include <glm\vec2.hpp>
 #include <random>
+#include "Events.h"
 
 struct Box2d
 {
@@ -26,13 +27,13 @@ glm::vec2 RandomFromEdgeBox(Box2d box)
 	return corner[num] * mult + (1 - mult) * corner[(num+1)%4];
 }
 
-void AddAlien(const glm::vec2& pos, AlienTypes type, float health, float damage, float support)
+void AddAlien(ecs::EntityManager& em, const glm::vec2& pos, AlienTypes type, float health, float damage, float support)
 {
-	SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\AlienPrefab.txt");
-	for (auto l = ecs::DefEcs().entity.GetComponents<NewPlacedAlienTag, RectTransform, AlienData>(); !l.end(); ++l)
+	SerializationSystem::LoadEntity(em, "Scenes\\AlienPrefab.txt");
+	for (auto l = em.GetComponents<NewPlacedObject, RectTransform, AlienData>(); !l.end(); ++l)
 	{
 		auto [tag, transf, alienData] = *l;
-		ecs::DefEcs().entity.RemoveComponent<NewPlacedAlienTag>(ecs::DefEcs().entity.GetEntity(tag));
+		em.RemoveComponent<NewPlacedObject>(em.GetEntity(tag));
 		transf.pos = pos;
 		alienData.alienType = type;
 		alienData.Health = health;
@@ -41,11 +42,11 @@ void AddAlien(const glm::vec2& pos, AlienTypes type, float health, float damage,
 	}
 }
 
-void AddAlientInRandomPlace(AlienTypes type, float health, float damage, float support)
+void AddAlientInRandomPlace(ecs::EntityManager& em, AlienTypes type, float health, float damage, float support)
 {
 	Box2d targetBox{ {-1, -1}, {1, 1} };
 	glm::vec2 pos = RandomFromEdgeBox(targetBox);
-	AddAlien(pos, type, health, damage, support);
+	AddAlien(em, pos, type, health, damage, support);
 }
 
 void AsteroidHunter::LevelController(ecs::EntityManager& em)
@@ -56,8 +57,7 @@ void AsteroidHunter::LevelController(ecs::EntityManager& em)
 
 		if (levelData.countAlien < 2)
 		{
-			AddAlientInRandomPlace(AlienTypes::Coward | AlienTypes::PingPonger, 15, 1, 1);
-			//SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\AlienPrefab.txt");
+			AddAlientInRandomPlace(em, AlienTypes::Coward | AlienTypes::PingPonger, 15, 1, 1);
 			levelData.countAlien++;
 		}
 	}

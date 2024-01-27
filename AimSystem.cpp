@@ -235,20 +235,18 @@ void AsteroidHunter::AlienController(ecs::EntityManager& em)
 		//died
 		if (alien.Health <= 0)
 		{
-			ecs::DefEcs().entity.RemoveEntity(ecs::DefEcs().entity.GetEntity(*transf.childs[0]));
-			ecs::DefEcs().entity.RemoveEntity(ecs::DefEcs().entity.GetEntity(alien));
+			em.RemoveEntity(em.GetEntity(*transf.childs[0]));
+			em.RemoveEntity(em.GetEntity(alien));
 
 			for (auto ll = em.GetComponents<LevelData>(); !ll.end(); ++ll)
 			{
 				auto [levelData] = *ll;
 				levelData.countAlien--;
-				//SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\AlienPrefab.txt");
-				// Добавить плавное появление из-за границ экрана
 			}
 			continue;
 		}
 		//shot
-		auto [player] = *ecs::DefEcs().entity.GetComponents<AimData>();
+		auto [player] = *em.GetComponents<AimData>();
 		player.Health -= alien.Damage * AppTime::GetDeltaTime();
 
 		alien.HealthBar->text = std::to_string(alien.Health);

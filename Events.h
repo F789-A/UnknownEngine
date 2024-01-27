@@ -22,3 +22,13 @@ struct Tag : public ecs::Component<Tag>
 		tag.Name = res["Name"];
 	};
 };
+
+struct NewPlacedObject : public ecs::Component<NewPlacedObject>
+{
+	static constexpr std::string_view ComponentName = "NewPlacedObject";
+
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
+	{
+		auto& tag = em.GetComponent<NewPlacedObject>(ent);
+	};
+};

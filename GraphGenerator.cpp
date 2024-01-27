@@ -5,10 +5,10 @@ Graph::Graph(unsigned int seed, int len, int singleCount, int dualCount, int tri
 	Verts(singleCount + dualCount + tripleCount + quadrupleCount),
 	VertToLevel(singleCount + dualCount + tripleCount + quadrupleCount, -1),
 	LevelsToVert(len),
-	debugPos(singleCount + dualCount + tripleCount + quadrupleCount),
-	seed_w({seed}),
-	random_generator(seed_w)
+	debugPos(singleCount + dualCount + tripleCount + quadrupleCount)
 {
+	std::seed_seq seed_w({ seed });
+	random_generator = std::mt19937(seed_w);
 	GenerateGraph(singleCount, dualCount, tripleCount, quadrupleCount);
 }
 

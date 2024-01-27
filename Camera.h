@@ -16,8 +16,7 @@ struct Camera: public ecs::Component<Camera>
     float FOV = glm::radians(45.0);
     float NearClip = 0.1f;
     float FarClip = 100.0f;
-    float Width = 10;
-    float Height = 10;
+    float Size = 10;
     CameraType cameraType = CameraType::Perspective;
 
     static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
@@ -30,8 +29,7 @@ struct Camera: public ecs::Component<Camera>
         }
         else
         {
-            cam.Width = std::stof(res["Width"]);
-            cam.Height = std::stof(res["Height"]);
+            cam.Size = std::stof(res["Size"]);
             cam.cameraType = CameraType::Orthographic;
         }
         cam.NearClip = std::stof(res["NearClip"]);
