@@ -8,8 +8,6 @@
 #include <memory>
 #include <functional>
 
-#include "Utils\ConceptLib.h"
-
 namespace ecs
 {
 	template<typename T>
@@ -21,7 +19,7 @@ namespace ecs
 	{
 		friend EntityManager;
 		friend ComponentConteiner<T>;
-	public:
+
 		int entity;
 		static const int type;
 
@@ -42,9 +40,9 @@ namespace ecs
 	class BaseComponentConteiner
 	{
 	public:
-		virtual void Remove(int entity) = 0;
-		virtual int Count() = 0;
 		virtual void Add(int ent) = 0;
+		virtual void Remove(int entity) = 0;
+		virtual void SoftRemove(int entity) = 0;
 	};
 
 	template<typename T>
@@ -58,17 +56,17 @@ namespace ecs
 
 		void Add(int entity);
 		void Remove(int entity);
+		void SoftRemove(int entity);
 		T& Get(int ent);
-		int Count();
 		
 	private:
 		std::unordered_map<int, T> components;
 	};
 
+	//Нельзя делать AddComponent для компонента, который в данный момент перебирается
 	class EntityManager
 	{
 	public:
-
 		//Iterator
 		template<typename T1, typename... Ts>
 		class ComponentIterator
@@ -88,16 +86,14 @@ namespace ecs
 			ComponentIterator(EntityManager& em);
 		};
 
-		//Entityes
+		//Entities
 		template<typename... Ts> 
 		int AddEntity();
 		template<typename T>
 		int GetEntity(const Component<T>& comp);
 		void RemoveEntity(int entity);
 
-		void CollectGarbage();
 		//Components
-
 		template<typename T>
 		void AddComponent(int entity);
 		template<typename Arg1, typename Arg2, typename... Args>
@@ -114,12 +110,15 @@ namespace ecs
 		template<typename T>
 		void RemoveComponent(int entity);
 
+		//other
+		void CollectGarbage();
+
+	//not public:
 		template<typename Arg1, typename Arg2, typename... Args>
 		bool CheckComponents(int ent);
 		template<typename Arg1>
 		bool CheckComponents(int ent);
 
-		std::vector<std::function<void(int, int)>> onComponentRemoveCollbacks;
 	private:
 		template<typename T>
 		void Register();
@@ -128,10 +127,10 @@ namespace ecs
 		ComponentConteiner<T>& GetConteiner();
 
 		std::vector<std::unique_ptr<BaseComponentConteiner>> ComponentsConteiners;
-		std::vector<std::set<int>> Entityes;
-		std::queue<int> QueueDeletion;
+		std::vector<std::set<int>> Entities;
+
 		std::queue<std::pair<int, int>> QueueDeletionComponent;
-		std::queue<int> freeEntity;
+		std::queue<int> freeEntities;
 	};
 
 	class EcsSystem;
@@ -143,10 +142,7 @@ namespace ecs
 
 		void AddSystem(void(*syst)(EntityManager&));
 
-		void SetEnable(void(*syst)(EntityManager&), bool state);
-
 		EcsSystem* ecsS = nullptr;
-		std::bitset<100> enabled;
 		std::vector<void(*)(EntityManager&)> systemsPtr;
 	};
 
@@ -171,7 +167,6 @@ namespace ecs
 
 	//namespace
 	//{
-	//Serialization
 	std::map<std::string, std::pair<void(ecs::EntityManager::*)(int), void(*)(EntityManager& em, int, std::map<std::string, std::string>&)>>& LoadCallbacks();
 	//}
 };
@@ -203,14 +198,14 @@ void ecs::ComponentConteiner<T>::Remove(int entity)
 	components.erase(entity);
 }
 template<typename T>
-int ecs::ComponentConteiner<T>::Count()
+void ecs::ComponentConteiner<T>::SoftRemove(int entity)
 {
-	return components.size();
+	components.at(entity).entity = -1;
 }
 template<typename T>
 void ecs::ComponentConteiner<T>::Add(int entity)
 {
-	components.emplace(entity, T());
+	components.insert_or_assign(entity, T());
 	components[entity].entity = entity;
 }
 template<typename T>
@@ -224,16 +219,16 @@ template<typename... Ts>
 int ecs::EntityManager::AddEntity()
 {
 	int ent = -1;
-	if (!freeEntity.empty())
+	if (!freeEntities.empty())
 	{
-		ent = freeEntity.front();
-		freeEntity.pop();
-		Entityes[ent] = { -1 };
+		ent = freeEntities.front();
+		freeEntities.pop();
+		Entities[ent] = { -1 };
 	}
 	else
 	{
-		Entityes.push_back({ -1 });
-		ent = Entityes.size() - 1;
+		Entities.push_back({ -1 });
+		ent = Entities.size() - 1;
 	}
 	if constexpr (sizeof...(Ts) > 0)
 	{
@@ -249,12 +244,17 @@ int ecs::EntityManager::GetEntity(const Component<T>& comp)
 template<typename T>
 void ecs::EntityManager::AddComponent(int entity)
 {
+	if (Entities[entity].size() == 0 || Entities[entity].contains(T::type))
+	{
+		throw "incorrect AddComponent";
+	}
+
 	if (ComponentsConteiners.size() <= T::type || ComponentsConteiners[T::type] == nullptr)
 	{
 		Register<T>();
 	}
 	ComponentsConteiners[T::type]->Add(entity);
-	Entityes[entity].insert(T::type);
+	Entities[entity].insert(T::type);
 }
 template<typename Arg1, typename Arg2, typename... Args>
 void ecs::EntityManager::AddComponent(int entity)
@@ -265,6 +265,10 @@ void ecs::EntityManager::AddComponent(int entity)
 template<typename T>
 T& ecs::EntityManager::GetComponent(int entity)
 {
+	if (!Entities[entity].contains(T::type))
+	{
+		throw "incorrect GetComponent";
+	}
 	return GetConteiner<T>().Get(entity);
 }
 template<typename T, typename R>
@@ -284,7 +288,7 @@ bool ecs::EntityManager::CheckComponents(int ent)
 template<typename Arg1>
 bool ecs::EntityManager::CheckComponents(int ent)
 {
-	if (Entityes[ent].find(Arg1::type) != Entityes[ent].end())
+	if (Entities[ent].find(Arg1::type) != Entities[ent].end())
 	{
 		return true;
 	}
@@ -302,6 +306,13 @@ ecs::EntityManager::ComponentIterator<Arg1, Args...> ecs::EntityManager::GetComp
 template<typename T>
 void ecs::EntityManager::RemoveComponent(int entity)
 {
+	if (!Entities[entity].contains(T::type))
+	{
+		throw "incorrect RemoveComponent";
+	}
+	ComponentsConteiners[T::type]->SoftRemove(entity);
+	Entities[entity].erase(T::type);
+
 	QueueDeletionComponent.push({ T::type, entity });
 }
 
@@ -339,12 +350,9 @@ template<typename T1, typename... Ts>
 ecs::EntityManager::ComponentIterator<T1, Ts...>& ecs::EntityManager::ComponentIterator<T1, Ts...>::operator++()
 {
 	++it;
-	if constexpr (sizeof...(Ts) > 0)
+	while (it != it_end && !em.CheckComponents<T1, Ts...>(it->first))
 	{
-		while (it != it_end && !em.CheckComponents<Ts...>(it->first))
-		{
-			++it;
-		}
+		++it;
 	}
 	return *this;
 }
@@ -359,12 +367,9 @@ ecs::EntityManager::ComponentIterator<T1, Ts...>::ComponentIterator(EntityManage
 	it(em_.GetConteiner<T1>().begin()),
 	it_end(em.GetConteiner<T1>().end())
 {
-	if constexpr (sizeof...(Ts) > 0)
+	while (it != it_end && !em.CheckComponents<T1, Ts...>(it->first))
 	{
-		while (it != it_end && !em.CheckComponents<Ts...>(it->first))
-		{
-			++it;
-		}
+		++it;
 	}
 
 };

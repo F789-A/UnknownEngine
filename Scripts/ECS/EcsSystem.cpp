@@ -20,38 +20,30 @@ int ecs::generateComponentType()
 
 void ecs::EntityManager::RemoveEntity(int entity)
 {
-	QueueDeletion.push(entity);
+	if (Entities.size() <= entity || Entities[entity].empty())
+	{
+		throw "incorrect RemoveEntity";
+	}
+
+	freeEntities.push(entity);
+	for (auto l : Entities[entity])
+	{
+		if (l == -1) continue;
+		ComponentsConteiners[l]->SoftRemove(entity);
+	}
+	Entities[entity].clear();
 }
 
 void ecs::EntityManager::CollectGarbage()
 {
-	while (!QueueDeletion.empty())
-	{
-		freeEntity.push(QueueDeletion.front());
-		for (auto l : Entityes[QueueDeletion.front()])
-		{
-			if (l == -1) continue;
-			ComponentsConteiners[l]->Remove(QueueDeletion.front());
-		}
-		Entityes[QueueDeletion.front()].clear();
-		QueueDeletion.pop();
-	}
 	while (!QueueDeletionComponent.empty())
 	{
-		ComponentsConteiners[QueueDeletionComponent.front().first]->Remove(QueueDeletionComponent.front().second);
-		QueueDeletionComponent.pop();
-	}
-}
-
-void ecs::SystemController::SetEnable(void(*syst)(EntityManager&), bool state)
-{
-	for (int i = 0; i < systemsPtr.size(); i++)
-	{
-		if (systemsPtr[i] == syst)
+		const auto& compToDelete = QueueDeletionComponent.front();
+		if (Entities[compToDelete.second].contains(compToDelete.first))
 		{
-			enabled[i] = !state;
-			break;
+			ComponentsConteiners[compToDelete.first]->Remove(compToDelete.second);
 		}
+		QueueDeletionComponent.pop();
 	}
 }
 
@@ -68,7 +60,6 @@ void ecs::SystemController::Update()
 void ecs::SystemController::AddSystem(void(*syst)(EntityManager&))
 {
 	systemsPtr.push_back(syst);
-	//numbers
 }
 
 ecs::EcsSystem::EcsSystem()
