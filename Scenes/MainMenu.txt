@@ -79,21 +79,6 @@ Entity
 {
 	RectTransform
 	{
-		float[] pos = [0.5, 0.5, 0]
-		float[] size = [0.2, 0.06, 0]
-		int priority = 70
-		ref[] childs = []
-	}
-	Image
-	{
-		string Material = "Materials/test.uemat"
-	}
-}
-
-Entity
-{
-	RectTransform
-	{
 		float[] pos = [0.5, 0.40, 0]
 		float[] size = [0.2, 0.06, 0]
 		int priority = 99

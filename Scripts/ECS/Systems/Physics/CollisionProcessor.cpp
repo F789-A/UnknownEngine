@@ -9,30 +9,9 @@
 
 #include "Core\AppTime.h"
 
+#include "Utils\SimpleMath.h"
+
 using namespace physics;
-
-float cross2(const glm::vec2& a, glm::vec2& b)
-{
-    return glm::cross(glm::vec3(a.x, a.y, 0), glm::vec3(b.x, b.y, 0)).z;
-}
-
-std::unique_ptr<Shape> ApplyTransformToShape(const Shape& shape, const glm::vec2& position, const glm::vec2& scale)
-{
-    auto* circle = dynamic_cast<const Circle*>(&shape);
-    auto* square = dynamic_cast<const Square*>(&shape);
-    std::unique_ptr<Shape> result;
-    if (circle)
-    {
-        result = std::make_unique<Circle>(circle->Center() + position, circle->Size() * scale.x);
-    }
-    else if (square)
-    {
-        glm::vec2 diagMin = (square->min - square->Center()) * scale;
-        glm::vec2 diagMax = (square->max - square->Center()) * scale;
-        result = std::make_unique<Square>(square->Center() + diagMin + position, square->Center() + diagMax + position);
-    }
-    return result;
-}
 
 void CorrectCollision(RigidBody& A, Transform& trA, RigidBody& B, Transform& trB, const Collision& collision)
 {

@@ -183,6 +183,7 @@
     <ClCompile Include="Scripts\ECS\Systems\Game\RoomTravelerController.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Graphics\RenderSkyboxSystem.cpp" />
     <ClCompile Include="Scripts\Physics\Shapes.cpp" />
+    <ClCompile Include="Scripts\Utils\SimpleMath.cpp" />
     <ClCompile Include="Scripts\Utils\SimpleTextProcessor.cpp" />
     <ClCompile Include="Scripts\ECS\Components\Transform.cpp" />
     <ClCompile Include="Scripts\ECS\Components\UiComponents.cpp" />
@@ -212,7 +213,6 @@
     <ClInclude Include="Scripts\ECS\Components\GameTools\CameraController.h" />
     <ClInclude Include="Scripts\ECS\Components\Camera.h" />
     <ClInclude Include="Scripts\ECS\Components\GameTools\ChangeLevel.h" />
-    <ClInclude Include="Scripts\Utils\ConceptLib.h" />
     <ClInclude Include="Scripts\ECS\Components\Physics\DynamicBvh2D.h" />
     <ClInclude Include="Scripts\Utils\DynamicDispatching.h" />
     <ClInclude Include="Scripts\ECS\Components\Events.h" />

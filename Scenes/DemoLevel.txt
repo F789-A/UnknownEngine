@@ -8,7 +8,7 @@ Entity
 	RenderMesh
 	{
 		string RenderMesh = "Models\box.obj"
-		string RenderMaterial = "Materials\Diffuse_1.uemat"
+		string RenderMaterial = "Materials\WoodMaterial.txt"
 	}
 }
 
@@ -22,7 +22,7 @@ Entity
 	RenderMesh
 	{
 		string RenderMesh = "Models\box.obj"
-		string RenderMaterial = "Materials\Diffuse_1.uemat"
+		string RenderMaterial = "Materials\WoodMaterial.txt"
 	}
 }
 
@@ -37,7 +37,7 @@ Entity
 	RenderMesh
 	{
 		string RenderMesh = "Models\box.obj"
-		string RenderMaterial = "Materials\Diffuse_1.uemat"
+		string RenderMaterial = "Materials\WoodMaterial.txt"
 	}
 }
 

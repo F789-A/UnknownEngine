@@ -8,6 +8,9 @@ struct GraphDebugInfo : public ecs::Component<GraphDebugInfo>
 
 	std::vector<int> Entites;
 
+	bool ActiveDebug = false;
+	bool forceRedraw = true;
+
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{}
 };

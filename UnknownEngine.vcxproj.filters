@@ -207,6 +207,9 @@
     <ClCompile Include="Scripts\ECS\Systems\Game\RoomRedrawerController.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\Utils\SimpleMath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scripts\Graphics\GLShader.h">
@@ -313,9 +316,6 @@
     </ClInclude>
     <ClInclude Include="Scripts\Graphics\GlFramebuffer.h">
       <Filter>Source Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripts\Utils\ConceptLib.h">
-      <Filter>Source Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\ECS\Components\Events.h">
       <Filter>Source Files\ECS\Compoents</Filter>

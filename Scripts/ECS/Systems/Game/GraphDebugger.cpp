@@ -14,8 +14,27 @@ void Labyrinth::GraphDebugger(ecs::EntityManager& em)
 	for (auto l = em.GetComponents<GraphDebugInfo, LabyrinthData, RoomTraveler>(); !l.end(); ++l)
 	{
 		auto [debInfo, labyrinth, travaler] = *l;
+
 		if (Input::GetInstance().GetButton("UseQ", Input::PressMode::Press))
 		{
+			debInfo.ActiveDebug = !debInfo.ActiveDebug;
+			if (!debInfo.ActiveDebug)
+			{
+				for (auto ent : debInfo.Entites)
+				{
+					em.RemoveEntity(ent);
+				}
+				debInfo.Entites.clear();
+			}
+			else
+			{
+				debInfo.forceRedraw = true;
+			}
+		}
+
+		if (debInfo.ActiveDebug && debInfo.forceRedraw)
+		{
+			debInfo.forceRedraw = false;
 			for (auto ent : debInfo.Entites)
 			{
 				em.RemoveEntity(ent);
@@ -40,11 +59,11 @@ void Labyrinth::GraphDebugger(ecs::EntityManager& em)
 
 				if (travaler.CurrentRoom == i)
 				{
-					im.Material = GLMaterial(shr->GetMaterial("Materials\\GraphPoint2.txt"));
+					im.Material = GLMaterial(shr->GetMaterial("Materials\\Labyrinth\\GraphPoint2.txt"));
 				}
 				else
 				{
-					im.Material = GLMaterial(shr->GetMaterial("Materials\\GraphPoint.txt"));
+					im.Material = GLMaterial(shr->GetMaterial("Materials\\Labyrinth\\GraphPoint.txt"));
 				}
 
 				auto line = em.AddEntity();

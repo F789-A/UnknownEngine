@@ -1,2 +1,0 @@
-texture diffuse Textures/fon2.png
-shader_path Shaders\DefaultUI.ueshad

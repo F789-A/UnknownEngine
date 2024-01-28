@@ -2,7 +2,7 @@ Entity
 {
 	Transform
 	{
-		float[] Position = [0, -1, 2]	
+		float[] Position = [0, 0, 15]	
 		float[] Rotation = [0, 90, 0]
 		float[] Scale = [1, 1, 1]
 	}
@@ -13,10 +13,6 @@ Entity
 		float FarClip = 100
 	}
 	MainCamera {}
-	Camera2DController
-	{
-		float Speed = 0.01
-	}
 }
 
 ////////
@@ -40,7 +36,7 @@ Entity
 	}
 	Text
 	{
-		string Text = "Click button! P - change level"
+		string Text = "Button P - change level"
 		int Size = 24
 		string FontPath = "Fonts\arial.ttf"
 	}

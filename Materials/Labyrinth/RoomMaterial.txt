@@ -1,0 +1,2 @@
+texture diffuse Textures/Labyrinth/Room.png
+shader_path Shaders/Diffuse.ueshad

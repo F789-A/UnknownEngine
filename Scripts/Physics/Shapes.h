@@ -2,6 +2,7 @@
 #include <glm\glm.hpp>
 #include <array>
 #include <optional>
+#include <memory>
 #include "Utils\SimpleMath.h"
 
 namespace physics
@@ -30,8 +31,8 @@ namespace physics
     struct Shape
     {
         std::optional<Collision> GetCollision(const Shape& shape) const; // virtual table
-        std::optional<Intersect> GetIntersect(const Shape1D& shape) const; // virtual table
-        //virtual bool GetPointIn(const Point& point) = 0;
+        //std::optional<Intersect> GetIntersect(const Shape1D& shape) const; // virtual table
+        virtual bool IntersectWith(const Point& point) const = 0;
 
         virtual glm::vec2 Center() const = 0;
         virtual float Size() const = 0;
@@ -77,7 +78,7 @@ namespace physics
         glm::vec2 Center() const override;
         float Size() const override;
 
-        bool IntersectWith(const Point& shape) const;
+        bool IntersectWith(const Point& shape) const override;
         bool IntersectWith(const Ray& shape) const;
     };
 
@@ -91,7 +92,7 @@ namespace physics
         glm::vec2 Center() const override;
         float Size() const override;
 
-        bool IntersectWith(const Point& shape) const;
+        bool IntersectWith(const Point& shape) const override;
         bool IntersectWith(const Ray& shape) const;
     };
 
@@ -99,4 +100,6 @@ namespace physics
     std::optional<std::pair<Collision, Collision>> IsCollision(const Circle& A, const Circle& B);
     std::optional<std::pair<Collision, Collision>> IsCollision(const Square& A, const Circle& B);
     std::optional<std::pair<Collision, Collision>> IsCollision(const Circle& A, const Square& B);
+
+    std::unique_ptr<Shape> ApplyTransformToShape(const Shape& shape, const glm::vec2& position, const glm::vec2& scale);
 }

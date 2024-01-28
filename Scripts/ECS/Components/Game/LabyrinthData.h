@@ -3,7 +3,6 @@
 #include "ECS\EcsSystem.h"
 #include "GameTools\GraphGenerator.h"
 
-
 struct Room
 {
 	std::vector<glm::vec2> DoorPos;
@@ -24,7 +23,7 @@ struct LabyrinthData : public ecs::Component<LabyrinthData>
 
 		ld.rooms = std::vector<Room>(ld.levelGraph.Verts.size());
 
-		static const std::vector<glm::vec2> pos = { {0, 0}, {1, 0}, {2, 0}, {3, 0} };
+		static const std::vector<glm::vec2> pos = { {-3, 0}, {-1, 0}, {1, 0}, {3, 0} };
 
 		for (int i = 0; i < ld.rooms.size(); ++i)
 		{
@@ -34,5 +33,17 @@ struct LabyrinthData : public ecs::Component<LabyrinthData>
 				ld.rooms[i].DoorRoom.push_back(ld.levelGraph.Verts[i][j]);
 			}
 		}
+	}
+};
+
+struct DoorData : public ecs::Component<DoorData>
+{
+	static constexpr std::string_view ComponentName = "DoorData";
+
+	int NextRoom;
+
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
+	{
+		auto& dd = em.GetComponent<DoorData>(ent);
 	}
 };
