@@ -22,5 +22,5 @@ void main()
     gl_Position = projection * view * model * vec4(position, 1.0); 
     mat3 normalMatrix = mat3(transpose(inverse(view * model)));
     //vs_out.normal = normalize(vec3(projection * vec4(normalMatrix * normal, 0.0)));
-    vs_out.texCoords = coord;
+    vs_out.texCoords = vec2(coord.x, 1-coord.y);
 }

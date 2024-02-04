@@ -66,7 +66,7 @@ public:
             {
                 for (int x = 0; x < width; x++)
                 {
-                    text.set(cur.x + x, cur.y + y, face->glyph->bitmap.buffer[y * width + x]);
+                    text.Data[(cur.y + y) * text.Width + (cur.x + x)] = face->glyph->bitmap.buffer[y * width + x];
                 }
             }
             Character character = 

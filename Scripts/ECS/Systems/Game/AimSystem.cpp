@@ -81,11 +81,11 @@ void ProcessShootEffect(ecs::EntityManager& em, const std::vector<glm::vec2>& li
 		float distY = rightUpCorner.y - leftDownCorner.y;
 
 		static std::mt19937 rnd(0);
-		std::uniform_real_distribution<float> distBig(0.05f, 0.95);
-		std::uniform_real_distribution<float> distSmall(0, 0.1f);
+		std::uniform_real_distribution<float> distBig(0.05f, 0.95f);
+		std::uniform_real_distribution<float> distSmall(0.0f, 0.1f);
 		std::uniform_real_distribution<float> distLen(0.1f, 0.15f);
 
-		const float tolerance = 0.05;
+		const float tolerance = 0.05f;
 
 		const float len = 0.05f;
 
@@ -273,7 +273,7 @@ void AsteroidHunter::AlienController(ecs::EntityManager& em)
 		}
 		if (static_cast<bool>(alien.alienType & AlienTypes::PingPonger))
 		{
-			float eps = (float)std::rand() / RAND_MAX / 10.0;
+			float eps = (float)std::rand() / RAND_MAX / 10.0f;
 			if ((transf.pos.x > 1 && alien.dir.x > 0) || (transf.pos.x < 0 && alien.dir.x < 0))
 			{
 				alien.dir = glm::normalize(glm::vec2(-alien.dir.x + eps, alien.dir.y));
@@ -285,7 +285,7 @@ void AsteroidHunter::AlienController(ecs::EntityManager& em)
 		}
 		else if (static_cast<bool>(alien.alienType & AlienTypes::Bounder))
 		{
-			float rndDir = ((float)std::rand() / RAND_MAX -0.5) * 10;
+			float rndDir = ((float)std::rand() / RAND_MAX - 0.5f) * 10.0f;
 			if (transf.pos.x > 1)
 			{
 				alien.dir = glm::normalize(glm::vec2(-1, rndDir));

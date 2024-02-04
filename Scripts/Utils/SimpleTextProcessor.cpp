@@ -66,6 +66,7 @@ bool TextTools::ReadBool(const std::string& str)
 	{
 		return false;
 	}
+	throw "Bad arg";
 }
 
 std::vector<int> TextTools::GetVectorInt(const std::string& str)

@@ -102,7 +102,7 @@ GLShader& GLShader::operator=(GLShader&& other) noexcept
 }
 
 GLShader::GLShader(GLShader&& other) noexcept:Program ( other.Program), DepthMask(other.DepthMask), FrontFaceMode(other.FrontFaceMode),
-    DepthTest (other.DepthTest), CullFace (other.CullFace), Blend(other.Blend), CullMode(other.CullMode),
+    DepthTest(other.DepthTest), CullFace(other.CullFace), Blend(other.Blend), CullMode(other.CullMode),
     BlendSourceFunc(other.BlendSourceFunc), BlendDestinationFunc(other.BlendDestinationFunc), DepthFunc(other.DepthFunc)
 {
     other.HaveResources = false;

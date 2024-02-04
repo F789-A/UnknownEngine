@@ -15,7 +15,7 @@ glm::vec3 ScrToNormalize(glm::vec2 pos)
 	return glm::vec3(pos.x * 2 - 1, pos.y * 2 - 1, 0);
 }
 
-void DrawUI(const GLMaterial& material, const glm::mat4& matrix)
+void DrawUI(const GLMaterial& material, const glm::vec2& position, const glm::vec2& scale, float priority)
 {
 	static GLMesh uiplane(
 		{
@@ -25,16 +25,12 @@ void DrawUI(const GLMaterial& material, const glm::mat4& matrix)
 		Vertex2D({1, 1, 0}, {1, 1})
 		},
 		{ 0, 1, 2, 0, 2, 3 });
-	uiplane.Draw(material, matrix);
-}
 
-void DrawUI(const GLMaterial& material, const glm::vec2& position, const glm::vec2& scale, int priority)
-{
 	glm::mat4 modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(scale.x, scale.y, 1));
-	modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(position.x * 2 - 1, position.y * 2 - 1, 1 - (float)priority / 100)) * modelMatrix;
+	modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(position.x * 2 - 1, position.y * 2 - 1, 1 - (float)priority / 100.0f)) * modelMatrix;
 
-	DrawUI(material, modelMatrix);
-}	
+	uiplane.Draw(material, modelMatrix);
+}
 
 void DrawUI(const GLMaterial& material, std::vector<Vertex2D> vertices, int priority)
 {
@@ -50,9 +46,9 @@ void DrawUI(const GLMaterial& material, std::vector<Vertex2D> vertices, int prio
 	}
 	uiplane.SetVertexData(verts);
 
-	glm::mat4 modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(1, 1, 1));
+	glm::mat4 modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	//model = glm::mat4_cast(glm::quat(1, 0, 0, 0)) * model;
-	modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 1 - (float)priority / 100)) * modelMatrix;
+	modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f - (float)priority / 100.0f)) * modelMatrix;
 
 	uiplane.Draw(material, modelMatrix);
 }
@@ -138,12 +134,12 @@ void ui::DrawText(ecs::EntityManager& em)
 				}
 			}
 
-			GLfloat xpos = curPos.x + (float)ch.Bearing.x / 400;
+			GLfloat xpos = curPos.x + (float)ch.Bearing.x / 400.0f;
 			GLfloat ypos = curPos.y;
 
-			GLfloat w = (float)ch.Size.x / 400;
-			GLfloat h_m = (float)(ch.Size.y - ch.Bearing.y) / 300;
-			GLfloat h_p = (float)ch.Bearing.y / 300;
+			GLfloat w = (float)ch.Size.x / 400.0f;
+			GLfloat h_m = (float)(ch.Size.y - ch.Bearing.y) / 300.0f;
+			GLfloat h_p = (float)ch.Bearing.y / 300.0f;
 			auto coords = PixToScreenCoord(ch.Coord, ch.Size);
 			std::vector<Vertex2D> vertices = {
 				{{xpos, ypos + h_p,	0},	{coords[0].x, coords[0].y}},
@@ -155,7 +151,7 @@ void ui::DrawText(ecs::EntityManager& em)
 			static GLMaterial mat(res->GetShaderRef("Shaders\\UiText.ueshad"));
 			mat.Textures["text"] = &text.font->texture;
 			DrawUI(mat, vertices, transf.priority);
-			curPos.x += (float)ch.Advance/400;
+			curPos.x += (float)ch.Advance/400.0f;
 		}
 	}
 }

@@ -7,4 +7,6 @@ Model ImportModel(std::string pathS)
 	{
 		return ImportObj(path);
 	}
+
+	throw "Not supported format";
 }

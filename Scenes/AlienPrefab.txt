@@ -10,8 +10,8 @@ Entity
 	}
 	AlienData
 	{
-		int Health = 15
-		int Damage = 1
+		float Health = 15
+		float Damage = 1
 		ref HealthBar = alienText
 	}
 	Image

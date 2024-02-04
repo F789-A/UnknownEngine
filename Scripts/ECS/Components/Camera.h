@@ -13,10 +13,10 @@ struct Camera: public ecs::Component<Camera>
 {
     static constexpr std::string_view ComponentName = "Camera";
 
-    float FOV = glm::radians(45.0);
+    float FOV = glm::radians(45.0f);
     float NearClip = 0.1f;
     float FarClip = 100.0f;
-    float Size = 10;
+    float Size = 10.0f;
     CameraType cameraType = CameraType::Perspective;
 
     static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)

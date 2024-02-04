@@ -14,9 +14,9 @@ struct AimData : public ecs::Component<AimData>
 	float size;
 	float Health;
 	float Damage;
-	float minSize = 0.1;
-	float maxSize = 0.8;
-	float Speed = 5;
+	float minSize = 0.1f;
+	float maxSize = 0.8f;
+	float Speed = 5.0f;
 
 	bool Initialized = false;
 
@@ -29,8 +29,8 @@ struct AimData : public ecs::Component<AimData>
 
 		aim.center = glm::vec3(0,0,0);
 		aim.size = std::stof(res["size"]);
-		aim.Health = stoi(res["Health"]);
-		aim.Damage = stoi(res["Damage"]);
+		aim.Health = stof(res["Health"]);
+		aim.Damage = stof(res["Damage"]);
 
 		aim.text = &em.GetComponent<Text>(std::stoi(res["text"]));
 	}

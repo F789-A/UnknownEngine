@@ -46,8 +46,8 @@ struct AlienData: public ecs::Component<AlienData>
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
 		auto& alien = em.GetComponent<AlienData>(ent);
-		alien.Health = std::stoi(res["Health"]);
-		alien.Damage = std::stoi(res["Damage"]);
+		alien.Health = std::stof(res["Health"]);
+		alien.Damage = std::stof(res["Damage"]);
 		alien.HealthBar = &em.GetComponent<Text>(std::stoi(res["HealthBar"]));
 		alien.dir = glm::normalize(glm::vec2(1, 0.3));
 		alien.alienType = AlienTypes::Coward | AlienTypes::PingPonger;
