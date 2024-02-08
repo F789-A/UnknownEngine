@@ -79,9 +79,11 @@ namespace ecs
 			std::tuple<T1&, Ts&...> operator*();
 
 		private:
+			using BaseComponentIterator = ComponentConteiner<T1>::iterator;
+
 			EntityManager& em;
-			typename ComponentConteiner<T1>::iterator it_end;
-			typename ComponentConteiner<T1>::iterator it;
+			BaseComponentIterator it_end;
+			BaseComponentIterator it;
 
 			ComponentIterator(EntityManager& em);
 		};

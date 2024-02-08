@@ -56,6 +56,19 @@ glm::vec3 TextTools::ReadVec3(const std::string& str)
 	return glm::vec3(std::stof(coords[0]), std::stof(coords[1]), std::stof(coords[2]));
 }
 
+std::vector<int> TextTools::ReadIntArray(const std::string& str)
+{
+	std::string _str = DelChar(str, ' ');
+	std::vector<std::string> vals = TextTools::SplitAndDelSpace(_str, ',');
+	std::vector<int> result;
+	vals.reserve(vals.size());
+	for (auto& l : vals)
+	{
+		result.push_back(std::stoi(l));
+	}
+	return result;
+}
+
 bool TextTools::ReadBool(const std::string& str)
 {
 	if (str == "true")

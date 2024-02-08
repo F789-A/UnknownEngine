@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include "ECS\EcsSystem.h"
 #include "GameTools\GraphGenerator.h"
+#include "Utils\SimpleTextProcessor.h"
 
 struct Room
 {
@@ -16,10 +17,12 @@ struct LabyrinthData : public ecs::Component<LabyrinthData>
 	Graph levelGraph = Graph(34581, 8, 4, 4, 8, 4);
 	std::vector<Room> rooms;
 
-	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
-		auto& ld = em.GetComponent<LabyrinthData>(a);
-		ld.levelGraph = Graph(34581, 8, 4, 4, 8, 4);
+		auto& ld = em.GetComponent<LabyrinthData>(ent);
+		
+		auto counts = TextTools::ReadIntArray(res["Counts"]);
+		ld.levelGraph = Graph(std::stoi(res["Seed"]), std::stoi(res["Length"]), counts[0], counts[1], counts[2], counts[3]);
 
 		ld.rooms = std::vector<Room>(ld.levelGraph.Verts.size());
 

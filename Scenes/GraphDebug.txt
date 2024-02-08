@@ -20,7 +20,12 @@ Entity
 Entity
 {
 	GraphDebugInfo{}
-	LabyrinthData{}
+	LabyrinthData
+	{
+		int Seed = 34581
+		int Length = 8
+		int[] Counts = [4, 4, 8, 4]
+	}
 	RoomTraveler{}
 	RoomRedrawer{}
 }
