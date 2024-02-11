@@ -12,7 +12,6 @@
 
 #include "ECS\Components\Game\AimData.h"
 #include "ECS\Components\Game\AlienData.h"
-#include "ECS\Components\RenderLine.h"
 #include "ECS\Components\UiComponents.h"
 
 #include "ECS\Components\Game\LevelData.h"
@@ -61,11 +60,7 @@ void ProcessShootEffect(ecs::EntityManager& em, const std::vector<glm::vec2>& li
 		if (onceEff)
 		{
 			onceEff = false;
-			std::vector<Vertex> arr;
-			for (int i = 0; i < 40; i++)
-			{
-				arr.push_back(Vertex{ { 0.0, 0.0, 0.0 } });
-			}
+			std::vector<Vertex> arr(40);
 			std::vector<GLuint> indices;
 			for (int i = 0; i < 40; i++)
 			{

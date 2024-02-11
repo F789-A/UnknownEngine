@@ -135,9 +135,6 @@
     <ClCompile Include="Scripts\ECS\Components\Camera.cpp">
       <Filter>Source Files\ECS\Compoents</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\ECS\Systems\Graphics\LineDrawSystem.cpp">
-      <Filter>Source Files\ECS\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Scripts\ECS\Systems\Graphics\RenderMeshSystem.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
@@ -280,9 +277,6 @@
     </ClInclude>
     <ClInclude Include="Scripts\Graphics\GLLineMesh.h">
       <Filter>Source Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripts\ECS\Components\RenderLine.h">
-      <Filter>Source Files\ECS\Compoents</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\ECS\Components\Game\AimData.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>

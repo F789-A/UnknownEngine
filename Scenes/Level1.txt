@@ -5,6 +5,13 @@ Entity as MainCharacter
 		float[] Position = [0, 0, 0] 									
 		float[] Scale = [1, 1, 1] 									 		
 	}
+	RectTransform // fix it
+	{
+		float[] pos = [0.5, 0.5, 0]
+		float[] size = [1, 1, 0]
+		int priority = 5
+		ref[] childs = []
+	}
 	Camera
 	{
 		float FOV = 45
@@ -39,6 +46,13 @@ Entity as effects
 {
 	AimEffect
 	{
+	}
+	RectTransform
+	{
+		float[] pos = [0.5, 0.5, 0]
+		float[] size = [1, 1, 0]
+		int priority = 5
+		ref[] childs = []
 	}
 	RenderLine
 	{

@@ -2,7 +2,6 @@
 #include "ECS\Components\Game\GraphDebugInfo.h"
 #include "ECS\Components\Game\LabyrinthData.h"
 #include "ECS\Components\UiComponents.h"
-#include "ECS\Components\RenderLine.h"
 #include "ECS\Components\Game\RoomTraveler.h"
 #include "GameTools\GraphGenerator.h"
 #include "Core\Input.h"
@@ -69,6 +68,7 @@ void Labyrinth::GraphDebugger(ecs::EntityManager& em)
 				auto line = em.AddEntity();
 				debInfo.Entites.push_back(line);
 				em.AddComponent<RenderLine>(line);
+				em.AddComponent<RectTransform>(line);
 
 				auto& lineRenderer = em.GetComponent<RenderLine>(line);
 

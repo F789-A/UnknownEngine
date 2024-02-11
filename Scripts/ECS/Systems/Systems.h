@@ -6,7 +6,6 @@ namespace ui
 	void ProcessButtons(ecs::EntityManager&);
 	void DrawUIImage(ecs::EntityManager&);
 	void DrawText(ecs::EntityManager&);
-
 	void DrawLine(ecs::EntityManager&);
 }
 

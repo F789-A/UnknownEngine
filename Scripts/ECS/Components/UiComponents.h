@@ -16,7 +16,7 @@ struct RectTransform : public ecs::Component<RectTransform>
 
 	glm::vec2 pos;	// local
 	glm::vec2 size; // global
-	float priority;
+	float priority = 0.0f;
 
 	std::vector<RectTransform*> childs;
 	RectTransform* parent = nullptr;
@@ -107,4 +107,21 @@ struct ToggleEvent : public ecs::Component<ToggleEvent>
 	bool state;
 
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res){}
+};
+
+struct RenderLine : ecs::Component<RenderLine>
+{
+	static constexpr std::string_view ComponentName = "RenderLine";
+
+	GLMesh RenderedLine;
+	GLMaterial RenderedMaterial;
+
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
+	{
+		auto& render = em.GetComponent<RenderLine>(ent);
+		render.RenderedLine = GLMesh();
+		Singleton<SharedGraphicsResources> singlRes;
+		render.RenderedMaterial = GLMaterial(singlRes->GetMaterial(res["RenderedMaterial"]));
+	}
+
 };

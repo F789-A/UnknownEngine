@@ -155,3 +155,15 @@ void ui::DrawText(ecs::EntityManager& em)
 		}
 	}
 }
+
+void ui::DrawLine(ecs::EntityManager& em)
+{
+	for (auto l = em.GetComponents<RenderLine, RectTransform>(); !l.end(); ++l)
+	{
+		auto [render, tr] = *l;
+
+		glm::mat4 modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(tr.size.x, tr.size.y, 1));
+		modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(tr.pos.x * 2 - 1, tr.pos.y * 2 - 1, 1 - (float)tr.priority / 100.0f)) * modelMatrix;
+		render.RenderedLine.Draw(render.RenderedMaterial, modelMatrix);
+	}
+}

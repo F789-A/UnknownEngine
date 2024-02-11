@@ -175,7 +175,6 @@
     <ClCompile Include="Scripts\Graphics\GLLineMesh.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\GameTools\LevelChanger.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Game\LevelController.cpp" />
-    <ClCompile Include="Scripts\ECS\Systems\Graphics\LineDrawSystem.cpp" />
     <ClCompile Include="Scripts\Core\Main.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Game\MenuController.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Graphics\RenderMeshSystem.cpp" />
@@ -237,7 +236,6 @@
     <ClInclude Include="Scripts\ECS\EcsSystem.h" />
     <ClInclude Include="Scripts\Graphics\GLLineMesh.h" />
     <ClInclude Include="Scripts\ECS\Components\UiComponents.h" />
-    <ClInclude Include="Scripts\ECS\Components\RenderLine.h" />
     <ClInclude Include="Scripts\Core\WindowApp.h" />
     <ClInclude Include="Scripts\Graphics\GLMesh.h" />
     <ClInclude Include="Scripts\SerializationSystem\EntityLoader.h" />
