@@ -1,5 +1,19 @@
 #include "ObjImporter.h"
 
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <utility>
+#include <list>
+#include <map>
+#include <array>
+#include <vector>
+
+#include <glm/glm.hpp>
+
+#include "Utils\SimpleTextProcessor.h"
+#include "PolygonGeometry.h"
+
 //Поддерживаются только основные тэги проверялось только на файлах от 3d max (толком не тестировалось)
 //Некоторые негеометрические алгоритмы неоптимальны. Требуется серьезная доработка
 

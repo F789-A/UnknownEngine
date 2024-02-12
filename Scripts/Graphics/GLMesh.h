@@ -1,14 +1,11 @@
 #pragma once
-
-#include "Assets\Mesh.h"
-#include "GLMaterial.h"
-
 #include <glad/glad.h> 
 #include <GLFW\glfw3.h>
 
 #include <glm/glm.hpp>
 
-using uint = unsigned int;
+#include "Assets\Mesh.h"
+#include "GLMaterial.h"
 
 class GLMesh
 {
@@ -49,17 +46,11 @@ public:
     //TODO: void DrawInstance(Shader& shader);
 
 private:
-    uint VAO;
-    uint VBO;
-    uint EBO;
+    GLuint VAO;
+    GLuint VBO;
+    GLuint EBO;
     int IndicesSize;
     bool HaveGPUResources = false;
 
     GeometryTypes GeometryType;
 };
-
-/* TODO: class GLMeshEditable: public GLMesh
-* {
-* Mesh* LinkedMesh;
-* }
-*/

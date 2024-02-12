@@ -1,9 +1,6 @@
 #pragma once
 #include "Mesh.h"
 
-#include <filesystem>
-#include <unordered_map>
-
 class Model
 {
 public:
@@ -20,7 +17,6 @@ public:
 
     Model(Model&& other) noexcept;
     Model& operator=(Model&& other) noexcept;
-
 
     ~Model() = default;
 };
