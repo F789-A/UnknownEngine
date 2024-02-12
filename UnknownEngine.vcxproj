@@ -290,7 +290,6 @@
     <Text Include="Scenes\Key.txt" />
     <Text Include="Scenes\Level1.txt" />
     <Text Include="Scenes\MainMenu.txt" />
-    <Text Include="Scenes\RoomPrefab.txt" />
     <Text Include="Scenes\Trenchetrauma.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

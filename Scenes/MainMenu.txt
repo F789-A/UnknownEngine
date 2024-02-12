@@ -152,10 +152,7 @@ Entity
 		int priority = 99
 		ref[] childs = []
 	}
-	Tag
-	{
-		string Name = "CreditsTable"
-	}
+	CreditsTableTag{}
 	Text
 	{
 		string Text = "Fear_Rus"

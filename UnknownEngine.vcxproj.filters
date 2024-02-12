@@ -459,8 +459,5 @@
     <Text Include="Scenes\DoorPrefab.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
-    <Text Include="Scenes\RoomPrefab.txt">
-      <Filter>Source Files\Resources</Filter>
-    </Text>
   </ItemGroup>
 </Project>

@@ -24,14 +24,13 @@ void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
 		}
 		redrawer.Entites.clear();
 
-		SerializationSystem::LoadEntity(em, "Scenes\\RoomPrefab.txt");
 		for (int i = 0; i < data.levelGraph.Verts[traveler.CurrentRoom].size(); ++i)
 		{
 			SerializationSystem::LoadEntity(em, "Scenes\\DoorPrefab.txt");
 		}
 
 		int  i = 0;
-		for (auto l = em.GetComponents<Transform, DoorData, NewPlacedObject>(); !l.end(); ++l)
+		for (auto l = em.GetComponents<Transform, DoorData, NewPlacedObjectTag>(); !l.end(); ++l)
 		{
 			auto [tr, door, tag] = *l;
 
@@ -41,14 +40,9 @@ void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
 
 			door.NextRoom = data.levelGraph.Verts[traveler.CurrentRoom][i];
 			i++;
-		}
-
-		for (auto l = em.GetComponents<NewPlacedObject>(); !l.end(); ++l)
-		{
-			auto [tag] = *l;
 
 			redrawer.Entites.push_back(em.GetEntity(tag));
-			em.RemoveComponent<NewPlacedObject>(em.GetEntity(tag));
+			em.RemoveComponent<NewPlacedObjectTag>(em.GetEntity(tag));
 		}
 
 		redrawer.NeedRedraw = false;

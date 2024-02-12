@@ -123,5 +123,4 @@ struct RenderLine : ecs::Component<RenderLine>
 		Singleton<SharedGraphicsResources> singlRes;
 		render.RenderedMaterial = GLMaterial(singlRes->GetMaterial(res["RenderedMaterial"]));
 	}
-
 };

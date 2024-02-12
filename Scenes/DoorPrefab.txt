@@ -1,6 +1,6 @@
 Entity
 {
-	NewPlacedObject{}
+	NewPlacedObjectTag{}
 	Transform
 	{
 		float[] Position = [0, 0, 1]

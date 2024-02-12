@@ -33,10 +33,10 @@ glm::vec2 RandomFromEdgeBox(Box2d box)
 void AddAlien(ecs::EntityManager& em, const glm::vec2& pos, AlienTypes type, float health, float damage, float support)
 {
 	SerializationSystem::LoadEntity(em, "Scenes\\AlienPrefab.txt");
-	for (auto l = em.GetComponents<NewPlacedObject, RectTransform, AlienData>(); !l.end(); ++l)
+	for (auto l = em.GetComponents<NewPlacedObjectTag, RectTransform, AlienData>(); !l.end(); ++l)
 	{
 		auto [tag, transf, alienData] = *l;
-		em.RemoveComponent<NewPlacedObject>(em.GetEntity(tag));
+		em.RemoveComponent<NewPlacedObjectTag>(em.GetEntity(tag));
 		transf.pos = pos;
 		alienData.alienType = type;
 		alienData.Health = health;

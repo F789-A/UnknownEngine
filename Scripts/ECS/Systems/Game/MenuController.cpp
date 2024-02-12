@@ -28,20 +28,18 @@ namespace AsteroidHunter
 			auto [ev] = *l;
 			if (ev.Id == 3)
 			{
-				for (auto k = em.GetComponents<Tag>(); !k.end(); ++k)
+				for (auto k = em.GetComponents<CreditsTableTag>(); !k.end(); ++k)
 				{
 					auto [tag] = *k;
-					if (tag.Name == "CreditsTable")
+
+					auto& tr = em.GetComponent<RectTransform>(tag);
+					if (ev.state)
 					{
-						auto& tr = em.GetComponent<RectTransform>(tag);
-						if (ev.state == true)
-						{
-							tr.pos = glm::vec2(0.7, 0.5);
-						}
-						else
-						{
-							tr.pos = glm::vec2(-5, -5);
-						}
+						tr.pos = glm::vec2(0.7, 0.5);
+					}
+					else
+					{
+						tr.pos = glm::vec2(-5, -5);
 					}
 				}
 			}

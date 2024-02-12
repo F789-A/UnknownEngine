@@ -1,6 +1,6 @@
 Entity
 {
-	NewPlacedObject{}
+	NewPlacedObjectTag{}
 	RectTransform
 	{
 		float[] pos = [0.5, 0.25, 0]

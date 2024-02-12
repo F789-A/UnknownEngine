@@ -12,24 +12,22 @@ struct Event : public ecs::Component<Event>
 	{};
 };
 
-struct Tag : public ecs::Component<Tag>
+struct CreditsTableTag : public ecs::Component<CreditsTableTag>
 {
-	static constexpr std::string_view ComponentName = "Tag";
+	static constexpr std::string_view ComponentName = "CreditsTableTag";
 
-	std::string Name;
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
-		auto& tag = em.GetComponent<Tag>(ent);
-		tag.Name = res["Name"];
+		auto& tag = em.GetComponent<CreditsTableTag>(ent);
 	};
 };
 
-struct NewPlacedObject : public ecs::Component<NewPlacedObject>
+struct NewPlacedObjectTag : public ecs::Component<NewPlacedObjectTag>
 {
-	static constexpr std::string_view ComponentName = "NewPlacedObject";
+	static constexpr std::string_view ComponentName = "NewPlacedObjectTag";
 
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
-		auto& tag = em.GetComponent<NewPlacedObject>(ent);
+		auto& tag = em.GetComponent<NewPlacedObjectTag>(ent);
 	};
 };
