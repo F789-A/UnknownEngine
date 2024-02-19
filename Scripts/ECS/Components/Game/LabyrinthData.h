@@ -17,12 +17,6 @@ struct LabyrinthData : public ecs::Component<LabyrinthData>
 	Graph levelGraph = Graph(34581, 8, 4, 4, 8, 4);
 	std::vector<Room> rooms;
 
-	glm::vec2 CenterPos;
-	glm::vec2 CenterSize;
-	float BoxSize;
-
-	glm::vec3 RoomSize;
-
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
 		auto& ld = em.GetComponent<LabyrinthData>(ent);

@@ -17,13 +17,12 @@ Entity
 
 ////////
 
-Entity
+Entity // Fon
 {
 	Transform
 	{
 		float[] Position = [0, 0, 0]
 		float[] Scale = [10, 7.5, 1]
-
 	}
 	RenderMesh
 	{
@@ -31,6 +30,44 @@ Entity
 		string RenderMaterial = "Materials\Labyrinth\RoomMaterial.txt"
 	}
 }
+
+Entity
+{
+	RoomVisual
+	{
+	
+	}
+}
+
+Entity // RoomBuilder
+{
+	RoomTag{}
+	Transform
+	{
+		float[] Position = [0, 0, 0.3]
+		float[] Scale = [1, 1, 1]
+	}
+	RenderMesh // fake
+	{
+		string RenderMesh = "Models\Plane.obj" 
+		string RenderMaterial = "Materials\Labyrinth\WhiteLine.txt"
+	}
+}
+
+//Entity // GridBuilder
+//{
+//	GridController{}
+//	Transform
+//	{
+//		float[] Position = [0, 0, 0.4]
+//		float[] Scale = [10, 7.5, 1]
+//	}
+//	RenderMesh // fake
+//	{
+//		string RenderMesh = "Models\Plane.obj" 
+//		string RenderMaterial = "Materials\Labyrinth\RoomMaterial.txt"
+//	}
+//}
 
 Entity
 {

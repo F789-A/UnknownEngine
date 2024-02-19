@@ -109,6 +109,8 @@ void GameLoop::ConstructScene()
 	ecs::DefEcs().system.AddSystem(Labyrinth::GraphDebugger);
 	ecs::DefEcs().system.AddSystem(Labyrinth::RoomTravelerController);
 	ecs::DefEcs().system.AddSystem(Labyrinth::RoomRedrawerController);
+	ecs::DefEcs().system.AddSystem(Labyrinth::RoomBackgroundRedrawer);
+	ecs::DefEcs().system.AddSystem(Labyrinth::RoomGridDrawer);
 }
 
 float GameLoop::GetDeltaTime() const
