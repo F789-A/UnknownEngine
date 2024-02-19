@@ -11,13 +11,6 @@ namespace physics
 {
     Line::Line(const glm::vec2& origin, const glm::vec2& direction)
     {
-        if (direction.y == 0.0f)
-        {
-            A = 0.0f;
-            B = 1.0f;
-            C = -origin.y;
-            return;
-        }
         if (direction.x == 0.0f)
         {
             A = 1.0f;
@@ -28,9 +21,9 @@ namespace physics
         float k = direction.y / direction.x;
         float normalized = 1.0f / glm::length(glm::vec2(k, -1));
 
-        A = -normalized;
-        B = k * normalized;
-        C = (origin.y - k * origin.x) * normalized;
+        A = k * normalized;
+        B = -normalized;
+        C = -A * origin.x - B * origin.y;
     }
 
     std::optional<glm::vec2> Line::IntersectWith(const Line& other) const
@@ -41,11 +34,11 @@ namespace physics
         }
 
         float k = other.A / A;
-        float c = other.C + k * C;
+        float c = other.C - k * C;
         k = other.B - k * B;
 
         float y = -c / k;
-        float x = (C - B * y) / A;
+        float x = (-C - B * y) / A;
         return { {x, y} };
     }
 
