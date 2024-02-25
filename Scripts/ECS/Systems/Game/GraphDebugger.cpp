@@ -72,7 +72,7 @@ void Labyrinth::GraphDebugger(ecs::EntityManager& em)
 
 				auto& lineRenderer = em.GetComponent<RenderLine>(line);
 
-				lineRenderer.RenderedMaterial = GLMaterial(shr->GetMaterial("Materials/Labyrinth/WhiteLine.txt"));
+				lineRenderer.RenderedMaterial = GLMaterial(shr->GetMaterial("Materials/Simple.uemat"));
 
 				std::vector<GLuint> verts;
 				std::vector<Vertex> arr;

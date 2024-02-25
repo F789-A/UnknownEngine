@@ -54,20 +54,20 @@ Entity // RoomBuilder
 	}
 }
 
-//Entity // GridBuilder
-//{
-//	GridController{}
-//	Transform
-//	{
-//		float[] Position = [0, 0, 0.4]
-//		float[] Scale = [10, 7.5, 1]
-//	}
-//	RenderMesh // fake
-//	{
-//		string RenderMesh = "Models\Plane.obj" 
-//		string RenderMaterial = "Materials\Labyrinth\RoomMaterial.txt"
-//	}
-//}
+Entity // GridBuilder
+{
+	GridController{}
+	Transform
+	{
+		float[] Position = [10, 0, 0.4]
+		float[] Scale = [1, 1, 1]
+	}
+	RenderMesh // fake
+	{
+		string RenderMesh = "Models\Plane.obj" 
+		string RenderMaterial = "Materials\Labyrinth\WhiteLine.txt"
+	}
+}
 
 Entity
 {

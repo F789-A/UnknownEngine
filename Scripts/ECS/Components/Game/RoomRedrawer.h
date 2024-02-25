@@ -1,5 +1,6 @@
 #pragma once
 #include "ECS\EcsSystem.h"
+#include <array>
 #include <glm\glm.hpp>
 
 struct RoomRedrawer : public ecs::Component<RoomRedrawer>
@@ -21,9 +22,8 @@ struct RoomVisual : public ecs::Component<RoomVisual>
 
     glm::vec2 CenterPos = {0.0f, 0.5f};
     glm::vec2 CenterSize = {3.0f, 0.0f};
-    float BoxSize = 1.0f;
-
-    glm::vec3 RoomSize = {1.0f, 1.0f, 1.0f};
+    float FrontBoxSize = 0.5f;
+    float SideBoxSize = 0.5f;
 
     static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
     {
@@ -45,6 +45,7 @@ struct GridController : public ecs::Component<GridController>
 {
     static constexpr std::string_view ComponentName = "GridController";
 
+    std::array<glm::vec2, 4> points;
     bool isActive = false;
     bool isDrawed = false;
 
