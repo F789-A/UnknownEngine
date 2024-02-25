@@ -172,6 +172,7 @@
     <ClCompile Include="Scripts\GameTools\GraphGenerator.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Physics\GravityController.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Physics\ImpulseControllerSystem.cpp" />
+    <ClCompile Include="Scripts\Graphics\GlFramebuffer.cpp" />
     <ClCompile Include="Scripts\Graphics\GLLineMesh.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\GameTools\LevelChanger.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Game\LevelController.cpp" />

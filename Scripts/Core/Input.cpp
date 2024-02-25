@@ -3,7 +3,7 @@
 
 Input& Input::GetInstance()
 {
-	static Input  instance(WindowApp::GetInstance().GetWindow());
+	static Input instance(WindowApp::GetInstance().GetWindow());
 	return instance;
 }
 

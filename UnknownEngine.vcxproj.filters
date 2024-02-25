@@ -207,6 +207,9 @@
     <ClCompile Include="Scripts\Utils\SimpleMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\Graphics\GlFramebuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scripts\Graphics\GLShader.h">

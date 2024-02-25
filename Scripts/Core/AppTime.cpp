@@ -1,5 +1,6 @@
 #include "AppTime.h"
 #include "GameLoop.h"
+#include "WindowApp.h"
 
 float AppTime::GetTime()
 {

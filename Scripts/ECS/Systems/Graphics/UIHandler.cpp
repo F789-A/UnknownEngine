@@ -7,6 +7,7 @@
 
 #include "Graphics\GlMaterial.h"
 #include "Graphics\GLMesh.h"
+#include "Graphics\GraphicCore.h"
 #include "SerializationSystem\SharedGraphicsResources.h"
 #include "Core\Input.h"
 
@@ -68,8 +69,8 @@ void ui::ProcessButtons(ecs::EntityManager& em)
 	for (auto l = em.GetComponents<Button, RectTransform>(); !l.end(); ++l)
 	{
 		auto [button, transf] = *l;
-		float x = Input::GetInstance().GetMousePosX() / 800;
-		float y = 1-Input::GetInstance().GetMousePosY() / 600;
+		float x = Input::GetInstance().GetMousePosX() / GraphicCore::GetInstance().Width;
+		float y = 1-Input::GetInstance().GetMousePosY() / GraphicCore::GetInstance().Height;
 		Input::GetInstance().SetCursorMode(Input::CursorMode::Normal);
 
 		if (Input::GetInstance().GetButton("MouseLeft", Input::PressMode::Release ))
@@ -113,7 +114,10 @@ void ui::DrawText(ecs::EntityManager& em)
 		auto [text, transf] = *l;
 		transf.UpdateMatrix();
 
-		float lineSpace = ((float)text.font->FontSize *2) / 600;
+		float halfWidth = (float)GraphicCore::GetInstance().Width / 2.0f;
+		float halfHeight = (float)GraphicCore::GetInstance().Height / 2.0f;
+
+		float lineSpace = ((float)text.font->FontSize *2) / GraphicCore::GetInstance().Height;
 
 		glm::vec2 curPos = ScrToNormalize(glm::vec2(transf.globalPos.x - transf.size.x / 2, transf.globalPos.y + transf.size.y / 2)); // верхний левый угол
 
@@ -123,7 +127,7 @@ void ui::DrawText(ecs::EntityManager& em)
 		{
 			Character ch = text.font->Characters[k];
 
-			if (curPos.x + (float)ch.Advance / 400 > (transf.globalPos.x + transf.size.x / 2) * 2 - 1)
+			if (curPos.x + (float)ch.Advance / halfWidth > (transf.globalPos.x + transf.size.x / 2) * 2 - 1)
 			{
 				curPos.y -= lineSpace;
 				curPos.x = (transf.globalPos.x - transf.size.x / 2) * 2 - 1;
@@ -134,12 +138,12 @@ void ui::DrawText(ecs::EntityManager& em)
 				}
 			}
 
-			GLfloat xpos = curPos.x + (float)ch.Bearing.x / 400.0f;
+			GLfloat xpos = curPos.x + (float)ch.Bearing.x / halfWidth;
 			GLfloat ypos = curPos.y;
 
-			GLfloat w = (float)ch.Size.x / 400.0f;
-			GLfloat h_m = (float)(ch.Size.y - ch.Bearing.y) / 300.0f;
-			GLfloat h_p = (float)ch.Bearing.y / 300.0f;
+			GLfloat w = (float)ch.Size.x / halfWidth;
+			GLfloat h_m = (float)(ch.Size.y - ch.Bearing.y) / halfHeight;
+			GLfloat h_p = (float)ch.Bearing.y / halfHeight;
 			auto coords = PixToScreenCoord(ch.Coord, ch.Size);
 			std::vector<Vertex2D> vertices = {
 				{{xpos, ypos + h_p,	0},	{coords[0].x, coords[0].y}},
@@ -151,7 +155,7 @@ void ui::DrawText(ecs::EntityManager& em)
 			static GLMaterial mat(res->GetShaderRef("Shaders\\UiText.ueshad"));
 			mat.Textures["text"] = &text.font->texture;
 			DrawUI(mat, vertices, transf.priority);
-			curPos.x += (float)ch.Advance/400.0f;
+			curPos.x += (float)ch.Advance/ halfWidth;
 		}
 	}
 }

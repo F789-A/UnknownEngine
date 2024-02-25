@@ -13,7 +13,7 @@ void GameTools::CameraControllerSystem(ecs::EntityManager& em)
 {
     for (auto l = em.GetComponents<MainCamera, CameraController, Transform>(); !l.end(); ++l)
     {
-        auto [_m, controller, transf] = *l;
+        auto [m, controller, transf] = *l;
 
         glm::vec3 movement(0, 0, 0);
         if (Input::GetInstance().GetButton("Front", Input::PressMode::Repeat) == true)

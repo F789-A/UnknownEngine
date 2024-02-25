@@ -172,10 +172,9 @@ void AsteroidHunter::CharacterController(ecs::EntityManager& em)
 
 		aim.size = std::clamp(aim.size, aim.minSize, aim.maxSize);
 
-		float aspect = GraphicCore::GetInstance().Aspect;
+		float aspect = 1.0f / GraphicCore::GetInstance().GetAspect();
 		glm::vec2 boundCorner = { 1 - (aim.size + 0.01f) * aspect , 1 - (aim.size+0.2f) * aspect };
 		aim.center = ClampVec2(aim.center, -boundCorner, boundCorner);
-
 
 		std::vector<glm::vec2> linePoints =
 		{

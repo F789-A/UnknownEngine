@@ -14,7 +14,7 @@ private:
 	GLint WindowHeight;
 	GLint WindowWidth;
 
-	WindowApp(unsigned int width = 800, unsigned int height = 600, std::string name = "Window");
+	WindowApp(unsigned int width = 1000, unsigned int height = 750, std::string name = "Window");
 
 	WindowApp operator=(const WindowApp&) = delete;
 	WindowApp(const WindowApp&) = delete;

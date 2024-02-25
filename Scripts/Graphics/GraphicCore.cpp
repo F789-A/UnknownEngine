@@ -4,11 +4,9 @@
 #include "SerializationSystem\SharedGraphicsResources.h"
 #include "Assets\Mesh.h"
 
-GraphicCore::GraphicCore(GLFWwindow* window) : Window(window)
+GraphicCore::GraphicCore(GLFWwindow* window, int width, int height) : Window(window), Width(width), Height(height), 
+	uiFramebuffer(width, height), sceneFramebuffer(width, height), postProcessFramebuffer(width, height)
 {
-	Height = WindowApp::GetInstance().Height();
-	Width = WindowApp::GetInstance().Width();
-	Aspect = (double)Height / Width;
 	//init advice
 	Singleton<SharedGraphicsResources> SinglRes;
 	GLShader& shad = SinglRes->GetShaderRef("Shaders\\BlendUiAndScene.ueshad");
@@ -27,17 +25,18 @@ GraphicCore::GraphicCore(GLFWwindow* window) : Window(window)
 	
 	//
 	int aspect[2] {Width, Height};
-	glGenBuffers(1, &Uniform_Shaders_Parameters);
-	glBindBuffer(GL_UNIFORM_BUFFER, Uniform_Shaders_Parameters);
+	glGenBuffers(1, &uniformShadersParameters);
+	glBindBuffer(GL_UNIFORM_BUFFER, uniformShadersParameters);
 	glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(GLuint), NULL, GL_STATIC_DRAW);
-	glBindBufferBase(GL_UNIFORM_BUFFER, 3, Uniform_Shaders_Parameters);
+	glBindBufferBase(GL_UNIFORM_BUFFER, 3, uniformShadersParameters);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, 2*sizeof(GLuint), aspect);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 GraphicCore& GraphicCore::GetInstance()
 {
-	static GraphicCore  instance(WindowApp::GetInstance().GetWindow());
+	static GraphicCore  instance(WindowApp::GetInstance().GetWindow(), WindowApp::GetInstance().Width(), 
+		WindowApp::GetInstance().Height());
 	return instance;
 }
 
@@ -50,8 +49,7 @@ void GraphicCore::UpdateGraphic()
 		{{ 1,  1, 0}, {1, 1}}
 	};
 
-	static std::vector<GLuint> ind = {0, 1, 2, 0, 2, 3};
-	static GLMesh screenPlane(vertices, ind);
+	static GLMesh screenPlane(vertices, std::vector<GLuint>{0, 1, 2, 0, 2, 3});
 
 	auto matrices = GetCameraMatrices();
 	glBindBuffer(GL_UNIFORM_BUFFER, uniformCameraBlock);
@@ -92,4 +90,9 @@ void GraphicCore::UpdateGraphic()
 	screenPlane.Draw(BlendSceneMaterial, glm::mat4(1.0f));
 
 	glfwSwapBuffers(Window);
+}
+
+float GraphicCore::GetAspect() const
+{
+	return (float)Width / Height;
 }

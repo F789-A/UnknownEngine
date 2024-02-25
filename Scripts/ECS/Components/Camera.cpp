@@ -1,6 +1,6 @@
 #include "Camera.h"
 #include "Transform.h"
-#include "Core\WindowApp.h"
+#include "Graphics\GraphicCore.h"
 
 glm::mat4 Camera::GetViewMatrix() const
 {
@@ -11,12 +11,13 @@ glm::mat4 Camera::GetViewMatrix() const
 
 glm::mat4 Camera::GetProjectionMatrix() const
 {
-    if (cameraType == CameraType::Perspective)
-        return glm::perspective(FOV, (float)WindowApp::GetInstance().Width() / WindowApp::GetInstance().Height(), NearClip, FarClip);
+    float aspect = GraphicCore::GetInstance().GetAspect();
+    if (cameraType == CameraType::Perspective) {
+        return glm::perspective(FOV, aspect, NearClip, FarClip);
+    }
     else 
     {
-        float aspect = (float)WindowApp::GetInstance().Height() / WindowApp::GetInstance().Width();
-        float h = Size * aspect / 2.0f;
+        float h = Size / aspect / 2.0f;
         float w = Size / 2.0f;
         return glm::ortho(-w, w, -h, h, NearClip, FarClip);
     }

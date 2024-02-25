@@ -1,5 +1,4 @@
 #pragma once
-#include "WindowApp.h"
 
 class GameLoop
 {
@@ -8,8 +7,8 @@ private:
 
 	void ConstructScene();
 	void Loop();
+
 public:
-	
 	GameLoop() = default;
 	GameLoop(const GameLoop&) = delete;
 	GameLoop operator=(const GameLoop&) = delete;

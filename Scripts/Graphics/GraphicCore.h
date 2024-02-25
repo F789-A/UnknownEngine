@@ -15,20 +15,18 @@ using uint = unsigned int;
 
 class GraphicCore
 {
+private:
 	GLFWwindow* Window;
-
-	std::vector<GLMaterial> PostProcesses;
 
 	GlFramebuffer uiFramebuffer;
 	GlFramebuffer sceneFramebuffer;
 	GlFramebuffer postProcessFramebuffer;
 	GLMaterial BlendSceneMaterial;
 
-	uint uniformCameraBlock;
+	GLuint uniformCameraBlock;
+	GLuint uniformShadersParameters;
 
-	uint Uniform_Shaders_Parameters;
-
-	GraphicCore(GLFWwindow* window);
+	GraphicCore(GLFWwindow* window, int width, int height);
 	GraphicCore operator=(const GraphicCore&) = delete;
 	GraphicCore(const GraphicCore&) = delete;
 	GraphicCore(GraphicCore&& other) = delete;
@@ -39,7 +37,6 @@ class GraphicCore
 public:
 	int Height;
 	int Width;
-	float Aspect;
 	std::function<void()> mainPassFunc;
 	std::function<void()> uiPassFunc;
 	std::function<std::pair<glm::mat4, glm::mat4>()> GetCameraMatrices; // <projection, view> matrices from camera
@@ -48,4 +45,5 @@ public:
 public:
 	static GraphicCore& GetInstance();
 	void UpdateGraphic();
+	float GetAspect() const;
 };

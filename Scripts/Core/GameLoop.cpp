@@ -10,6 +10,7 @@
 
 #include "ECS\Systems\Systems.h"
 
+#include "WindowApp.h"
 #include "Input.h"
 
 #include "Graphics\GraphicCore.h"
@@ -30,10 +31,10 @@ void GameLoop::RunLoop()
 
 void GameLoop::Loop()
 {
-	static GLfloat lastFrame = 0.0f;
+	static float lastFrame = 0.0f;
 	while (!WindowApp::GetInstance().ShouldClose())
 	{
-		GLfloat currentFrame = glfwGetTime();
+		float currentFrame = static_cast<float>(glfwGetTime());
 		DeltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 		Input::GetInstance().UpdateInput();
