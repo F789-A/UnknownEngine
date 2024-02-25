@@ -15,7 +15,7 @@ namespace AsteroidHunter
 			{
 				ecs::EntityManager tmpEm;
 				SerializationSystem::LoadEntity(tmpEm, "Scenes\\Level1.txt");
-				ecs::DefEcs().SetEntityManager(std::move(tmpEm));
+				ecs::EcsSystem::GetInstance().SetEntityManager(std::move(tmpEm));
 			}
 			if (ev.Id == 2)
 			{

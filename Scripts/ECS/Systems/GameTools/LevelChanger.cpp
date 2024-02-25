@@ -12,7 +12,7 @@ void GameTools::LevelChanger(ecs::EntityManager& em)
 		{
 			ecs::EntityManager tmpEm;
 			SerializationSystem::LoadEntity(tmpEm, lvl.NextLevel);
-			ecs::DefEcs().SetEntityManager(std::move(tmpEm));
+			ecs::EcsSystem::GetInstance().SetEntityManager(std::move(tmpEm));
 		}
 	}
 }

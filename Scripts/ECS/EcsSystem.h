@@ -158,12 +158,13 @@ namespace ecs
 		void EndCycle();
 		void SetEntityManager(EntityManager&& em);
 
+		static EcsSystem& GetInstance();
+
 	private:
 		EntityManager* tempEM;
 	};
 
 	//utils
-	EcsSystem& DefEcs();
 	void CreateComponent(ecs::EntityManager& em, const std::string& componentName, int entity);
 	void LoadComponent(const std::string& componentName, ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res);
 

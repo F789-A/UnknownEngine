@@ -229,7 +229,6 @@
     <ClInclude Include="Scripts\ECS\Components\RenderMesh.h" />
     <ClInclude Include="Scripts\ECS\Components\Game\RoomRedrawer.h" />
     <ClInclude Include="Scripts\ECS\Components\Game\RoomTraveler.h" />
-    <ClInclude Include="Scripts\Utils\SafeSingleton.h" />
     <ClInclude Include="Scripts\ECS\Components\Skybox.h" />
     <ClInclude Include="Scripts\Physics\Shapes.h" />
     <ClInclude Include="Scripts\Utils\SimpleMath.h" />

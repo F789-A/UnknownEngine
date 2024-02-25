@@ -38,7 +38,7 @@ void GameLoop::Loop()
 		DeltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 		Input::GetInstance().UpdateInput();
-		ecs::DefEcs().system.Update();
+		ecs::EcsSystem::GetInstance().system.Update();
 
 		GraphicCore::GetInstance().UpdateGraphic();
 	}
@@ -46,12 +46,12 @@ void GameLoop::Loop()
 
 void GameLoop::ConstructScene()
 {
-	SerializationSystem::LoadKeyFromFile(Input::GetInstance(),  "Scenes\\Key.txt");
-	SerializationSystem::LoadEntity(ecs::DefEcs().entity, "Scenes\\DemoLevel.txt");
+	SerializationSystem::LoadKeyFromFile(Input::GetInstance(), "Scenes\\Key.txt");
+	SerializationSystem::LoadEntity(ecs::EcsSystem::GetInstance().entity, "Scenes\\DemoLevel.txt");
 
 	//graphics
 	GraphicCore::GetInstance().GetCameraMatrices = []() {
-		for (auto l = ecs::DefEcs().entity.GetComponents<MainCamera, Camera>(); !l.end(); ++l)
+		for (auto l = ecs::EcsSystem::GetInstance().entity.GetComponents<MainCamera, Camera>(); !l.end(); ++l)
 		{
 			auto [tag, camera] = *l;
 			glm::mat4 projection = camera.GetProjectionMatrix();
@@ -63,7 +63,7 @@ void GameLoop::ConstructScene()
 
 	GraphicCore::GetInstance().GetPostProcesses = []() {
 		std::vector<GLMaterial*> res;
-		for (auto l = ecs::DefEcs().entity.GetComponents<PostProcessComponent>(); !l.end(); ++l)
+		for (auto l = ecs::EcsSystem::GetInstance().entity.GetComponents<PostProcessComponent>(); !l.end(); ++l)
 		{
 			auto [postPr] = *l;
 			if (postPr.IsEnabled)
@@ -76,42 +76,42 @@ void GameLoop::ConstructScene()
 	};
 
 	GraphicCore::GetInstance().mainPassFunc = []() {
-		graphics::RenderMeshSystem(ecs::DefEcs().entity);
-		graphics::RenderSkyboxSystem(ecs::DefEcs().entity);
+		graphics::RenderMeshSystem(ecs::EcsSystem::GetInstance().entity);
+		graphics::RenderSkyboxSystem(ecs::EcsSystem::GetInstance().entity);
 	};
 
 	GraphicCore::GetInstance().uiPassFunc = []() {
-		ui::DrawUIImage(ecs::DefEcs().entity);
-		ui::DrawLine(ecs::DefEcs().entity);
-		ui::DrawText(ecs::DefEcs().entity);
+		ui::DrawUIImage(ecs::EcsSystem::GetInstance().entity);
+		ui::DrawLine(ecs::EcsSystem::GetInstance().entity);
+		ui::DrawText(ecs::EcsSystem::GetInstance().entity);
 	};
 
 	//ecs sustems
 
 	//ui
-	ecs::DefEcs().system.AddSystem(ui::ProcessButtons);
+	ecs::EcsSystem::GetInstance().system.AddSystem(ui::ProcessButtons);
 
 	//physics
-	ecs::DefEcs().system.AddSystem(physics::BuildBvh);
-	ecs::DefEcs().system.AddSystem(physics::GravityController);
-	ecs::DefEcs().system.AddSystem(physics::ProcessCollision);
-	ecs::DefEcs().system.AddSystem(physics::ProcessMovement);
+	ecs::EcsSystem::GetInstance().system.AddSystem(physics::BuildBvh);
+	ecs::EcsSystem::GetInstance().system.AddSystem(physics::GravityController);
+	ecs::EcsSystem::GetInstance().system.AddSystem(physics::ProcessCollision);
+	ecs::EcsSystem::GetInstance().system.AddSystem(physics::ProcessMovement);
 	
 	//game
-	ecs::DefEcs().system.AddSystem(GameTools::EscapeHandler);
-	ecs::DefEcs().system.AddSystem(GameTools::CameraControllerSystem);
-	ecs::DefEcs().system.AddSystem(GameTools::Camera2DControllerSystem);
-	ecs::DefEcs().system.AddSystem(GameTools::ImpulseControllerSystem);
-	ecs::DefEcs().system.AddSystem(GameTools::LevelChanger);
-	ecs::DefEcs().system.AddSystem(AsteroidHunter::CharacterController);
-	ecs::DefEcs().system.AddSystem(AsteroidHunter::AlienController);
-	ecs::DefEcs().system.AddSystem(AsteroidHunter::MenuEvent);
-	ecs::DefEcs().system.AddSystem(AsteroidHunter::LevelController);
-	ecs::DefEcs().system.AddSystem(Labyrinth::GraphDebugger);
-	ecs::DefEcs().system.AddSystem(Labyrinth::RoomTravelerController);
-	ecs::DefEcs().system.AddSystem(Labyrinth::RoomRedrawerController);
-	ecs::DefEcs().system.AddSystem(Labyrinth::RoomBackgroundRedrawer);
-	ecs::DefEcs().system.AddSystem(Labyrinth::RoomGridDrawer);
+	ecs::EcsSystem::GetInstance().system.AddSystem(GameTools::EscapeHandler);
+	ecs::EcsSystem::GetInstance().system.AddSystem(GameTools::CameraControllerSystem);
+	ecs::EcsSystem::GetInstance().system.AddSystem(GameTools::Camera2DControllerSystem);
+	ecs::EcsSystem::GetInstance().system.AddSystem(GameTools::ImpulseControllerSystem);
+	ecs::EcsSystem::GetInstance().system.AddSystem(GameTools::LevelChanger);
+	ecs::EcsSystem::GetInstance().system.AddSystem(AsteroidHunter::CharacterController);
+	ecs::EcsSystem::GetInstance().system.AddSystem(AsteroidHunter::AlienController);
+	ecs::EcsSystem::GetInstance().system.AddSystem(AsteroidHunter::MenuEvent);
+	ecs::EcsSystem::GetInstance().system.AddSystem(AsteroidHunter::LevelController);
+	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::GraphDebugger);
+	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::RoomTravelerController);
+	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::RoomRedrawerController);
+	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::RoomBackgroundRedrawer);
+	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::RoomGridDrawer);
 }
 
 float GameLoop::GetDeltaTime() const

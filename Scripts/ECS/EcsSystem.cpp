@@ -1,6 +1,6 @@
 #include "EcsSystem.h"
 
-ecs::EcsSystem& ecs::DefEcs()
+ecs::EcsSystem& ecs::EcsSystem::GetInstance()
 {
 	static ecs::EcsSystem f;
 	return f;

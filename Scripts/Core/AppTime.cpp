@@ -1,10 +1,11 @@
 #include "AppTime.h"
+#include <GLFW\glfw3.h>
 #include "GameLoop.h"
-#include "WindowApp.h"
+
 
 float AppTime::GetTime()
 {
-	return glfwGetTime();
+	return static_cast<float>(glfwGetTime());
 }
 
 float AppTime::GetDeltaTime()

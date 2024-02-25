@@ -320,9 +320,6 @@
     <ClInclude Include="Scripts\ECS\Components\GameTools\ChangeLevel.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Utils\SafeSingleton.h">
-      <Filter>Source Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Scripts\ECS\Components\Game\LevelData.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>

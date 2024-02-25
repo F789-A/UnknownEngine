@@ -8,7 +8,6 @@
 #include "ECS\Components\Events.h"
 
 #include "SerializationSystem\EntityLoader.h"
-#include "Utils\SafeSingleton.h"
 
 struct Box2d
 {
