@@ -10,6 +10,46 @@
 #include "Physics\Shapes.h"
 #include "Core\Input.h"
 
+using vec2int = glm::vec<2, int>;
+
+glm::vec2 GetGridPoint(int side, vec2int pos, ecs::EntityManager& em)
+{
+	auto [grid] = *em.GetComponents<GridController>();
+	auto [visual] = *em.GetComponents<RoomVisual>();
+	static constexpr glm::vec2 luCorner = { -5.0f, 3.725f };
+	static constexpr glm::vec2 ruCorner = { 5.0f, 3.725f };
+	static constexpr glm::vec2 rdCorner = { 5.0f, -3.725f };
+	static constexpr glm::vec2 ldCorner = { -5.0f, -3.725f };
+
+	glm::vec2 ld;
+	glm::vec2 lu;
+	glm::vec2 ru;
+	glm::vec2 rd;
+	int count1 = 1; 
+	int count2 = 1;
+	if (side == 0)
+	{
+		//lside
+
+	}
+
+	glm::vec2 p1 = ld + (rd - ld) / (float)count1 * (float)pos.x;
+	glm::vec2 p2 = lu + (ru - lu) / (float)count1 * (float)pos.x;
+	glm::vec2 result = (p2 - p1) / (float)count2 * (float)pos.y;
+	return result;
+}
+
+void AddObjectInRoom(int side, vec2int pos, vec2int size)
+{
+	std::vector<Vertex2D> points = {
+		{ {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f} },
+		{ {0.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
+		{ {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f} },
+		{ {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f} }
+	};
+	//GLMesh b(points, std::vector<GLuint>({ 0, 1, 2, 0, 2, 3}));
+}
+
 void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
 {
 	for (auto l = em.GetComponents<RoomRedrawer, LabyrinthData, RoomTraveler>(); !l.end(); ++l)
@@ -116,30 +156,27 @@ void Labyrinth::RoomGridDrawer(ecs::EntityManager& em)
 
 			std::vector<Vertex> linePoints;
 			std::vector<GLuint> indices;
-
-			int xCount = std::ceil((grid.points[1].x - grid.points[0].x) / visual.FrontBoxSize);
-			int yCount = std::ceil((grid.points[0].y - grid.points[3].y) / visual.FrontBoxSize);
-			int zCount = std::ceil((grid.points[0] - ruCorner).length() / visual.SideBoxSize);
 			
-			float xLen = (ruCorner.x - luCorner.x) / xCount;
-			float yLen = (ruCorner.y - rdCorner.y) / yCount;
-			float zLen = visual.SideBoxSize;
+			float xLen = (ruCorner.x - luCorner.x) / visual.BoxXCount;
+			float xSmallLen = (grid.points[1].x - grid.points[0].x) / visual.BoxXCount;
+			float yLen = (ruCorner.y - rdCorner.y) / visual.BoxYCount;
+			float ySmallLen = (grid.points[0].y - grid.points[3].y) / visual.BoxYCount;
 
-			for (int i = 1; i < xCount; ++i)
+			for (int i = 1; i < visual.BoxXCount; ++i)
 			{
 				linePoints.push_back({ {luCorner.x + (float)i * xLen, luCorner.y, 0} });
 
-				linePoints.push_back({ {grid.points[0].x + (float)i * visual.FrontBoxSize, grid.points[0].y, 0} });
-				linePoints.push_back({ {grid.points[0].x + (float)i * visual.FrontBoxSize, grid.points[3].y, 0} });
+				linePoints.push_back({ {grid.points[0].x + (float)i * xSmallLen, grid.points[0].y, 0} });
+				linePoints.push_back({ {grid.points[0].x + (float)i * xSmallLen, grid.points[3].y, 0} });
 
 				linePoints.push_back({ {ldCorner.x + (float)i * xLen, ldCorner.y, 0} });
 			}
-			for (int i = 1; i < yCount; ++i)
+			for (int i = 1; i < visual.BoxYCount; ++i)
 			{
 				linePoints.push_back({ {ldCorner.x, ldCorner.y + (float)i * yLen, 0.0f} });
 
-				linePoints.push_back({ {grid.points[0].x, grid.points[3].y + (float)i * visual.FrontBoxSize, 0.0f} });
-				linePoints.push_back({ {grid.points[1].x, grid.points[3].y + (float)i * visual.FrontBoxSize, 0.0f} });
+				linePoints.push_back({ {grid.points[0].x, grid.points[3].y + (float)i * ySmallLen, 0.0f} });
+				linePoints.push_back({ {grid.points[1].x, grid.points[3].y + (float)i * ySmallLen, 0.0f} });
 
 				linePoints.push_back({ {rdCorner.x, rdCorner.y + (float)i * yLen, 0.0f} });
 			}
@@ -155,21 +192,21 @@ void Labyrinth::RoomGridDrawer(ecs::EntityManager& em)
 				indices.push_back(i+3);
 			}
 
-			glm::vec2 dir1 = glm::normalize(grid.points[0] - luCorner);
-			glm::vec2 dir2 = glm::normalize(grid.points[1] - ruCorner);
-			glm::vec2 dir3 = glm::normalize(grid.points[2] - rdCorner);
-			glm::vec2 dir4 = glm::normalize(grid.points[3] - ldCorner);
+			glm::vec2 dir1 = (grid.points[0] - luCorner) / (float)visual.BoxZCount;
+			glm::vec2 dir2 = (grid.points[1] - ruCorner) / (float)visual.BoxZCount;
+			glm::vec2 dir3 = (grid.points[2] - rdCorner) / (float)visual.BoxZCount;
+			glm::vec2 dir4 = (grid.points[3] - ldCorner) / (float)visual.BoxZCount;
 
 			float aspect = std::abs(dir1.x / dir3.x);
 			dir3 *= aspect;
 			dir4 *= aspect;
 
-			for (int i = 1; i < zCount + 1; ++i)
+			for (int i = 1; i < visual.BoxZCount; ++i)
 			{
-				linePoints.push_back({ { luCorner + dir1 * (float)i * zLen, 0.0f } });
-				linePoints.push_back({ { ruCorner + dir2 * (float)i * zLen, 0.0f } });
-				linePoints.push_back({ { rdCorner + dir3 * (float)i * zLen, 0.0f } });
-				linePoints.push_back({ { ldCorner + dir4 * (float)i * zLen, 0.0f } });
+				linePoints.push_back({ { luCorner + dir1 * (float)i, 0.0f } });
+				linePoints.push_back({ { ruCorner + dir2 * (float)i, 0.0f } });
+				linePoints.push_back({ { rdCorner + dir3 * (float)i, 0.0f } });
+				linePoints.push_back({ { ldCorner + dir4 * (float)i, 0.0f } });
 			}
 
 			for (int i = prevCount; i < linePoints.size(); i += 4)

@@ -1,2 +1,2 @@
-texture diffuse Textures/Trenchetrauma/Square.png
+texture diffuse Textures/Labyrinth/Point2.png
 shader_path Shaders\DefaultUI.ueshad

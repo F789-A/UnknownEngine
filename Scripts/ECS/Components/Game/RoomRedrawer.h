@@ -22,8 +22,9 @@ struct RoomVisual : public ecs::Component<RoomVisual>
 
     glm::vec2 CenterPos = {0.0f, 0.5f};
     glm::vec2 CenterSize = {3.0f, 0.0f};
-    float FrontBoxSize = 0.5f;
-    float SideBoxSize = 0.5f;
+    int BoxXCount = 12;
+    int BoxYCount = 9;
+    int BoxZCount = 5;
 
     static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
     {

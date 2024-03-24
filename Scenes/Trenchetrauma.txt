@@ -91,7 +91,7 @@ Entity
 {
 	ChangeLevel
 	{
-		string NextLevel = "Scenes/GraphDebug.txt"
+		string NextLevel = "Scenes/Labyrinth.txt"
 	}
 }
 

@@ -286,7 +286,7 @@
     <Text Include="Scenes\AlienPrefab.txt" />
     <Text Include="Scenes\DemoLevel.txt" />
     <Text Include="Scenes\DoorPrefab.txt" />
-    <Text Include="Scenes\GraphDebug.txt" />
+    <Text Include="Scenes\Labyrinth.txt" />
     <Text Include="Scenes\Key.txt" />
     <Text Include="Scenes\Level1.txt" />
     <Text Include="Scenes\MainMenu.txt" />

@@ -453,7 +453,7 @@
     <Text Include="Scenes\Trenchetrauma.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
-    <Text Include="Scenes\GraphDebug.txt">
+    <Text Include="Scenes\Labyrinth.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
     <Text Include="Scenes\DoorPrefab.txt">

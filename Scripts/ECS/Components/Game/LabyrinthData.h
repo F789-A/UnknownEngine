@@ -1,13 +1,25 @@
 #pragma once
+#include <vector>
+#include <array>
 #include <glm/glm.hpp>
 #include "ECS\EcsSystem.h"
 #include "GameTools\GraphGenerator.h"
 #include "Utils\SimpleTextProcessor.h"
 
+struct RoomObjectData
+{
+	glm::vec<2, int> pos;
+	glm::vec<2, int> size;
+	//texture
+};
+
 struct Room
 {
 	std::vector<glm::vec2> DoorPos;
 	std::vector<int> DoorRoom;
+	std::array<std::vector<bool>, 5> objectGrid;
+
+	std::vector<RoomObjectData> roomData;
 };
 
 struct LabyrinthData : public ecs::Component<LabyrinthData>
