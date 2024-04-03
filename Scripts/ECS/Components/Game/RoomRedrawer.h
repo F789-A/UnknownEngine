@@ -1,5 +1,6 @@
 #pragma once
 #include "ECS\EcsSystem.h"
+#include <random>
 #include <array>
 #include <glm\glm.hpp>
 
@@ -20,8 +21,10 @@ struct RoomVisual : public ecs::Component<RoomVisual>
 {
     static constexpr std::string_view ComponentName = "RoomVisual";
 
-    glm::vec2 CenterPos = {0.0f, 0.5f};
-    glm::vec2 CenterSize = {3.0f, 0.0f};
+    std::mt19937 random_generator;
+
+    glm::vec3 CenterPos = {0.0f, 0.0f, 12.0f};
+    float CenterScale = 0.5f;
     int BoxXCount = 12;
     int BoxYCount = 9;
     int BoxZCount = 5;
@@ -29,6 +32,10 @@ struct RoomVisual : public ecs::Component<RoomVisual>
     static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
     {
         auto& rr = em.GetComponent<RoomVisual>(ent);
+
+        unsigned int seed = 22123u;
+        std::seed_seq seed_w({ seed });
+        rr.random_generator = std::mt19937(seed_w);
     }
 };
 
@@ -46,7 +53,6 @@ struct GridController : public ecs::Component<GridController>
 {
     static constexpr std::string_view ComponentName = "GridController";
 
-    std::array<glm::vec2, 4> points;
     bool isActive = false;
     bool isDrawed = false;
 

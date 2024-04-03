@@ -1,0 +1,2 @@
+texture diffuse Textures/Labyrinth/Bricks.png
+shader_path Shaders/Diffuse.ueshad

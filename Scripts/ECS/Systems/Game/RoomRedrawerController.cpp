@@ -1,10 +1,10 @@
 #include "ECS\Systems\Systems.h"
+#include <glm/glm.hpp>
 #include "ECS\Components\Game\RoomRedrawer.h"
 #include "SerializationSystem\EntityLoader.h"
 #include "ECS\Components\Events.h"
 #include "ECS\Components\Game\LabyrinthData.h"
 #include "ECS\Components\Game\RoomTraveler.h"
-#include "ECS\Components\Game\GraphDebugInfo.h"
 #include "ECS\Components\Transform.h"
 #include "Ecs\Components\RenderMesh.h"
 #include "Physics\Shapes.h"
@@ -12,31 +12,9 @@
 
 using vec2int = glm::vec<2, int>;
 
-glm::vec2 GetGridPoint(int side, vec2int pos, ecs::EntityManager& em)
+glm::vec3 BoxToPyramid(glm::vec3 pos, glm::vec3 peak)
 {
-	auto [grid] = *em.GetComponents<GridController>();
-	auto [visual] = *em.GetComponents<RoomVisual>();
-	static constexpr glm::vec2 luCorner = { -5.0f, 3.725f };
-	static constexpr glm::vec2 ruCorner = { 5.0f, 3.725f };
-	static constexpr glm::vec2 rdCorner = { 5.0f, -3.725f };
-	static constexpr glm::vec2 ldCorner = { -5.0f, -3.725f };
-
-	glm::vec2 ld;
-	glm::vec2 lu;
-	glm::vec2 ru;
-	glm::vec2 rd;
-	int count1 = 1; 
-	int count2 = 1;
-	if (side == 0)
-	{
-		//lside
-
-	}
-
-	glm::vec2 p1 = ld + (rd - ld) / (float)count1 * (float)pos.x;
-	glm::vec2 p2 = lu + (ru - lu) / (float)count1 * (float)pos.x;
-	glm::vec2 result = (p2 - p1) / (float)count2 * (float)pos.y;
-	return result;
+	return pos.z / peak.z * peak + (1.0f - pos.z / peak.z) * pos;
 }
 
 void AddObjectInRoom(int side, vec2int pos, vec2int size)
@@ -101,31 +79,18 @@ void Labyrinth::RoomBackgroundRedrawer(ecs::EntityManager& em)
 
 		auto [visual] = *em.GetComponents<RoomVisual>();
 
-		static constexpr glm::vec2 luCorner = { -5.0f, 3.725f };
-		static constexpr glm::vec2 ruCorner = { 5.0f, 3.725f };
-		static constexpr glm::vec2 rdCorner = { 5.0f, -3.725f };
-		static constexpr glm::vec2 ldCorner = { -5.0f, -3.725f };
+		static constexpr float width = 10.0f;
+		static constexpr float height = 7.5f;
+		static constexpr glm::vec2 luCorner{ -width / 2.0f, height / 2.0f };
+		static constexpr glm::vec2 ruCorner{ width / 2.0f, height / 2.0f };
+		static constexpr glm::vec2 rdCorner{ width / 2.0f, -height / 2.0f };
+		static constexpr glm::vec2 ldCorner{ -width / 2.0f, -height / 2.0f };
 
-		physics::Line rightVert{ visual.CenterPos + visual.CenterSize, glm::vec2{0.0f, 1.0f} };
-		physics::Line rightUp{ ruCorner, visual.CenterPos - ruCorner };
-		physics::Line rightDown{ rdCorner, visual.CenterPos - rdCorner };
-
-		physics::Line leftVert{ visual.CenterPos - visual.CenterSize, glm::vec2{0.0f, 1.0f} };
-		physics::Line leftUp{ luCorner, visual.CenterPos - luCorner };
-		physics::Line leftDown{ ldCorner, visual.CenterPos - ldCorner };
-
-		glm::vec2 lUp = leftVert.IntersectWith(leftUp).value();
-		glm::vec2 rUp = rightVert.IntersectWith(rightUp).value();
-
-		glm::vec2 rDown = rightVert.IntersectWith(rightDown).value();
-		glm::vec2 lDown = leftVert.IntersectWith(leftDown).value();
-
-		auto [grid] = *em.GetComponents<GridController>();
-
-		grid.points[0] = lUp;
-		grid.points[1] = rUp;
-		grid.points[2] = rDown;
-		grid.points[3] = lDown;
+		float length = visual.CenterPos.z * visual.CenterScale;
+		glm::vec2 lUp = BoxToPyramid(glm::vec3(luCorner, 0.0f) + glm::vec3(0.0f, 0.0f, length), visual.CenterPos);
+		glm::vec2 rUp = BoxToPyramid(glm::vec3(ruCorner, 0.0f) + glm::vec3(0.0f, 0.0f, length), visual.CenterPos);
+		glm::vec2 rDown = BoxToPyramid(glm::vec3(rdCorner, 0.0f) + glm::vec3(0.0f, 0.0f, length), visual.CenterPos);
+		glm::vec2 lDown = BoxToPyramid(glm::vec3(ldCorner, 0.0f) + glm::vec3(0.0f, 0.0f, length), visual.CenterPos);
 
 		std::vector<Vertex> linePoints =
 		{
@@ -149,36 +114,37 @@ void Labyrinth::RoomGridDrawer(ecs::EntityManager& em)
 		if (!grid.isDrawed)
 		{
 			grid.isDrawed = true;
-			static constexpr glm::vec2 luCorner = { -5.0f, 3.725f };
-			static constexpr glm::vec2 ruCorner = { 5.0f, 3.725f };
-			static constexpr glm::vec2 rdCorner = { 5.0f, -3.725f };
-			static constexpr glm::vec2 ldCorner = { -5.0f, -3.725f };
+
+			static constexpr float width = 10.0f;
+			static constexpr float height = 7.5f;
+			static constexpr glm::vec2 luCorner{ -width / 2.0f, height / 2.0f };
+			static constexpr glm::vec2 ruCorner{ width / 2.0f, height / 2.0f };
+			static constexpr glm::vec2 rdCorner{ width / 2.0f, -height / 2.0f };
+			static constexpr glm::vec2 ldCorner{ -width / 2.0f, -height / 2.0f };
 
 			std::vector<Vertex> linePoints;
 			std::vector<GLuint> indices;
 			
-			float xLen = (ruCorner.x - luCorner.x) / visual.BoxXCount;
-			float xSmallLen = (grid.points[1].x - grid.points[0].x) / visual.BoxXCount;
-			float yLen = (ruCorner.y - rdCorner.y) / visual.BoxYCount;
-			float ySmallLen = (grid.points[0].y - grid.points[3].y) / visual.BoxYCount;
+			float length = visual.CenterPos.z * visual.CenterScale;
+			float xLen = width / visual.BoxXCount;
+			float yLen = height / visual.BoxYCount;
+			float zLen = length / visual.BoxZCount;
 
 			for (int i = 1; i < visual.BoxXCount; ++i)
 			{
-				linePoints.push_back({ {luCorner.x + (float)i * xLen, luCorner.y, 0} });
-
-				linePoints.push_back({ {grid.points[0].x + (float)i * xSmallLen, grid.points[0].y, 0} });
-				linePoints.push_back({ {grid.points[0].x + (float)i * xSmallLen, grid.points[3].y, 0} });
-
-				linePoints.push_back({ {ldCorner.x + (float)i * xLen, ldCorner.y, 0} });
+				float xCoord = luCorner.x + (float)i * xLen;
+				linePoints.push_back({ {xCoord, luCorner.y, 0.0f} });
+				linePoints.push_back({ {glm::vec2(BoxToPyramid({ xCoord, luCorner.y, length}, visual.CenterPos)), 0.0f} });
+				linePoints.push_back({ {glm::vec2(BoxToPyramid({ xCoord, ldCorner.y, length}, visual.CenterPos)), 0.0f} });
+				linePoints.push_back({ {xCoord, ldCorner.y, 0.0f} });
 			}
 			for (int i = 1; i < visual.BoxYCount; ++i)
 			{
-				linePoints.push_back({ {ldCorner.x, ldCorner.y + (float)i * yLen, 0.0f} });
-
-				linePoints.push_back({ {grid.points[0].x, grid.points[3].y + (float)i * ySmallLen, 0.0f} });
-				linePoints.push_back({ {grid.points[1].x, grid.points[3].y + (float)i * ySmallLen, 0.0f} });
-
-				linePoints.push_back({ {rdCorner.x, rdCorner.y + (float)i * yLen, 0.0f} });
+				float yCoord = ldCorner.y + (float)i * yLen;
+				linePoints.push_back({ {ldCorner.x, yCoord, 0.0f} });
+				linePoints.push_back({ {glm::vec2(BoxToPyramid({ ldCorner.x, yCoord, length}, visual.CenterPos)), 0.0f} });
+				linePoints.push_back({ {glm::vec2(BoxToPyramid({ rdCorner.x, yCoord, length}, visual.CenterPos)), 0.0f} });
+				linePoints.push_back({ {rdCorner.x, yCoord, 0.0f} });
 			}
 
 			int prevCount = linePoints.size();
@@ -192,21 +158,13 @@ void Labyrinth::RoomGridDrawer(ecs::EntityManager& em)
 				indices.push_back(i+3);
 			}
 
-			glm::vec2 dir1 = (grid.points[0] - luCorner) / (float)visual.BoxZCount;
-			glm::vec2 dir2 = (grid.points[1] - ruCorner) / (float)visual.BoxZCount;
-			glm::vec2 dir3 = (grid.points[2] - rdCorner) / (float)visual.BoxZCount;
-			glm::vec2 dir4 = (grid.points[3] - ldCorner) / (float)visual.BoxZCount;
-
-			float aspect = std::abs(dir1.x / dir3.x);
-			dir3 *= aspect;
-			dir4 *= aspect;
-
 			for (int i = 1; i < visual.BoxZCount; ++i)
 			{
-				linePoints.push_back({ { luCorner + dir1 * (float)i, 0.0f } });
-				linePoints.push_back({ { ruCorner + dir2 * (float)i, 0.0f } });
-				linePoints.push_back({ { rdCorner + dir3 * (float)i, 0.0f } });
-				linePoints.push_back({ { ldCorner + dir4 * (float)i, 0.0f } });
+				float zCoord = zLen * (float)i;
+				linePoints.push_back({ {glm::vec2(BoxToPyramid({ luCorner.x, luCorner.y, zCoord}, visual.CenterPos)), 0.0f} });
+				linePoints.push_back({ {glm::vec2(BoxToPyramid({ ruCorner.x, ruCorner.y, zCoord}, visual.CenterPos)), 0.0f} });
+				linePoints.push_back({ {glm::vec2(BoxToPyramid({ rdCorner.x, rdCorner.y, zCoord}, visual.CenterPos)), 0.0f} });
+				linePoints.push_back({ {glm::vec2(BoxToPyramid({ ldCorner.x, ldCorner.y, zCoord}, visual.CenterPos)), 0.0f} });
 			}
 
 			for (int i = prevCount; i < linePoints.size(); i += 4)

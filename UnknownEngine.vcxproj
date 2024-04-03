@@ -165,6 +165,7 @@
     <ClCompile Include="AlienHeadersLib\glad.c" />
     <ClCompile Include="Scripts\ECS\Systems\GameTools\CameraControllerSystem.cpp" />
     <ClCompile Include="Scripts\ECS\Components\Camera.cpp" />
+    <ClCompile Include="Scripts\ECS\Systems\Game\RoomsGenerator.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Physics\CollisionProcessor.cpp" />
     <ClCompile Include="Scripts\ECS\EcsSystem.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Game\EscapeHandler.cpp" />

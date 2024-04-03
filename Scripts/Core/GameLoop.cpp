@@ -109,6 +109,7 @@ void GameLoop::ConstructScene()
 	ecs::EcsSystem::GetInstance().system.AddSystem(AsteroidHunter::LevelController);
 	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::GraphDebugger);
 	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::RoomTravelerController);
+	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::RoomsGenerator);
 	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::RoomRedrawerController);
 	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::RoomBackgroundRedrawer);
 	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::RoomGridDrawer);

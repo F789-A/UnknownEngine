@@ -47,4 +47,5 @@ namespace Labyrinth
 	void RoomRedrawerController(ecs::EntityManager&);
 	void RoomBackgroundRedrawer(ecs::EntityManager&);
 	void RoomGridDrawer(ecs::EntityManager&);
+	void RoomsGenerator(ecs::EntityManager&);
 }
