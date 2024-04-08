@@ -15,7 +15,7 @@ struct RoomObjectData
 
 struct Room
 {
-	std::vector<glm::vec2> DoorPos;
+	std::vector<glm::vec3> DoorPos;
 	std::vector<int> DoorRoom;
 
 	std::vector<RoomObjectData> roomData;

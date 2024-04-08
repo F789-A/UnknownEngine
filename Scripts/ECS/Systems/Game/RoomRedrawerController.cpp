@@ -50,12 +50,15 @@ void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
 			SerializationSystem::LoadEntity(em, "Scenes\\DoorPrefab.txt");
 		}
 
+		auto [visual] = *em.GetComponents<RoomVisual>();
+
 		int  i = 0;
 		for (auto l = em.GetComponents<Transform, DoorData, NewPlacedObjectTag>(); !l.end(); ++l)
 		{
 			auto [tr, door, tag] = *l;
 
-			glm::vec2 pos = data.rooms[traveler.CurrentRoom].DoorPos[i];
+			glm::vec2 pos = BoxToPyramid(data.rooms[traveler.CurrentRoom].DoorPos[i], visual.CenterPos);
+			pos += glm::vec2{ 1.0f, 1.0f };
 
 			tr.Position = glm::vec3(pos, 1.0f);
 
