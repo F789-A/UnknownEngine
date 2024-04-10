@@ -4,7 +4,7 @@ Entity
 	Transform
 	{
 		float[] Position = [0, 0, 1]
-		float[] Scale = [2, 2, 1]
+		float[] Scale = [1, 1, 1]
 	}
 	DoorData{}
 	Collider

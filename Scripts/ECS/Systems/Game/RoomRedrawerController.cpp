@@ -10,22 +10,57 @@
 #include "Physics\Shapes.h"
 #include "Core\Input.h"
 
-using vec2int = glm::vec<2, int>;
-
-glm::vec3 BoxToPyramid(glm::vec3 pos, glm::vec3 peak)
+glm::vec3 BoxToPyramid(const glm::vec3& pos, const glm::vec3& peak)
 {
 	return pos.z / peak.z * peak + (1.0f - pos.z / peak.z) * pos;
 }
 
-void AddObjectInRoom(int side, vec2int pos, vec2int size)
+glm::vec3 FlatCoordinateToSpace(const FlatCoord& coord)
 {
+	glm::vec3 roomSize{ 10.0f, 7.5f, 6.0f };
+	glm::ivec3 gridSize{ 12, 9, 5 };
+
+	glm::vec3 ldCorner{ -roomSize.x / 2.0f, -roomSize.y / 2.0f, 0.0f };
+	glm::vec3 divisions{ roomSize.x / gridSize.x, roomSize.y / gridSize.y, roomSize.z / gridSize.z };
+
+	if (coord.side == RoomSide::LeftWall)
+	{
+		return ldCorner + glm::vec3{ 0.0f, divisions.y * coord.pos.y, divisions.z * coord.pos.x };
+	}
+	else if (coord.side == RoomSide::CenterWall)
+	{
+		return ldCorner + glm::vec3{ divisions.x * coord.pos.x, divisions.y * coord.pos.y, roomSize.z };
+	}
+	else if (coord.side == RoomSide::RightWall)
+	{
+		return ldCorner + glm::vec3{ roomSize.x, divisions.y * coord.pos.y, divisions.z * (gridSize.z - coord.pos.x) };
+	}
+	else if (coord.side == RoomSide::DownWall)
+	{
+		return ldCorner + glm::vec3{ divisions.x * coord.pos.x, 0.0f, divisions.z * coord.pos.y };
+	}
+	else if (coord.side == RoomSide::TopWall)
+	{
+		return ldCorner + glm::vec3{ divisions.x * coord.pos.x, roomSize.z, divisions.z * coord.pos.y };
+	}
+	throw;
+}
+
+//TODO remove offset
+void AddObjectInRoom(RoomSide side, glm::ivec2 pos, glm::ivec2 size, RoomVisual& visual, RenderMesh& mesh, const glm::vec2& offset) 
+{
+	glm::vec2 ld = -offset + glm::vec2(BoxToPyramid(FlatCoordinateToSpace({ side, pos }), visual.CenterPos));
+	glm::vec2 rd = -offset + glm::vec2(BoxToPyramid(FlatCoordinateToSpace({ side, pos + glm::ivec2{ size.x, 0} }), visual.CenterPos));
+	glm::vec2 ru = -offset + glm::vec2(BoxToPyramid(FlatCoordinateToSpace({ side, pos + size }), visual.CenterPos));
+	glm::vec2 lu = -offset + glm::vec2(BoxToPyramid(FlatCoordinateToSpace({ side, pos + glm::ivec2{ 0, size.y } }), visual.CenterPos));
+
 	std::vector<Vertex2D> points = {
-		{ {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f} },
-		{ {0.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
-		{ {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f} },
-		{ {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f} }
+		{ {ld, 0.0f}, {0.0f, 0.0f} },
+		{ {rd, 0.0f}, {1.0f, 0.0f} },
+		{ {ru, 0.0f}, {1.0f, 1.0f} },
+		{ {lu, 0.0f}, {0.0f, 1.0f} }
 	};
-	//GLMesh b(points, std::vector<GLuint>({ 0, 1, 2, 0, 2, 3}));
+	mesh.RenderedMesh = GLMesh(points, std::vector<GLuint>({ 0, 1, 2, 0, 2, 3}));
 }
 
 void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
@@ -53,14 +88,15 @@ void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
 		auto [visual] = *em.GetComponents<RoomVisual>();
 
 		int  i = 0;
-		for (auto l = em.GetComponents<Transform, DoorData, NewPlacedObjectTag>(); !l.end(); ++l)
+		for (auto l = em.GetComponents<Transform, DoorData, NewPlacedObjectTag, RenderMesh>(); !l.end(); ++l)
 		{
-			auto [tr, door, tag] = *l;
+			auto [tr, door, tag, mesh] = *l;
 
-			glm::vec2 pos = BoxToPyramid(data.rooms[traveler.CurrentRoom].DoorPos[i], visual.CenterPos);
-			pos += glm::vec2{ 1.0f, 1.0f };
-
+			auto flatCoord = data.rooms[traveler.CurrentRoom].doorData[i].pos;
+			glm::vec2 pos = BoxToPyramid(FlatCoordinateToSpace(flatCoord), visual.CenterPos);
 			tr.Position = glm::vec3(pos, 1.0f);
+
+			AddObjectInRoom(flatCoord.side, flatCoord.pos, data.rooms[traveler.CurrentRoom].doorData[i].size, visual, mesh, pos);
 
 			door.NextRoom = data.levelGraph.Verts[traveler.CurrentRoom][i];
 			i++;

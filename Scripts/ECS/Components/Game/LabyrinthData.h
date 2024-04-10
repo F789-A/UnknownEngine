@@ -6,19 +6,38 @@
 #include "GameTools\GraphGenerator.h"
 #include "Utils\SimpleTextProcessor.h"
 
-struct RoomObjectData
+enum class RoomSide
 {
-	glm::vec<3, int> pos;
+	LeftWall,
+	CenterWall,
+	RightWall,
+	DownWall,
+	TopWall
+};
+
+struct FlatCoord
+{
+	RoomSide side;
+	glm::ivec2 pos;
+};
+
+struct DecorData
+{
+	FlatCoord pos;
 	glm::vec<2, int> size;
-	//texture
+};
+
+struct DoorDataD
+{
+	FlatCoord pos;
+	glm::vec<2, int> size;
+	int nextRoom = 0;
 };
 
 struct Room
 {
-	std::vector<glm::vec3> DoorPos;
-	std::vector<int> DoorRoom;
-
-	std::vector<RoomObjectData> roomData;
+	std::vector<DoorDataD> doorData;
+	std::vector<DecorData> decorData;
 };
 
 struct LabyrinthData : public ecs::Component<LabyrinthData>

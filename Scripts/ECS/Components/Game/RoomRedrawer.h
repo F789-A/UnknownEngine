@@ -33,7 +33,7 @@ struct RoomVisual : public ecs::Component<RoomVisual>
     {
         auto& rr = em.GetComponent<RoomVisual>(ent);
 
-        unsigned int seed = 22123u;
+        unsigned int seed = 22124u;
         std::seed_seq seed_w({ seed });
         rr.random_generator = std::mt19937(seed_w);
     }
