@@ -9,6 +9,7 @@ Entity
 	DoorData{}
 	Collider
 	{
+		float[] Position = [0, 0]
 		string shape = Square
 		float len = 1
 	}

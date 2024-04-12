@@ -62,11 +62,13 @@ namespace physics
     {
         static constexpr std::string_view ComponentName = "Collider";
 
+        glm::vec2 pos;
         std::unique_ptr<Shape> shape;
 
         static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
         {
             auto& collider = em.GetComponent<Collider>(ent);
+            collider.pos = TextTools::ReadVec2(res["Position"]);
             if (res["shape"] == "Circle")
             {
                 float radius = std::stof(res["rad"]);

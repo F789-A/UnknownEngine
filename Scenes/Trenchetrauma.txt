@@ -131,6 +131,7 @@ Entity
 	Gravity{}
 	Collider
 	{
+		float[] Position = [0, 0]
 		string shape = Circle
 		float rad = 0.5
 	}
@@ -159,6 +160,7 @@ Entity
 	}
 	Collider
 	{
+		float[] Position = [0, 0]
 		string shape = Square
 		float len = 1
 	}
