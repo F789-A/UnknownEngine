@@ -27,6 +27,28 @@ FlatCoord GetRandomFromDownOfWall(RoomVisual& visual)
 	return { result.side, {result.pos.x, 0.0} };
 }
 
+bool CheckFreePlace(const FlatCoord& coord, const glm::ivec2& size, const std::array<std::vector<std::vector<bool>>, 5>& grid)
+{
+	auto wall = grid[static_cast<int>(coord.side)];
+
+	if (wall.size() < coord.pos.x + size.x || wall[0].size() < coord.pos.y + size.y)
+	{
+		return false;
+	}
+
+	for (int n = 0; n < size.x; ++n)
+	{
+		for (int m = 0; m < size.y; ++m)
+		{
+			if (wall[coord.pos.x + n][coord.pos.y + m])
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 void Labyrinth::RoomsGenerator(ecs::EntityManager& em)
 {
 	for (auto l = em.GetComponents<LabyrinthData>(); !l.end(); ++l)
@@ -45,17 +67,38 @@ void Labyrinth::RoomsGenerator(ecs::EntityManager& em)
 		for (int i = 0; i < ld.rooms.size(); ++i)
 		{
 			std::array<std::vector<std::vector<bool>>, 5> gridHolder;
+			gridHolder[static_cast<int>(RoomSide::LeftWall)] = std::vector<std::vector<bool>>(visual.BoxZCount, std::vector<bool>(visual.BoxYCount));
+			gridHolder[static_cast<int>(RoomSide::CenterWall)] = std::vector<std::vector<bool>>(visual.BoxXCount, std::vector<bool>(visual.BoxYCount));
+			gridHolder[static_cast<int>(RoomSide::RightWall)] = std::vector<std::vector<bool>>(visual.BoxZCount, std::vector<bool>(visual.BoxYCount));
+			gridHolder[static_cast<int>(RoomSide::DownWall)] = std::vector<std::vector<bool>>(visual.BoxXCount, std::vector<bool>(visual.BoxZCount));
+			gridHolder[static_cast<int>(RoomSide::TopWall)] = std::vector<std::vector<bool>>(visual.BoxZCount, std::vector<bool>(visual.BoxYCount));
+
 			for (int j = 0; j < ld.levelGraph.Verts[i].size(); ++j)
 			{
-				FlatCoord cell = GetRandomFromDownOfWall(visual);
+				glm::ivec2 size{ 2, 2 };
+				FlatCoord cell;
+				bool placed = false;
+				while (!placed) 
+				{
+					cell = GetRandomFromDownOfWall(visual);
+					placed = CheckFreePlace(cell, size, gridHolder);
+				}
 
-				ld.rooms[i].doorData.push_back({ cell, {2, 2}, ld.levelGraph.Verts[i][j] });
+				for (int n = 0; n < size.x; ++n)
+				{
+					for (int m = 0; m < size.y; ++m)
+					{
+						gridHolder[static_cast<int>(cell.side)][cell.pos.x + n][cell.pos.y + m] = true;
+					}
+				}
+
+				ld.rooms[i].doorData.push_back({ cell, size, ld.levelGraph.Verts[i][j] });
 			}
 
 			for (int j = 0; j < 4; ++j)
 			{
 				FlatCoord cell = GetRandomFromWall(visual);
-				ld.rooms[i].decorData.push_back({ cell, {4, 4} });
+				ld.rooms[i].decorData.push_back({ cell, {1, 1} });
 			}
 		}
 
