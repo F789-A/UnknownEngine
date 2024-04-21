@@ -162,7 +162,6 @@
     <ClCompile Include="Scripts\ECS\Components\Game\AlienData.cpp" />
     <ClCompile Include="Scripts\Core\AppInitializer.cpp" />
     <ClCompile Include="Scripts\Core\AppTime.cpp" />
-    <ClCompile Include="AlienHeadersLib\glad.c" />
     <ClCompile Include="Scripts\ECS\Systems\GameTools\CameraControllerSystem.cpp" />
     <ClCompile Include="Scripts\ECS\Components\Camera.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Game\RoomsGenerator.cpp" />
@@ -205,6 +204,8 @@
     <ClCompile Include="Scripts\Assets\PolygonGeometry.cpp" />
     <ClCompile Include="Scripts\SerializationSystem\SharedGraphicsResources.cpp" />
     <ClCompile Include="Scripts\Assets\Texture.cpp" />
+    <ClCompile Include="Scripts\_External\glad.c" />
+    <ClCompile Include="Scripts\_External\stb_image_impl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scripts\ECS\Components\Game\AimData.h" />
@@ -256,7 +257,6 @@
     <ClInclude Include="Scripts\SerializationSystem\SharedGraphicsResources.h" />
     <ClInclude Include="Scripts\Utils\SimpleTextProcessor.h" />
     <ClInclude Include="Scripts\Utils\Singleton.h" />
-    <ClInclude Include="AlienHeadersLib\stb_image.h" />
     <ClInclude Include="Scripts\SerializationSystem\StringToGLFWKey.h" />
     <ClInclude Include="Scripts\Assets\Texture.h" />
     <ClInclude Include="Scripts\ECS\Components\Transform.h" />

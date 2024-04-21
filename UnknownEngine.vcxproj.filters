@@ -61,9 +61,6 @@
     <Filter Include="Source Files\Physics">
       <UniqueIdentifier>{d0816aba-17cc-4686-b456-e9acd1af063d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\AlienHeadersLib">
-      <UniqueIdentifier>{793cd6d0-5c1c-4e6f-8301-2b5e19b29c44}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\ECS\Systems\GameTools">
       <UniqueIdentifier>{baef07de-e3cc-44ed-b15f-3331477ab14f}</UniqueIdentifier>
     </Filter>
@@ -119,9 +116,6 @@
     </ClCompile>
     <ClCompile Include="Scripts\Core\Input.cpp">
       <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="AlienHeadersLib\glad.c">
-      <Filter>Source Files\AlienHeadersLib</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\Core\AppTime.cpp">
       <Filter>Source Files\Core</Filter>
@@ -213,6 +207,12 @@
     <ClCompile Include="Scripts\ECS\Systems\Game\RoomsGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\_External\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\_External\stb_image_impl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scripts\Graphics\GLShader.h">
@@ -271,9 +271,6 @@
     </ClInclude>
     <ClInclude Include="Scripts\Core\Input.h">
       <Filter>Source Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AlienHeadersLib\stb_image.h">
-      <Filter>Source Files\AlienHeadersLib</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\SerializationSystem\Logger.h">
       <Filter>Source Files\SerializationSystem</Filter>
