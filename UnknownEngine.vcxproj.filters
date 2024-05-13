@@ -213,6 +213,9 @@
     <ClCompile Include="Scripts\_External\stb_image_impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\UnitTests\ShapesUnitTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scripts\Graphics\GLShader.h">
@@ -370,6 +373,9 @@
     </ClInclude>
     <ClInclude Include="Scripts\ECS\Components\Game\RoomRedrawer.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\UnitTests\ShapesUnitTests.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

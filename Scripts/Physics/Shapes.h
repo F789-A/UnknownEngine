@@ -2,6 +2,7 @@
 #include <glm\glm.hpp>
 #include <array>
 #include <optional>
+#include <vector>
 #include <memory>
 #include "Utils\SimpleMath.h"
 
@@ -20,24 +21,6 @@ namespace physics
         std::optional<glm::vec2> secondIntersect;
     };
     
-    struct Point;
-
-    struct Shape1D
-    {
-        std::optional<Intersect> GetIntersect(const Shape1D&); // virtual table
-        //virtual bool GetPointIn(const Point& point) = 0; unused
-    };
-
-    struct Shape
-    {
-        std::optional<Collision> GetCollision(const Shape& shape) const; // virtual table
-        //std::optional<Intersect> GetIntersect(const Shape1D& shape) const; // virtual table
-        virtual bool IntersectWith(const Point& point) const = 0;
-
-        virtual glm::vec2 Center() const = 0;
-        virtual float Size() const = 0;
-    };
-
     struct Point
     {
         glm::vec2 origin;
@@ -47,11 +30,11 @@ namespace physics
     {
         Line(const glm::vec2& origin, const glm::vec2& direction);
 
+        std::optional<glm::vec2> IntersectWith(const Line& other) const;
+
         float A;
         float B;
         float C;
-
-        std::optional<glm::vec2> IntersectWith(const Line& other) const;
     };
 
     struct Ray
@@ -66,6 +49,16 @@ namespace physics
         glm::vec2 end;
 
         std::optional<glm::vec2> IntersectWith(const Ray& shape) const;
+    };
+
+    struct Shape
+    {
+        std::optional<Collision> GetCollision(const Shape& shape) const; // virtual table
+        //std::optional<Intersect> GetIntersect(const Shape1D& shape) const; // virtual table
+        virtual bool IntersectWith(const Point& point) const = 0;
+
+        virtual glm::vec2 Center() const = 0;
+        virtual float Size() const = 0;
     };
 
     struct Square : public Shape
@@ -96,10 +89,28 @@ namespace physics
         bool IntersectWith(const Ray& shape) const;
     };
 
-    std::optional<std::pair<Collision, Collision>> IsCollision(const Square& A, const Square& B);
-    std::optional<std::pair<Collision, Collision>> IsCollision(const Circle& A, const Circle& B);
-    std::optional<std::pair<Collision, Collision>> IsCollision(const Square& A, const Circle& B);
-    std::optional<std::pair<Collision, Collision>> IsCollision(const Circle& A, const Square& B);
+    struct Polygon : public Shape
+    {
+        Polygon(const std::vector<glm::vec2>& vert);
+
+        std::vector<glm::vec2> vertices;
+
+        glm::vec2 Center() const override;
+        float Size() const override;
+
+        bool IntersectWith(const Point& shape) const override;
+        bool IntersectWith(const Ray& shape) const;
+
+        glm::vec2 GetFarthestPoint(const Polygon& poly, const glm::vec2& dir);
+    };
+
+    std::optional<Collision> IsCollision(const Square& A, const Square& B);
+    std::optional<Collision> IsCollision(const Circle& A, const Circle& B);
+    std::optional<Collision> IsCollision(const Square& A, const Circle& B);
+    std::optional<Collision> IsCollision(const Circle& A, const Square& B);
+
+    //GJK
+    std::optional<Collision> IsCollision(const Polygon& A, const Polygon& B);
 
     std::unique_ptr<Shape> ApplyTransformToShape(const Shape& shape, const glm::vec2& position, const glm::vec2& scale);
 }

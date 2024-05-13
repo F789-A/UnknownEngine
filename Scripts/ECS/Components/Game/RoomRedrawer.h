@@ -23,6 +23,7 @@ struct RoomVisual : public ecs::Component<RoomVisual>
 
     std::mt19937 random_generator;
 
+    glm::vec3 RoomSize{ 10.0f, 7.5f, 6.0f };
     glm::vec3 CenterPos = {0.0f, 0.0f, 12.0f};
     float CenterScale = 0.5f;
     int BoxXCount = 12;

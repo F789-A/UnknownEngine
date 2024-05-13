@@ -146,7 +146,36 @@ namespace physics
         return false;
     }
 
-    std::optional<std::pair<Collision, Collision>> IsCollision(const Square& A, const Square& B)
+    Polygon::Polygon(const std::vector<glm::vec2>& vert): vertices(vert)
+    {
+    }
+
+    glm::vec2 Polygon::Center() const
+    {
+        glm::vec2 result;
+        for (auto& vert : vertices)
+        {
+            result += vert;
+        }
+        result /= vertices.size();
+        return result;
+    }
+
+    float Polygon::Size() const
+    {
+        return 0;
+    }
+
+    bool Polygon::IntersectWith(const Point& shape) const
+    {
+        return false;
+    }
+    bool Polygon::IntersectWith(const Ray & shape) const
+    {
+        return false;
+    }
+
+    std::optional<Collision> IsCollision(const Square& A, const Square& B)
     {
         glm::vec2 dir = B.Center() - A.Center();
 
@@ -171,8 +200,7 @@ namespace physics
                     float contactX = (std::max(A.min.x, B.min.x) + std::min(A.max.x, B.max.x)) / 2;
 
                     Collision ToA = { {contactX, A.Center().y + halfAy * sgn(dir.y)}, normal, overlapY };
-                    Collision ToB = { {contactX, B.Center().y + halfBy * sgn(-dir.y)}, -normal, overlapY };
-                    return { {ToA, ToB} };
+                    return { ToA };
                 }
                 else
                 {
@@ -181,8 +209,7 @@ namespace physics
                     float contactY = (std::max(A.min.y, B.min.y) + std::min(A.max.y, B.max.y)) / 2;
 
                     Collision ToA = { {contactY, A.Center().x + halfAx * sgn(dir.x)}, normal, overlapX };
-                    Collision ToB = { {contactY, B.Center().x + halfBx * sgn(-dir.x)}, -normal, overlapX };
-                    return { {ToA, ToB} };
+                    return { ToA };
                 }
 
             }
@@ -190,7 +217,7 @@ namespace physics
         return std::nullopt;
     }
 
-    std::optional<std::pair<Collision, Collision>> IsCollision(const Circle& A, const Circle& B)
+    std::optional<Collision> IsCollision(const Circle& A, const Circle& B)
     {
         glm::vec2 dir = B.origin - A.origin;
         float dist = glm::length2(dir);
@@ -206,18 +233,16 @@ namespace physics
             dist = std::sqrtf(dist);
             float penetration = std::abs(A.radius - (dist - B.radius));
             Collision ToA = { A.origin + dir * A.radius, dir, penetration };
-            Collision ToB = { B.origin + dir * A.radius, -dir, penetration };
-            return { { ToA, ToB } };
+            return { ToA };
         }
         else
         {
             Collision ToA = { A.origin, {0.0f, 1.0f}, A.radius };
-            Collision ToB = { B.origin, {0.0f, -1.0f}, B.radius };
-            return { { ToA, ToB } };
+            return { ToA };
         }
     }
 
-    std::optional<std::pair<Collision, Collision>> IsCollision(const Square& A, const Circle& B)
+    std::optional<Collision> IsCollision(const Square& A, const Circle& B)
     {
         glm::vec2 closest = { std::clamp(B.origin.x, A.min.x, A.max.x),  std::clamp(B.origin.y, A.min.y, A.max.y) };
         
@@ -232,40 +257,115 @@ namespace physics
         normal = glm::normalize(normal);
 
         Collision ToA = { closest, normal, penetration };
-        Collision ToB = { closest, -normal, penetration };
 
-        return { { ToA, ToB } };
+        return { ToA };
     }
 
-    std::optional<std::pair<Collision, Collision>> IsCollision(const Circle& A, const Square& B)
+    std::optional<Collision> IsCollision(const Circle& A, const Square& B)
     {
         auto res = IsCollision(B, A);
         if (res)
         {
-            return { {(*res).second, (*res).first} };
+            return { {res->pos, -res->normal, res->penetration} };
         }
         return res;
     }
 
+    glm::vec2 Polygon::GetFarthestPoint(const glm::vec2& dir)
+    {
+        float maxProj = -FLT_MAX;
+        int idx = -1;
+        for (int i = 0; i < vertices.size(); ++i)
+        {
+            float projection = glm::dot(vertices[i], dir);
+            if (projection > maxProj)
+            {
+                idx = i;
+                maxProj = projection;
+            }
+        }
+
+        return vertices[idx];
+    };
+
+    std::optional<Collision> IsCollision(const Polygon& A, const Polygon& B)
+    {
+        auto GetFarthest = [&](const Polygon& poly, const glm::vec2& dir)
+        {
+            float maxProj = -FLT_MAX;
+            int result = -1;
+            for (int i = 0; i < poly.vertices.size(); ++i)
+            {
+                float projection = glm::dot(poly.vertices[i], dir);
+                if (projection > maxProj)
+                {
+                    result = i;
+                    maxProj = projection;
+                }
+            }
+
+            return result;
+        };
+
+        glm::vec2 normal;
+        float penetration = FLT_MAX;
+        glm::vec2 point;
+        for (int i = 0; i < A.vertices.size(); ++i)
+        {
+            glm::vec2 edge = A.vertices[(i + 1) % A.vertices.size()] - A.vertices[i];
+            glm::vec2 norm{ edge.y, -edge.x };
+
+            int s = GetFarthest(B, -norm);
+
+            float d = glm::dot(norm, B.vertices[s] - A.vertices[i]);
+
+            if (d < penetration)
+            {
+                penetration = d;
+                point = A.vertices[s];
+                normal = norm;
+            }
+        }
+
+        for (int i = 0; i < B.vertices.size(); ++i)
+        {
+            glm::vec2 edge = B.vertices[(i + 1) % B.vertices.size()] - B.vertices[i];
+            glm::vec2 norm{ edge.y, -edge.x };
+
+            int s = GetFarthest(A, -norm);
+
+            float d = glm::dot(norm, A.vertices[s] - B.vertices[i]);
+
+            if (d < penetration)
+            {
+                penetration = d;
+                point = B.vertices[s];
+                normal = norm;
+            }
+        }
+
+        if (penetration <= 0)
+        {
+            return { {point + normal * -penetration, normal, -penetration} };
+        }
+
+        return std::nullopt;
+    }
+
     std::optional<Collision> Shape::GetCollision(const Shape& shape) const
     {
-        std::function<std::optional<std::pair<Collision, Collision>>(const Square&, const Square&)> func1 =
-            static_cast<std::optional<std::pair<Collision, Collision>>(*)(const Square&, const Square&)>(IsCollision);
-        std::function<std::optional<std::pair<Collision, Collision>>(const Square&, const Circle&)> func2 =
-            static_cast<std::optional<std::pair<Collision, Collision>>(*)(const Square&, const Circle&)>(IsCollision);
-        std::function<std::optional<std::pair<Collision, Collision>>(const Circle&, const Circle&)> func3 =
-            static_cast<std::optional<std::pair<Collision, Collision>>(*)(const Circle&, const Circle&)>(IsCollision);
-        std::function<std::optional<std::pair<Collision, Collision>>(const Circle&, const Square&)> func4 =
-            static_cast<std::optional<std::pair<Collision, Collision>>(*)(const Circle&, const Square&)>(IsCollision);
+        std::function<std::optional<Collision>(const Square&, const Square&)> func1 =
+            static_cast<std::optional<Collision>(*)(const Square&, const Square&)>(IsCollision);
+        std::function<std::optional<Collision>(const Square&, const Circle&)> func2 =
+            static_cast<std::optional<Collision>(*)(const Square&, const Circle&)>(IsCollision);
+        std::function<std::optional<Collision>(const Circle&, const Circle&)> func3 =
+            static_cast<std::optional<Collision>(*)(const Circle&, const Circle&)>(IsCollision);
+        std::function<std::optional<Collision>(const Circle&, const Square&)> func4 =
+            static_cast<std::optional<Collision>(*)(const Circle&, const Square&)>(IsCollision);
 
         auto result = DynamicDispatch(*this, shape, func1, func2, func3, func4);
 
-        if (!result)
-        {
-            return std::nullopt;
-        }
-
-        return (*result).first;
+        return result;
     }
 
     std::unique_ptr<Shape> ApplyTransformToShape(const Shape& shape, const glm::vec2& position, const glm::vec2& scale)
