@@ -49,6 +49,8 @@ namespace physics
         glm::vec2 end;
 
         std::optional<glm::vec2> IntersectWith(const Ray& shape) const;
+
+        std::optional<glm::vec2> IntersectWith(const Interval& shape) const;
     };
 
     struct Shape
@@ -89,6 +91,26 @@ namespace physics
         bool IntersectWith(const Ray& shape) const;
     };
 
+    struct GJKPoint
+    {
+        glm::vec2 pos;
+        int pA;
+        int pB;
+    };
+
+    struct GJKSimplex
+    {
+        static constexpr int StackSize = 3;
+
+        std::array<GJKPoint, StackSize> points;
+        int size = 0;
+
+        GJKSimplex& operator=(const std::initializer_list<GJKPoint>& list);
+        void Push(const GJKPoint& point);
+        GJKPoint& operator[](int i);
+        GJKPoint operator[](int i) const;
+    };
+
     struct Polygon : public Shape
     {
         Polygon(const std::vector<glm::vec2>& vert);
@@ -101,7 +123,7 @@ namespace physics
         bool IntersectWith(const Point& shape) const override;
         bool IntersectWith(const Ray& shape) const;
 
-        glm::vec2 GetFarthestPoint(const Polygon& poly, const glm::vec2& dir);
+        int GetFarthestPointIndex(const glm::vec2& dir) const;
     };
 
     std::optional<Collision> IsCollision(const Square& A, const Square& B);
