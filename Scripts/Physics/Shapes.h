@@ -89,6 +89,8 @@ namespace physics
 
         bool IntersectWith(const Point& shape) const override;
         bool IntersectWith(const Ray& shape) const;
+
+        glm::vec2 GetFarthestPoint(const glm::vec2& dir) const;
     };
 
     struct GJKPoint
@@ -126,13 +128,16 @@ namespace physics
         int GetFarthestPointIndex(const glm::vec2& dir) const;
     };
 
+    std::pair<std::optional<glm::vec2>, std::optional<glm::vec2>> Intersect(const Interval& interval, const Circle& circle);
+
     std::optional<Collision> IsCollision(const Square& A, const Square& B);
     std::optional<Collision> IsCollision(const Circle& A, const Circle& B);
     std::optional<Collision> IsCollision(const Square& A, const Circle& B);
     std::optional<Collision> IsCollision(const Circle& A, const Square& B);
-
-    //GJK
+    
+    std::optional<Collision> IsCollision(const Polygon& A, const Circle& B);
     std::optional<Collision> IsCollision(const Polygon& A, const Polygon& B);
+
 
     std::unique_ptr<Shape> ApplyTransformToShape(const Shape& shape, const glm::vec2& position, const glm::vec2& scale);
 }

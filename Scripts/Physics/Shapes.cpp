@@ -177,6 +177,12 @@ namespace physics
 		return false;
 	}
 
+
+	glm::vec2 Circle::GetFarthestPoint(const glm::vec2& dir) const
+	{
+		return origin + glm::normalize(dir) * radius;
+	}
+
 	Polygon::Polygon(const std::vector<glm::vec2>& vert): vertices(vert)
 	{
 	}
@@ -403,7 +409,7 @@ namespace physics
 		return false;
 	}
 
-	std::optional<GJKSimplex> GetSimplex(const Polygon& A, const Polygon& B)
+	std::optional<GJKSimplex> GJK(const Polygon& A, const Polygon& B)
 	{
 		GJKSimplex simplex;
 
@@ -534,12 +540,101 @@ namespace physics
 
 	std::optional<Collision> IsCollision(const Polygon& A, const Polygon& B)
 	{
-		auto simplex = GetSimplex(A, B);
+		auto simplex = GJK(A, B);
 		if (!simplex)
 			return std::nullopt;
 
 		return EPA(*simplex, A, B);
 	}
+
+	std::pair<std::optional<glm::vec2>, std::optional<glm::vec2>> Intersect(const Interval& interval, const Circle& circle)
+	{
+		glm::vec2 dirToPoint = circle.Center() - interval.start;
+
+		float len = glm::length(interval.end - interval.start);
+		glm::vec2 lineDir = (interval.end - interval.start) / len;
+
+		float proj = glm::dot(lineDir, dirToPoint);
+		glm::vec2 projPoint = interval.start + proj * lineDir;
+
+		float h2 = glm::length2(dirToPoint) - proj * proj;
+
+		float r2 = std::powf(circle.radius, 2.0f);
+		if (h2 >= r2)
+		{
+			return { std::nullopt, std::nullopt };
+		}
+
+		float d = std::sqrt(r2 - h2);
+
+		glm::vec2 p1 = lineDir * d + projPoint;
+		glm::vec2 p2 = -lineDir * d + projPoint;
+
+		float d1 = glm::dot(p1 - interval.start, lineDir);
+		float d2 = glm::dot(p2 - interval.start, lineDir);
+
+		if (0 < d1 && d1 < len && 0 < d2 && d2 < len)
+		{
+			return { p1, p2 };
+		}
+		else if (0 < d1 && d1 < len)
+		{
+			return { p1, std::nullopt };
+		}
+		else if (0 < d2 && d2 < len)
+		{
+			return { p2, std::nullopt };
+		}
+
+		return { std::nullopt, std::nullopt };
+	}
+
+	std::optional<Collision> IsCollision(const Polygon& A, const Circle& B)
+	{
+		float minDistance = -FLT_MAX;
+		glm::vec2 minNormal;
+		std::vector<glm::vec2> intersects; //fix
+
+		for (int i = 0; i < A.vertices.size(); ++i)
+		{
+			int j = (i+1) % A.vertices.size();
+
+			glm::vec2 normal = normalExternalCCV(A.vertices[j] - A.vertices[i]);
+
+			glm::vec2 support = B.GetFarthestPoint(-normal);
+
+			float dist = glm::dot(normal, support - A.vertices[i]);
+
+			if (dist > minDistance)
+			{
+				minDistance = dist;
+				minNormal = normal;
+			}
+
+			auto intersect = Intersect({ A.vertices[j], A.vertices[i] }, B);
+			if (intersect.first)
+			{
+				intersects.push_back(*intersect.first);
+				if (intersect.second)
+				{
+					intersects.push_back(*intersect.second);
+				}
+			}
+
+			if (intersects.size() == 2)
+			{
+				break;
+			}
+		}
+
+		if (intersects.size() != 2)
+		{
+			return std::nullopt;
+		}
+
+		return { { (intersects[0] + intersects[1]) / 2.0f, minNormal, minDistance} };
+	}
+
 
 	std::optional<Collision> Shape::GetCollision(const Shape& shape) const
 	{
