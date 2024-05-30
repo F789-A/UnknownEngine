@@ -13,9 +13,7 @@ namespace physics
 {
 	Line::Line(const glm::vec2& origin, const glm::vec2& direction)
 	{
-		glm::vec2 dir = glm::normalize(direction);
-
-		dir = { dir.y, -dir.x };
+		glm::vec2 dir = { direction.y, -direction.x };
 		
 		C = -glm::dot(origin, dir);
 		A = dir.x;
