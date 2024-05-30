@@ -83,20 +83,20 @@ void Input::SetCursorMode(CursorMode cursorMode)
 //Getters
 float Input::MouseDeltaX() const
 {
-	return MousePosX - PrevMousePosX;
+	return static_cast<float>(MousePosX - PrevMousePosX);
 }
 
 float Input::MouseDeltaY() const
 {
-	return MousePosY - PrevMousePosY;
+	return static_cast<float>(MousePosY - PrevMousePosY);
 }
 
 float Input::GetMousePosX() const
 {
-	return MousePosX;
+	return static_cast<float>(MousePosX);
 }
 
 float Input::GetMousePosY() const
 {
-	return MousePosY;
+	return static_cast<float>(MousePosY);
 }
