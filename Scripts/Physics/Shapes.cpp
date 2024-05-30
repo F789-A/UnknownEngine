@@ -13,19 +13,13 @@ namespace physics
 {
 	Line::Line(const glm::vec2& origin, const glm::vec2& direction)
 	{
-		if (direction.x == 0.0f)
-		{
-			A = 1.0f;
-			B = 0.0f;
-			C = -origin.x;
-			return;
-		}
-		float k = direction.y / direction.x;
-		float normalized = 1.0f / glm::length(glm::vec2(k, -1));
+		glm::vec2 dir = glm::normalize(direction);
 
-		A = k * normalized;
-		B = -normalized;
-		C = -A * origin.x - B * origin.y;
+		dir = { dir.y, -dir.x };
+		
+		C = -glm::dot(origin, dir);
+		A = dir.x;
+		B = dir.y;
 	}
 
 	std::optional<glm::vec2> Line::IntersectWith(const Line& other) const
@@ -35,32 +29,100 @@ namespace physics
 			return std::nullopt;
 		}
 
-		float k = other.A / A;
-		float c = other.C - k * C;
-		k = other.B - k * B;
+		if (A != 0.0f)
+		{ 
+			float k = other.A / A;
+			float c = other.C - k * C;
+			k = other.B - k * B;
+
+			float y = -c / k;
+			float x = (-C - B * y) / A;
+			return { {x, y} };
+		}
+		
+		float k = A / other.A;
+		float c = C - k * other.C;
+		k = B - k * other.B;
 
 		float y = -c / k;
-		float x = (-C - B * y) / A;
+		float x = (-other.C - other.B * y) / other.A;
 		return { {x, y} };
+	}
+
+	std::optional<glm::vec2> Ray::IntersectWith(const Line& line) const
+	{
+		Line tLine(origin, direction);
+		auto intersect = line.IntersectWith(tLine);
+
+		if (!intersect)
+		{
+			return std::nullopt;
+		}
+
+		glm::vec2 dir = *intersect - origin;
+		if (glm::dot(dir, direction) > 0)
+		{
+			return intersect;
+		}
+
+		return std::nullopt;
+	}
+
+	std::optional<glm::vec2> Ray::IntersectWith(const Ray& ray) const
+	{
+		Line line(ray.origin, ray.direction);
+		auto intersect = IntersectWith(line);
+
+		if (!intersect)
+		{
+			return std::nullopt;
+		}
+
+		glm::vec2 dir = *intersect - ray.origin;
+		if (glm::dot(dir, direction) > 0)
+		{
+			return intersect;
+		}
+
+		return std::nullopt;
+	}
+
+	std::optional<glm::vec2> Interval::IntersectWith(const Line& line) const
+	{
+		auto tLine = Line(start, end - start);
+		auto intersect = tLine.IntersectWith(line);
+
+		if (!intersect)
+		{
+			return std::nullopt;
+		}
+
+		glm::vec2 dir1 = *intersect - start;
+		glm::vec2 dir2 = end - start;
+
+		float d = glm::dot(dir1, dir2);
+
+		if (0 < d && d < glm::length2(dir2))
+		{
+			return intersect;
+		}
+		return std::nullopt;
 	}
 
 	std::optional<glm::vec2> Interval::IntersectWith(const Ray& shape) const
 	{
 		auto rayLine = Line(shape.origin, shape.direction);
-		auto intervalLine = Line(start, end - start);
-
-		auto collision = intervalLine.IntersectWith(rayLine);
+		auto collision = IntersectWith(rayLine);
 
 		if (!collision)
 		{
 			return std::nullopt;
 		}
 
-		glm::vec2 dir1 = start - *collision;
-		glm::vec2 dir2 = end - *collision;
 		glm::vec2 dir3 = *collision - shape.origin;
+		float d = glm::dot(dir3, shape.direction);
 
-		if (glm::dot(dir1, dir2) < 0 && glm::dot(shape.direction, dir3) > 0)
+		if (0 < d)
 		{
 			return collision;
 		}
@@ -69,27 +131,20 @@ namespace physics
 	
 	std::optional<glm::vec2> Interval::IntersectWith(const Interval& shape) const
 	{
-		auto line1 = Line(shape.start, shape.end - shape.start);
-		auto line2 = Line(start, end - start);
-
-		auto collision = line1.IntersectWith(line2);
+		auto line = Line(shape.start, shape.end - shape.start);
+		auto collision = IntersectWith(line);
 
 		if (!collision)
 		{
 			return std::nullopt;
 		}
 		
-		glm::vec2 dir1 = *collision - start;
-		glm::vec2 dir2 = end - start;
-
-		float d1 = glm::dot(dir1, dir2);
-
 		glm::vec2 dir3 = *collision - shape.start;
 		glm::vec2 dir4 = shape.end - shape.start;
 
-		float d2 = glm::dot(dir3, dir4);
+		float d = glm::dot(dir3, dir4);
 
-		if (0 < d1 && d1 < glm::length2(dir2) && 0 < d2 && d2 < glm::length2(dir4))
+		if (0 < d && d < glm::length2(dir4))
 		{
 			return collision;
 		}
@@ -109,9 +164,9 @@ namespace physics
 		return glm::length(max - min) / 2;
 	}
 
-	bool Square::IntersectWith(const Point& shape) const
+	bool Square::IntersectWith(const Point& point) const
 	{
-		return shape.origin.x <= max.x && shape.origin.y <= max.y && shape.origin.x >= min.x && shape.origin.y >= min.y;
+		return point.x <= max.x && point.y <= max.y && point.x >= min.x && point.y >= min.y;
 	}
 
 	bool Square::IntersectWith(const Ray& ray) const
@@ -143,9 +198,9 @@ namespace physics
 		return radius;
 	}
 
-	bool Circle::IntersectWith(const Point& shape) const
+	bool Circle::IntersectWith(const Point& point) const
 	{
-		return glm::length2(shape.origin - origin) <= std::powf(radius, 2.0f);
+		return glm::length2(point - origin) <= std::powf(radius, 2.0f);
 	}
 
 	bool Circle::IntersectWith(const Ray& shape) const
