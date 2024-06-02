@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 
 #include "ECS\Components\Physics\PhysicalBody.h"
+#include "ECS\Components\Physics\Collider.h"
 #include "ECS\Components\Physics\DynamicBvh2D.h"
 #include "ECS\Components\Transform.h"
 
@@ -117,9 +118,9 @@ void physics::ProcessCollision(ecs::EntityManager& em)
             auto& transformA = em.GetComponent<Transform>(l.first);
             auto& transformB = em.GetComponent<Transform>(l.second);
 
-            std::unique_ptr<Shape> shapeA = ApplyTransformToShape(*colliderA.shape, glm::vec2(transformA.Position) + colliderA.pos, 
+            std::unique_ptr<Shape> shapeA = ApplyTransformToShape(*colliderA.shape, glm::vec2(transformA.Position), 
                 glm::vec2(transformA.Scale));
-            std::unique_ptr<Shape> shapeB = ApplyTransformToShape(*colliderB.shape, glm::vec2(transformB.Position) + colliderB.pos,
+            std::unique_ptr<Shape> shapeB = ApplyTransformToShape(*colliderB.shape, glm::vec2(transformB.Position),
                 glm::vec2(transformB.Scale));
 
             auto collision = shapeA->GetCollision(*shapeB);

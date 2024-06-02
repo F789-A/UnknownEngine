@@ -12,7 +12,7 @@ void physics::GravityController(ecs::EntityManager& em)
         {
             auto [gravity, rigidbody] = *l;
 
-            rigidbody.forse += glm::vec2(globalGravity.Direction.x, gravity.Direction.y) * gravity.Acceleration;
+            rigidbody.forse += glm::vec2(globalGravity.Direction.x, globalGravity.Direction.y) * globalGravity.Acceleration;
         }
     }
 }

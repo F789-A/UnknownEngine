@@ -6,6 +6,7 @@
 #include "ECS\Components\Transform.h"
 #include "ECS\Components\Game\LabyrinthData.h"
 #include "ECS\Components\Physics\PhysicalBody.h"
+#include "ECS\Components\Physics\Collider.h"
 #include "Core\Input.h"
 #include "Graphics\GraphicCore.h"
 
@@ -25,7 +26,7 @@ void Labyrinth::RoomTravelerController(ecs::EntityManager& em)
 					GraphicCore::GetInstance().Height - Input::GetInstance().GetMousePosY() };
 				mousePos = mousePos / static_cast<float>(GraphicCore::GetInstance().Width) * 10.0f - glm::vec2(5.0f, 3.75f); // использовать камеру
 
-				auto shape = ApplyTransformToShape(*coll.shape.get(), glm::vec2(tr.Position) + coll.pos, glm::vec2(tr.Scale));
+				auto shape = ApplyTransformToShape(*coll.shape.get(), glm::vec2(tr.Position), glm::vec2(tr.Scale));
 				if (shape->IntersectWith(physics::Point{ mousePos }))
 				{
 					roomTraveler.CurrentRoom = door.NextRoom;

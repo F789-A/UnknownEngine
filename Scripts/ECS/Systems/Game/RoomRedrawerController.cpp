@@ -8,6 +8,7 @@
 #include "ECS\Components\Transform.h"
 #include "Ecs\Components\RenderMesh.h"
 #include "ECS\Components\Physics\PhysicalBody.h"
+#include "ECS\Components\Physics\Collider.h"
 #include "Physics\Shapes.h"
 #include "Core\Input.h"
 
@@ -99,7 +100,8 @@ void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
 
 			AddObjectInRoom(flatCoord.side, flatCoord.pos, data.rooms[traveler.CurrentRoom].doorData[i].size, visual, mesh);
 
-			coll.pos = pos + glm::vec2(0.5f, 0.5f);
+			coll.shape = physics::ApplyTransformToShape(*coll.shape, pos + glm::vec2(0.5f, 0.5f), glm::vec2(1.0f, 1.0f));
+
 			door.NextRoom = data.levelGraph.Verts[traveler.CurrentRoom][i];
 			i++;
 

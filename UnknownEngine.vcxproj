@@ -212,6 +212,7 @@
     <ClInclude Include="Scripts\ECS\Components\Game\AimData.h" />
     <ClInclude Include="Scripts\ECS\Components\Game\AlienData.h" />
     <ClInclude Include="Scripts\Core\AppInitializer.h" />
+    <ClInclude Include="Scripts\ECS\Components\Physics\Collider.h" />
     <ClInclude Include="Scripts\Physics\Bvh.h" />
     <ClInclude Include="Scripts\ECS\Components\GameTools\CameraController.h" />
     <ClInclude Include="Scripts\ECS\Components\Camera.h" />
