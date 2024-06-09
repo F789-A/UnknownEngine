@@ -49,7 +49,7 @@ glm::vec3 FlatCoordinateToSpace(const FlatCoord& coord)
 }
 
 //TODO remove offset
-void AddObjectInRoom(RoomSide side, glm::ivec2 pos, glm::ivec2 size, RoomVisual& visual, RenderMesh& mesh) 
+void AddObjectInRoom(RoomSide side, glm::ivec2 pos, glm::ivec2 size, RoomVisual& visual, RenderMesh& mesh, physics::Collider& coll)
 {
 	glm::vec2 ld = glm::vec2(BoxToPyramid(FlatCoordinateToSpace({ side, pos }), visual.CenterPos));
 	glm::vec2 rd = glm::vec2(BoxToPyramid(FlatCoordinateToSpace({ side, pos + glm::ivec2{ size.x, 0} }), visual.CenterPos));
@@ -63,6 +63,8 @@ void AddObjectInRoom(RoomSide side, glm::ivec2 pos, glm::ivec2 size, RoomVisual&
 		{ {lu, 0.0f}, {0.0f, 1.0f} }
 	};
 	mesh.RenderedMesh = GLMesh(points, std::vector<GLuint>({ 0, 1, 2, 0, 2, 3}));
+
+	coll.shape = std::make_unique<physics::Polygon>(std::vector<glm::vec2>{ ld , rd, ru, lu });
 }
 
 void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
@@ -98,9 +100,7 @@ void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
 			glm::vec2 pos = BoxToPyramid(FlatCoordinateToSpace(flatCoord), visual.CenterPos);
 			tr.Position = glm::vec3(0.0f, 0.0f, 1.0f);
 
-			AddObjectInRoom(flatCoord.side, flatCoord.pos, data.rooms[traveler.CurrentRoom].doorData[i].size, visual, mesh);
-
-			coll.shape = physics::ApplyTransformToShape(*coll.shape, pos + glm::vec2(0.5f, 0.5f), glm::vec2(1.0f, 1.0f));
+			AddObjectInRoom(flatCoord.side, flatCoord.pos, data.rooms[traveler.CurrentRoom].doorData[i].size, visual, mesh, coll);
 
 			door.NextRoom = data.levelGraph.Verts[traveler.CurrentRoom][i];
 			i++;

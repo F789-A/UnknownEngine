@@ -242,7 +242,7 @@ namespace physics
 
 	glm::vec2 Polygon::Center() const
 	{
-		glm::vec2 result;
+		glm::vec2 result = {0.0f, 0.0f};
 		for (auto& vert : vertices)
 		{
 			result += vert;
@@ -258,10 +258,29 @@ namespace physics
 
 	bool Polygon::IntersectWith(const Point& shape) const
 	{
-		return false;
+		Ray ray(shape, { 1.0f, 0.0f });
+		int count = 0;
+		for (int i = 0; i < vertices.size(); ++i)
+		{
+			Interval interval(vertices[i], vertices[(i + 1) % vertices.size()]);
+			if (interval.IntersectWith(ray))
+			{
+				++count;
+			}
+		}
+		return count == 1;
 	}
-	bool Polygon::IntersectWith(const Ray & shape) const
+
+	bool Polygon::IntersectWith(const Ray& ray) const
 	{
+		for (int i = 0; i < vertices.size(); ++i)
+		{
+			Interval interval(vertices[i], vertices[(i + 1) % vertices.size()]);
+			if (interval.IntersectWith(ray))
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -709,6 +728,7 @@ namespace physics
 	{
 		auto* circle = dynamic_cast<const Circle*>(&shape);
 		auto* square = dynamic_cast<const Square*>(&shape);
+		auto* polygon = dynamic_cast<const Polygon*>(&shape);
 		std::unique_ptr<Shape> result;
 		if (circle)
 		{
@@ -719,6 +739,16 @@ namespace physics
 			glm::vec2 diagMin = (square->min - square->Center()) * scale;
 			glm::vec2 diagMax = (square->max - square->Center()) * scale;
 			result = std::make_unique<Square>(square->Center() + diagMin + position, square->Center() + diagMax + position);
+		}
+		else if (polygon)
+		{
+			std::vector<glm::vec2> vertices;
+			glm::vec2 center = polygon->Center();
+			for (const auto& l : polygon->vertices)
+			{
+				vertices.push_back(center + (l - center) *scale + position);
+			}
+			result = std::make_unique<Polygon>(vertices);
 		}
 		return result;
 	}
