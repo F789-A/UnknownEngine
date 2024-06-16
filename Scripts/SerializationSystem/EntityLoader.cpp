@@ -217,7 +217,7 @@ void SerializationSystem::LoadEntity(ecs::EntityManager& em, std::filesystem::pa
 		}
 		else
 		{
-			throw "bad";
+			throw "expected keyword Entity";
 		}
 	}
 	for (auto l : loadedComp)

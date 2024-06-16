@@ -10,10 +10,10 @@ struct PostProcessComponent : public ecs::Component<PostProcessComponent>
 	bool IsEnabled = false;
 	GLMaterial RenderedMaterial;
 
-	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
 		Singleton<SharedGraphicsResources> singlRes;
-		PostProcessComponent& process = em.GetComponent<PostProcessComponent>(a);
+		PostProcessComponent& process = em.GetComponent<PostProcessComponent>(ent);
 		process.RenderedMaterial = GLMaterial(singlRes->GetMaterial(res.at("RenderedMaterial")));
 	}
 };

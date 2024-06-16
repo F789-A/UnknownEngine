@@ -11,9 +11,9 @@ struct Skybox : public ecs::Component<Skybox>
 	GLMesh RenderedSkybox;
 	GLMaterial RenderedMaterial;
 
-    static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
+    static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
     {
-        auto& sk = em.GetComponent<Skybox>(a);
+        auto& sk = em.GetComponent<Skybox>(ent);
 
         static const std::vector<Vertex> SkyboxVertices = { //TODO: replace to model
 			Vertex({-1.0f,  1.0f, -1.0f}),

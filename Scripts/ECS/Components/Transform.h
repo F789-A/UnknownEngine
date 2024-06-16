@@ -22,9 +22,9 @@ struct Transform : public ecs::Component<Transform>
 	//Transform* parent = nullptr;
 	//std::vector<Transform*> childs;
 
-	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
-		Transform& tr = em.GetComponent<Transform>(a);
+		Transform& tr = em.GetComponent<Transform>(ent);
 		tr.Position = TextTools::ReadVec3(res["Position"]);
 		tr.Scale = TextTools::ReadVec3(res["Scale"]);
 		if (res.contains("Rotation"))

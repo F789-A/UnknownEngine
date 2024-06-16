@@ -13,10 +13,10 @@ struct RenderMesh : public ecs::Component<RenderMesh>
 	GLMesh RenderedMesh;
 	GLMaterial RenderMaterial;
 
-	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
 		Singleton<SharedGraphicsResources> singlRes;
-		RenderMesh& renMesh = em.GetComponent<RenderMesh>(a);
+		RenderMesh& renMesh = em.GetComponent<RenderMesh>(ent);
 		auto& mesh = singlRes->ModelCont.GetModelRef(res["RenderMesh"]).Meshes[0];
 		renMesh.RenderedMesh = GLMesh(mesh.Vertices, mesh.Indices);
 		renMesh.RenderMaterial = GLMaterial(singlRes->GetMaterial(res["RenderMaterial"]));

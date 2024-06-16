@@ -22,9 +22,9 @@ struct AimData : public ecs::Component<AimData>
 
 	Text* text;
 
-	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
-		AimData& aim = em.GetComponent<AimData>(a);
+		AimData& aim = em.GetComponent<AimData>(ent);
 		aim.aimSensitivity = std::stof(res["aimSensitivity"]);
 
 		aim.center = glm::vec3(0,0,0);
@@ -49,7 +49,7 @@ struct AimEffect : public ecs::Component<AimEffect>
 	float TailSpeed = 0.25f;
 	float HeadSpeed = 0.30f;
 
-	static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{}
 };
 

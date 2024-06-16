@@ -19,9 +19,9 @@ struct Camera: public ecs::Component<Camera>
     float Size = 10.0f;
     CameraType cameraType = CameraType::Perspective;
 
-    static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
+    static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
     {
-        Camera& cam = em.GetComponent<Camera>(a);
+        Camera& cam = em.GetComponent<Camera>(ent);
         if (res.contains("FOV"))
         {
             cam.FOV = glm::radians(std::stof(res["FOV"]));
@@ -53,7 +53,7 @@ struct MainCamera : public ecs::Component<MainCamera>
             throw "две камеры";
         }
     }
-    static void Load(ecs::EntityManager& em, int a, std::map<std::string, std::string>& res)
+    static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
     {}
     ~MainCamera()
     {
