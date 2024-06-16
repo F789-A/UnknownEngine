@@ -1,7 +1,8 @@
 #include "ECS\Systems\Systems.h"
 #include <iostream>
-#include "ECS\Components\Game\LabyrinthData.h"
-#include "ECS\Components\Game\RoomRedrawer.h"
+#include "ECS\Components\Game\Labyrinth\LabyrinthData.h"
+#include "ECS\Components\Game\Labyrinth\RoomRedrawer.h"
+#include "ECS\Components\Game\Labyrinth\SpriteStorage.h"
 
 FlatCoord GetRandomFromWall(RoomVisual& visual)
 {
@@ -63,6 +64,9 @@ void Labyrinth::RoomsGenerator(ecs::EntityManager& em)
 		ld.isGenerated = true;
 
 		ld.rooms = std::vector<Room>(ld.levelGraph.Verts.size());
+
+		auto [tdoor, doorSpriteStorage] = *em.GetComponents<DoorSpriteStorageTag, SpriteStorage>();
+		auto [tdec, decorSpriteStorage] = *em.GetComponents<DecorationsSpriteStorageTag, SpriteStorage>();
 
 		for (int i = 0; i < ld.rooms.size(); ++i)
 		{

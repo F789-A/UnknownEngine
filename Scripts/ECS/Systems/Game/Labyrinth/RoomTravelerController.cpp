@@ -1,10 +1,10 @@
 #include "ECS\Systems\Systems.h"
 
-#include "ECS\Components\Game\RoomTraveler.h"
-#include "ECS\Components\Game\RoomRedrawer.h"
-#include "ECS\Components\Game\GraphDebugInfo.h"
+#include "ECS\Components\Game\Labyrinth\RoomTraveler.h"
+#include "ECS\Components\Game\Labyrinth\RoomRedrawer.h"
+#include "ECS\Components\Game\Labyrinth\GraphDebugInfo.h"
 #include "ECS\Components\Transform.h"
-#include "ECS\Components\Game\LabyrinthData.h"
+#include "ECS\Components\Game\Labyrinth\LabyrinthData.h"
 #include "ECS\Components\Physics\PhysicalBody.h"
 #include "ECS\Components\Physics\Collider.h"
 #include "Core\Input.h"
@@ -18,7 +18,7 @@ void Labyrinth::RoomTravelerController(ecs::EntityManager& em)
 
 		if (Input::GetInstance().GetButton("MouseLeft", Input::PressMode::Press))
 		{
-			for (auto l = em.GetComponents<DoorData, Transform, physics::Collider>(); !l.end(); ++l)
+			for (auto l = em.GetComponents<Door, Transform, physics::Collider>(); !l.end(); ++l)
 			{
 				auto [door, tr, coll] = *l;
 

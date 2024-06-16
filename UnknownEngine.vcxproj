@@ -164,11 +164,11 @@
     <ClCompile Include="Scripts\Core\AppTime.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\GameTools\CameraControllerSystem.cpp" />
     <ClCompile Include="Scripts\ECS\Components\Camera.cpp" />
-    <ClCompile Include="Scripts\ECS\Systems\Game\RoomsGenerator.cpp" />
+    <ClCompile Include="Scripts\ECS\Systems\Game\Labyrinth\RoomsGenerator.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Physics\CollisionProcessor.cpp" />
     <ClCompile Include="Scripts\ECS\EcsSystem.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Game\EscapeHandler.cpp" />
-    <ClCompile Include="Scripts\ECS\Systems\Game\GraphDebugger.cpp" />
+    <ClCompile Include="Scripts\ECS\Systems\Game\Labyrinth\GraphDebugger.cpp" />
     <ClCompile Include="Scripts\GameTools\GraphGenerator.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Physics\GravityController.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Physics\ImpulseControllerSystem.cpp" />
@@ -179,8 +179,8 @@
     <ClCompile Include="Scripts\Core\Main.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Game\MenuController.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Graphics\RenderMeshSystem.cpp" />
-    <ClCompile Include="Scripts\ECS\Systems\Game\RoomRedrawerController.cpp" />
-    <ClCompile Include="Scripts\ECS\Systems\Game\RoomTravelerController.cpp" />
+    <ClCompile Include="Scripts\ECS\Systems\Game\Labyrinth\RoomRedrawerController.cpp" />
+    <ClCompile Include="Scripts\ECS\Systems\Game\Labyrinth\RoomTravelerController.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Graphics\RenderSkyboxSystem.cpp" />
     <ClCompile Include="Scripts\Physics\Shapes.cpp" />
     <ClCompile Include="Scripts\UnitTests\ShapesUnitTests.cpp" />
@@ -212,6 +212,7 @@
     <ClInclude Include="Scripts\ECS\Components\Game\AimData.h" />
     <ClInclude Include="Scripts\ECS\Components\Game\AlienData.h" />
     <ClInclude Include="Scripts\Core\AppInitializer.h" />
+    <ClInclude Include="Scripts\ECS\Components\Game\Labyrinth\SpriteStorage.h" />
     <ClInclude Include="Scripts\ECS\Components\Physics\Collider.h" />
     <ClInclude Include="Scripts\Physics\Bvh.h" />
     <ClInclude Include="Scripts\ECS\Components\GameTools\CameraController.h" />
@@ -223,17 +224,17 @@
     <ClInclude Include="Scripts\ECS\Components\Events.h" />
     <ClInclude Include="Scripts\Graphics\FontInfo.h" />
     <ClInclude Include="Scripts\Graphics\GlFramebuffer.h" />
-    <ClInclude Include="Scripts\ECS\Components\Game\GraphDebugInfo.h" />
+    <ClInclude Include="Scripts\ECS\Components\Game\Labyrinth\GraphDebugInfo.h" />
     <ClInclude Include="Scripts\GameTools\GraphGenerator.h" />
     <ClInclude Include="Scripts\ECS\Components\Physics\Gravity.h" />
     <ClInclude Include="Scripts\ECS\Components\Physics\ImpulseController.h" />
-    <ClInclude Include="Scripts\ECS\Components\Game\LabyrinthData.h" />
+    <ClInclude Include="Scripts\ECS\Components\Game\Labyrinth\LabyrinthData.h" />
     <ClInclude Include="Scripts\ECS\Components\Game\LevelData.h" />
     <ClInclude Include="Scripts\ECS\Components\Physics\PhysicalBody.h" />
     <ClInclude Include="Scripts\ECS\Components\PostProcessComponent.h" />
     <ClInclude Include="Scripts\ECS\Components\RenderMesh.h" />
-    <ClInclude Include="Scripts\ECS\Components\Game\RoomRedrawer.h" />
-    <ClInclude Include="Scripts\ECS\Components\Game\RoomTraveler.h" />
+    <ClInclude Include="Scripts\ECS\Components\Game\Labyrinth\RoomRedrawer.h" />
+    <ClInclude Include="Scripts\ECS\Components\Game\Labyrinth\RoomTraveler.h" />
     <ClInclude Include="Scripts\ECS\Components\Skybox.h" />
     <ClInclude Include="Scripts\Physics\Shapes.h" />
     <ClInclude Include="Scripts\Utils\SimpleMath.h" />
@@ -287,6 +288,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Log.txt" />
+    <Text Include="Materials\Labyrinth\Sprite.txt" />
     <Text Include="Scenes\AlienPrefab.txt" />
     <Text Include="Scenes\DemoLevel.txt" />
     <Text Include="Scenes\DoorPrefab.txt" />

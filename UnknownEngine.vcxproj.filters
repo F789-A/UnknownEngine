@@ -189,13 +189,13 @@
     <ClCompile Include="Scripts\GameTools\GraphGenerator.cpp">
       <Filter>Source Files\GameTools</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\ECS\Systems\Game\GraphDebugger.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Game\Labyrinth\GraphDebugger.cpp">
       <Filter>Source Files\ECS\Systems\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\ECS\Systems\Game\RoomTravelerController.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Game\Labyrinth\RoomTravelerController.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\ECS\Systems\Game\RoomRedrawerController.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Game\Labyrinth\RoomRedrawerController.cpp">
       <Filter>Source Files\ECS\Systems</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\Utils\SimpleMath.cpp">
@@ -204,7 +204,7 @@
     <ClCompile Include="Scripts\Graphics\GlFramebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\ECS\Systems\Game\RoomsGenerator.cpp">
+    <ClCompile Include="Scripts\ECS\Systems\Game\Labyrinth\RoomsGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\_External\glad.c">
@@ -362,22 +362,25 @@
     <ClInclude Include="Scripts\GameTools\GraphGenerator.h">
       <Filter>Source Files\GameTools</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\ECS\Components\Game\GraphDebugInfo.h">
+    <ClInclude Include="Scripts\ECS\Components\Game\Labyrinth\GraphDebugInfo.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\ECS\Components\Game\LabyrinthData.h">
+    <ClInclude Include="Scripts\ECS\Components\Game\Labyrinth\LabyrinthData.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\ECS\Components\Game\RoomTraveler.h">
+    <ClInclude Include="Scripts\ECS\Components\Game\Labyrinth\RoomTraveler.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\ECS\Components\Game\RoomRedrawer.h">
+    <ClInclude Include="Scripts\ECS\Components\Game\Labyrinth\RoomRedrawer.h">
       <Filter>Source Files\ECS\Compoents\Game</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\UnitTests\ShapesUnitTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\ECS\Components\Physics\Collider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\ECS\Components\Game\Labyrinth\SpriteStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -468,5 +471,6 @@
     <Text Include="Scenes\DoorPrefab.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
+    <Text Include="Materials\Labyrinth\Sprite.txt" />
   </ItemGroup>
 </Project>

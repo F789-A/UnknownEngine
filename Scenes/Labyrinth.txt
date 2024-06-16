@@ -19,6 +19,26 @@ Entity
 
 Entity
 {
+	DoorSpriteStorageTag{}
+	SpriteStorage
+	{
+		int[] Sizes = []
+		str[] Textures = []
+	}
+}
+
+Entity
+{
+	DecorationsSpriteStorageTag{}
+	SpriteStorage
+	{
+		int[] Sizes = []
+		str[] Textures = []
+	}
+}
+
+Entity
+{
 	GraphDebugInfo{}
 	LabyrinthData
 	{

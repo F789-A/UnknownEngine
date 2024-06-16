@@ -57,14 +57,14 @@ struct LabyrinthData : public ecs::Component<LabyrinthData>
 	}
 };
 
-struct DoorData : public ecs::Component<DoorData>
+struct Door : public ecs::Component<Door>
 {
-	static constexpr std::string_view ComponentName = "DoorData";
+	static constexpr std::string_view ComponentName = "Door";
 
 	int NextRoom;
 
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
-		auto& dd = em.GetComponent<DoorData>(ent);
+		auto& dd = em.GetComponent<Door>(ent);
 	}
 };

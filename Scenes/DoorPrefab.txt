@@ -6,7 +6,7 @@ Entity
 		float[] Position = [0, 0, 1]
 		float[] Scale = [1, 1, 1]
 	}
-	DoorData{}
+	Door{}
 	Collider
 	{
 		float[] Position = [0, 0]

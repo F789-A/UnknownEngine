@@ -13,11 +13,6 @@ std::string TextTools::DelChar(const std::string& strIn, char ch)
 	return res;
 }
 
-std::string TextTools::TrimStart(const std::string& str, int num)
-{
-	return str.substr(num, str.length());
-}
-
 std::vector<std::string> TextTools::SplitAndDelSpace(const std::string& strIn, const char sep)
 {
 	std::vector<std::string> res;
@@ -39,13 +34,6 @@ std::vector<std::string> TextTools::SplitAndDelSpace(const std::string& strIn, c
 		res.push_back(str);
 	}
 	return res;
-}
-
-std::string TextTools::GetArea(const std::string& strIn, const std::string& strTempl)
-{
-	int indSt = strIn.find(strTempl[0]) + 1;
-	int indEnd = strIn.find(strTempl[1]) - 1;
-	return strIn.substr(indSt, indEnd - indSt + 1);
 }
 
 glm::vec3 TextTools::ReadVec3(const std::string& str)
@@ -77,27 +65,9 @@ std::vector<int> TextTools::ReadIntArray(const std::string& str)
 	return result;
 }
 
-bool TextTools::ReadBool(const std::string& str)
+std::vector<std::string> TextTools::ReadStringArray(const std::string& str)
 {
-	if (str == "true")
-	{
-		return true;
-	}
-	if (str == "false")
-	{
-		return false;
-	}
-	throw "Bad arg";
-}
-
-std::vector<int> TextTools::GetVectorInt(const std::string& str)
-{
-	std::string _str = str.substr(1, str.length() - 2);
-	std::vector<std::string> coords = TextTools::SplitAndDelSpace(_str, ',');
-	std::vector<int> result;
-	for (auto& l : coords)
-	{
-		result.push_back(std::stoi(l));
-	}
-	return result;
+	std::string _str = DelChar(str, ' ');
+	std::vector<std::string> vals = TextTools::SplitAndDelSpace(_str, ',');
+	return vals;
 }

@@ -1,10 +1,10 @@
 #include "ECS\Systems\Systems.h"
 #include <glm/glm.hpp>
-#include "ECS\Components\Game\RoomRedrawer.h"
+#include "ECS\Components\Game\Labyrinth\RoomRedrawer.h"
 #include "SerializationSystem\EntityLoader.h"
 #include "ECS\Components\Events.h"
-#include "ECS\Components\Game\LabyrinthData.h"
-#include "ECS\Components\Game\RoomTraveler.h"
+#include "ECS\Components\Game\Labyrinth\LabyrinthData.h"
+#include "ECS\Components\Game\Labyrinth\RoomTraveler.h"
 #include "ECS\Components\Transform.h"
 #include "Ecs\Components\RenderMesh.h"
 #include "ECS\Components\Physics\PhysicalBody.h"
@@ -92,7 +92,7 @@ void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
 		auto [visual] = *em.GetComponents<RoomVisual>();
 
 		int  i = 0;
-		for (auto l = em.GetComponents<Transform, DoorData, NewPlacedObjectTag, RenderMesh, physics::Collider>(); !l.end(); ++l)
+		for (auto l = em.GetComponents<Transform, Door, NewPlacedObjectTag, RenderMesh, physics::Collider>(); !l.end(); ++l)
 		{
 			auto [tr, door, tag, mesh, coll] = *l;
 
