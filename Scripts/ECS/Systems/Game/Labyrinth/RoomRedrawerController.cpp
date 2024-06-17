@@ -122,18 +122,15 @@ void Labyrinth::RoomBackgroundRedrawer(ecs::EntityManager& em)
 
 		auto [visual] = *em.GetComponents<RoomVisual>();
 
-		static constexpr float width = 10.0f;
-		static constexpr float height = 7.5f;
-		static constexpr glm::vec2 luCorner{ -width / 2.0f, height / 2.0f };
-		static constexpr glm::vec2 ruCorner{ width / 2.0f, height / 2.0f };
-		static constexpr glm::vec2 rdCorner{ width / 2.0f, -height / 2.0f };
-		static constexpr glm::vec2 ldCorner{ -width / 2.0f, -height / 2.0f };
+		glm::vec2 luCorner{ -visual.RoomSize.x / 2.0f, visual.RoomSize.y / 2.0f };
+		glm::vec2 ruCorner{ visual.RoomSize.x / 2.0f, visual.RoomSize.y / 2.0f};
+		glm::vec2 rdCorner{ visual.RoomSize.x / 2.0f, -visual.RoomSize.y / 2.0f};
+		glm::vec2 ldCorner{ -visual.RoomSize.x / 2.0f, -visual.RoomSize.y / 2.0f};
 
-		float length = visual.CenterPos.z * visual.CenterScale;
-		glm::vec2 lUp = BoxToPyramid(glm::vec3(luCorner, 0.0f) + glm::vec3(0.0f, 0.0f, length), visual.CenterPos);
-		glm::vec2 rUp = BoxToPyramid(glm::vec3(ruCorner, 0.0f) + glm::vec3(0.0f, 0.0f, length), visual.CenterPos);
-		glm::vec2 rDown = BoxToPyramid(glm::vec3(rdCorner, 0.0f) + glm::vec3(0.0f, 0.0f, length), visual.CenterPos);
-		glm::vec2 lDown = BoxToPyramid(glm::vec3(ldCorner, 0.0f) + glm::vec3(0.0f, 0.0f, length), visual.CenterPos);
+		glm::vec2 lUp = BoxToPyramid(glm::vec3(luCorner, visual.RoomSize.z), visual.CenterPos);
+		glm::vec2 rUp = BoxToPyramid(glm::vec3(ruCorner, visual.RoomSize.z), visual.CenterPos);
+		glm::vec2 rDown = BoxToPyramid(glm::vec3(rdCorner, visual.RoomSize.z), visual.CenterPos);
+		glm::vec2 lDown = BoxToPyramid(glm::vec3(ldCorner, visual.RoomSize.z), visual.CenterPos);
 
 		std::vector<Vertex> linePoints =
 		{
@@ -158,35 +155,32 @@ void Labyrinth::RoomGridDrawer(ecs::EntityManager& em)
 		{
 			grid.isDrawed = true;
 
-			static constexpr float width = 10.0f;
-			static constexpr float height = 7.5f;
-			static constexpr glm::vec2 luCorner{ -width / 2.0f, height / 2.0f };
-			static constexpr glm::vec2 ruCorner{ width / 2.0f, height / 2.0f };
-			static constexpr glm::vec2 rdCorner{ width / 2.0f, -height / 2.0f };
-			static constexpr glm::vec2 ldCorner{ -width / 2.0f, -height / 2.0f };
+			glm::vec2 luCorner{ -visual.RoomSize.x / 2.0f, visual.RoomSize.y / 2.0f };
+			glm::vec2 ruCorner{ visual.RoomSize.x / 2.0f, visual.RoomSize.y / 2.0f };
+			glm::vec2 rdCorner{ visual.RoomSize.x / 2.0f, -visual.RoomSize.y / 2.0f };
+			glm::vec2 ldCorner{ -visual.RoomSize.x / 2.0f, -visual.RoomSize.y / 2.0f };
 
 			std::vector<Vertex> linePoints;
 			std::vector<GLuint> indices;
 			
-			float length = visual.CenterPos.z * visual.CenterScale;
-			float xLen = width / visual.BoxXCount;
-			float yLen = height / visual.BoxYCount;
-			float zLen = length / visual.BoxZCount;
+			float xLen = visual.RoomSize.x / visual.BoxXCount;
+			float yLen = visual.RoomSize.y / visual.BoxYCount;
+			float zLen = visual.RoomSize.z / visual.BoxZCount;
 
 			for (int i = 1; i < visual.BoxXCount; ++i)
 			{
 				float xCoord = luCorner.x + (float)i * xLen;
 				linePoints.push_back({ {xCoord, luCorner.y, 0.0f} });
-				linePoints.push_back({ {glm::vec2(BoxToPyramid({ xCoord, luCorner.y, length}, visual.CenterPos)), 0.0f} });
-				linePoints.push_back({ {glm::vec2(BoxToPyramid({ xCoord, ldCorner.y, length}, visual.CenterPos)), 0.0f} });
+				linePoints.push_back({ {glm::vec2(BoxToPyramid({ xCoord, luCorner.y, visual.RoomSize.z}, visual.CenterPos)), 0.0f} });
+				linePoints.push_back({ {glm::vec2(BoxToPyramid({ xCoord, ldCorner.y, visual.RoomSize.z}, visual.CenterPos)), 0.0f} });
 				linePoints.push_back({ {xCoord, ldCorner.y, 0.0f} });
 			}
 			for (int i = 1; i < visual.BoxYCount; ++i)
 			{
 				float yCoord = ldCorner.y + (float)i * yLen;
 				linePoints.push_back({ {ldCorner.x, yCoord, 0.0f} });
-				linePoints.push_back({ {glm::vec2(BoxToPyramid({ ldCorner.x, yCoord, length}, visual.CenterPos)), 0.0f} });
-				linePoints.push_back({ {glm::vec2(BoxToPyramid({ rdCorner.x, yCoord, length}, visual.CenterPos)), 0.0f} });
+				linePoints.push_back({ {glm::vec2(BoxToPyramid({ ldCorner.x, yCoord, visual.RoomSize.z}, visual.CenterPos)), 0.0f} });
+				linePoints.push_back({ {glm::vec2(BoxToPyramid({ rdCorner.x, yCoord, visual.RoomSize.z}, visual.CenterPos)), 0.0f} });
 				linePoints.push_back({ {rdCorner.x, yCoord, 0.0f} });
 			}
 
