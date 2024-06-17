@@ -5,6 +5,7 @@
 #include "ECS\EcsSystem.h"
 #include "GameTools\GraphGenerator.h"
 #include "Utils\SimpleTextProcessor.h"
+#include "Graphics\GLMaterial.h"
 
 enum class RoomSide
 {
@@ -23,20 +24,21 @@ struct FlatCoord
 
 struct DecorData
 {
-	FlatCoord pos;
+	FlatCoord coord;
 	glm::vec<2, int> size;
 };
 
-struct DoorDataD
+struct DoorData
 {
-	FlatCoord pos;
+	FlatCoord coord;
 	glm::vec<2, int> size;
+	GLMaterial material;
 	int nextRoom = 0;
 };
 
 struct Room
 {
-	std::vector<DoorDataD> doorData;
+	std::vector<DoorData> doorData;
 	std::vector<DecorData> decorData;
 };
 

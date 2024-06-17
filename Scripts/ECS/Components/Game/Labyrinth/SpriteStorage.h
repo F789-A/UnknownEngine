@@ -38,7 +38,7 @@ struct SpriteStorage : public ecs::Component<SpriteStorage>
 
 		for (int i = 0; i < textureNames.size(); ++i)
 		{
-			spriteStorage.Materials.push_back(singlRes->GetMaterial("Materials/Labyrinth/Sprite"));
+			spriteStorage.Materials.push_back(singlRes->GetMaterial("Materials/Labyrinth/Sprite.txt"));
 			spriteStorage.Materials[i].Textures.at("diffuse") = &singlRes->GetGLTextureRef(textureNames[i]);
 
 			spriteStorage.Sizes.push_back(glm::ivec2(sizes[2*i], sizes[2*i+1]));

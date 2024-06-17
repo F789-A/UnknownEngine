@@ -79,7 +79,10 @@ void Labyrinth::RoomsGenerator(ecs::EntityManager& em)
 
 			for (int j = 0; j < ld.levelGraph.Verts[i].size(); ++j)
 			{
-				glm::ivec2 size{ 2, 2 };
+				std::uniform_int_distribution<> spriteDistrib(0, doorSpriteStorage.Sizes.size()-1);
+				int sprite = spriteDistrib(visual.random_generator);
+
+				const glm::ivec2& size = doorSpriteStorage.Sizes[sprite];
 				FlatCoord cell;
 				bool placed = false;
 				while (!placed) 
@@ -96,7 +99,7 @@ void Labyrinth::RoomsGenerator(ecs::EntityManager& em)
 					}
 				}
 
-				ld.rooms[i].doorData.push_back({ cell, size, ld.levelGraph.Verts[i][j] });
+				ld.rooms[i].doorData.push_back({ cell, size, doorSpriteStorage.Materials[sprite], ld.levelGraph.Verts[i][j] });
 			}
 
 			for (int j = 0; j < 4; ++j)
