@@ -29,9 +29,25 @@ void Labyrinth::RoomTravelerController(ecs::EntityManager& em)
 				auto shape = ApplyTransformToShape(*coll.shape.get(), glm::vec2(tr.Position), glm::vec2(tr.Scale));
 				if (shape->IntersectWith(physics::Point{ mousePos }))
 				{
+					roomTraveler.PreviousRoom = roomTraveler.CurrentRoom;
 					roomTraveler.CurrentRoom = door.NextRoom;
 					redrawer.NeedRedraw = true;
 					deb.forceRedraw = true;
+					break;
+				}
+			}
+
+			for (auto l = em.GetComponents<WinDoor, Transform, physics::Collider>(); !l.end(); ++l)
+			{
+				auto [door, tr, coll] = *l;
+
+				glm::vec2 mousePos = { Input::GetInstance().GetMousePosX(),
+					GraphicCore::GetInstance().Height - Input::GetInstance().GetMousePosY() };
+				mousePos = mousePos / static_cast<float>(GraphicCore::GetInstance().Width) * 10.0f - glm::vec2(5.0f, 3.75f); // использовать камеру
+
+				auto shape = ApplyTransformToShape(*coll.shape.get(), glm::vec2(tr.Position), glm::vec2(tr.Scale));
+				if (shape->IntersectWith(physics::Point{ mousePos }))
+				{
 					break;
 				}
 			}

@@ -28,6 +28,7 @@ struct RoomVisual : public ecs::Component<RoomVisual>
     int BoxXCount = 12;
     int BoxYCount = 9;
     int BoxZCount = 5;
+    int MaxAmountOfDecor = 1;
 
     static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
     {

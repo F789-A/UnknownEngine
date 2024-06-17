@@ -32,8 +32,8 @@ Entity
 	DecorationsSpriteStorageTag{}
 	SpriteStorage
 	{
-		int[] Sizes = []
-		str[] Textures = []
+		int[] Sizes = [2, 2]
+		str[] Textures = ["Textures/Labyrinth/Bricks.png"]
 	}
 }
 

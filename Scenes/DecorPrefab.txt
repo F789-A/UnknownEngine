@@ -1,0 +1,14 @@
+Entity
+{
+	NewPlacedObjectTag{}
+	Transform
+	{
+		float[] Position = [0, 0, 1]
+		float[] Scale = [1, 1, 1]
+	}
+	RenderMesh
+	{
+		string RenderMesh = "Models\Plane.obj"
+		string RenderMaterial = "Materials\Labyrinth\DoorMaterial.txt"
+	}
+}

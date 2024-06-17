@@ -26,6 +26,7 @@ struct DecorData
 {
 	FlatCoord coord;
 	glm::vec<2, int> size;
+	GLMaterial material;
 };
 
 struct DoorData
@@ -40,6 +41,7 @@ struct Room
 {
 	std::vector<DoorData> doorData;
 	std::vector<DecorData> decorData;
+	bool isWin = false;
 };
 
 struct LabyrinthData : public ecs::Component<LabyrinthData>
@@ -67,6 +69,16 @@ struct Door : public ecs::Component<Door>
 
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{
-		auto& dd = em.GetComponent<Door>(ent);
+		auto& d = em.GetComponent<Door>(ent);
+	}
+};
+
+struct WinDoor : public ecs::Component<WinDoor>
+{
+	static constexpr std::string_view ComponentName = "WinDoor";
+
+	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
+	{
+		auto& wd = em.GetComponent<WinDoor>(ent);
 	}
 };

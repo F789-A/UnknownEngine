@@ -48,7 +48,7 @@ glm::vec3 FlatCoordinateToSpace(const FlatCoord& coord, const RoomVisual& visual
 	throw;
 }
 
-void AddObjectInRoom(RoomSide side, glm::ivec2 pos, glm::ivec2 size, RoomVisual& visual, RenderMesh& mesh, physics::Collider& coll)
+void AddObjectInRoom(RoomSide side, glm::ivec2 pos, glm::ivec2 size, RoomVisual& visual, RenderMesh& mesh, physics::Collider* coll)
 {
 	glm::vec2 ld = glm::vec2(BoxToPyramid(FlatCoordinateToSpace({ side, pos }, visual), visual.CenterPos));
 	glm::vec2 rd = glm::vec2(BoxToPyramid(FlatCoordinateToSpace({ side, pos + glm::ivec2{ size.x, 0} }, visual), visual.CenterPos));
@@ -63,7 +63,8 @@ void AddObjectInRoom(RoomSide side, glm::ivec2 pos, glm::ivec2 size, RoomVisual&
 	};
 	mesh.RenderedMesh = GLMesh(points, std::vector<GLuint>({ 0, 1, 2, 0, 2, 3}));
 
-	coll.shape = std::make_unique<physics::Polygon>(std::vector<glm::vec2>{ ld , rd, ru, lu });
+	if (coll)
+		coll->shape = std::make_unique<physics::Polygon>(std::vector<glm::vec2>{ ld , rd, ru, lu });
 }
 
 void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
@@ -83,27 +84,85 @@ void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
 		}
 		redrawer.Entites.clear();
 
-		for (int i = 0; i < data.levelGraph.Verts[traveler.CurrentRoom].size(); ++i)
+		auto [visual] = *em.GetComponents<RoomVisual>();
+
+		const auto& currentRoom = data.rooms[traveler.CurrentRoom];
+
+		//if (== 0)
+		//{
+			// start
+		//}
+
+		if (currentRoom.isWin)
+		{
+			SerializationSystem::LoadEntity(em, "Scenes\\WinDoorPrefab.txt");
+			for (auto l = em.GetComponents<NewPlacedObjectTag, WinDoor, Transform, RenderMesh, physics::Collider>(); !l.end(); ++l)
+			{
+				auto [tag, door, tr , mesh, coll] = *l;
+
+				tr.Position = glm::vec3(0.0f, 0.0f, 1.0f);
+
+				AddObjectInRoom(RoomSide::CenterWall, { 2, 0 }, {2, 2}, visual, mesh, &coll);
+
+				redrawer.Entites.push_back(em.GetEntity(tag));
+				em.RemoveComponent<NewPlacedObjectTag>(em.GetEntity(tag));
+			}
+		}
+
+		for (int i = 0; i < currentRoom.doorData.size(); ++i)
 		{
 			SerializationSystem::LoadEntity(em, "Scenes\\DoorPrefab.txt");
 		}
-
-		auto [visual] = *em.GetComponents<RoomVisual>();
 
 		int  i = 0;
 		for (auto l = em.GetComponents<Transform, Door, NewPlacedObjectTag, RenderMesh, physics::Collider>(); !l.end(); ++l)
 		{
 			auto [tr, door, tag, mesh, coll] = *l;
 
-			const auto& doorData = data.rooms[traveler.CurrentRoom].doorData[i];
+			const auto& doorData = currentRoom.doorData[i];
 
 			tr.Position = glm::vec3(0.0f, 0.0f, 1.0f);
 
-			AddObjectInRoom(doorData.coord.side, doorData.coord.pos, doorData.size, visual, mesh, coll);
-			mesh.RenderMaterial = doorData.material;
+			AddObjectInRoom(doorData.coord.side, doorData.coord.pos, doorData.size, visual, mesh, &coll);
 
 			door.NextRoom = data.levelGraph.Verts[traveler.CurrentRoom][i];
+
+			Singleton<SharedGraphicsResources> singlRes;
+			if (traveler.PreviousRoom == door.NextRoom)
+			{
+				GLMaterial material = doorData.material;
+				material.Textures.at("diffuse") = &singlRes->GetGLTextureRef("Textures/Labyrinth/DoorOpen.png");
+				mesh.RenderMaterial = material;
+			}
+			else
+			{
+				mesh.RenderMaterial = doorData.material;
+			}
+
 			i++;
+
+			redrawer.Entites.push_back(em.GetEntity(tag));
+			em.RemoveComponent<NewPlacedObjectTag>(em.GetEntity(tag));
+		}
+
+		for (int j = 0; j < currentRoom.decorData.size(); ++j)
+		{
+			SerializationSystem::LoadEntity(em, "Scenes\\DecorPrefab.txt");
+		}
+
+		int j = 0;
+		for (auto l = em.GetComponents<NewPlacedObjectTag, Transform, RenderMesh>(); !l.end(); ++l)
+		{
+			auto [tag, tr, mesh] = *l;
+
+			const auto& decorData = currentRoom.decorData[j];
+
+			tr.Position = glm::vec3(0.0f, 0.0f, 1.0f);
+
+			AddObjectInRoom(decorData.coord.side, decorData.coord.pos, decorData.size, visual, mesh, nullptr);
+			mesh.RenderMaterial = decorData.material;
+
+			j++;
 
 			redrawer.Entites.push_back(em.GetEntity(tag));
 			em.RemoveComponent<NewPlacedObjectTag>(em.GetEntity(tag));
