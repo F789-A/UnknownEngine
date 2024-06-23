@@ -1,0 +1,179 @@
+Entity
+{
+	Transform
+	{
+		float[] Position = [0, 0, 0] 									
+		float[] Scale = [1, 1, 1] 									 		
+	}
+	Camera
+	{
+		float FOV = 45
+		float NearClip = 0.01
+		float FarClip = 100
+	}
+	MainCamera
+	{
+	}
+}
+
+////////
+
+//фон
+Entity
+{
+	RectTransform
+	{
+		float[] pos = [0.5, 0.5, 0]
+		float[] size = [1, 1, 0]
+		int priority = 1
+		ref[] childs = []
+	}
+	Image
+	{
+		string Material = "Materials/DefaultUI.uemat"
+	}
+}
+
+Entity
+{
+	ChangeLevel
+	{
+		string NextLevel = "Scenes/Trenchetrauma/Trenchetrauma.txt"
+	}
+}
+
+
+Entity
+{
+	RectTransform
+	{
+		float[] pos = [0.5, 0.5, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
+	}
+	Text
+	{
+		string Text = "Play"
+		float Size = 24
+		string FontPath = "Fonts\arial.ttf"
+	}
+}
+
+Entity
+{
+	RectTransform
+	{
+		float[] pos = [0.5, 0.5, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
+	}
+	Button
+	{
+		int identifier = 1
+	}
+}
+
+Entity
+{
+	RectTransform
+	{
+		float[] pos = [0.5, 0.40, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
+	}
+	Text
+	{
+		string Text = "Exit"
+		int Size = 24
+		string FontPath = "Fonts\arial.ttf"
+	}
+}
+
+Entity
+{
+	RectTransform
+	{
+		float[] pos = [0.5, 0.40, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
+	}
+	Button
+	{
+		int identifier = 2
+	}
+}
+
+Entity
+{
+	RectTransform
+	{
+		float[] pos = [0.5, 0.2, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
+	}
+	Text
+	{
+		string Text = "Credits"
+		int Size = 24
+		string FontPath = "Fonts\arial.ttf"
+	}
+}
+
+Entity
+{
+	RectTransform
+	{
+		float[] pos = [0.5, 0.2, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
+	}
+	Button
+	{
+		int identifier = 3
+	}
+	Toggle
+	{
+	}
+}
+
+//credits
+Entity
+{
+	RectTransform
+	{
+		float[] pos = [2, 2, 0]
+		float[] size = [0.2, 0.06, 0]
+		int priority = 99
+		ref[] childs = []
+	}
+	CreditsTableTag{}
+	Text
+	{
+		string Text = "Fear_Rus"
+		int Size = 24
+		string FontPath = "Fonts\arial.ttf"
+	}
+}
+
+Entity
+{
+	RectTransform
+	{
+		float[] pos = [0.25, 0.875, 0]
+		float[] size = [0.5, 0.25, 0]
+		float priority = 2
+		ref[] childs = []
+	}
+	Text
+	{
+		string Text = "Click button! P - change level"
+		int Size = 24
+		string FontPath = "Fonts\arial.ttf"
+	}
+}

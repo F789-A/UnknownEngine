@@ -31,7 +31,7 @@ glm::vec2 RandomFromEdgeBox(Box2d box)
 
 void AddAlien(ecs::EntityManager& em, const glm::vec2& pos, AlienTypes type, float health, float damage, float support)
 {
-	SerializationSystem::LoadEntity(em, "Scenes\\AlienPrefab.txt");
+	SerializationSystem::LoadEntity(em, "Scenes\\\AsteroidHunter\\AlienPrefab.txt");
 	for (auto l = em.GetComponents<NewPlacedObjectTag, RectTransform, AlienData>(); !l.end(); ++l)
 	{
 		auto [tag, transf, alienData] = *l;

@@ -74,7 +74,7 @@ Entity
 	}
 	ChangeLevel
 	{
-		string NextLevel = "Scenes/MainMenu.txt"
+		string NextLevel = "Scenes/AsteroidHunter/MainMenu.txt"
 	}
 }
 //////UI///////

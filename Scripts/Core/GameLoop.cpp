@@ -113,6 +113,7 @@ void GameLoop::ConstructScene()
 	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::RoomRedrawerController);
 	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::RoomBackgroundRedrawer);
 	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::RoomGridDrawer);
+	ecs::EcsSystem::GetInstance().system.AddSystem(Labyrinth::MainMenuController);
 }
 
 float GameLoop::GetDeltaTime() const

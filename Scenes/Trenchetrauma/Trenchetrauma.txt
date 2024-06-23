@@ -91,7 +91,7 @@ Entity
 {
 	ChangeLevel
 	{
-		string NextLevel = "Scenes/Labyrinth.txt"
+		string NextLevel = "Scenes/Labyrinth/MainMenu.txt"
 	}
 }
 

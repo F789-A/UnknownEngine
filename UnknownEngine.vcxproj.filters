@@ -216,6 +216,9 @@
     <ClCompile Include="Scripts\UnitTests\ShapesUnitTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\ECS\Systems\Game\Labyrinth\MainMenuController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scripts\Graphics\GLShader.h">
@@ -383,6 +386,9 @@
     <ClInclude Include="Scripts\ECS\Components\Game\Labyrinth\SpriteStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\ECS\Components\Game\Labyrinth\MainMenuTags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\DefaultUI.frag">
@@ -447,7 +453,7 @@
     <Text Include="Log.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
-    <Text Include="Scenes\MainMenu.txt">
+    <Text Include="Scenes\AsteroidHunter\MainMenu.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
     <Text Include="Scenes\Key.txt">
@@ -456,19 +462,19 @@
     <Text Include="Scenes\DemoLevel.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
-    <Text Include="Scenes\Level1.txt">
+    <Text Include="Scenes\AsteroidHunter\Level1.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
-    <Text Include="Scenes\AlienPrefab.txt">
+    <Text Include="Scenes\AsteroidHunter\AlienPrefab.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
-    <Text Include="Scenes\Trenchetrauma.txt">
+    <Text Include="Scenes\Trenchetrauma\Trenchetrauma.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
-    <Text Include="Scenes\Labyrinth.txt">
+    <Text Include="Scenes\Labyrinth\Labyrinth.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
-    <Text Include="Scenes\DoorPrefab.txt">
+    <Text Include="Scenes\Labyrinth\DoorPrefab.txt">
       <Filter>Source Files\Resources</Filter>
     </Text>
     <Text Include="Materials\Labyrinth\Sprite.txt" />

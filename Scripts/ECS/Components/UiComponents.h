@@ -49,6 +49,7 @@ struct Button : public ecs::Component<Button>
 	static constexpr std::string_view ComponentName = "Button";
 
 	int identifier;
+	bool clicked;
 
 	static void Load(ecs::EntityManager& em, int ent, std::map<std::string, std::string>& res)
 	{

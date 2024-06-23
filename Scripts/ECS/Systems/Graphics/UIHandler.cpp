@@ -73,6 +73,8 @@ void ui::ProcessButtons(ecs::EntityManager& em)
 		float y = 1-Input::GetInstance().GetMousePosY() / GraphicCore::GetInstance().Height;
 		Input::GetInstance().SetCursorMode(Input::CursorMode::Normal);
 
+		button.clicked = false;
+
 		if (Input::GetInstance().GetButton("MouseLeft", Input::PressMode::Release ))
 		{
 			if (transf.pos.x - transf.size.x * 0.5 <= x && x <= transf.pos.x + transf.size.x * 0.5
@@ -92,6 +94,8 @@ void ui::ProcessButtons(ecs::EntityManager& em)
 					int ent = em.AddEntity<Event>();
 					em.GetComponent<Event>(ent).Id = button.identifier;
 				}
+
+				button.clicked = true;
 			}
 		}
 	}

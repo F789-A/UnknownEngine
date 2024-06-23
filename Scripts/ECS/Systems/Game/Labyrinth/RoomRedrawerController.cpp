@@ -95,7 +95,7 @@ void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
 
 		if (currentRoom.isWin)
 		{
-			SerializationSystem::LoadEntity(em, "Scenes\\WinDoorPrefab.txt");
+			SerializationSystem::LoadEntity(em, "Scenes\\Labyrinth\\WinDoorPrefab.txt");
 			for (auto l = em.GetComponents<NewPlacedObjectTag, WinDoor, Transform, RenderMesh, physics::Collider>(); !l.end(); ++l)
 			{
 				auto [tag, door, tr , mesh, coll] = *l;
@@ -111,7 +111,7 @@ void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
 
 		for (int i = 0; i < currentRoom.doorData.size(); ++i)
 		{
-			SerializationSystem::LoadEntity(em, "Scenes\\DoorPrefab.txt");
+			SerializationSystem::LoadEntity(em, "Scenes\\Labyrinth\\DoorPrefab.txt");
 		}
 
 		int  i = 0;
@@ -147,7 +147,7 @@ void Labyrinth::RoomRedrawerController(ecs::EntityManager& em)
 
 		for (int j = 0; j < currentRoom.decorData.size(); ++j)
 		{
-			SerializationSystem::LoadEntity(em, "Scenes\\DecorPrefab.txt");
+			SerializationSystem::LoadEntity(em, "Scenes\\Labyrinth\\DecorPrefab.txt");
 		}
 
 		int j = 0;

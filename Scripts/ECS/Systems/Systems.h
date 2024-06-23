@@ -42,6 +42,7 @@ namespace AsteroidHunter
 
 namespace Labyrinth
 {
+	void MainMenuController(ecs::EntityManager&);
 	void GraphDebugger(ecs::EntityManager&);
 	void RoomTravelerController(ecs::EntityManager&);
 	void RoomRedrawerController(ecs::EntityManager&);
