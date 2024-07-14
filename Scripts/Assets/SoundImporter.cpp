@@ -6,7 +6,7 @@ SoundData ImportSoundData(const std::string& path)
 {
 	SoundData soundData;
 
-	AudioFile<double> audioFile;
+	AudioFile<int16_t> audioFile;
 	audioFile.load(path);
 
 	soundData.sampleRate = audioFile.getSampleRate();
@@ -17,6 +17,16 @@ SoundData ImportSoundData(const std::string& path)
 	{
 		int numSamples = audioFile.getNumSamplesPerChannel();
 		for (int j = 0; j < numSamples; j++)
+		{
+			//soundData.data.push_back(audioFile.samples[i][j]);
+		}
+	}
+
+
+	int numSamples = audioFile.getNumSamplesPerChannel();
+	for (int j = 0; j < numSamples; j++)
+	{
+		for (int i = 0; i < soundData.numberOfChannels; ++i)
 		{
 			soundData.data.push_back(audioFile.samples[i][j]);
 		}

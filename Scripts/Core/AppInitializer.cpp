@@ -1,7 +1,9 @@
 #include "AppInitializer.h"
 #include "WindowApp.h"
 #include "GameLoop.h"
-#include "Sound/AlcDevice.h"
+#include "Audio/AlcDevice.h"
+#include "Audio/AlcBuffer.h"
+#include "Audio/AlSource.h"
 #include "Assets/SoundImporter.h"
 
 void RunApp()

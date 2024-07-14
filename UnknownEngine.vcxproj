@@ -159,6 +159,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Scripts\Assets\SoundImporter.cpp" />
+    <ClCompile Include="Scripts\Audio\AlcBuffer.cpp" />
+    <ClCompile Include="Scripts\Audio\AlSource.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Game\AimSystem.cpp" />
     <ClCompile Include="Scripts\ECS\Components\Game\AlienData.cpp" />
     <ClCompile Include="Scripts\Core\AppInitializer.cpp" />
@@ -185,7 +187,7 @@
     <ClCompile Include="Scripts\ECS\Systems\Game\Labyrinth\RoomTravelerController.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Graphics\RenderSkyboxSystem.cpp" />
     <ClCompile Include="Scripts\Physics\Shapes.cpp" />
-    <ClCompile Include="Scripts\Sound\AlcDevice.cpp" />
+    <ClCompile Include="Scripts\Audio\AlcDevice.cpp" />
     <ClCompile Include="Scripts\UnitTests\ShapesUnitTests.cpp" />
     <ClCompile Include="Scripts\Utils\SimpleMath.cpp" />
     <ClCompile Include="Scripts\Utils\SimpleTextProcessor.cpp" />
@@ -213,6 +215,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scripts\Assets\SoundImporter.h" />
+    <ClInclude Include="Scripts\Audio\AlcBuffer.h" />
+    <ClInclude Include="Scripts\Audio\AlSource.h" />
     <ClInclude Include="Scripts\ECS\Components\Game\AimData.h" />
     <ClInclude Include="Scripts\ECS\Components\Game\AlienData.h" />
     <ClInclude Include="Scripts\Core\AppInitializer.h" />
@@ -224,7 +228,7 @@
     <ClInclude Include="Scripts\ECS\Components\Camera.h" />
     <ClInclude Include="Scripts\ECS\Components\GameTools\ChangeLevel.h" />
     <ClInclude Include="Scripts\ECS\Components\Physics\DynamicBvh2D.h" />
-    <ClInclude Include="Scripts\Sound\AlcDevice.h" />
+    <ClInclude Include="Scripts\Audio\AlcDevice.h" />
     <ClInclude Include="Scripts\Assets\SoundData.h" />
     <ClInclude Include="Scripts\UnitTests\ShapesUnitTests.h" />
     <ClInclude Include="Scripts\Utils\DynamicDispatching.h" />

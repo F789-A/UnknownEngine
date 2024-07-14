@@ -219,10 +219,16 @@
     <ClCompile Include="Scripts\ECS\Systems\Game\Labyrinth\MainMenuController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Sound\AlcDevice.cpp">
+    <ClCompile Include="Scripts\Audio\AlcDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\Assets\SoundImporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Audio\AlcBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Audio\AlSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -395,13 +401,19 @@
     <ClInclude Include="Scripts\ECS\Components\Game\Labyrinth\MainMenuTags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Sound\AlcDevice.h">
+    <ClInclude Include="Scripts\Audio\AlcDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\Assets\SoundData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\Assets\SoundImporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Audio\AlcBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Audio\AlSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

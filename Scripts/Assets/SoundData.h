@@ -7,5 +7,5 @@ public:
 	int numberOfChannels;
 	int bitsPerSample;
 	int sampleRate;
-	std::vector<double> data;
+	std::vector<int16_t> data;
 };
