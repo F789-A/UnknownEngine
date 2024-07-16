@@ -161,6 +161,7 @@
     <ClCompile Include="Scripts\Assets\SoundImporter.cpp" />
     <ClCompile Include="Scripts\Audio\AlcBuffer.cpp" />
     <ClCompile Include="Scripts\Audio\AlSource.cpp" />
+    <ClCompile Include="Scripts\ECS\Systems\GameTools\AudioPlayer.cpp" />
     <ClCompile Include="Scripts\ECS\Systems\Game\AimSystem.cpp" />
     <ClCompile Include="Scripts\ECS\Components\Game\AlienData.cpp" />
     <ClCompile Include="Scripts\Core\AppInitializer.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Scripts\Assets\SoundImporter.h" />
     <ClInclude Include="Scripts\Audio\AlcBuffer.h" />
     <ClInclude Include="Scripts\Audio\AlSource.h" />
+    <ClInclude Include="Scripts\ECS\Components\AudioSource.h" />
     <ClInclude Include="Scripts\ECS\Components\Game\AimData.h" />
     <ClInclude Include="Scripts\ECS\Components\Game\AlienData.h" />
     <ClInclude Include="Scripts\Core\AppInitializer.h" />

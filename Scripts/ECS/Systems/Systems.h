@@ -15,6 +15,11 @@ namespace graphics
 	void RenderSkyboxSystem(ecs::EntityManager&);
 }
 
+namespace Audio
+{
+	void AudioPlayer(ecs::EntityManager&);
+}
+
 namespace physics
 {
 	void BuildBvh(ecs::EntityManager&);

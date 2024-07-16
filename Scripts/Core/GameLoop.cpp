@@ -96,6 +96,9 @@ void GameLoop::ConstructScene()
 	ecs::EcsSystem::GetInstance().system.AddSystem(physics::GravityController);
 	ecs::EcsSystem::GetInstance().system.AddSystem(physics::ProcessCollision);
 	ecs::EcsSystem::GetInstance().system.AddSystem(physics::ProcessMovement);
+
+	//audio
+	ecs::EcsSystem::GetInstance().system.AddSystem(Audio::AudioPlayer);
 	
 	//game
 	ecs::EcsSystem::GetInstance().system.AddSystem(GameTools::EscapeHandler);

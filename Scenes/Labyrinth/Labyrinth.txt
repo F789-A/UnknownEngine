@@ -99,6 +99,14 @@ Entity // GridBuilder
 	}
 }
 
+Entity
+{
+	AudioSource
+	{
+		string Sound = "Sound/untitled.wav"
+	}
+}
+
 ///
 
 Entity
