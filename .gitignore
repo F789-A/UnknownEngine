@@ -342,3 +342,7 @@ healthchecksdb
 #UnknownEngine
 Log.txt
 Scripts/_External/
+
+Textures/Labyrinth/Refs
+Textures/Labyrinth/Src
+Docs

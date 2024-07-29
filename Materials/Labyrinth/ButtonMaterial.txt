@@ -1,0 +1,2 @@
+texture diffuse Textures/Labyrinth/Button.png
+shader_path Shaders/Diffuse.ueshad

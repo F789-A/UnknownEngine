@@ -2,12 +2,13 @@ Entity
 {
 	Transform
 	{
-		float[] Position = [0, 0, 0] 									
-		float[] Scale = [1, 1, 1] 									 		
+		float[] Position = [0, 0, 15]	
+		float[] Rotation = [0, 90, 0]
+		float[] Scale = [1, 1, 1]									 		
 	}
 	Camera
 	{
-		float FOV = 45
+		float Size = 10
 		float NearClip = 0.01
 		float FarClip = 100
 	}
@@ -17,6 +18,20 @@ Entity
 }
 
 ////////
+
+Entity // Background
+{
+	Transform
+	{
+		float[] Position = [0, 0, -1]
+		float[] Scale = [10, 7.5, 1]
+	}
+	RenderMesh
+	{
+		string RenderMesh = "Models\Plane.obj"
+		string RenderMaterial = "Materials\Labyrinth\RoomMaterial.txt"
+	}
+}
 
 Entity
 {
@@ -90,6 +105,49 @@ Entity
 	Button
 	{
 		int identifier = -1
+	}
+}
+
+Entity
+{
+	Transform
+	{
+		float[] Position = [-0.2, 0.05, 0]
+		float[] Scale = [2, 0.5, 1]
+	}
+	RenderMesh
+	{
+		string RenderMesh = "Models\Plane.obj"
+		string RenderMaterial = "Materials\Labyrinth\ButtonMaterial.txt"
+	}
+}
+
+Entity
+{
+	Transform
+	{
+		float[] Position = [-0.2, -0.7, 0]
+		float[] Scale = [2, 0.5, 1]
+	}
+	RenderMesh
+	{
+		string RenderMesh = "Models\Plane.obj"
+		string RenderMaterial = "Materials\Labyrinth\ButtonMaterial.txt"
+	}
+}
+
+Entity
+{
+	RectTransform
+	{
+		float[] pos = [0.5, 0.5, 0]
+		float[] size = [1, 1, 0]
+		int priority = 1
+		ref[] childs = []
+	}
+	Image
+	{
+		string Material = "Materials/DefaultUI.uemat"
 	}
 }
 

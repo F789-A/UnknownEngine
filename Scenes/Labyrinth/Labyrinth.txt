@@ -17,13 +17,28 @@ Entity
 
 ////////
 
+Entity // Background
+{
+	Transform
+	{
+		float[] Position = [0, 0, 0]
+		float[] Scale = [10, 7.5, 1]
+	}
+	RenderMesh
+	{
+		string RenderMesh = "Models\Plane.obj"
+		string RenderMaterial = "Materials\Labyrinth\RoomMaterial.txt"
+	}
+}
+
 Entity
 {
 	DoorSpriteStorageTag{}
 	SpriteStorage
 	{
-		int[] Sizes = [3, 3]
-		str[] Textures = ["Textures/Labyrinth/Door.png"]
+		int[] Sizes = [3, 3, 3, 3]
+		str[] Textures = ["Textures/Labyrinth/Door1.png", "Textures/Labyrinth/Door2.png"]
+		str[] Sides = ["p", "p"]
 	}
 }
 
@@ -32,8 +47,11 @@ Entity
 	DecorationsSpriteStorageTag{}
 	SpriteStorage
 	{
-		int[] Sizes = [2, 2]
-		str[] Textures = ["Textures/Labyrinth/Bricks.png"]
+		int[] Sizes = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2]
+		str[] Textures = ["Textures/Labyrinth/Barrel.png", "Textures/Labyrinth/Bricks.png", "Textures/Labyrinth/Candles.png"
+		, "Textures/Labyrinth/Chair.png", "Textures/Labyrinth/Mushroom.png", "Textures/Labyrinth/Skull.png"
+		, "Textures/Labyrinth/Sword.png"]
+		str[] Sides = ["d", "lcr", "d", "p", "d", "d", "d"]
 	}
 }
 
@@ -48,20 +66,6 @@ Entity
 	}
 	RoomTraveler{}
 	RoomRedrawer{}
-}
-
-Entity // Fon
-{
-	Transform
-	{
-		float[] Position = [0, 0, 0]
-		float[] Scale = [10, 7.5, 1]
-	}
-	RenderMesh
-	{
-		string RenderMesh = "Models\Plane.obj"
-		string RenderMaterial = "Materials\Labyrinth\RoomMaterial.txt"
-	}
 }
 
 Entity

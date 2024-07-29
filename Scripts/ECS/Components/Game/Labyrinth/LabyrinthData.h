@@ -13,7 +13,9 @@ enum class RoomSide
 	CenterWall,
 	RightWall,
 	DownWall,
-	TopWall
+	TopWall,
+	//Plinth,
+	//Eave
 };
 
 struct FlatCoord
