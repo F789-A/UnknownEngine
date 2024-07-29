@@ -38,7 +38,7 @@ Entity
 	{
 		int[] Sizes = [3, 3, 3, 3]
 		str[] Textures = ["Textures/Labyrinth/Door1.png", "Textures/Labyrinth/Door2.png"]
-		str[] Sides = ["p", "p"]
+		str[] Sides = ["lcrp", "lcrp"]
 	}
 }
 
@@ -51,7 +51,7 @@ Entity
 		str[] Textures = ["Textures/Labyrinth/Barrel.png", "Textures/Labyrinth/Bricks.png", "Textures/Labyrinth/Candles.png"
 		, "Textures/Labyrinth/Chair.png", "Textures/Labyrinth/Mushroom.png", "Textures/Labyrinth/Skull.png"
 		, "Textures/Labyrinth/Sword.png"]
-		str[] Sides = ["d", "lcr", "d", "p", "d", "d", "d"]
+		str[] Sides = ["d", "lcr", "d", "lcrp", "d", "d", "d"]
 	}
 }
 

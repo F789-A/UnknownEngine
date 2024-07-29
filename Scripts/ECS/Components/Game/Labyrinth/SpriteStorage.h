@@ -56,7 +56,7 @@ struct SpriteStorage : public ecs::Component<SpriteStorage>
 
 			spriteStorage.Sizes.push_back(glm::ivec2(sizes[2*i], sizes[2*i+1]));
 
-			SpriteSide side;
+			SpriteSide side = static_cast<SpriteSide>(0);
 			for (auto l : sides[i])
 			{
 				if (l == 'l')

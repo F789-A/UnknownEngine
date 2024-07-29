@@ -1,5 +1,6 @@
 #include "ECS\Systems\Systems.h"
 #include <iostream>
+#include <array>
 #include "ECS\Components\Game\Labyrinth\LabyrinthData.h"
 #include "ECS\Components\Game\Labyrinth\RoomRedrawer.h"
 #include "ECS\Components\Game\Labyrinth\SpriteStorage.h"
@@ -24,24 +25,28 @@ FlatCoord GetRandomFromSide(RoomVisual& visual, RoomSide side)
 	throw;
 }
 
-FlatCoord GetRandomFromWall(RoomVisual& visual)
+FlatCoord GetRandomCell(RoomVisual& visual, SpriteSide side)
 {
-	std::uniform_int_distribution<> sideDistrib(0, 2);
-	RoomSide side = static_cast<RoomSide>(sideDistrib(visual.random_generator));
-	return GetRandomFromSide(visual, side);
-}
+	std::array<double, 5> arr;
+	for (int i = 0; i < 5; ++i)
+	{
+		arr[i] = ((side & (1 << i)) > 0);
+	}
+	std::discrete_distribution<> dist{ arr.begin(), arr.end() };
 
-FlatCoord GetRandomFromDownOfWall(RoomVisual& visual)
-{
-	auto result = GetRandomFromWall(visual);
-	return { result.side, {result.pos.x, 0.0} };
-}
+	RoomSide roomSide = static_cast<RoomSide>(dist(visual.random_generator));
 
-FlatCoord GetRandomFromAllWalls(RoomVisual& visual)
-{
-	std::uniform_int_distribution<> sideDistrib(0, 4);
-	RoomSide side = static_cast<RoomSide>(sideDistrib(visual.random_generator));
-	return GetRandomFromSide(visual, side);
+	auto cell = GetRandomFromSide(visual, roomSide);
+
+	if (side & SpriteSide::Plinth)
+	{
+		cell.pos.y = 0.0f;
+	}
+	else if (side & SpriteSide::Eave)
+	{
+		cell.pos.y = visual.BoxYCount;
+	}
+	return cell;
 }
 
 bool CheckFreePlace(const FlatCoord& coord, const glm::ivec2& size, const std::array<std::vector<std::vector<bool>>, 5>& grid)
@@ -98,11 +103,12 @@ void Labyrinth::RoomsGenerator(ecs::EntityManager& em)
 				int sprite = spriteDistrib(visual.random_generator);
 
 				const glm::ivec2& size = doorSpriteStorage.Sizes[sprite];
+				const SpriteSide sides = doorSpriteStorage.Sides[sprite];
 				FlatCoord cell;
 				bool placed = false;
 				while (!placed) 
 				{
-					cell = GetRandomFromDownOfWall(visual);
+					cell = GetRandomCell(visual, sides);
 					placed = CheckFreePlace(cell, size, gridHolder);
 				}
 
@@ -128,11 +134,12 @@ void Labyrinth::RoomsGenerator(ecs::EntityManager& em)
 				int sprite = spriteDistrib(visual.random_generator);
 
 				const glm::ivec2& size = decorSpriteStorage.Sizes[sprite];
+				const SpriteSide sides = decorSpriteStorage.Sides[sprite];
 				FlatCoord cell;
 				bool placed = false;
 				while (!placed)
 				{
-					cell = GetRandomFromAllWalls(visual); // fix
+					cell = GetRandomCell(visual, sides);
 					placed = CheckFreePlace(cell, size, gridHolder);
 				}
 
